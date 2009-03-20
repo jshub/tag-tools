@@ -1,0 +1,44 @@
+h1. Our microformats
+
+As a result of research and new developments in the Microformats community we have a strong idea of the direction but no final solution as yet.
+
+The adoption of jQuery by both Microsoft and BestBuy, amongst others, has greatly increased the flexibility of formats for data collection in the browser and enables us to use the new Selectors API in all browsers with a robust and highly performant API equivilant to the native performance of the <code>document.forms</code> Javascript object previously proposed.
+
+h2. Design
+
+Our microformat introduces two new principles and amends one existing principle:
+
+* Hidden data is OK - so long as it is supported by tools to make the data easily visible to content creators
+* Data visibility - use of HTML5 attributes to indicate who can consume the data
+* Re-declarations - ability to redeclare data in the page and have it merged or override earlier declarations.
+
+h2. hPage examples
+
+Replacing a standard tag based approach:
+
+<textarea name="code" class="HTML" cols="60" rows="1">
+<ol style="display:none !important;" class="hPage" data-visibility="*">
+ <li class="index">10</li>
+ <li class="name">Homepage</li>
+ <li class="tags">entry single</li>
+</ol>
+</textarea>
+
+This data would be sent on initial page load, the data transport format being completely independent of the declaration.
+
+Later in the page or after an AJAX update:
+
+<textarea name="code" class="HTML" cols="60" rows="1">
+<ol style="display:none !important;" class="hPage" data-visibility="*">
+ <li class="index">20</li>
+ <li class="alias">Xmas Homepage</li>
+ <li class="tags">xmas</li>
+</ol>
+</textarea>
+
+These declarations will be merged when a Page Update event is received to capture the state of the page seen by a user.
+
+h3. Additional links
+
+* "Primary research links":https://www.etl2dot0.com/code/etl2/wiki/JavascriptTag/Microformat#Research
+* "Selectors API":http://www.w3.org/TR/selectors-api/

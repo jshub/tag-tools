@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<loadpath>
+	<pathentry path="" type="src"/>
+	<pathentry path="GEM_LIB/activesupport-2.1.1/lib" type="var"/>
+	<pathentry path="GEM_LIB/newjs-1.6.1/lib" type="var"/>
+</loadpath>

@@ -1,0 +1,379 @@
+/* QUIRKSMODE CSS */
+/* ref: http://www.quirksmode.org/quirksmode.css */
+
+html,body {
+	margin: 0;
+	padding: 0;
+	background-color: #ffffff;
+}
+
+body {
+	font: 0.8em/145% georgia,times,serif;
+	margin-left: 233px;
+	color: #242424;
+	width: 35em;
+}
+
+a {
+	color: #05afda;
+	text-decoration: none;
+	border-bottom: 1px solid;
+}
+
+a:hover,a:focus {
+	opacity: 1 !important;
+	border-color: #05afda;
+}
+
+a.external {
+	color: #3db301;
+}
+
+a.external:hover,a.external:focus {
+	border-color: #3db301;
+}
+
+a.page {
+	color: #333333;
+}
+
+a.page:hover,a.page:focus {
+	border-color: #333333;
+}
+
+a.outoforder {
+	text-decoration: line-through;
+}
+
+a:visited {
+	opacity: 0.7;
+	border-bottom-color: #cccccc;
+}
+
+a.image {
+	border: 0;
+	background: none;
+	opacity: 1;
+}
+
+p.intro a {
+	color: #df9602;
+}
+
+
+p.intro a:hover,p.intro a:focus {
+	border-color: #df9602;
+}
+
+
+
+dt {
+	font-weight: bold;
+	margin-top: 0.8em;
+}
+
+dd + dd {
+	margin-top: 0.4em;
+}
+
+
+/* MAIN CONTENT */
+
+h2 {
+	font-size: 180%;
+	margin-top: 0;
+	line-height: 110%;
+}
+
+h3 {
+	font-size: 140%;
+	margin-top: 2em;
+}
+
+h4 {
+	font-size: 120%;
+}
+
+p.intro {
+	font-weight: bold;
+}
+
+p.accent {
+	padding: 1em;
+	border: 1px solid;
+}
+
+.smaller {
+	font-size: 90%;
+}
+
+pre {
+	font-family: monospace;
+	color: #070606;
+	background-color: #eef0eb;
+	margin: 2em 0;
+	padding: 1em 0;
+	border: 1px dotted #b7c4d3;
+	border-width: 1px 0;
+	font-size: 12px;
+	line-height: 150%;
+	margin-left: -233px;
+	padding-left: 233px;
+	zoom: 1;
+	/* margin-right: set by quirksmode.js to stretch entire screen */
+}
+
+td pre,li pre,div pre {
+	margin: 0;
+	padding: 0.5em 1em;
+	background-color: transparent;
+	overflow: visible;
+}
+
+code {
+	background-color: #F1F3F9;
+	font-size: 1.1em;
+}
+
+ol,ul {
+	border:  1px dotted #9198C1;
+	border-width: 1px 0;
+	padding-bottom: 1em;
+}
+
+ol ol,ol ul,ul ol,ul ul {
+	border: none;
+	padding-bottom: 0;
+}
+
+li {
+	padding: 0.4em;
+	margin-left: -1.5em;
+}
+
+li.odd {
+	background-color: #F2F3EF;
+}
+
+li.odd code {
+	background-color: inherit;
+}
+
+hr {
+	margin-top: 10em;
+}
+
+
+/* COMPATIBILITY TABLES */
+
+table.compatibility {
+	margin-left: -233px;
+	margin-right: -15em;
+	line-height: 140%;
+	border-bottom:  1px dotted #9198C1;
+	border-spacing: 0.5em;
+	position: relative; 
+		/* for IE6; if this declaration isn't there the links in 
+			the leftmost tds are unclickable */
+}
+
+table.compatibility caption {
+	border-top:  1px dotted #9198C1;
+	padding: 10px 0;
+	text-align: left;
+}
+
+table.compatibility caption select {
+	width: 221px;
+	margin-left: 5px;
+	margin-right: 7px;
+	border: 1px dotted #9198C1;
+}
+
+wbr:after { content: "\00200B" }
+
+
+tr {
+	width: 100%;
+}
+
+table.compatibility ul,table.compatibility ol {
+	border: none;
+	margin-bottom: 0;
+}
+
+table.compatibility td {
+	vertical-align: top;
+}
+
+col.IE {
+	width: 3em;
+}
+
+col.FF {
+	width: 4em;
+}
+
+col.Saf {
+	width: 4em;
+}
+
+col.Op {
+	width: 4em;
+}
+
+col.Rest {
+	width: 8em;
+}
+
+tr.compheader {
+	background-color: #F2F3EF;
+}
+
+tr.compheader th {
+	font-weight: normal;
+	font-size: 90%;
+	color: #666666;
+	border-top: 1px solid #666666;
+}
+
+tr.compheader th:first-child {
+	text-align: right;
+	padding: 1em;
+}
+
+tr.compheader:last-child th {
+	border: none;
+}
+
+td.header {
+	background-color: #F2F3EF;
+	padding: 0.3em;
+}
+
+td.header h3,td.header h4 {
+	margin-top: 0.5em;
+	text-align: center;
+}
+
+td.declaration {
+	width: 209px;
+	background-color: #F2F3EF;
+	text-align: right;
+	padding-right: 10px;
+	color: #666666;
+}
+
+td.declaration a {
+	text-decoration: none;
+}
+
+div.name {
+	font-weight: bold;
+	margin-bottom: 1em;
+	margin-top: 1em;
+}
+
+td.comp {
+	font-family: verdana,sans-serif;
+	font-size: 95%;
+	text-transform: lowercase;
+	text-align: center;
+	height: 3em;
+	vertical-align: middle !important;
+}
+
+table.keepCaps td.comp {
+	text-transform: none;
+}
+
+td.yes {
+	background-color: #00882D;
+	color: #ffffff;
+}
+
+td.almost {
+	background-color: #40A662;
+	color: #ffffff;
+}
+
+td.incomplete {
+	color: #00882D;
+	border: 1px solid #00882D;
+}
+
+td.alternative {
+	color: #666666;
+	border: 1px solid #666666;
+}
+
+td.untestable {
+	color: #006699;
+}
+
+td.minimal {
+	color: #CB000F;
+}
+
+td.incorrect {
+	color: #CB000F;
+	border: 1px solid #CB000F;
+}
+
+td.inappropriate { /* for events comp table */
+	background-color: #EFB2B7;
+}
+
+td.toomany {	/* for events comp table */
+	background-color: #CCE7D5;
+}
+
+td.buggy {
+	background-color: #DA4C57;
+	color: #ffffff;
+}
+
+td.severebug {
+	background-color: #82000A;
+	color: #ffffff;
+}
+
+td.no {
+	background-color: #CB000F;
+	color: #ffffff;
+}
+
+td.crash {
+	background-color: #535353;
+	font-weight: bold;
+	text-transform: uppercase;
+	color: #ffffff;
+}
+
+b.warning {
+	display: block;
+	color: #F2F3EF;
+	padding: 0.5em;
+	margin-right: -10px;
+	margin-top: 0.5em;
+	background-color: #999999;
+}
+
+td pre {
+	padding: 0;
+}
+
+td pre + p {
+	margin-top: 2px;
+}
+
+td th,td td {
+	padding: 1px !important;
+	vertical-align: top;
+	color: #666666;
+}
+
+td th {
+	text-align: left !important;
+	width: 8em;
+}

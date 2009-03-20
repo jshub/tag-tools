@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Our microformats</title>
+
+
+
+    <!-- YUI Core -->
+    <link rel='stylesheet' href='stylesheets/yui.css' />
+    <script type="text/javascript" src="javascripts/yahoo-dom-event.js" charset="UTF-8"></script>
+
+    <!-- YUI code highlighter -->
+    <link rel='stylesheet' href='stylesheets/dpSyntaxHighlighter.css' />
+    <script type="text/javascript" src="javascripts/dpSyntaxHighlighter.js" charset="UTF-8"></script>
+    <script type="text/javascript">
+        YAHOO.util.Event.onDOMReady(function () {
+          dp.SyntaxHighlighter.HighlightAll('code');
+        });
+    </script>
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="javascripts/jquery.js" charset="UTF-8"></script>
+
+    <!-- Some custom ETL styling -->
+    <style type="text/css">
+      #pagetitle h1 { text-align: center; }
+      table#form-data td { padding: 3px; }
+      .errors {
+        margin: 1em;
+        border: 2px solid black;
+        padding: 1em;
+        background-color: mistyrose;
+      }
+      .errors p {
+        margin-left: 2em;
+      }
+      .errors p.evidence {
+        margin-left: 0em;
+        font-family: monospace;
+      }
+      .caption {
+        font-size: smaller;
+      }
+    </style>
+  </head>
+  <body class="yui-skin-sam">
+    <div id="doc" class="yui-t2">
+      <div id="hd">
+        <br />
+        <div id="pagetitle">
+          <h1>Javascript tag technology tutorials</h1>
+        </div>
+      </div>
+      <div id="bd">
+
+        <!-- Navigation bar -->
+
+        <!-- Begin table of contents -->
+        <div id="toc" class="yui-b">
+        <ul>
+          <li class='sect first'>Microformats</li>
+          <li class="item"><a href="index.html">Overview</a></li>
+          <li class="item"><a href="history.html">Quick history of the Semantic Web</a></li>
+          <li class="item"><a href="examples.html">Some visual examples</a></li>
+          <li class="item"><a href="semantic.html">What makes markup semantic?</a></li>
+          <li class="item"><a href="new.html">New developments</a></li>
+          <li class='sect'>Next steps</li>
+          <li class="item"><a href="our.html">Our microformats</a></li>
+        </ul>
+        </div>
+        <!-- End table of contents -->
+
+        <!-- Main body content -->
+        <div id="yui-main">
+          <div class="yui-b">
+
+            <div id="promo">
+              <table width="100%" border="0">
+                <tr><td align="left"><h2>
+                  
+                  </h2></td>
+                  <td align="center"><h1>Our microformats</h1></td>
+                  <td align="right"><h2>
+                  
+                  </h2></td>
+                </tr>
+              </table>
+            </div>
+
+            <p>As a result of research and new developments in the Microformats community we have a strong idea of the direction but no final solution as yet.</p>
+<p>The adoption of jQuery by both Microsoft and BestBuy, amongst others, has greatly increased the flexibility of formats for data collection in the browser and enables us to use the new Selectors <span class="caps">API</span> in all browsers with a robust and highly performant <span class="caps">API</span> equivilant to the native performance of the <code>document.forms</code> Javascript object previously proposed.</p>
+<h2>Design</h2>
+<p>Our microformat introduces two new principles and amends one existing principle:</p>
+<ul>
+	<li>Hidden data is OK &#8211; so long as it is supported by tools to make the data easily visible to content creators</li>
+	<li>Data visibility &#8211; use of HTML5 attributes to indicate who can consume the data</li>
+	<li>Re-declarations &#8211; ability to redeclare data in the page and have it merged or override earlier declarations.</li>
+</ul>
+<h2>hPage examples</h2>
+<p>Replacing a standard tag based approach:</p>
+<textarea name="code" class="HTML" cols="60" rows="1">
+<ol style="display:none !important;" class="hPage" data-visibility="*">
+ <li class="index">10</li>
+ <li class="name">Homepage</li>
+ <li class="tags">entry single</li>
+</ol>
+</textarea>
+<p>This data would be sent on initial page load, the data transport format being completely independent of the declaration.</p>
+<p>Later in the page or after an <span class="caps">AJAX</span> update:</p>
+<textarea name="code" class="HTML" cols="60" rows="1">
+<ol style="display:none !important;" class="hPage" data-visibility="*">
+ <li class="index">20</li>
+ <li class="alias">Xmas Homepage</li>
+ <li class="tags">xmas</li>
+</ol>
+</textarea>
+<p>These declarations will be merged when a Page Update event is received to capture the state of the page seen by a user.</p>
+<h3>Additional links</h3>
+<ul>
+	<li><a href="https://www.etl2dot0.com/code/etl2/wiki/JavascriptTag/Microformat#Research">Primary research links</a></li>
+	<li><a href="http://www.w3.org/TR/selectors-api/">Selectors <span class="caps">API</span></a></li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      <!-- <div id="ft">
+      </div> -->
+    </div>
+  </body>
+</html>

@@ -1,0 +1,100 @@
+<h2>Browser Compatibility Tables</h2>
+
+<p class="intro">These compatibility tables detail support for the areas of technology we are interested in, in all modern browsers.</p>
+
+<p>
+This is an addendum to the <a href="http://www.quirksmode.org/dom/compatibility.html">compatibility tables</a> maintained by PPK 
+and so uses his format for easy comparison, but <a href="http://developer.yahoo.com/yui/yuitest/">YUI Test</a> to run the tests 
+(<%= link_to "example", testpages_url(:action => "yuitest_example") %>).
+</p>
+
+<ol>
+<li>The <a href="#formapi" class="page">HTML Form API</a>. Built-in browser creation of <code>document.forms</code> from HTML source.</li>
+<li class="odd"><a href="#formelements" class="page">Form Elements</a>. Built-in browser creation of Form elements from HTML source.</li>
+</ol>
+
+<h3 id="formapi">HTML Form API</h3>
+
+<p></p>
+
+<!--
+
+	TABLE
+
+	FORM API
+
+-->
+
+<table class="compatibility wide" cellspacing="5">
+	<col />
+	<col span="4" class="IE" />
+	<col span="2" class="FF" />
+	<col span="3" class="Saf" />
+	<col span="2" class="Op" />
+	<col span="1" class="Rest" />
+	<tr class="compheader">
+		<th>Method or property</th>
+		<th>IE 5.5</th>
+		<th>IE 6</th>
+		<th>IE 7</th>
+		<th>IE8b2</th>
+		<th>FF 2</th>
+		<th>FF 3</th>
+		<th>Saf 3.0 Win</th>
+		<th>Saf 3.1 Win</th>
+		<th>iPhone 3G</th>
+		<th>Opera 9.26</th>
+		<th>Opera 9.51</th>
+		<th>Konqueror 3.5.7</th>
+	</tr>
+
+<tr>
+	<td class="declaration" rowspan="2">
+		<div class="name">properties</div>
+		The <code>documents.forms</code> object properties
+		<br />
+		<br />
+		<%= link_to "Test page", testpages_url(:action => "form_properties") %>
+	</td>
+	<td class="comp yes" colspan="4">Yes</td>
+	<td class="comp yes" colspan="2">Yes</td>
+	<td class="comp yes" colspan="3">Yes</td>
+	<td class="comp yes" colspan="2">Yes</td>
+	<td class="comp yes">Yes</td>
+</tr>
+<tr>
+	<td colspan="12">
+	<pre>document.forms.length etc.</pre>
+	Check the properties of the document.form object for consitency across browsers.
+	</td>
+</tr>
+
+	<tr class="compheader">
+		<th>Method or property</th>
+		<th>IE 5.5</th>
+		<th>IE 6</th>
+		<th>IE 7</th>
+		<th>IE8b2</th>
+		<th>FF 2</th>
+		<th>FF 3</th>
+		<th>Saf 3.0 Win</th>
+		<th>Saf 3.1 Win</th>
+		<th>iPhone 3G</th>
+		<th>Opera 9.26</th>
+		<th>Opera 9.51</th>
+		<th>Konqueror 3.5.7</th>
+	</tr>
+
+</table>
+
+<h3>Form elements</h3>
+
+<p></p>
+
+<!--
+
+	TABLE
+
+	FORM ELEMENTS
+
+-->

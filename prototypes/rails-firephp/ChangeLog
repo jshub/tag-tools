@@ -1,0 +1,12 @@
+0.0.2 (06.10.2008):
+ _ Version by Liam Clancy (firephp@metafeather.com)
+ - Rewrite of original functionality to use Ruby object queue
+ - Additional enhancements for compatibility with FirePHP protocol timestamps and Processor/Render overriding
+ - Implemented TABLE option
+ - Implemented DUMP option
+ - Convienience methods for params, cookies and headers and variable args length
+ - Backward compatible with v0.0.1
+
+0.0.1 (12.09.2008):
+ - Initial Version by Stephan Toggweiler (railspki@rheoli.net)
+

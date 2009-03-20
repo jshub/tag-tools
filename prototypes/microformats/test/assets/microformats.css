@@ -1,0 +1,544 @@
+
+/*
+  ref: http://www.mindgarden.de/downloads/microformats.css
+
+	######################################################################################
+	microformats.css - use as a starting template for styling your microformats;
+	keep the selectors you need, delete the rest;
+	classes used corresponding to the microformats cheatsheet (http://suda.co.uk/projects/microformats/cheatsheet/microformats.cheatsheet.pdf)
+	
+	Version 1.1 September 2006 by Marc Tobias Kunisch (http://www.mindgarden.de)
+	read about microformats at http://www.microformats.org
+	
+	Changes in Version 1.1: added basic styling for hCard and hCalendar; styles are taken from John Hicks` expose-mf.css
+	as seen on http://www.hicksdesign.co.uk/journal/highlight-microformats-with-css
+	
+	cool kids do it with class!
+	######################################################################################
+		
+
+*/
+
+
+/*	#############	hCalendar	##############	*/
+
+ 
+.vevent {
+	font-family: "Helvetica", "arial", sans-serif;
+	font-size: 0.8em;
+	border: 2px solid #e0e7b8 !important;
+	padding: 30px 5px 5px 5px !important;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+	margin: 5px 0 !important;
+	background:#f8f8ec url('data:image/png,%89PNG%0D%0A%1A%0A%00%00%00%0DIHDR%00%00%002%00%00%00%10%08%03%00%00%00c%85%DC%BE%00%00%00%03sBIT%08%08%08%DB%E1O%E0%00%00%00%BAPLTE%5C%8C%01%EF%F2%DE%B0%C9y%8D%C5%04%8B%B76%CB%DB%A4%A6%DB%12n%A3%09%8C%B2%3Fz%A6%22%9D%CF%15%B3%E7%1Dk%96%19%DD%E6%C1%9E%BE%5C%7D%B4%0A%95%CD%01%B9%CF%87j%9D%07%89%B65%C1%F31%F8%F8%EC%93%BF%3D%9A%CF%08%C2%D5%95%D4%E1%B2%E6%EC%CFc%95%04t%AB%0Cp%A0%14%AB%E0%17%83%AC0%89%C0%06%A7%C3j%81%B8%09%FF%FF%FF%9E%D4%0C%B8%EC%22d%96%05%95%B8Mu%AD%0D%8E%BB8%97%C3%3B%AE%E3%1A%91%C9%02%A3%D8%10p%A5%0Ax%AF%0C%85%BC%07%A2%D4%18%8B%C3%05%BC%F0%25f%99%06%99%C6%3A%A8%DD%15%96%CC%05_%8F%02%7C%AC%23%B4%E8%1F%AC%DD!%9F%D5%0D%9B%CD%14%3A%80%40c%00%00%00%09pHYs%00%00%0B%12%00%00%0B%12%01%D2%DD~%FC%00%00%00%1FtEXtSoftware%00Macromedia%20Fireworks%208%B5h%D2x%00%00%01%2BIDAT(%91%8D%CF%8BN%C20%14%06%E0%AE%0C%E8%84%C1%3A%F8%85%0E%CA%40%25%B0%8C%9BP%A7%22%BE%FFky%3A%C6%25%04u%7F%B24k%CF%D7s%CApNw%B7%DB%EF%9F%F1o%D8q%09%02%12%D3%7D%3A%FA*K%02K%A6%8DtT%AB%95!I%92%60%B1X%A0%DBH%B3%EC%F0Z%82%B8%F3%B9%25%15t%D3ly%E8%3D%E4%BB%91%A28%7F%10%17%95%0A%91l%F9%D2%7B%FF%CEw%B9%A1%A8%7B%F5%D5%88%C8px%24%C8lP%90_%3A(%BA%C8%92%0E%B6%DBmp%7D%92%13%C7L%00%FA%A4%D6%92j%FB%DA%F3A%CD%05sW%AB%0E%C6%E3%CD%E6%A9MY%9F%88%10%023%0FU%13U%B5Ow%2B%23%94%17C%1A%E9%5B%F2%89B%AC%D7g%C29%A7z%BF%15c%A6%850%DCND%BD%8F%83%D5%EBu%E0%8D%F2H%B9%1E%0C%D0%5C%F7%A9%17quC%C2%E4%F6%95%9C%26Q%11%26%DA8%E8%1B%A9%24%0A%E2%1B%1E17%0C%C3%E6)%17B%E1T%D0%A2%1F%E9%99%D8)%08%26%86%5BB%C7%83%C1%07%A5y%DB%EDn%98%9B%03%22%8C%B1%92%04%EE%25%A5%04~%00%C04J%40Q%3E%04(%00%00%00%00IEND%AEB%60%82') 5px 2px no-repeat  !important;
+}
+
+/*	IE6 and smaller won`t show the bg image so it gets a smaller padding-top		*/
+
+* html .vevent {
+	padding-top: 10px !important;
+}
+
+.vevent a {
+	color: #639504;
+}
+ 
+.vevent .category {
+
+}
+ 
+.vevent .class {
+
+}
+ 
+.vevent .description {
+	display: block;
+	margin-top: 1em;
+}
+ 
+.vevent .dtend {
+
+}
+
+.vevent .dtstamp {
+
+}
+
+.vevent .dtstart {
+
+}
+
+.vevent .duration {
+
+}
+ 
+.vevent .location {
+	display: block;
+	color: #639504;
+}
+ 
+.vevent .status {
+
+}
+ 
+.vevent .summary {
+	display: block;
+	color: #639504;
+	font-weight: bold;
+}
+ 
+.vevent .uid {
+
+}
+ 
+.vevent .url {
+	display: block;
+	color: #639504;
+}
+ 
+.vevent .last-modified {
+
+}
+ 
+
+/*	#############	hCard	##############	*/
+	
+.vcard {
+	font-family: "Helvetica", "arial", sans-serif;
+	font-size: 0.8em;
+	border: 2px solid #e0e7b8 !important;
+	padding: 30px 5px 5px 5px !important;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+	margin: 5px 0 !important;
+	background:#f8f8ec url('data:image/png,%89PNG%0D%0A%1A%0A%00%00%00%0DIHDR%00%00%00%3D%00%00%00%10%08%03%00%00%00%92%8E%873%00%00%00%03sBIT%08%08%08%DB%E1O%E0%00%00%00%BAPLTE%5C%8C%01%EF%F2%DE%B0%C9y%89%B65%95%CD%01%CB%DB%A4%95%B8Mn%A3%09%8D%C5%04%AB%E0%17%8E%BB8z%A6%22k%96%19%DD%E6%C1%A7%C3j%B9%CF%87%C1%F31%7D%B4%0A%9B%CD%14f%99%06%F8%F8%EC%D4%E1%B2%C2%D5%95%83%AC0%E6%EC%CF%B3%E7%1Dp%A0%14%A6%DB%12t%AB%0C%8C%B2%3F%9E%BE%5Cc%95%04%89%C0%06%97%C3%3B%81%B8%09%FF%FF%FF%96%CC%05%A3%D8%10%B8%EC%22u%AD%0D%AE%E3%1A%91%C9%02%93%BF%3Dd%96%05p%A5%0Aj%9D%07%8B%B76%9F%D5%0Dx%AF%0C%85%BC%07%9A%CF%08%8B%C3%05%BC%F0%25%99%C6%3A%A2%D4%18%7C%AC%23%A8%DD%15_%8F%02%B4%E8%1F%AC%DD!%9C%D6%08%9D%CF%15)%BBg%5E%00%00%00%09pHYs%00%00%0B%12%00%00%0B%12%01%D2%DD~%FC%00%00%00%1FtEXtSoftware%00Macromedia%20Fireworks%208%B5h%D2x%00%00%01SIDAT(%91%9D%91%0Do%820%10%86%5B%04Tj%5B%B7%BB%02%D6%A1f%1F%8AFP%A7%DB%98%CB%FE%FF%DFZ%0B%A2%C3%2C%D9%D8%9B%26%CD%7D%3C%D77%3D%82g%0D%0F%87%E3%F1%01%DB%88T%97%EB%1Ax~L%FB%1F%FF%A0%5DK%CFGi%7F%3CnI%07A%80%CB%E5%12%87%A3%B4(6%AF%ED%E8%7C%B1%B0t%0F%87i%F1%B4y%FE%AC%0B%B1%E2%7F%A3s%EC%F5%0Cm%E1%C7%DB*%CD%13%00%08%9B%AD%B1%D7%8C%B92%F4%DD%5DEcaU%15%A8%8E8R%DA%ECN%92f%0CNIwp%BF%DF%BB%DF%0B%0E%C4%E5%10%C1%B44m%92%E9%D0%E4%00%D4Dka%EB%1A%1C%EB%8E%E4%EBu%07g%B3%DD%EE%FE%C6h%7Bz%26*%2F%A1%3D%09%1E%02%F3%7C%A0q%14)*%95%04e%06I%C59L%94%A5%DF%F0%04o%B7M%DA%BE%13%F9%D6%A22%8Cu%CEEb%22%26%CE%CE%BB%DD.%E2%8B%D5j%B5%3A9%97%C0%7F%A4%158%E6%94%F93%9D%05%D7%9B%A0ZK%E5%C5%B5%F3%8A%F6%99%B1%ED9%26%12%10%9A%7Dj%9F%93%3C%CB%B2A%AD%CBv%26%1A%98%A2B3%895%CD%19%D0%04D%E4%D8%DF%04%89%A1N%2Cm%3Eo%3A%7D7%1A%5C%7B%F8M%24%2FYC%13B%DA%D3%98_%D4%16%C6%2FZHR%F2%3Dm%A3l%00%00%00%00IEND%AEB%60%82') 5px 2px no-repeat  !important;
+}
+
+/*	IE6 and smaller won`t show the bg image so it gets a smaller padding-top		*/
+
+* html .vcard {
+	padding-top: 10px !important;
+}	
+
+
+.vcard a {
+	color: #639504;
+}
+
+.vcard .adr {
+	display: block;
+	margin: 1em 0;
+} 
+
+.vcard .adr .type {
+	
+}
+    
+.vcard .adr .post-office-box {
+	
+}
+    
+.vcard .adr .street-address {
+	
+}
+
+.vcard .adr .extended-address {
+	
+}
+    
+.vcard .adr .region {
+	
+}
+    
+.vcard .adr .locality {
+	
+}
+    
+.vcard .adr .postal-code {
+	
+}
+    
+.vcard .adr .country-name {
+	
+} 
+  
+.vcard .agent {
+	
+} 
+  
+.vcard .bday {
+	
+}
+  
+.vcard .class {
+	
+} 
+  
+.vcard .category {
+	
+} 
+  
+.vcard .email {
+	
+} 
+    
+.vcard .email .type {
+	
+} 
+    
+.vcard .email .value {
+	
+} 
+  
+.vcard .fn {
+	display: block;
+	color: #639504;
+	font-weight: bold;
+} 
+  
+.vcard .geo {
+	
+} 
+    
+.vcard .geo .latitude {
+		
+} 
+    
+.vcard .geo .longitude {
+		
+} 
+	
+.vcard .key {
+	
+} 
+  
+.vcard .label {
+	 
+} 
+  
+.vcard .logo {
+	
+} 
+  
+.vcard .mailer {
+	
+} 
+  
+.vcard .n {
+	
+} 
+    
+.vcard .n .honorific-prefix {
+		
+} 
+    
+.vcard .n .given-name {
+		
+} 
+    
+.vcard .n .additional-name {
+		
+} 
+    
+.vcard .n .family-name {
+		
+} 
+    
+.vcard .n .honorific-suffix {
+		
+} 
+	
+.vcard .nickname {
+	
+} 
+  
+.vcard .note {
+	
+} 
+  
+.vcard .org {
+	
+} 
+    
+.vcard .org .organization-name {
+		
+} 
+    
+.vcard .org .organization-unit {
+		
+} 
+	
+.vcard .photo {
+	
+} 
+  
+.vcard .rev {
+	
+} 
+  
+.vcard .role {
+	
+} 
+  
+.vcard .sort-string {
+	
+} 
+  
+.vcard .sound {
+	
+} 
+  
+.vcard .title {
+	
+} 
+  
+.vcard .tel {
+	
+} 
+    
+.vcard .tel .type {
+		
+} 
+    
+.vcard .tel .value {
+	
+} 
+
+.vcard .tz {
+	
+} 
+  
+.vcard .uid {
+	
+} 
+  
+.vcard .url {
+	
+} 
+
+
+
+/*	#############	hReview	(0.3)	##############	*/
+
+
+.hreview {
+
+}
+
+.hreview a {
+
+}
+ 
+.hreview .dtreviewed {
+
+}
+
+.hreview .description {
+
+}
+ 
+.hreview .item {
+
+}
+ 
+.hreview .item .fn {
+
+}
+ 
+.hreview .item .url {
+
+}
+ 
+.hreview .item .photo {
+
+}
+ 
+.hreview .permalink {
+
+}
+
+.hreview .type {
+
+}
+ 
+.hreview .rating {
+
+}
+
+.hreview .reviewer {
+
+}
+
+.hreview .summary {
+
+}
+ 
+.hreview .version {
+
+}
+ 
+
+/*	#############	hAtom (0.1)		##############	*/
+
+
+.hfeed {
+
+}
+
+.hfeed .author {
+
+}
+
+.hfeed .updated {
+
+}
+
+.hentry {
+
+}
+
+.hentry a {
+
+}
+ 
+.hentry .author {
+
+}
+
+.hentry .updated {
+
+}
+ 
+.hentry .entry-title {
+
+}
+ 
+.hentry .entry-content {
+
+}
+ 
+.hentry .entry-summary {
+
+}
+ 
+.hentry .published {
+
+}
+
+
+
+/*	#############	hResume (Draft)		##############	*/
+
+
+.hresume {
+
+}
+
+.hresume a {
+
+}
+ 
+.hresume .affiliation {
+
+}
+  
+.education {
+
+}
+
+.hresume .experience {
+
+}
+
+.hresume .publication {
+
+}
+
+.hresume .skill {
+
+}
+ 
+.hresume .summary {
+
+}
+ 
+.hresume .vcard {
+
+}
+ 
+
+/*	#############	Address (Draft)		##############	*/
+
+
+.adr {
+	
+} 
+
+.adr .type {
+	
+}
+    
+.adr .post-office-box {
+	
+}
+    
+.adr .street-address {
+	
+}
+
+.adr .extended-address {
+	
+}
+    
+.adr .region {
+	
+}
+    
+.adr .locality {
+	
+}
+    
+.adr .postal-code {
+	
+}
+    
+.adr .country-name {
+	
+}
+
+
+
+/*	#############	Geolocation (Draft)		##############	*/
+ 
+
+.geo {
+
+}
+ 
+.geo .latitude {
+
+}
+ 
+.geo .longitude {
+
+}
+ 
+
+
+/*	#############	xFolk (RC1)		##############	*/
+ 
+
+.xfolkentry {
+
+}
+ 
+.xfolkentry .description {
+
+}
+ 
+.xfolkentry .taggedlink {
+
+}
+ 
+

@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>JavaScript unit test file</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+  <!-- YUI CDN served -->
+  <!-- Combo-handled YUI CSS files: -->
+  <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/combo?2.6.0/build/logger/assets/skins/sam/logger.css&amp;2.6.0/build/yuitest/assets/skins/sam/yuitest.css" />
+  <!-- Combo-handled YUI JS files: -->
+  <script type="text/javascript" src="http://yui.yahooapis.com/combo?2.6.0/build/yahoo-dom-event/yahoo-dom-event.js&amp;2.6.0/build/logger/logger-min.js&amp;2.6.0/build/yuitest/yuitest-min.js"></script>
+  
+  <!-- Test results collector in the format expected by autotest -->
+  <link rel="stylesheet" href="../assets/unittest.css" type="text/css" />
+  <script type="text/javascript" src="../assets/jsunittest.js"></script>
+  <script type="text/javascript" src="../assets/etl-test-reporter.js"></script>
+
+  <!-- 3rd Party library functions -->
+  <script type="text/javascript" src="../assets/jquery-1.2.6.min.js"></script>
+  <script type="text/javascript" src="../../src/library_api.js"></script>
+
+  <!-- 3rd Party CSS styles -->
+  <link rel="stylesheet" href="../assets/microformats.css" type="text/css" />
+
+  <!-- include the JS library to be tested -->
+  <script type="text/javascript" src="../../src/jquery.microformat_hcalendar.js"></script>
+
+</head>
+<body class="yui-skin-sam">
+
+<div id="content">
+
+  <div id="header">
+    <h1>JavaScript unit test file</h1>
+    <p>
+      This file tests the <strong>hCalendar Microformat</strong> parser as defined at: <a href="http://microformats.org/wiki/hcalendar">http://microformats.org/wiki/hcalendar</a>.
+    </p>
+  </div>
+    
+  <!-- Put sample/test html here -->
+  <div id="sample">
+
+    <!-- Start hCalendar definition -->   
+    <h2>Event Info</h2>
+    <div class="vevent" >
+     <a class="url" href="https://www.etl2dot0.com/">https://www.etl2dot0.com/</a>
+      <span class="summary">ETL2.0 Presentation</span>: 
+      <abbr class="dtstart" title="2008-11-04">November 04</abbr>-
+      <abbr class="dtend" title="2008-11-05">05</abbr>,
+     at <span class="location">London, UK</span>
+     </div>
+		<!-- End hCalendar event definition -->
+		
+  </div>
+
+  <!-- JSUnitTest TestLogger placeholder -->
+  <div id="testLogger"></div>
+
+</div>
+
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+  
+  // convienient shortcuts
+  var Assert = YAHOO.util.Assert,
+      ObjectAssert = YAHOO.util.ObjectAssert,
+      ArrayAssert = YAHOO.util.ArrayAssert,
+      suite = new YAHOO.tool.TestSuite("microformat_hcalendar.js Suite");
+
+  suite.add(new YAHOO.tool.TestCase({ 
+
+    //the name of the test case - if not provided, one is automatically generated
+    name : "microformat_hcalendar.js TestCase",
+
+    /*
+     * Specifies tests that "should" be doing something other than the expected.
+     * Using YAHOO.env.ua we can make this conditional on known browser behaviour.
+     * e.g test_is_an_HTMLCollection: (ua.webkit || ua.ie) ? true : false,
+     */
+    _should : {   
+      /*
+       * Tests listed in here should fail, meaning that if they fail, the test
+       * has passed. This is used mostly for YuiTest to test itself, but may
+       * be helpful in other cases.
+       */
+      fail : {
+        //test_is_an_Array: true
+      },
+      /*
+       * Tests listed here should throw an error of some sort. If they throw an
+       * error, then they are considered to have passed.
+       */
+      error : { 
+        /*
+         * You can specify "true" for each test, in which case any error will
+         * cause the test to pass.
+         */
+        testGenericError: true,
+        
+        /*
+         * You can specify an error message, in which case the test passes only
+         * if the error thrown matches the given message.
+         */
+        testStringError: "I'm a specific error message.",
+        testStringError2: "I'm a specific error message.",
+        
+        /*
+         * You can also specify an error object, in which case the test passes only
+         * if the error thrown is on the same type and has the same message.
+         */
+        testObjectError: new TypeError("Number expected.")  
+      },
+      /*
+       * Tests listed here should be ignored when the test case is run. For these tests,
+       * setUp() and tearDown() are not called.
+       */
+      ignore : { }
+
+    },
+
+    /* ********** BEGIN SOURCE CODE FOR TESTS ********** */ 
+    test_get_microformat_hcalendar_data_from_document : function() {
+      // setup
+			var data = ETL.Plugin.hcalendar();
+			console.log(data,'Data Captured');
+			// tests
+      Assert.isObject(data);
+      Assert.areEqual('ETL2.0 Presentation', data[0]['summary'], "summary does not match");
+      Assert.areEqual('London, UK', data[0]['location'], "location does not match");
+      Assert.areEqual('https://www.etl2dot0.com/', data[0]['url'], "url does not match");
+    },
+    
+    /* ********** END SOURCE CODE FOR TESTS ********** */ 
+    eol:{ } // fix ie
+  }));
+
+  // YAHOO.util.Event.on(window, "load", function (){ // use if we need to wait for an iframe to load.
+  YAHOO.util.Event.onDOMReady(function (){ 
+    // use the browser logger if present
+		//YAHOO.widget.Logger.enableBrowserConsole()
+		// or create a YUI logger
+    //var logger = new YAHOO.tool.TestLogger();
+
+    //create html table view
+    ETL.listener.initializeLogger("testLogger");
+		
+    //add the tests
+    YAHOO.tool.TestRunner.add(suite);
+
+	  // URL to post results to
+	  // yuitestCollectorURL = "http://localhost/jstestreport/yuitest/acceptor";
+    // subscribe to submit the actual test results
+    if (typeof yuitestCollectorURL === 'string') {
+        YAHOO.tool.TestRunner.subscribe(YAHOO.tool.TestRunner.COMPLETE_EVENT, function(data){ 
+          var oTestReporter=new YAHOO.tool.TestReporter(yuitestCollectorURL);
+          oTestReporter.report(data.results); 
+        });
+    }
+
+    // subscribe to display results in HTML table
+    YAHOO.tool.TestRunner.subscribe(YAHOO.tool.TestRunner.TEST_PASS_EVENT, ETL.listener.testPassed);
+    YAHOO.tool.TestRunner.subscribe(YAHOO.tool.TestRunner.TEST_FAIL_EVENT, ETL.listener.testFailed);
+    YAHOO.tool.TestRunner.subscribe(YAHOO.tool.TestRunner.COMPLETE_EVENT,  ETL.listener.testsComplete);
+
+    // run the tests
+    YAHOO.tool.TestRunner.run();
+  });
+    
+})();
+// ]]>
+</script>
+</body>
+</html>

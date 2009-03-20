@@ -1,0 +1,75 @@
+#####################
+  FirePHP for Rails
+#####################
+
+FirePHP for Rails can be used for easy print out some variables with Rails and Passenger
+without visiting the log-files.
+
+This is a port of the PHP back-end specified here: http://www.firephp.org/Wiki/Reference/Protocol
+
+Requirements:
+ - Ruby (Tested 1.8.6)
+ - Rails (Tested 2.1.1)
+ - Mozilla Firefox (Tested 3.0.1)
+ - Firebug (http://getfirebug.com/)
+ - FirePHP (http://www.firephp.org/)
+
+Installing:
+ 
+ as a gem:
+ 
+  $ (sudo) gem install rails-firephp
+
+Setup:
+ add the following line in config/environment.rb (somewhere by the other config.gem's):
+
+  config.gem "rails-firephp", :lib => "firephp/firephp_filter"
+
+ add an after_filter in app/controllers/application.rb:
+
+  after_filter :firephp_filter
+
+Using:
+ the following commands can now be used in your controller or template:
+
+  firephp_headers :
+   sends the Controller 'headers' array to FirePHP as a TABLE
+
+  firephp_params :
+   send the Controller 'params' array to FirePHP as a TABLE
+
+  firephp_cookies:
+   send the Controller 'cookies' array to FirePHP as a TABLE
+   
+  fb(text|object):
+   send the text or the object to FirePHP
+
+  fb(text|object, "WARN"|"INFO"|"ERROR"|"DUMP"|"TABLE"|Default:"LOG") :
+   send the text or the object to FirePHP, choosing a Renderer
+
+  fb(text|object, Optional:"Message", "WARN"|"INFO"|"ERROR"|"DUMP"|"TABLE"|Default:"LOG") :
+   send the text or the object to FirePHP, with and identifying message and choosing a renderer
+   
+Examples:
+ 
+  # convienience methods
+  firephp_params    
+  firephp_headers    
+  firephp_cookies
+  
+  fb('FirePHP available', "INFO")
+    
+  @anArray = ['FirePHP Object', 'e.g. some text']
+  fb(@anArray)
+  fb(@anArray, "LOG")
+  fb(@anArray, "Custom message", "LOG")
+  # appears in headers only
+  fb(@anArray, "DUMP")
+  # will be logged with SAVE as an identifier if custom processror not available
+  fb(@anArray, "SAVE")
+  
+  # TABLE expects an array of arrays to generate a HTML table with headers added
+  @params_table = [["Parameter", "Value"]].concat(params.to_a)
+  fb(['Params received on server', @params_table],"TABLE")
+  
+  firephp('FirePHP v0.0.1 compatible call', "INFO")

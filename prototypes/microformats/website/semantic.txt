@@ -1,0 +1,45 @@
+h1. What makes HTML semantic?
+
+Although the content of web pages is technically already capable of "automated processing", and has been since the inception of the web, such processing is difficult because the traditional markup tags used to display information on the web do not describe what the information means. 
+
+Microformats are intended to bridge this gap by attaching semantics, and thereby obviate other, more complicated methods of automated processing, such as natural language processing or screen scraping. 
+
+The use, adoption and processing of microformats enables data items to be indexed, searched for, saved or cross-referenced, so that information can be reused or combined.
+
+Current microformats allow the encoding and extraction of events, contact information, social relationships and so on. More are being developed. 
+
+h2. POSH(Plain Old Semantic HTML)
+
+The precursor to any move towards semantic data in HTML web pages was the Web Standards Project (WaSP) that championed the *validation* of pages as well as a move to separate the presentational and structural elements of a page through the proper use of HTML tags and CSS stylesheets, using a subset of HTML that was *Plain Old Semantic HTML*, e.g.
+
+* Use DIVs not TABLES for layout
+* Use STRONG or EM not B or I for emphasis, etc
+
+h2. The HTML class attribute
+
+This education of content creators was combined with a growing understanding of the HTML class attribute specification, specifically:
+
+bq. The class attribute, on the other hand, assigns one or more class names to an element; the element may be said to belong to these classes. A class name may be shared by several element instances. The class attribute has several roles in HTML:
+1. As a style sheet selector (when an author wishes to assign style information to a set of elements).
+2. For general purpose processing by user agents.
+ 
+This key interpretation has allowed for _CSS_ classes to be used for more than decoupling of the visual rendering of the page and is the basis for the Microformats approach.
+
+Additionally extensive work has been undertaken to indicate the _correct_ select of class names for CSS styles that support semantic interpretation, 
+
+For example this is bad:
+
+* <code>class="black"</code> is semantically the same as <code>font-color="black"</code>
+
+and this is good:
+
+* <code>class="date"</code> has a semantic meaning as well as allowing for presentation overloading via CSS
+
+h3. Additional links
+
+* "Web Standards Project":http://www.webstandards.org/
+* "POSH":http://microformats.org/wiki/posh
+* "More than styling":http://microformats.org/blog/2005/10/19/more-than-styling/
+* "Class for meaning not show":http://tantek.com/log/2004/07.html#classmeaningnotshow
+* "Semantic HTML":http://en.wikipedia.org/wiki/HTML#Semantic_HTML
+* "HTML 5 differences from HTML 4":http://www.w3.org/TR/2008/WD-html5-diff-20080122/ 

@@ -1,0 +1,238 @@
+<h2>Basic Form</h2>
+
+<p>
+	Minimal form, where the browser fills in default attributes.
+</p>
+
+<form action="/path/to/echo.html">
+	<textarea name="text1" cols="20" rows="7"></textarea>
+	<input type="submit" name="submit1" value="Submit" />
+	<input type="reset" name="submit2" value="Reset" />
+</form>
+
+<script type="text/javascript">
+(function() {
+  
+	// convienient shortcuts
+	var ua = YAHOO.env.ua,
+	    Dom = YAHOO.util.Dom,
+	    $ = Dom.get,
+			Assert = YAHOO.util.Assert,
+			ObjectAssert = YAHOO.util.ObjectAssert,
+			ArrayAssert = YAHOO.util.ArrayAssert,
+			suite = new YAHOO.tool.TestSuite("form_properties");
+
+  // General tests, biased towards FF 3.0				
+	suite.add(new YAHOO.tool.TestCase({	
+
+    //the name of the test case - if not provided, one is automatically generated
+		name : "Basic Properties - document.forms",
+
+    /*
+     * Specifies tests that "should" be doing something other than the expected.
+     * Using YAHOO.env.ua we can make this conditional on known browser behaviour.
+     * e.g test_is_an_HTMLCollection: (ua.webkit || ua.ie) ? true : false,
+     */
+		_should : {		
+      /*
+       * Tests listed in here should fail, meaning that if they fail, the test
+       * has passed. This is used mostly for YuiTest to test itself, but may
+       * be helpful in other cases.
+       */
+			fail : {
+			  test_is_an_Array: true
+			},
+      /*
+       * Tests listed here should throw an error of some sort. If they throw an
+       * error, then they are considered to have passed.
+       */
+			error : { 
+        /*
+         * You can specify "true" for each test, in which case any error will
+         * cause the test to pass.
+         */
+        testGenericError: true,
+        
+        /*
+         * You can specify an error message, in which case the test passes only
+         * if the error thrown matches the given message.
+         */
+        testStringError: "I'm a specific error message.",
+        testStringError2: "I'm a specific error message.",
+        
+        /*
+         * You can also specify an error object, in which case the test passes only
+         * if the error thrown is on the same type and has the same message.
+         */
+        testObjectError: new TypeError("Number expected.")	
+			},
+      /*
+       * Tests listed here should be ignored when the test case is run. For these tests,
+       * setUp() and tearDown() are not called.
+       */
+			ignore : {
+        test_is_a_HTMLCollection : (typeof HTMLCollection === "undefined") ? true : false,
+        test_has_HTMLCollection_methods : (typeof document.forms.item === "string" || typeof document.forms.namedItem === "object") ? true : false
+			}
+
+		},
+
+    /* ********** BEGIN SOURCE CODE FOR TESTS ********** */	
+	  
+		test_document_dot_forms_exists : function() {
+	    Assert.isNotUndefined(document.forms, "document.forms was Undefined when test ran");
+	  },
+
+    test_is_an_Object : function() {
+      Assert.isObject(document.forms, "document.forms is not an Object");
+    },
+		
+    test_is_an_Array : function() {
+      // this should fail in all browsers
+      Assert.isInstanceOf(Array, document.forms, "document.forms should not be an instance of Array");
+      Assert.isArray(document.forms, "document.forms should not be an Array");
+    },		    
+
+    test_is_a_HTMLCollection : function() {
+      // Safari does not expose the internal HTMLCollection object for use in instanceof
+      // Safari thinks its an instanceof Object
+      // Safari thinks its a typeof function
+      Assert.isInstanceOf(HTMLCollection, document.forms, "document.forms is not an instance of HTMLCollection (Array-like)");      
+    },
+
+    test_has_HTMLCollection_properties : function() {
+      // W3C HTMLCollection properties are available in the DOM
+      ObjectAssert.hasProperty("item", document.forms, "document.forms does not have a item property");
+      ObjectAssert.hasProperty("namedItem", document.forms, "document.forms does not have a namedItem property");
+		},
+
+    test_has_HTMLCollection_methods : function() {
+      // IE thinks these methods are a String and an Object
+      Assert.isFunction(document.forms.item, "document.forms does not have a item function")
+      Assert.isFunction(document.forms.namedItem, "document.forms does not have a namedItem function")
+    },		
+
+    test_has_a_length : function() {
+      // Can we treat it as an array despite the browser implementation?
+      ObjectAssert.hasProperty("length", document.forms, "document.forms does not have a length");
+			Assert.isNumber(document.forms.length, "document.forms.length is not a Number")
+      Assert.areSame(1, document.forms.length, "document.forms.length is not 1")
+    },	
+				
+    test_is_not_cast_by_assignment : function() {
+      var doc_forms = document.forms;
+      Assert.isTypeOf(typeof document.forms, doc_forms, "after assignment document.forms is no longer the same type");
+    },
+
+    test_reference_is_mutable : function() {
+      var doc_forms = document.forms;
+      // most browsers will silently fail on this assignment
+      doc_forms.test = "Test adding a property";
+      ObjectAssert.hasProperty("test", doc_forms, "doc_forms was not given a new property");
+    },
+		
+    /* ********** END SOURCE CODE FOR TESTS ********** */ 
+    eol:{ } // fix ie
+  }));
+
+  // General tests, biased towards FF 3.0				
+	suite.add(new YAHOO.tool.TestCase({	
+		name : "Basic Properties - form instance",
+		_should : {		
+			fail : {
+			  test_is_an_Array: true
+			},
+			error : { },
+			ignore : {
+        test_is_a_HTMLCollection : (typeof HTMLCollection === "undefined") ? true : false,
+        test_has_HTMLCollection_methods : (typeof document.forms[0].elements.item === "string" || typeof document.forms[0].elements.namedItem === "object") ? true : false
+			}
+		},
+
+    /* ********** BEGIN SOURCE CODE FOR TESTS ********** */	
+	  
+		test_form_exists : function() {
+	    Assert.isNotUndefined(document.forms[0], "form was Undefined when test ran");
+	  },
+
+    test_is_an_Object : function() {
+      Assert.isObject(document.forms[0], "form is not an Object");
+    },
+		
+    test_is_an_Array : function() {
+      var form = document.forms[0];
+      // this should fail in all browsers
+      Assert.isInstanceOf(Array, form.elements, "form.elements should not be an instance of Array");
+      Assert.isArray(form.elements, "form.elements should not be an Array");
+    },		    
+
+    test_is_a_HTMLCollection : function() {
+      var form = document.forms[0];
+      // Safari does not expose the internal HTMLCollection object for use in instanceof
+      // Safari thinks its an instanceof Object
+      // Safari thinks its a typeof function
+      Assert.isInstanceOf(HTMLCollection, form.elements, "form.elements is not an instance of HTMLCollection (Array-like)");
+    },
+
+    test_has_HTMLCollection_properties : function() {
+      var form = document.forms[0];
+      // W3C HTMLCollection properties are available in the DOM
+      ObjectAssert.hasProperty("item", form.elements, "form.elements does not have a item property");
+      ObjectAssert.hasProperty("namedItem", form.elements, "form.elements does not have a namedItem property");
+		},
+
+    test_has_HTMLCollection_methods : function() {
+      var form = document.forms[0];
+      // IE thinks these methods are a String and an Object
+      Assert.isFunction(form.elements.item, "form.elements does not have a item function")
+      Assert.isFunction(form.elements.namedItem, "form.elements does not have a namedItem function")
+    },		
+
+    test_has_a_length : function() {
+      var form = document.forms[0];
+      // Can we treat it as an array despite the browser implementation?
+      ObjectAssert.hasProperty("length", form.elements, "document.forms does not have a length");
+			Assert.isNumber(form.elements.length, "form.elements.length is not a Number")
+      Assert.areSame(3, form.elements.length, "form.elements.length is not 3")
+    },	
+				
+    test_is_not_cast_by_assignment : function() {
+      var form_elements = document.forms[0].elements;
+      Assert.isTypeOf(typeof document.forms[0].elements, form_elements, "after assignment form_elements is no longer the same type");
+    },
+
+    test_reference_is_mutable : function() {
+      var form_elements = document.forms[0].elements;
+      // most browsers will silently fail on this assignment
+      form_elements.test = "Test adding a property";
+      ObjectAssert.hasProperty("test", form_elements, "form_elements was not given a new property");
+    },
+		
+    test_exposes_named_elements : function () {
+      var form = document.forms[0];
+      ObjectAssert.hasProperty("submit1", form, "form is missing a named element");
+      ObjectAssert.hasProperty("submit2", form, "form is missing a named element");
+      ObjectAssert.hasProperty("text1", form, "form is missing a named element");
+    },
+		
+    /* ********** END SOURCE CODE FOR TESTS ********** */ 
+    eol:{ } // fix ie
+  }));
+
+	// YAHOO.util.Event.on(window, "load", function (){ // use if we need to wait for an iframe to load.
+	YAHOO.util.Event.onDOMReady(function (){ 
+		//create the logger
+		var logger = new YAHOO.tool.TestLogger();
+		//add the tests
+		YAHOO.tool.TestRunner.add(suite);
+		// subscribe to submit the actual test results
+		YAHOO.tool.TestRunner.subscribe(YAHOO.tool.TestRunner.COMPLETE_EVENT, function(data){ 
+		  var oTestReporter=new YAHOO.tool.TestReporter("<%= yuitest_url :action => 'acceptor' %>");
+		  oTestReporter.report(data.results);
+		});
+		// run the tests
+    YAHOO.tool.TestRunner.run();
+	});
+    
+})();
+</script>

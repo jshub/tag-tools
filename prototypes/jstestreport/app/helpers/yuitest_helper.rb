@@ -1,0 +1,2 @@
+module YuitestHelper
+end

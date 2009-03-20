@@ -1,0 +1,78 @@
+h1. New developments
+
+After a relatively quiet three year period Microformats are again receiving attention, with new microformats being proposed, and Microsoft, Yahoo and Mozilla all announcing new initiatives.
+
+Meanwhile Google have also been pushing for cross vendor standardization of metadata for some of its products to enable backend data-sharing.
+
+Yahoo has placed microformats at the core of its Yahoo! Open Strategy (Y!OS)[1] and SearchMonkey[2] developer tools.
+
+h2. Browsers
+
+Both Firefox 3.1 and IE8 are expected to features some native support for microformats, however the exact behavior and developer API it not yet know.
+
+h2. Extensions
+
+Mozilla have long had a relationship with IBM researchers, with a number of Semantic and Microformat orientated extensions being contributed, along with core HTML support for Accessibility clients. The most feature rich is Operator[3], on which future Firefox native support for microformats in extensions and web pages is planned.
+
+More recently Mix Online (with Microsoft) have released Oomph[4], an IE Toolbar plugin and standalone Javascript library (based on jQuery) for exposing microformats on sites. This is expected to support the release of IE8 and its native support for hSlices[5] (an extension to hAtom) and possibly others.
+
+h2. Microformats
+
+h3. hProduct
+
+Prototyped at BestBuy this has now become a Microformats.org proposal[6], and is compatible and combinable with the existing hListing and hReview.
+
+BestBuy have integrated it with their internal search  ("example":http://www.bestbuy.com/shop/tv+samsung+1080p) as well as their Giftag service and browser extension and they have committed to:
+
+bq. In the near future, Giftag will contribute and maintain an open source hProduct studio application built using jQuery...
+
+<textarea name="code" class="HTML" cols="60" rows="1">
+<div class="hproduct">
+   <h4 class="name">The Pick of Destiny</h4>
+   <h5 class="p-v">by <span class="property artist">Tenacious D</span></h5>
+   <p class="description summary">The Pick of Destiny is the highly 
+   anticipated soundtrack to the upcoming New Line Cinema comedy, Tenacious
+   D in the Pick of Destiny. An epic musical adventure, the film follows 
+   Tenacious D (Jack Black and Kyle Gass) on their quest to obtain the Pick
+   and become The Greatest Band on Earth.</p>
+   <ul>
+     <li class="p-v"><span class="property">Released</span>:
+       <span class="value"><abbr title="2006-11-14T12:00:01-05:00">November
+       14, 2006</abbr></span></li>
+     <li>Label: <span class="brand">Sony</span></li>
+     <li class="p-v"><span class="property">UPC</span>:
+       <span class="value">82796948912</span></li>
+   </ul>
+</div>
+</textarea>
+
+This microformat is of particular interest for use in making recommendations.
+
+h2. hSlices
+
+Still under development by Microsoft for IE8 the purpose of an hSlice is to allow for the subscribing to partial content in a page in a similar manner as for a RSS feed. As a result the hSlice microformat is based on hAtom and has provoked much discussion in the Microformats community about its implementation.
+
+A common example is to subscribe to a webpage widget that displays the temperature:
+
+<textarea name="code" class="HTML" cols="60" rows="1">
+<div class="hslice" id="main">
+    <h2 class="entry-title">Seattle Weather</h2>
+    <p>It is currently <span class="entry-title">62&deg;</span>.</p>
+</div>
+</textarea>
+
+This microformat is of particular interest for use in AJAX content updates.
+
+h3. Footnotes
+
+fn1. "Y!OS Overview":http://developer.yahoo.com/yos/intro/yos-overview.html
+
+fn2. "Yahoo SearchMonkey":http://developer.yahoo.com/searchmonkey/
+
+fn3. "Introducing Operator":http://labs.mozilla.com/2006/12/introducing-operator/
+
+fn4. "Mix Online Oomph":http://visitmix.com/Lab/Oomph
+
+fn5. "Web Slices":http://www.microsoft.com/windows/internet-explorer/beta/readiness/developers-new.aspx#webslices
+
+fn6. "hProduct proposal":http://microformats.org/wiki/hproduct-proposal

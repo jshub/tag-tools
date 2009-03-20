@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>What makes HTML semantic?</title>
+
+
+
+    <!-- YUI Core -->
+    <link rel='stylesheet' href='stylesheets/yui.css' />
+    <script type="text/javascript" src="javascripts/yahoo-dom-event.js" charset="UTF-8"></script>
+
+    <!-- YUI code highlighter -->
+    <link rel='stylesheet' href='stylesheets/dpSyntaxHighlighter.css' />
+    <script type="text/javascript" src="javascripts/dpSyntaxHighlighter.js" charset="UTF-8"></script>
+    <script type="text/javascript">
+        YAHOO.util.Event.onDOMReady(function () {
+          dp.SyntaxHighlighter.HighlightAll('code');
+        });
+    </script>
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="javascripts/jquery.js" charset="UTF-8"></script>
+
+    <!-- Some custom ETL styling -->
+    <style type="text/css">
+      #pagetitle h1 { text-align: center; }
+      table#form-data td { padding: 3px; }
+      .errors {
+        margin: 1em;
+        border: 2px solid black;
+        padding: 1em;
+        background-color: mistyrose;
+      }
+      .errors p {
+        margin-left: 2em;
+      }
+      .errors p.evidence {
+        margin-left: 0em;
+        font-family: monospace;
+      }
+      .caption {
+        font-size: smaller;
+      }
+    </style>
+  </head>
+  <body class="yui-skin-sam">
+    <div id="doc" class="yui-t2">
+      <div id="hd">
+        <br />
+        <div id="pagetitle">
+          <h1>Javascript tag technology tutorials</h1>
+        </div>
+      </div>
+      <div id="bd">
+
+        <!-- Navigation bar -->
+
+        <!-- Begin table of contents -->
+        <div id="toc" class="yui-b">
+        <ul>
+          <li class='sect first'>Microformats</li>
+          <li class="item"><a href="index.html">Overview</a></li>
+          <li class="item"><a href="history.html">Quick history of the Semantic Web</a></li>
+          <li class="item"><a href="examples.html">Some visual examples</a></li>
+          <li class="item"><a href="semantic.html">What makes markup semantic?</a></li>
+          <li class="item"><a href="new.html">New developments</a></li>
+          <li class='sect'>Next steps</li>
+          <li class="item"><a href="our.html">Our microformats</a></li>
+        </ul>
+        </div>
+        <!-- End table of contents -->
+
+        <!-- Main body content -->
+        <div id="yui-main">
+          <div class="yui-b">
+
+            <div id="promo">
+              <table width="100%" border="0">
+                <tr><td align="left"><h2>
+                  
+                  </h2></td>
+                  <td align="center"><h1>What makes HTML semantic?</h1></td>
+                  <td align="right"><h2>
+                  
+                  </h2></td>
+                </tr>
+              </table>
+            </div>
+
+            <p>Although the content of web pages is technically already capable of &#8220;automated processing&#8221;, and has been since the inception of the web, such processing is difficult because the traditional markup tags used to display information on the web do not describe what the information means.</p>
+<p>Microformats are intended to bridge this gap by attaching semantics, and thereby obviate other, more complicated methods of automated processing, such as natural language processing or screen scraping.</p>
+<p>The use, adoption and processing of microformats enables data items to be indexed, searched for, saved or cross-referenced, so that information can be reused or combined.</p>
+<p>Current microformats allow the encoding and extraction of events, contact information, social relationships and so on. More are being developed.</p>
+<h2><acronym title="Plain Old Semantic HTML"><span class="caps">POSH</span></acronym></h2>
+<p>The precursor to any move towards semantic data in <span class="caps">HTML</span> web pages was the Web Standards Project (WaSP) that championed the <strong>validation</strong> of pages as well as a move to separate the presentational and structural elements of a page through the proper use of <span class="caps">HTML</span> tags and <span class="caps">CSS</span> stylesheets, using a subset of <span class="caps">HTML</span> that was <strong>Plain Old Semantic <span class="caps">HTML</span></strong>, e.g.</p>
+<ul>
+	<li>Use DIVs not <span class="caps">TABLES</span> for layout</li>
+	<li>Use <span class="caps">STRONG</span> or EM not B or I for emphasis, etc</li>
+</ul>
+<h2>The <span class="caps">HTML</span> class attribute</h2>
+<p>This education of content creators was combined with a growing understanding of the <span class="caps">HTML</span> class attribute specification, specifically:</p>
+<blockquote>
+<p>The class attribute, on the other hand, assigns one or more class names to an element; the element may be said to belong to these classes. A class name may be shared by several element instances. The class attribute has several roles in <span class="caps">HTML</span>:<br />
+1. As a style sheet selector (when an author wishes to assign style information to a set of elements).<br />
+2. For general purpose processing by user agents.<br />
+ <br />
+This key interpretation has allowed for <em><span class="caps">CSS</span></em> classes to be used for more than decoupling of the visual rendering of the page and is the basis for the Microformats approach.</p>
+</blockquote>
+<p>Additionally extensive work has been undertaken to indicate the <em>correct</em> select of class names for <span class="caps">CSS</span> styles that support semantic interpretation,</p>
+<p>For example this is bad:</p>
+<ul>
+	<li><code>class="black"</code> is semantically the same as <code>font-color="black"</code></li>
+</ul>
+<p>and this is good:</p>
+<ul>
+	<li><code>class="date"</code> has a semantic meaning as well as allowing for presentation overloading via <span class="caps">CSS</span></li>
+</ul>
+<h3>Additional links</h3>
+<ul>
+	<li><a href="http://www.webstandards.org/">Web Standards Project</a></li>
+	<li><a href="http://microformats.org/wiki/posh"><span class="caps">POSH</span></a></li>
+	<li><a href="http://microformats.org/blog/2005/10/19/more-than-styling/">More than styling</a></li>
+	<li><a href="http://tantek.com/log/2004/07.html#classmeaningnotshow">Class for meaning not show</a></li>
+	<li><a href="http://en.wikipedia.org/wiki/HTML#Semantic_HTML">Semantic <span class="caps">HTML</span></a></li>
+	<li><a href="http://www.w3.org/TR/2008/WD-html5-diff-20080122/"><span class="caps">HTML</span> 5 differences from <span class="caps">HTML</span> 4</a></li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      <!-- <div id="ft">
+      </div> -->
+    </div>
+  </body>
+</html>

@@ -1,0 +1,56 @@
+h1. Microformats
+
+h2. The basics
+
+A microformat is a web-based approach to semantic markup that seeks to re-use existing XHTML and HTML tags to convey metadata and other attributes. This approach allows information intended for end-users (such as contact information, geographic coordinates, calendar events, and the like) to also be automatically processed by software.
+
+This is a similar technique as those used for SEO(Search Engine Optimization) and Accessibility techniques.
+
+h2. Demonstration of usage
+
+In this example, the contact information is presented as follows:
+
+h3. Inaccessible
+
+<textarea name="code" class="HTML" cols="60" rows="1">
+  <img alt="" src="images/example_phonenumber.gif"/>
+</textarea>
+
+!images/example_phonenumber.gif!
+
+h3. Non semantic
+
+<textarea name="code" class="HTML" cols="60" rows="1">
+ <div>
+   <div>Joe Doe</div>
+   <div>The Example Company</div>
+   <div>604-555-1234</div>
+   <a href="http://example.com/">http://example.com/</a>
+ </div>
+</textarea>
+
+h3. Semantic
+
+With hCard microformat markup, that becomes:
+
+<textarea name="code" class="HTML" cols="60" rows="1">
+ <div class="vcard">
+   <div class="fn">Joe Doe</div>
+   <div class="org">The Example Company</div>
+   <div class="tel">604-555-1234</div>
+   <a class="url" href="http://example.com/">http://example.com/</a>
+ </div>
+</textarea>
+
+Here, the formatted name (fn), organization (org), telephone number (tel) and web address (url) have been identified using specific class names and the whole thing is wrapped in <code>class="vcard"</code>, which indicates that the other classes form an <acronym title="HTML vCard"><span class="caps">hCard</span></acronym> and are not merely coincidentally named. Other, optional, hCard classes also exist. 
+
+It is now possible for software, such as browser plug-ins or search engines, to extract the information, and transfer it to other applications, such as an address book.
+
+h3. Additional links
+
+* "Microformats.org":https://Microformats.org
+
+h3. Contact
+
+Comments are welcome. Send an email to "Liam Clancy":mailto:liamc@etl2dot0.com
+

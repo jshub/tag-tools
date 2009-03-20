@@ -1,0 +1,91 @@
+<%
+%>
+
+<h3>YUI Test Testrunner Results</h3>
+<p>
+	Lists the results recieved by the server at <strong>/yuitest/acceptor</strong>.
+</p>
+
+<h4>Past Test Runner results</h4>
+<p>
+  Most recent first 
+  ( <%= link_to image_tag("minus.png"), { :action => 'destroy_all' }, :method => :post %>
+  <%= link_to "Delete all", { :action => 'destroy_all' }, :method => :post %>)
+</p>
+
+
+<style type="text/css">
+	th { font-weight: bold; }
+	th, td { 
+      text-align: left; 
+	  vertical-align: top;
+	  padding-right: 10px;
+	}
+    th img, td img { 
+      padding: 2px;
+	  vertical-align: middle;
+  }
+</style>
+
+<table class="index">
+  <tr>
+    <th>ID</th>
+    <th>Time</th>
+    <th>Report name</th>
+    <th>Passed</th>
+    <th>Failed</th>
+    <th>Ignored</th>
+    <th>Total</th>
+    <th>Browser</th>
+    <!-- 
+    <th>Raw Request</th>
+    <th>Controller Action</th>
+    <th>Start Time</th>
+    <th>End Time</th>
+    <th>Total</th>
+	-->
+    <th>&nbsp;</th>
+  </tr>
+
+<% for result in @TestrunnerResults %>	
+<%
+  # parse the raw_post collected
+  original_request = CGI.parse(result.request)
+  # extract data from XML results body
+  require "rexml/document"
+  xml = original_request['results'].to_s
+  doc = REXML::Document.new xml
+%>
+  <tr>
+    <td><%=h result.id %></td>
+	<td><%=h original_request['timestamp'].to_s %></td>
+	<td>
+      <%=h doc.root.attributes["name"] if doc.root %>
+	</td>
+	<td>
+      <%=h doc.root.attributes["passed"] if doc.root %>
+	</td>
+	<td>
+      <%=h doc.root.attributes["failed"] if doc.root %>
+	</td>
+	<td>
+      <%=h doc.root.attributes["ignored"] if doc.root %>
+	</td>
+	<td>
+      <%=h doc.root.attributes["total"] if doc.root %>
+	</td>
+	<td><%=h original_request['useragent'].to_s %></td>
+	<!--	
+    <td><%=h original_request %></td>
+    <td><%=h result.action %></td>
+    <td><%=h result.start_time %></td>
+    <td><%=h result.end_time %></td>
+    <td><%=h result.total %></td>
+	-->
+    <td>
+      <%= link_to image_tag("minus.png"), { :action => 'destroy', :id => result }, :method => :post %>
+      <%= link_to "Delete", { :action => 'destroy', :id => result }, :method => :post %>
+    </td>
+  </tr>
+<% end %>
+</table>

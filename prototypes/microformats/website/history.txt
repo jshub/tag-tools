@@ -1,0 +1,78 @@
+h1. Quick history of the Semantic Web
+
+Microformats are not the only solution for providing *more intelligent data* on the web, and are not even new - original ideas and implementations have been around since at least 1997 and are not likely to go away. 
+
+Alternative approaches exist, and many have been under development even longer - in many cases predating the Internet with a strong academic grounding. 
+
+Collectively all these are known as the Semantic Web and it is a *huge* *ongoing* research area.
+
+h2. The Semantic Web
+
+The intent derives from W3C(World Wide Web Consortium) director Sir Tim Berners-Lee's vision of the Web as a universal medium for data, information, and knowledge exchange:
+
+bq. I have a dream for the Web [in which computers] become capable of analyzing all the data on the Web - the content, links, and transactions between people and computers. A 'Semantic Web', which should make this possible, has yet to emerge, but when it does, the day-to-day mechanisms of trade, bureaucracy and our daily lives will be handled by machines talking to machines. The '*intelligent agents*' people have touted for ages will finally materialize. (Tim Berners-Lee, 1999)
+
+However a proper solution to this vision requires huge effort, including dealing with complicated domains such as *identity, trust and security*, as well as large scale co-ordination and adoption by all interested parties both on and off the internet to be useful. 
+
+Here is an example of the current scope of a Semantic Web Architecture and the technologies involved:
+
+!images/semantic_web_stack.png!
+
+An example of a vcard in RDFa:
+
+<textarea name="code" class="XML" cols="60" rows="1">
+  <?xml version="1.0"?>
+  <rdf:RDF xmlns:rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+           xmlns:vCard = "http://www.w3.org/2001/vcard-rdf/3.0#">
+
+    <rdf:Description rdf:about = "http://qqqfoo.com/staff/corky" >
+      <vCard:FN> Corky Crystal </vCard:FN>
+      <vCard:N rdf:parseType="Resource">
+        <vCard:Family> Crystal </vCard:Family>
+        <vCard:Given>  Corky </vCard:Given>
+        <vCard:Other>  Jacky </vCard:Other>
+        <vCard:Prefix> Dr </vCard:Prefix>
+      </vCard:N>
+      <vCard:BDAY> 1980-01-01 </vCard:BDAY>
+      <vCard:TITLE> Computer Officer Class 3 </vCard:TITLE>
+      <vCard:ROLE> Programmer </vCard:ROLE>
+      <vCard:TEL rdf:parseType="Resource">
+        <rdf:value> +61 7 555 5555 </rdf:value>
+        <rdf:type rdf:resource="http://www.w3.org/2001/vcard-rdf/3.0#work"/>
+        <rdf:type rdf:resource="http://www.w3.org/2001/vcard-rdf/3.0#voice"/>
+      </vCard:TEL>
+      <vCard:EMAIL rdf:parseType="Resource">
+        <rdf:value> corky@qqqfoo.com </rdf:value>
+        <rdf:type rdf:resource="http://www.w3.org/2001/vcard-rdf/3.0#internet"/>
+      </vCard:EMAIL>
+      <vCard:ADR rdf:parseType="Resource">
+        <vCard:Street>   111 Lake Drive </vCard:Street>
+        <vCard:Locality> WonderCity </vCard:Locality>
+        <vCard:Pcode>    5555 </vCard:Pcode>
+        <vCard:Country>  Australia </vCard:Country>
+      </vCard:ADR>
+    </rdf:Description>
+  </rdf:RDF>
+</textarea>
+
+
+h2. The adoption problem
+
+One advocate of microformats characterized a problem with the alternative approaches:
+
+bq. Here's a new language we want you to learn, and now you need to output these additional files on your server. It's a hassle. (Microformats) lower the barrier to entry. (Tantek Celik)
+
+As such microformats have specific design principles aimed at encouraging adoption by content creators and end users:
+
+* *Reduce*: favor the simplest solutions and focus attention on specific problems.
+* *Reuse*: work from experience and favor examples of current practice.
+* *Recycle*: encourage modularity and the ability to embed - valid XHTML can be reused in blog posts, RSS feeds, and anywhere else you can access the web.
+
+Microformats are not a replacement for the Semantic Web, but they do move things in the right direction, and for many usecases provide a majority of benefits now for minimal effort.
+
+h3. Additional links
+
+* "Wikipedia on the Semantic Web":http://en.wikipedia.org/wiki/Semantic_Web
+* "Semantic Web Architecture":http://obitko.com/tutorials/ontologies-semantic-web/semantic-web-architecture.html
+* "Web Science Initiative":http://webscience.org/
+* "Tim Berners-Lee WSI Presentation":http://www.w3.org/2008/Talks/0708-ws-30min-tbl/

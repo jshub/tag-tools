@@ -1,0 +1,2 @@
+module TestrunnerResultHelper
+end

@@ -1,0 +1,22 @@
+h1. Some visual examples
+
+The presence of microformat data has been utilized by many search engines and site aggregators to provide features particularly amongst original microformats contributors and adopters.
+
+h2. Search Engines
+
+p=. !images/example_search_google.png! 
+  %(caption)Image of: ??Google results enhanced by Sitemap data??%
+    !images/example_search_yahoo.png! 
+  %(caption)Image of: ??Yahoo results enhanced by hReview and other data??%
+
+h2. Vertical websites
+
+p=. !images/example_hevent_yahoo_list.png! 
+  %(caption)Image of: ??Yahoo list of events exposed??%
+    !images/example_hevent_yahoo_export.png! 
+  %(caption)Image of: ??Yahoo event data can be exported easily??%
+
+h2. Desktop software
+
+Offline software is also now commonly a consumer for online microformat data or for exposing its presence including Outlook, iCal and RSS News readers.
+

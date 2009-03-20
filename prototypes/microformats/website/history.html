@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Quick history of the Semantic Web</title>
+
+
+
+    <!-- YUI Core -->
+    <link rel='stylesheet' href='stylesheets/yui.css' />
+    <script type="text/javascript" src="javascripts/yahoo-dom-event.js" charset="UTF-8"></script>
+
+    <!-- YUI code highlighter -->
+    <link rel='stylesheet' href='stylesheets/dpSyntaxHighlighter.css' />
+    <script type="text/javascript" src="javascripts/dpSyntaxHighlighter.js" charset="UTF-8"></script>
+    <script type="text/javascript">
+        YAHOO.util.Event.onDOMReady(function () {
+          dp.SyntaxHighlighter.HighlightAll('code');
+        });
+    </script>
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="javascripts/jquery.js" charset="UTF-8"></script>
+
+    <!-- Some custom ETL styling -->
+    <style type="text/css">
+      #pagetitle h1 { text-align: center; }
+      table#form-data td { padding: 3px; }
+      .errors {
+        margin: 1em;
+        border: 2px solid black;
+        padding: 1em;
+        background-color: mistyrose;
+      }
+      .errors p {
+        margin-left: 2em;
+      }
+      .errors p.evidence {
+        margin-left: 0em;
+        font-family: monospace;
+      }
+      .caption {
+        font-size: smaller;
+      }
+    </style>
+  </head>
+  <body class="yui-skin-sam">
+    <div id="doc" class="yui-t2">
+      <div id="hd">
+        <br />
+        <div id="pagetitle">
+          <h1>Javascript tag technology tutorials</h1>
+        </div>
+      </div>
+      <div id="bd">
+
+        <!-- Navigation bar -->
+
+        <!-- Begin table of contents -->
+        <div id="toc" class="yui-b">
+        <ul>
+          <li class='sect first'>Microformats</li>
+          <li class="item"><a href="index.html">Overview</a></li>
+          <li class="item"><a href="history.html">Quick history of the Semantic Web</a></li>
+          <li class="item"><a href="examples.html">Some visual examples</a></li>
+          <li class="item"><a href="semantic.html">What makes markup semantic?</a></li>
+          <li class="item"><a href="new.html">New developments</a></li>
+          <li class='sect'>Next steps</li>
+          <li class="item"><a href="our.html">Our microformats</a></li>
+        </ul>
+        </div>
+        <!-- End table of contents -->
+
+        <!-- Main body content -->
+        <div id="yui-main">
+          <div class="yui-b">
+
+            <div id="promo">
+              <table width="100%" border="0">
+                <tr><td align="left"><h2>
+                  
+                  </h2></td>
+                  <td align="center"><h1>Quick history of the Semantic Web</h1></td>
+                  <td align="right"><h2>
+                  
+                  </h2></td>
+                </tr>
+              </table>
+            </div>
+
+            <p>Microformats are not the only solution for providing <strong>more intelligent data</strong> on the web, and are not even new &#8211; original ideas and implementations have been around since at least 1997 and are not likely to go away.</p>
+<p>Alternative approaches exist, and many have been under development even longer &#8211; in many cases predating the Internet with a strong academic grounding.</p>
+<p>Collectively all these are known as the Semantic Web and it is a <strong>huge</strong> <strong>ongoing</strong> research area.</p>
+<h2>The Semantic Web</h2>
+<p>The intent derives from <acronym title="World Wide Web Consortium"><span class="caps">W3C</span></acronym> director Sir Tim Berners-Lee&#8217;s vision of the Web as a universal medium for data, information, and knowledge exchange:</p>
+<blockquote>
+<p>I have a dream for the Web [in which computers] become capable of analyzing all the data on the Web &#8211; the content, links, and transactions between people and computers. A &#8216;Semantic Web&#8217;, which should make this possible, has yet to emerge, but when it does, the day-to-day mechanisms of trade, bureaucracy and our daily lives will be handled by machines talking to machines. The &#8216;<strong>intelligent agents</strong>&#8217; people have touted for ages will finally materialize. (Tim Berners-Lee, 1999)</p>
+</blockquote>
+<p>However a proper solution to this vision requires huge effort, including dealing with complicated domains such as <strong>identity, trust and security</strong>, as well as large scale co-ordination and adoption by all interested parties both on and off the internet to be useful.</p>
+<p>Here is an example of the current scope of a Semantic Web Architecture and the technologies involved:</p>
+<p><img src="images/semantic_web_stack.png" alt="" /></p>
+<p>An example of a vcard in RDFa:</p>
+<textarea name="code" class="XML" cols="60" rows="1">
+&lt;?xml version=&#8220;1.0&#8221;?&gt;
+<rdf:RDF xmlns:rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+           xmlns:vCard = "http://www.w3.org/2001/vcard-rdf/3.0#">
+<rdf:Description rdf:about = "http://qqqfoo.com/staff/corky" >
+      <vCard:FN> Corky Crystal </vCard:FN>
+<vCard:N rdf:parseType="Resource">
+        <vCard:Family> Crystal </vCard:Family>
+        <vCard:Given>  Corky </vCard:Given>
+        <vCard:Other>  Jacky </vCard:Other>
+        <vCard:Prefix> Dr </vCard:Prefix>
+</vCard:N>
+      <vCard:BDAY> 1980-01-01 </vCard:BDAY>
+      <vCard:TITLE> Computer Officer Class 3 </vCard:TITLE>
+      <vCard:ROLE> Programmer </vCard:ROLE>
+<vCard:TEL rdf:parseType="Resource">
+        <rdf:value> +61 7 555 5555 </rdf:value>
+<rdf:type rdf:resource="http://www.w3.org/2001/vcard-rdf/3.0#work"/>
+<rdf:type rdf:resource="http://www.w3.org/2001/vcard-rdf/3.0#voice"/>
+</vCard:TEL>
+<vCard:EMAIL rdf:parseType="Resource">
+        <rdf:value> corky@qqqfoo.com </rdf:value>
+<rdf:type rdf:resource="http://www.w3.org/2001/vcard-rdf/3.0#internet"/>
+</vCard:EMAIL>
+<vCard:ADR rdf:parseType="Resource">
+        <vCard:Street>   111 Lake Drive </vCard:Street>
+        <vCard:Locality> WonderCity </vCard:Locality>
+        <vCard:Pcode>    5555 </vCard:Pcode>
+        <vCard:Country>  Australia </vCard:Country>
+</vCard:ADR>
+</rdf:Description>
+</rdf:RDF>
+</textarea>
+<h2>The adoption problem</h2>
+<p>One advocate of microformats characterized a problem with the alternative approaches:</p>
+<blockquote>
+<p>Here&#8217;s a new language we want you to learn, and now you need to output these additional files on your server. It&#8217;s a hassle. (Microformats) lower the barrier to entry. (Tantek Celik)</p>
+</blockquote>
+<p>As such microformats have specific design principles aimed at encouraging adoption by content creators and end users:</p>
+<ul>
+	<li><strong>Reduce</strong>: favor the simplest solutions and focus attention on specific problems.</li>
+	<li><strong>Reuse</strong>: work from experience and favor examples of current practice.</li>
+	<li><strong>Recycle</strong>: encourage modularity and the ability to embed &#8211; valid <span class="caps">XHTML</span> can be reused in blog posts, <span class="caps">RSS</span> feeds, and anywhere else you can access the web.</li>
+</ul>
+<p>Microformats are not a replacement for the Semantic Web, but they do move things in the right direction, and for many usecases provide a majority of benefits now for minimal effort.</p>
+<h3>Additional links</h3>
+<ul>
+	<li><a href="http://en.wikipedia.org/wiki/Semantic_Web">Wikipedia on the Semantic Web</a></li>
+	<li><a href="http://obitko.com/tutorials/ontologies-semantic-web/semantic-web-architecture.html">Semantic Web Architecture</a></li>
+	<li><a href="http://webscience.org/">Web Science Initiative</a></li>
+	<li><a href="http://www.w3.org/2008/Talks/0708-ws-30min-tbl/">Tim Berners-Lee <span class="caps">WSI</span> Presentation</a></li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      <!-- <div id="ft">
+      </div> -->
+    </div>
+  </body>
+</html>
