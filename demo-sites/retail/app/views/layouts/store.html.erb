@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Example retail store</title>
+
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <%= stylesheet_link_tag "yui3/reset-context.css" %>
+    <%= stylesheet_link_tag "yui3/fonts-context.css" %>
+    <%= stylesheet_link_tag "yui3/grids-context.css" %>
+    <%= stylesheet_link_tag "yui3/base-context.css" %>
+
+    <%= stylesheet_link_tag "store.css" %>
+
+    <!-- Sample store cart script -->
+    <script type="text/javascript">
+      var ENV = {};
+          ENV.APP_ROOT = "<%= store_index_path %>";
+    </script>
+    <%= javascript_include_tag "store.js" %>
+  </head>
+  <body class="jshub store yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase">
+  
+  <div class="yui-d1f page">
+
+    <div class="yui-gb header">
+      <div id="logo" class="yui-u first">
+          <%= link_to("Homepage", :action => "index") %>
+      </div>
+      <div id="departments" class="yui-u">
+        &nbsp;
+      </div>
+      <div id="cart" class="yui-u">
+        <a href="<%= url_for :action => 'checkout' %>">
+        <div id="cart-items">
+          <%= cart_size_message %>
+        </div>
+        </a>
+      </div>      
+    </div>
+
+    <div class="yui-gb nav1">
+      <div class="yui-gb first group1">
+        <div class="yui-u first nav-item">
+          <%= link_to("TV &amp; Video", { :action => "buy" }, :class => "tv") %>
+        </div>
+        <div class="yui-u nav-item">
+          <%= link_to("Audio", { :action => "buy" }, :class => "audio") %>
+        </div>
+        <div class="yui-u nav-item">
+          <%= link_to("Car &amp; GPS", { :action => "buy" }, :class => "car") %>
+        </div> 
+      </div> 
+      <div class="yui-gb group2">
+        <div class="yui-u first nav-item">
+          <%= link_to("Cameras &amp; Camcorders", { :action => "buy" }, :class => "cameras") %>
+        </div> 
+        <div class="yui-u nav-item">
+          <%= link_to("Computers", { :action => "buy" }, :class => "computers") %>
+        </div>      
+        <div class="yui-u nav-item">
+          <%= link_to("Cell phones &amp; Office", { :action => "buy" }, :class => "phones") %>
+        </div>   
+      </div> 
+      <div class="yui-gb group3">
+        <div class="yui-u first nav-item">
+          <%= link_to("Music, Movies &amp; Books", { :action => "buy" }, :class => "music") %>
+        </div>      
+        <div class="yui-u nav-item">
+          <%= link_to("Games &amp; Toys", { :action => "buy" }, :class => "games") %>
+        </div>   
+        <div class="yui-u nav-item">
+          <%= link_to("Home &amp; Appliance", { :action => "buy" }, :class => "home") %>
+        </div> 
+      </div> 
+    </div>
+
+    <div class="yui-g tools">
+      <div class="yui-u first">
+        <form id="searchform" class="search" method="get" action="">
+          <fieldset>
+            <label for="searchquery">SEARCH FOR</label>
+            <input id="searchquery" type="text" size="25" name="s" value="Keyword or Item #" disabled="disabled" />
+            <input id="searchsubmit" type="submit" value="GO" disabled="disabled" />
+          </fieldset>
+        </form>
+      </div>
+      <div class="yui-u">
+        <%= render :partial => "login_status" %>
+      </div> 
+    </div> 
+
+    <div class="yui-g nav3">
+      <%= h(@page_breadcrumb || "Buy Stuff") %>
+    </div> 
+
+    <div class="yui-t2">
+      <div class="yui-b nav2">
+        <div class="menu">
+          <h1>Page title</h1>
+          <ul>
+            <li>
+              <%= link_to("Homepage", :action => "index") %>
+            </li>
+            <li>
+              <%= link_to("Products", :action => "buy") %>
+            </li>
+            <li>
+              <%= link_to("Checkout", :action => "checkout") %>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="yui-main content">
+        <div class="yui-b">
+        
+          <!-- Show what has been added / removed to cart -->
+          <% if flash[:notice] %>
+          <div id="flash" style="display: block">
+            <%= flash[:notice] %>
+          <% flash[:notice] = nil %>
+          </div>
+          <script type="text/javascript">
+            setTimeout(function(){
+              document.getElementById('flash').style.display = 'none';
+            }, 1500);
+          </script>
+          <% end %>
+        
+          <%= yield :layout %>
+    		  <%# render_shopping_cart %>		            
+        </div>
+      </div>
+    </div>
+
+    <div class="yui-g links-header"></div>
+    <div class="yui-g links">
+      <ul>
+        <li><%= link_to("Contact Us", :action => "contact") %></li>
+      </ul>
+    </div> 
+
+    <div class="yui-g footer">
+      <p class="legal">
+        &copy; 2009 jsHub.org - this is an example store.
+      </p>
+    </div> 
+    
+    <!-- Page metadata -->
+    <%= render :partial => "microformats" %>
+    <div id="sidebar">
+      <h1>Event log</h1>
+    </div>
+
+    </div> <!-- yui-d1f -->
+  </body>
+</html>

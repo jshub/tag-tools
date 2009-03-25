@@ -1,0 +1,16 @@
+<div class="login">
+<% if session[:username] == nil %>
+  <% form_tag( :action => "login" ) do %>
+  <%= hidden_field_tag "original_uri", request.request_uri %>
+  <strong class="login-state">Welcome.</strong>
+  Please <%= link_to("create an account", :action => "login") %> or <button id="login">Log in</button>
+  <% end %>
+<% else %>
+  <% form_tag( :action => "logout" ) do %>
+    <%= hidden_field_tag "original_uri", request.request_uri %>
+    <strong class="login-state">Logged in</strong>
+    as <%= session[:username] %>
+    <button id="logout">Log out</button>
+  <% end %>
+<% end %>
+</div>

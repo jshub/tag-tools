@@ -1,0 +1,55 @@
+<div id="shopping-cart">
+  <h2>Your basket</h2>
+  
+  <!-- The actual cart -->
+  <% if cart.items.size > 0 %>
+  <ul class="cart">
+    <%= render :partial => "cart_item", :collection => cart.items %>
+  </ul>
+  <script type="text/javascript">
+    // The [+] button triggers a basket add event
+    $(".cart .product_add").bind("click", add_product);
+
+    // Pressing enter in the quantity form triggers an update event
+    $(".cart input[name='quantity']").change(update_quantity);
+    
+    // The [-] button triggers a basket remove event
+    $(".cart .product_remove").bind("click", remove_product);
+  </script>
+  <% end %>
+  
+  <!-- Continue shopping links -->
+  <% if controller.action_name == 'checkout' && @cart.items.size > 0 %>
+  <p>
+	  <% form_tag({ :action => 'confirm' }) do %>
+	  <button id="confirm">Confirm order</button>
+	  <% end %>
+    or
+    <button id="back">Continue shopping</button>
+  </p>
+  <script type="text/javascript">
+    $('#back').click(function(){
+      window.location.href = './buy';
+      return false;
+    });
+  </script>
+  
+  <% elsif @cart.items.size > 0  %>
+  <p>
+	  <% form_tag({ :action => 'checkout' }) do %>
+    <strong>Finished shopping?</strong>
+    <br/>
+    <button id="checkout">Check out now</button>
+    <% end %>
+  </p>
+  <script type="text/javascript">
+    // Checkout button goes to checkout
+    $('#checkout').click(function(){
+      $('form#basket').submit();
+    });
+  </script>
+  
+  <% elsif controller.action_name != "buy" %>
+  <p><%= link_to "Start shopping", :action => "buy" %></p>
+  <% end %>
+</div>

@@ -1,0 +1,20 @@
+<h1 class="title">Products</h1>
+<% for product in @products %>
+  <% form_tag :add_to_cart_store do %>
+  <%= hidden_field_tag "product_id", product.id, :id => nil %>
+  <div class="yui-gb">
+    <div class="yui-u first">
+      <%= image_tag( image_for(product) ) %>
+    </div>
+    <div class="yui-u">
+      <%= product.name %>
+    </div>
+    <div class="yui-u">
+    <strong><%= number_to_currency( product.price, :unit => '&pound;' ) %></strong>
+    <br/>
+    <%= text_field_tag :quantity, "1", :size => "2", :id => nil %>
+    <button class="product_add">Add to basket</button>
+    </div>
+  </div>
+  <% end %>
+<% end %>
