@@ -4,12 +4,17 @@
 
 class StoreController < ApplicationController
   
-  # GET /store/
-  # GET /store/buy.xml
+  # GET /store
   def index
     @hpage = { :pagename => 'Homepage', :category => 'Store' }
 
     @cart = find_cart
+
+    respond_to do |format|
+      format.html {
+        render :layout => 'homepage'
+      }
+    end
   end
   
   # GET /store/buy
@@ -96,7 +101,7 @@ class StoreController < ApplicationController
       flash[:authentication] = true
       redirect_to ( params[:original_uri] || { :action => "index" } )
     else
-      render
+      render :layout => 'login'
     end
   end
   

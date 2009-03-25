@@ -28,6 +28,7 @@ body.jshub div.header {
       height: inherit;
       text-decoration: none; }
     body.jshub div.header #cart #cart-items {
+      display: block;
       position: relative;
       text-align: center;
       top: 40px;

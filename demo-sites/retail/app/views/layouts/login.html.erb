@@ -28,42 +28,32 @@
 
     <%= render :partial => "skin/header" %>
     <%= render :partial => "skin/nav1" %>
-
+    
     <div class="yui-g tools">
       <div class="yui-u first">
         <%= render :partial => "search_form" %>
       </div>
       <div class="yui-u">
-        <%= render :partial => "login_status" %>
       </div> 
     </div> 
 
-    <%= render :partial => "skin/nav3" %>
-
-    <div class="yui-t2">
-  
-      <%= render :partial => "skin/nav2" %>
-
-      <div class="yui-main content">
-        <div class="yui-b">
-        
-          <!-- Show what has been added / removed to cart -->
-          <% if flash[:notice] %>
-          <div id="flash" style="display: block">
-            <%= flash[:notice] %>
-          <% flash[:notice] = nil %>
-          </div>
-          <script type="text/javascript">
-            setTimeout(function(){
-              document.getElementById('flash').style.display = 'none';
-            }, 1500);
-          </script>
-          <% end %>
-        
-          <%= yield :layout %>
-    		  <%# render_shopping_cart %>		            
-        </div>
+    <div class="yui-g">
+    
+      <!-- Show what has been added / removed to cart -->
+      <% if flash[:notice] %>
+      <div id="flash" style="display: block">
+        <%= flash[:notice] %>
+      <% flash[:notice] = nil %>
       </div>
+      <script type="text/javascript">
+        setTimeout(function(){
+          document.getElementById('flash').style.display = 'none';
+        }, 1500);
+      </script>
+      <% end %>
+    
+      <%= yield :layout %>
+
     </div>
 
     <%= render :partial => "skin/footer" %>

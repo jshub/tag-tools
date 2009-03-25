@@ -1,0 +1,15 @@
+    <div class="yui-gb header">
+      <div id="logo" class="yui-u first">
+          <%= link_to("Homepage", :action => "index") %>
+      </div>
+      <div id="departments" class="yui-u">
+        &nbsp;
+      </div>
+      <div id="cart" class="yui-u">
+        <a href="<%= url_for :action => 'checkout' %>">
+        <span id="cart-items">
+          <%= cart_size_message %>
+        </span>
+        </a>
+      </div>      
+    </div>
