@@ -1,0 +1,15 @@
+/* Note: when making references to images use the path ../images/store/skin/ */
+/* CONSTANTS */
+/* Mixins */
+body.jshub div.content.homepage .promo {
+  height: 381px;
+  margin-top: 10px;
+  background-color: transparent;
+  background-image: url(../images/store/ads/ad-tv-big.png);
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: 50% 0; }
+  body.jshub div.content.homepage .promo a {
+    display: block;
+    height: inherit;
+    text-indent: -9999px; }

@@ -1,20 +1,50 @@
-<h1 class="title">Products</h1>
+<div class="listing-header">
+  <div class="summary">
+    <strong>1 - <%= @products.length.to_s %></strong> of <strong><%= @products.length.to_s %></strong>
+  </div>
+</div>
+
 <% for product in @products %>
   <% form_tag :add_to_cart_store do %>
   <%= hidden_field_tag "product_id", product.id, :id => nil %>
-  <div class="yui-gb">
-    <div class="yui-u first">
-      <%= image_tag( image_for(product) ) %>
+  <div id="<%= product.id %>" class="yui-gb hproduct">
+    <div class="yui-u first image-col">
+      <%= link_to( image_tag( image_for(product) , :class => "thumb"), {}, :class => "uri", :rel => "product" ) %>
     </div>
-    <div class="yui-u">
-      <%= product.name %>
+    <div class="yui-u info-main">
+      <h3 class="name"><%= product.name %></h3>
+      <h5>
+        <strong>Model:</strong>
+        <span class="model">LN46A650</span> | 
+        <strong>SKU:</strong> 
+        <span class="sku">8753645</span>
+      </h5>
+      <p class="description">
+        <strong>ENERGY STAR Qualified</strong>
+        <br/>
+        4 HDMI inputs; USB 2.0 port; Touch of Color cabinet; 16:9 aspect ratio
+      </p>
+      <div class="rating">
+        <strong>5 of 5</strong>
+      </div>      
     </div>
-    <div class="yui-u">
-    <strong><%= number_to_currency( product.price, :unit => '&pound;' ) %></strong>
+    <div class="yui-u info-side">
+    
+      <h4 class="price sale">
+        <%= number_to_currency( product.price, :unit => '&pound;' ) %>
+      </h4>
+      
+      <ul class="p-v offers">
+        <li class="value">Save 10% on Accessories: Find Out How</li>
+        <li class="value">Delivery, Hook-Up and Recycling Included</li>
+        <li class="value">Free Shipping</li>
+      </ul>
+    
     <br/>
-    <%= text_field_tag :quantity, "1", :size => "2", :id => nil %>
+    <%= hidden_field_tag :quantity, "1", :id => nil %>
     <button class="product_add">Add to basket</button>
     </div>
   </div>
+  <hr />
   <% end %>
 <% end %>

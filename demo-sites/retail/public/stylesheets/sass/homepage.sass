@@ -1,0 +1,24 @@
+/* Note: when making references to images use the path ../images/store/skin/
+
+/* CONSTANTS
+
+/* Mixins
+=accessible-link-replacement
+  :display block
+  :height inherit
+  :text-indent -9999px
+
+body.jshub
+
+  div.content.homepage
+    .promo
+      :height 381px
+      :margin-top 10px
+      :background
+        :color transparent 
+        :image url(../images/store/ads/ad-tv-big.png) 
+        :repeat no-repeat 
+        :attachment scroll 
+        :position 50% 0
+      a
+        +accessible-link-replacement

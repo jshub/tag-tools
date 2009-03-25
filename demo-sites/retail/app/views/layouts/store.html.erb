@@ -14,9 +14,11 @@
     <%= stylesheet_link_tag "yui3/base-context.css" %>
 
     <%= stylesheet_link_tag "store.css" %>
+    <%= stylesheet_link_tag "catalog.css" %>
+    <%= stylesheet_link_tag "hproduct.css" %>
 
-    <!-- Sample store cart script -->
     <script type="text/javascript">
+      /* Pass variable data from Ruby to JS */
       var ENV = {};
           ENV.APP_ROOT = "<%= store_index_path %>";
     </script>

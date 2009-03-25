@@ -1,0 +1,84 @@
+/* Note: when making references to images use the path ../images/store/ */
+/* CONSTANTS */
+/* Mixins */
+div.hproduct {
+  color: #666; }
+  div.hproduct a link, div.hproduct a visited {
+    color: #339;
+    text-decoration: none; }
+  div.hproduct a hover {
+    text-decoration: underline; }
+  div.hproduct .image-col {
+    width: 105px !important;
+    text-align: center; }
+  div.hproduct .info-main {
+    width: 287px !important; }
+  div.hproduct .info-side {
+    padding: 15px;
+    width: 140px !important;
+    background-color: #ddd; }
+  div.hproduct h3 {
+    padding-bottom: 2px;
+    font-size: 100%;
+    font-weight: bold;
+    line-height: 14px; }
+  div.hproduct h3 .new {
+    color: #f11; }
+  div.hproduct h3.name a link, div.hproduct h3.name a visited {
+    color: #333399; }
+  div.hproduct h5 {
+    font-size: 85%;
+    font-weight: normal;
+    line-height: 13px; }
+  div.hproduct .description {
+    padding: 1em 0; }
+    div.hproduct .description strong {
+      color: #09f; }
+  div.hproduct .attributes {
+    padding: 1em 0;
+    width: 287px; }
+  div.hproduct .attributes h5 {
+    display: inline;
+    padding-right: 5px; }
+  div.hproduct .rating {
+    margin-bottom: 1em;
+    background: transparent url(../images/store/hproduct/stars-5.png) no-repeat scroll left 50%; }
+  div.hproduct .rating strong {
+    margin-left: 70px; }
+  div.hproduct .highlight {
+    color: #f11; }
+  div.hproduct .availHolder {
+    position: relative;
+    z-index: 21; }
+  div.hproduct a.availability link, div.hproduct a.availability visited {
+    background: transparent url(../images/store/skin/arrow-left.png) no-repeat scroll right 3px;
+    color: #339;
+    padding-right: 8px; }
+  div.hproduct h4.price {
+    color: #f11;
+    font-size: 116%;
+    font-weight: bold; }
+  div.hproduct .msrp {
+    font-size: 85%;
+    font-weight: normal; }
+  div.hproduct .sale {
+    color: #f11;
+    font-size: 116%;
+    font-weight: bold; }
+  div.hproduct .offers {
+    margin: 0;
+    font-size: 85%; }
+  div.hproduct .offers li {
+    padding: 1px 0 1px 13px;
+    background: transparent url(../images/store/skin/tick-red.png) no-repeat scroll 0 4px;
+    color: #339;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none; }
+  div.hproduct .offers li.highlight {
+    color: #f11; }
+  div.hproduct .buy {
+    display: block;
+    margin-top: 13px; }
+  div.hproduct .compareButton {
+    padding: 8px 0; }
