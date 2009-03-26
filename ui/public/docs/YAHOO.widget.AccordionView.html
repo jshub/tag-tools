@@ -1,0 +1,1488 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<title>API: accordionview  YAHOO.widget.AccordionView   (YUI Library)</title>
+	<link rel="stylesheet" type="text/css" href="assets/api.css">
+    <script type="text/javascript" src="assets/api-js"></script>
+    <script type="text/javascript" src="assets/ac-js"></script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+
+	<div id="hd">
+        <a href="http://www.i-marco.nl/weblog/yui-accordion/"><h1>AccordionView YUI Widget</h1></a>
+        <h3>accordionview&nbsp; <span class="subtitle"></span></h3>
+        <p>
+        <a href="./index.html">AccordionView YUI Widget</a> 
+            &gt; <a href="./module_accordionview.html">accordionview</a>
+                 &gt; YAHOO.widget.AccordionView 
+                
+            </p>
+
+
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+			<div class="yui-b">
+            <form name="yui-classopts-form">
+    <span id="classopts"><input type="checkbox" name="showprivate" id="showprivate" /> <label for="showprivate">Show Private</label></span>
+    <span id="classopts"><input type="checkbox" name="showprotected" id="showprotected" /> <label for="showprotected">Show Protected</label></span>
+    <span id="classopts"><input type="checkbox" name="showdeprecated" id="showdeprecated" /> <label for="showdeprecated">Show Deprecated</label></span>
+            </form>
+
+                    <h2>
+                        
+
+                        
+                        
+                            Class <b>YAHOO.widget.AccordionView</b>
+                        <span class="extends">
+                           - extends <a href="YAHOO.util.Element.html">YAHOO.util.Element</a>
+                        </span>
+
+                        <span class="extends">
+                        </span>
+                        
+                        </code>
+                    </h2>
+                    <!-- class tree goes here -->
+                    
+                
+  
+
+                    <div class="summary description">
+                        A widget to control accordion views.
+                    </div>
+
+                        <div class="section constructor details">
+                        <h3 id="constructor">Constructor</h3>
+                        <div class="content">
+                            <div class="detail">
+                                <strong>YAHOO.widget.AccordionView</strong>
+                                <code>
+                                    (
+  
+                                        
+                                                
+                                                el
+
+                                                , 
+                                                oAttr
+                                    )
+                                </code>
+                                <div class="description">
+                                        <dl>
+                                            <dt>Parameters:</dt>
+                                                <dd>
+                                                    <code>el
+                                                    &lt;HTMLElement | String&gt; 
+                                                    </code>
+                                                     The id of the html element that represents the AccordionView.
+                                                </dd>
+                                                <dd>
+                                                    <code>oAttr
+                                                    &lt;Object&gt; 
+                                                    </code>
+                                                     (optional) A key map of the AccordionView's 
+initial oAttributes.
+                                                </dd>
+                                        </dl>
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                        <div class="section field details">
+                            <h3 id="properties">Properties</h3>
+                            <div class="content">
+                                    <div class="private">
+                                    <h4><a name="property__ARIACapable">_ARIACapable</a>
+                                        <code>- private Boolean</code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description">
+                                            Whether we're ARIA capable (currently only IE8 ad FF3)
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="private">
+                                    <h4><a name="property__closing">_closing</a>
+                                        <code>- private Boolean</code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description">
+                                            Keeps track of whether a panel is currently in the process of closing.
+Used to time when a full change is finished (open and close panel)
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="private">
+                                    <h4><a name="property__ff2">_ff2</a>
+                                        <code>- private Boolean</code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description">
+                                            Whether we're running FF2 or older (or another derivate of Gecko < 1.9)
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="private">
+                                    <h4><a name="property__hoverTimer">_hoverTimer</a>
+                                        <code>- private object</code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description">
+                                            Holds the timer for hover activated accordions
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="private">
+                                    <h4><a name="property__idCounter">_idCounter</a>
+                                        <code>- private Integer</code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description">
+                                            Internal counter to make sure id's are unique
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="private">
+                                    <h4><a name="property__ie">_ie</a>
+                                        <code>- private Boolean</code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description">
+                                            Whether we're running IE6 or IE7
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="private">
+                                    <h4><a name="property__opening">_opening</a>
+                                        <code>- private Boolean</code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description">
+                                            Keeps track of whether a panel is currently in the process of opening.
+Used to time when a full change is finished (open and close panel)
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="private">
+                                    <h4><a name="property__panels">_panels</a>
+                                        <code>- private Array</code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description">
+                                            Holds references to all accordion panels (list elements) in an array
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="">
+                                    <h4><a name="property_CLASSES">CLASSES</a>
+                                        <code>- Object</code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description">
+                                            Configuration object containing classes used in the AccordionView component.
+See sourcecode for explanation in case you need to change this
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="">
+                                    <h4><a name="property_CONFIG">CONFIG</a>
+                                        <code>- Object</code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description">
+                                            Configuration object containing tag names used in the AccordionView component.
+See sourcecode for explanation in case you need to change this
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="section method details">
+                            <h3 id="methods">Methods</h3>
+                            <div class="content">
+                                    <div class="private">
+                                    <h4>
+                                        <a name="method__collapseAccordion">_collapseAccordion</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                         private 
+                                        
+                                        
+                                        void
+                                            <strong>_collapseAccordion</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description">
+                                            Closes all panels
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code>
+                                                        void
+                                                    </code></dt>
+                                                    <dd></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="private">
+                                    <h4>
+                                        <a name="method__fixTabIndexes">_fixTabIndexes</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                         private 
+                                        
+                                        
+                                        void
+                                            <strong>_fixTabIndexes</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description">
+                                            Set tabIndex to 0 on the first item in case all panels are closed
+or active. Otherwise set it to -1
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code>
+                                                        void
+                                                    </code></dt>
+                                                    <dd></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="private">
+                                    <h4>
+                                        <a name="method__onClick">_onClick</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                         private 
+                                        
+                                        
+                                        void
+                                            <strong>_onClick</strong>
+                                           (
+                                                
+                                                        
+                                                         arg
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description">
+                                            Global event handler for mouse clicks
+This method can accept both an event and a node so it can be called internally if needed
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl>
+                                                    <dt>Parameters:</dt>
+                                                        <dd>
+                                                            <code>arg &lt;HTMLElement|Event&gt;</code>
+                                                             The Dom event or event target
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code>
+                                                        void
+                                                    </code></dt>
+                                                    <dd></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="private">
+                                    <h4>
+                                        <a name="method__onKeydown">_onKeydown</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                         private 
+                                        
+                                        
+                                        void
+                                            <strong>_onKeydown</strong>
+                                           (
+                                                
+                                                        
+                                                         ev
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description">
+                                            Keyboard event handler for keyboard control of the widget
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl>
+                                                    <dt>Parameters:</dt>
+                                                        <dd>
+                                                            <code>ev &lt;Event&gt;</code>
+                                                             The Dom event
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code>
+                                                        void
+                                                    </code></dt>
+                                                    <dd></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="private">
+                                    <h4>
+                                        <a name="method__onMouseOut">_onMouseOut</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                         private 
+                                        
+                                        
+                                        void
+                                            <strong>_onMouseOut</strong>
+                                           (
+                                                
+                                                        
+                                                         ev
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description">
+                                            Mouseout event handler
+Cancels the timer set by AccordionView::_onMouseOver
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl>
+                                                    <dt>Parameters:</dt>
+                                                        <dd>
+                                                            <code>ev &lt;Event&gt;</code>
+                                                             The Dom event
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code>
+                                                        void
+                                                    </code></dt>
+                                                    <dd></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="private">
+                                    <h4>
+                                        <a name="method__onMouseOver">_onMouseOver</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                         private 
+                                        
+                                        
+                                        void
+                                            <strong>_onMouseOver</strong>
+                                           (
+                                                
+                                                        
+                                                         ev
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description">
+                                            Mouseover event handler
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl>
+                                                    <dt>Parameters:</dt>
+                                                        <dd>
+                                                            <code>ev &lt;Event&gt;</code>
+                                                             The Dom event
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code>
+                                                        void
+                                                    </code></dt>
+                                                    <dd></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="private">
+                                    <h4>
+                                        <a name="method__setARIA">_setARIA</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                         private 
+                                        
+                                        
+                                        void
+                                            <strong>_setARIA</strong>
+                                           (
+                                                
+                                                        
+                                                         el
+                                                    
+                                                
+                                                        , 
+                                                         sAttr
+                                                    
+                                                
+                                                        , 
+                                                         sValue
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description">
+                                            Wrapper around setAttribute to make sure we only set ARIA roles and states
+in browsers that support it
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl>
+                                                    <dt>Parameters:</dt>
+                                                        <dd>
+                                                            <code>el &lt;HTMLElement&gt;</code>
+                                                             the element to set the attribute on
+                                                        </dd>
+                                                        <dd>
+                                                            <code>sAttr &lt;String&gt;</code>
+                                                             the attribute name
+                                                        </dd>
+                                                        <dd>
+                                                            <code>sValue &lt;String&gt;</code>
+                                                             the value for the attribute
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code>
+                                                        void
+                                                    </code></dt>
+                                                    <dd></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="">
+                                    <h4>
+                                        <a name="method_addPanel">addPanel</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong>addPanel</strong>
+                                           (
+                                                
+                                                        
+                                                         oAttr
+                                                    
+                                                
+                                                        , 
+                                                         nIndex
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description">
+                                            Adds an Accordion panel to the AccordionView instance.  
+If no index is specified, the panel is added to the end of the tab list.
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl>
+                                                    <dt>Parameters:</dt>
+                                                        <dd>
+                                                            <code>oAttr &lt;Object&gt;</code>
+                                                             A key map of the Panel's properties
+                                                        </dd>
+                                                        <dd>
+                                                            <code>nIndex &lt;Integer&gt;</code>
+                                                             The position to add the tab.
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code>
+                                                        void
+                                                    </code></dt>
+                                                    <dd></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="">
+                                    <h4>
+                                        <a name="method_addPanels">addPanels</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong>addPanels</strong>
+                                           (
+                                                
+                                                        
+                                                         oPanels
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description">
+                                            Wrapper around addPanel to add multiple panels in one call
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl>
+                                                    <dt>Parameters:</dt>
+                                                        <dd>
+                                                            <code>oPanels &lt;Array&gt;</code>
+                                                             array holding all individual panel configs
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code>
+                                                        void
+                                                    </code></dt>
+                                                    <dd></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="">
+                                    <h4>
+                                        <a name="method_closePanel">closePanel</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                        Boolean
+                                            <strong>closePanel</strong>
+                                           (
+                                                
+                                                        
+                                                         nIndex
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description">
+                                            Close a panel
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl>
+                                                    <dt>Parameters:</dt>
+                                                        <dd>
+                                                            <code>nIndex &lt;Integer&gt;</code>
+                                                             The position of the Panel.
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code>
+                                                        Boolean
+                                                    </code></dt>
+                                                    <dd>whether action resulted in closing a panel or not
+that was previously open
+This method honors all constraints imposed by the properties collapsible and expandable
+and will return false if the panel can't be closed because of a constraint in addition
+to if it was already closed</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="">
+                                    <h4>
+                                        <a name="method_getPanel">getPanel</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                        HTMLElement
+                                            <strong>getPanel</strong>
+                                           (
+                                                
+                                                        
+                                                         nIndex
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description">
+                                            Returns the HTMLElement of the panel at the specified index.
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl>
+                                                    <dt>Parameters:</dt>
+                                                        <dd>
+                                                            <code>nIndex &lt;Integer&gt;</code>
+                                                             The position of the Panel.
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code>
+                                                        HTMLElement
+                                                    </code></dt>
+                                                    <dd>the requested panel element</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="">
+                                    <h4>
+                                        <a name="method_getPanels">getPanels</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                        Array
+                                            <strong>getPanels</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description">
+                                            Returns the Array containing all panels
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code>
+                                                        Array
+                                                    </code></dt>
+                                                    <dd>An array with references to the panels in the correct order</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="">
+                                    <h4>
+                                        <a name="method_initAttributes">initAttributes</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong>initAttributes</strong>
+                                           (
+                                                
+                                                        
+                                                         oAttr
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description">
+                                            Initialize attributes for the Accordion
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl>
+                                                    <dt>Parameters:</dt>
+                                                        <dd>
+                                                            <code>oAttr &lt;Object&gt;</code>
+                                                             attributes key map
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code>
+                                                        void
+                                                    </code></dt>
+                                                    <dd></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="">
+                                    <h4>
+                                        <a name="method_initEvents">initEvents</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong>initEvents</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description">
+                                            Attach all event listeners
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code>
+                                                        void
+                                                    </code></dt>
+                                                    <dd></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="">
+                                    <h4>
+                                        <a name="method_initList">initList</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong>initList</strong>
+                                           (
+                                                
+                                                        
+                                                         el
+                                                    
+                                                
+                                                        , 
+                                                         oAttr
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description">
+                                            Initialize the list / accordion
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl>
+                                                    <dt>Parameters:</dt>
+                                                        <dd>
+                                                            <code>el &lt;HTMLElement&gt;</code>
+                                                             The element for the accordion
+                                                        </dd>
+                                                        <dd>
+                                                            <code>oAttr &lt;Object&gt;</code>
+                                                             attributes key map
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code>
+                                                        void
+                                                    </code></dt>
+                                                    <dd></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="">
+                                    <h4>
+                                        <a name="method_openPanel">openPanel</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                        Boolean
+                                            <strong>openPanel</strong>
+                                           (
+                                                
+                                                        
+                                                         nIndex
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description">
+                                            Open a panel
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl>
+                                                    <dt>Parameters:</dt>
+                                                        <dd>
+                                                            <code>nIndex &lt;Integer&gt;</code>
+                                                             The position of the Panel.
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code>
+                                                        Boolean
+                                                    </code></dt>
+                                                    <dd>whether action resulted in opening a panel
+that was previously closed</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="">
+                                    <h4>
+                                        <a name="method_removePanel">removePanel</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong>removePanel</strong>
+                                           (
+                                                
+                                                        
+                                                         index
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description">
+                                            Removes the specified Panel from the AccordionView.
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl>
+                                                    <dt>Parameters:</dt>
+                                                        <dd>
+                                                            <code>index &lt;Integer&gt;</code>
+                                                             of the panel to be removed
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code>
+                                                        void
+                                                    </code></dt>
+                                                    <dd></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="">
+                                    <h4>
+                                        <a name="method_toString">toString</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                        String
+                                            <strong>toString</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description">
+                                            Provides a readable name for the AccordionView instance.
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code>
+                                                        String
+                                                    </code></dt>
+                                                    <dd>String representation of the object</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                            </div>
+                        </div>
+
+
+                        <div class="section method details">
+                            <h3 id="events">Events</h3>
+                            <div class="content">
+                                    <div class="">
+                                    <h4>
+                                        <a name="event_afterPanelClose">afterPanelClose</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong>afterPanelClose</strong>
+
+                                            (
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description">
+                                            Fires after a panel has finished closing.
+See <a href="YAHOO.util.Element.html#addListener">Element.addListener</a>
+for more information on listening for this event.
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="">
+                                    <h4>
+                                        <a name="event_afterPanelOpen">afterPanelOpen</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong>afterPanelOpen</strong>
+
+                                            (
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description">
+                                            Fires after a panel has finished opening.
+See <a href="YAHOO.util.Element.html#addListener">Element.addListener</a>
+for more information on listening for this event.
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="">
+                                    <h4>
+                                        <a name="event_beforeStateChange">beforeStateChange</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong>beforeStateChange</strong>
+
+                                            (
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description">
+                                            Fires before a state change.
+This is useful to cancel an entire change operation
+See <a href="YAHOO.util.Element.html#addListener">Element.addListener</a>
+for more information on listening for this event.
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="">
+                                    <h4>
+                                        <a name="event_panelClose">panelClose</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong>panelClose</strong>
+
+                                            (
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description">
+                                            Fires before a panel closes.
+See <a href="YAHOO.util.Element.html#addListener">Element.addListener</a>
+for more information on listening for this event.
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="">
+                                    <h4>
+                                        <a name="event_panelOpen">panelOpen</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong>panelOpen</strong>
+
+                                            (
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description">
+                                            Fires before a panel opens.
+See <a href="YAHOO.util.Element.html#addListener">Element.addListener</a>
+for more information on listening for this event.
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="">
+                                    <h4>
+                                        <a name="event_stateChanged">stateChanged</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong>stateChanged</strong>
+
+                                            (
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description">
+                                            Fires after the accordion has fully changed state (after opening and/or closing (a) panel(s)).
+See <a href="YAHOO.util.Element.html#addListener">Element.addListener</a>
+for more information on listening for this event.
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                            </div>
+                        </div>
+
+
+
+
+
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+
+                                <li class="selected"><a href="module_accordionview.html">accordionview</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class="selected"><a href="YAHOO.widget.AccordionView.html">YAHOO.widget.AccordionView</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class=""><a href="accordionview.js.html">accordionview.js</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="module">
+                        <h4>Properties</h4>
+                        <ul class="content">        
+                                <li class="private"><a href="#property__ARIACapable">_ARIACapable</a>
+                                        <!--<code>&lt;Object&gt;</code>-->
+                                </li>
+                                <li class="private"><a href="#property__closing">_closing</a>
+                                        <!--<code>&lt;Object&gt;</code>-->
+                                </li>
+                                <li class="private"><a href="#property__ff2">_ff2</a>
+                                        <!--<code>&lt;Object&gt;</code>-->
+                                </li>
+                                <li class="private"><a href="#property__hoverTimer">_hoverTimer</a>
+                                        <!--<code>&lt;Object&gt;</code>-->
+                                </li>
+                                <li class="private"><a href="#property__idCounter">_idCounter</a>
+                                        <!--<code>&lt;Object&gt;</code>-->
+                                </li>
+                                <li class="private"><a href="#property__ie">_ie</a>
+                                        <!--<code>&lt;Object&gt;</code>-->
+                                </li>
+                                <li class="private"><a href="#property__opening">_opening</a>
+                                        <!--<code>&lt;Object&gt;</code>-->
+                                </li>
+                                <li class="private"><a href="#property__panels">_panels</a>
+                                        <!--<code>&lt;Object&gt;</code>-->
+                                </li>
+                                <li class=""><a href="#property_CLASSES">CLASSES</a>
+                                        <!--<code>&lt;Object&gt;</code>-->
+                                </li>
+                                <li class=""><a href="#property_CONFIG">CONFIG</a>
+                                        <!--<code>&lt;Object&gt;</code>-->
+                                </li>
+                        </ul>
+                    </div>
+
+                    <div class="module">
+                        <h4>Methods</h4>
+                        <ul class="content">        
+                                <li class="private"><!--<code>void</code>-->
+                                <a href="#method__collapseAccordion">_collapseAccordion</a>
+                                </li>
+                                <li class="private"><!--<code>void</code>-->
+                                <a href="#method__fixTabIndexes">_fixTabIndexes</a>
+                                </li>
+                                <li class="private"><!--<code>void</code>-->
+                                <a href="#method__onClick">_onClick</a>
+                                </li>
+                                <li class="private"><!--<code>void</code>-->
+                                <a href="#method__onKeydown">_onKeydown</a>
+                                </li>
+                                <li class="private"><!--<code>void</code>-->
+                                <a href="#method__onMouseOut">_onMouseOut</a>
+                                </li>
+                                <li class="private"><!--<code>void</code>-->
+                                <a href="#method__onMouseOver">_onMouseOver</a>
+                                </li>
+                                <li class="private"><!--<code>void</code>-->
+                                <a href="#method__setARIA">_setARIA</a>
+                                </li>
+                                <li class=""><!--<code>void</code>-->
+                                <a href="#method_addPanel">addPanel</a>
+                                </li>
+                                <li class=""><!--<code>void</code>-->
+                                <a href="#method_addPanels">addPanels</a>
+                                </li>
+                                <li class=""><!--<code>Boolean</code>-->
+                                <a href="#method_closePanel">closePanel</a>
+                                </li>
+                                <li class=""><!--<code>HTMLElement</code>-->
+                                <a href="#method_getPanel">getPanel</a>
+                                </li>
+                                <li class=""><!--<code>Array</code>-->
+                                <a href="#method_getPanels">getPanels</a>
+                                </li>
+                                <li class=""><!--<code>void</code>-->
+                                <a href="#method_initAttributes">initAttributes</a>
+                                </li>
+                                <li class=""><!--<code>void</code>-->
+                                <a href="#method_initEvents">initEvents</a>
+                                </li>
+                                <li class=""><!--<code>void</code>-->
+                                <a href="#method_initList">initList</a>
+                                </li>
+                                <li class=""><!--<code>Boolean</code>-->
+                                <a href="#method_openPanel">openPanel</a>
+                                </li>
+                                <li class=""><!--<code>void</code>-->
+                                <a href="#method_removePanel">removePanel</a>
+                                </li>
+                                <li class=""><!--<code>String</code>-->
+                                <a href="#method_toString">toString</a>
+                                </li>
+                        </ul>
+                    </div>
+
+                    <div class="module">
+                        <h4>Events</h4>
+                        <ul class="content">        
+                                <li class="">
+                                <a href="#event_afterPanelClose">afterPanelClose</a>
+                                </li>
+                                <li class="">
+                                <a href="#event_afterPanelOpen">afterPanelOpen</a>
+                                </li>
+                                <li class="">
+                                <a href="#event_beforeStateChange">beforeStateChange</a>
+                                </li>
+                                <li class="">
+                                <a href="#event_panelClose">panelClose</a>
+                                </li>
+                                <li class="">
+                                <a href="#event_panelOpen">panelOpen</a>
+                                </li>
+                                <li class="">
+                                <a href="#event_stateChanged">stateChanged</a>
+                                </li>
+                        </ul>
+                    </div>
+
+
+            </div>
+		</div>
+	</div>
+	<div id="ft">
+        <hr />
+        Copyright &copy; 2008 Marco van Hylckama Vlieg All rights reserved.
+	</div>
+</div>
+</body>
+</html>

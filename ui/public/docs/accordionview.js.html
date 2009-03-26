@@ -1,0 +1,1007 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<title>API: accordionview   accordionview.js  (YUI Library)</title>
+	<link rel="stylesheet" type="text/css" href="assets/api.css">
+    <script type="text/javascript" src="assets/api-js"></script>
+    <script type="text/javascript" src="assets/ac-js"></script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+
+	<div id="hd">
+        <a href="http://www.i-marco.nl/weblog/yui-accordion/"><h1>AccordionView YUI Widget</h1></a>
+        <h3>accordionview&nbsp; <span class="subtitle"></span></h3>
+        <p>
+        <a href="./index.html">AccordionView YUI Widget</a> 
+            &gt; <a href="./module_accordionview.html">accordionview</a>
+                
+                 &gt; accordionview.js (source view) 
+            </p>
+
+
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+			<div class="yui-b">
+            <form name="yui-classopts-form">
+    <span id="classopts"><input type="checkbox" name="showprivate" id="showprivate" /> <label for="showprivate">Show Private</label></span>
+    <span id="classopts"><input type="checkbox" name="showprotected" id="showprotected" /> <label for="showprotected">Show Protected</label></span>
+    <span id="classopts"><input type="checkbox" name="showdeprecated" id="showdeprecated" /> <label for="showdeprecated">Show Deprecated</label></span>
+            </form>
+
+                    <div id="srcout">
+                        <style>
+                            #doc3 #classopts { display:none; }
+                        </style>
+<div class="highlight" ><pre><span class="o">(</span><span class="k">function</span><span class="o">()</span> <span class="o">{</span>
+
+    <span class="c">/**</span>
+<span class="c">    *</span>
+<span class="c">    * By Marco van Hylckama Vlieg (marco@i-marco.nl)</span>
+<span class="c">    *</span>
+<span class="c">    * THIS IS A WORK IN PROGRESS</span>
+<span class="c">    *</span>
+<span class="c">    * Many, many thanks go out to Daniel Satyam Barreiro!</span>
+<span class="c">    * Please read his article about YUI widget development</span>
+<span class="c">    * http://yuiblog.com/blog/2008/06/24/buildingwidgets/</span>
+<span class="c">    * Without his excellent help and advice this widget would not</span>
+<span class="c">    * be half as good as it is now.</span>
+<span class="c">    */</span>
+    
+    <span class="c">/**</span>
+<span class="c">    * The accordionview module provides a widget for managing content bound to an &#39;accordion&#39;.</span>
+<span class="c">    * @module accordionview</span>
+<span class="c">    * @requires yahoo, dom, event, element, animation</span>
+<span class="c">    */</span>
+    
+    <span class="k">var</span> <span class="nx">YUD</span> <span class="o">=</span> <span class="nx">YAHOO</span><span class="o">.</span><span class="nx">util</span><span class="o">.</span><span class="nx">Dom</span><span class="o">,</span> <span class="nx">YUE</span> <span class="o">=</span> <span class="nx">YAHOO</span><span class="o">.</span><span class="nx">util</span><span class="o">.</span><span class="nx">Event</span><span class="o">,</span> <span class="nx">YUA</span> <span class="o">=</span> <span class="nx">YAHOO</span><span class="o">.</span><span class="nx">util</span><span class="o">.</span><span class="nx">Anim</span><span class="o">;</span>
+    
+    <span class="c">/**</span>
+<span class="c">    * A widget to control accordion views.</span>
+<span class="c">    * @namespace YAHOO.widget</span>
+<span class="c">    * @class AccordionView</span>
+<span class="c">    * @extends YAHOO.util.Element</span>
+<span class="c">    * @constructor</span>
+<span class="c">    * @param {HTMLElement | String} el The id of the html element that represents the AccordionView. </span>
+<span class="c">    * @param {Object} oAttr (optional) A key map of the AccordionView&#39;s </span>
+<span class="c">    * initial oAttributes.  </span>
+<span class="c">    */</span>
+
+    <span class="k">var</span> <span class="nx">AccordionView</span> <span class="o">=</span> <span class="k">function</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">oAttr</span><span class="o">)</span> <span class="o">{</span>
+        
+        <span class="nx">el</span> <span class="o">=</span> <span class="nx">YUD</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="nx">el</span><span class="o">);</span>
+        
+        <span class="c">// some sensible defaults</span>
+<span class="c"></span>        
+        <span class="nx">oAttr</span> <span class="o">=</span> <span class="nx">oAttr</span> <span class="o">||</span> <span class="o">{};</span>
+        <span class="k">if</span><span class="o">(!</span><span class="nx">el</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="o">.</span><span class="nx">createElement</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">CONFIG</span><span class="o">.</span><span class="nx">TAG_NAME</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="nx">el</span><span class="o">.</span><span class="nx">id</span><span class="o">)</span> <span class="o">{</span><span class="nx">oAttr</span><span class="o">.</span><span class="nx">id</span> <span class="o">=</span> <span class="nx">el</span><span class="o">.</span><span class="nx">id</span><span class="o">;</span> <span class="o">}</span>
+        <span class="nx">YAHOO</span><span class="o">.</span><span class="nx">widget</span><span class="o">.</span><span class="nx">AccordionView</span><span class="o">.</span><span class="nx">superclass</span><span class="o">.</span><span class="nx">constructor</span><span class="o">.</span><span class="nx">call</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="nx">el</span><span class="o">,</span> <span class="nx">oAttr</span><span class="o">);</span> 
+
+        <span class="k">this</span><span class="o">.</span><span class="nx">initList</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">oAttr</span><span class="o">);</span>
+                
+        <span class="c">// This refresh forces all defaults to be set</span>
+<span class="c"></span>         
+        <span class="k">this</span><span class="o">.</span><span class="nx">refresh</span><span class="o">([</span><span class="s1">&#39;id&#39;</span><span class="o">,</span> <span class="s1">&#39;width&#39;</span><span class="o">,</span><span class="s1">&#39;hoverActivated&#39;</span><span class="o">],</span><span class="kc">true</span><span class="o">);</span>  
+        
+    <span class="o">};</span>
+
+
+    <span class="c">/**</span>
+<span class="c">     * @event panelClose</span>
+<span class="c">     * @description Fires before a panel closes.</span>
+<span class="c">     * See &lt;a href=&quot;YAHOO.util.Element.html#addListener&quot;&gt;Element.addListener&lt;/a&gt;</span>
+<span class="c">     * for more information on listening for this event.</span>
+<span class="c">     * @type YAHOO.util.CustomEvent</span>
+<span class="c">     */</span>
+    
+    <span class="k">var</span> <span class="nx">panelCloseEvent</span> <span class="o">=</span> <span class="s1">&#39;panelClose&#39;</span><span class="o">;</span>
+
+    <span class="c">/**</span>
+<span class="c">     * @event panelOpen</span>
+<span class="c">     * @description Fires before a panel opens.</span>
+<span class="c">     * See &lt;a href=&quot;YAHOO.util.Element.html#addListener&quot;&gt;Element.addListener&lt;/a&gt;</span>
+<span class="c">     * for more information on listening for this event.</span>
+<span class="c">     * @type YAHOO.util.CustomEvent</span>
+<span class="c">     */</span>
+    
+    <span class="k">var</span> <span class="nx">panelOpenEvent</span> <span class="o">=</span> <span class="s1">&#39;panelOpen&#39;</span><span class="o">;</span>
+    
+    <span class="c">/**</span>
+<span class="c">     * @event afterPanelClose</span>
+<span class="c">     * @description Fires after a panel has finished closing.</span>
+<span class="c">     * See &lt;a href=&quot;YAHOO.util.Element.html#addListener&quot;&gt;Element.addListener&lt;/a&gt;</span>
+<span class="c">     * for more information on listening for this event.</span>
+<span class="c">     * @type YAHOO.util.CustomEvent</span>
+<span class="c">     */</span>
+    
+    <span class="k">var</span> <span class="nx">afterPanelCloseEvent</span> <span class="o">=</span> <span class="s1">&#39;afterPanelClose&#39;</span><span class="o">;</span>
+ 
+    <span class="c">/**</span>
+<span class="c">     * @event afterPanelOpen</span>
+<span class="c">     * @description Fires after a panel has finished opening.</span>
+<span class="c">     * See &lt;a href=&quot;YAHOO.util.Element.html#addListener&quot;&gt;Element.addListener&lt;/a&gt;</span>
+<span class="c">     * for more information on listening for this event.</span>
+<span class="c">     * @type YAHOO.util.CustomEvent</span>
+<span class="c">     */</span>
+    
+    <span class="k">var</span> <span class="nx">afterPanelOpenEvent</span> <span class="o">=</span> <span class="s1">&#39;afterPanelOpen&#39;</span><span class="o">;</span>
+
+    <span class="c">/**</span>
+<span class="c">     * @event stateChanged</span>
+<span class="c">     * @description Fires after the accordion has fully changed state (after opening and/or closing (a) panel(s)).</span>
+<span class="c">     * See &lt;a href=&quot;YAHOO.util.Element.html#addListener&quot;&gt;Element.addListener&lt;/a&gt;</span>
+<span class="c">     * for more information on listening for this event.</span>
+<span class="c">     * @type YAHOO.util.CustomEvent</span>
+<span class="c">     */</span>
+    
+    <span class="k">var</span> <span class="nx">stateChangedEvent</span> <span class="o">=</span> <span class="s1">&#39;stateChanged&#39;</span><span class="o">;</span>
+    
+    <span class="c">/**</span>
+<span class="c">     * @event beforeStateChange</span>
+<span class="c">     * @description Fires before a state change.</span>
+<span class="c">     * This is useful to cancel an entire change operation</span>
+<span class="c">     * See &lt;a href=&quot;YAHOO.util.Element.html#addListener&quot;&gt;Element.addListener&lt;/a&gt;</span>
+<span class="c">     * for more information on listening for this event.</span>
+<span class="c">     * @type YAHOO.util.CustomEvent</span>
+<span class="c">     */</span>
+    
+    <span class="k">var</span> <span class="nx">beforeStateChangeEvent</span> <span class="o">=</span> <span class="s1">&#39;beforeStateChange&#39;</span><span class="o">;</span>
+
+    <span class="nx">YAHOO</span><span class="o">.</span><span class="nx">widget</span><span class="o">.</span><span class="nx">AccordionView</span> <span class="o">=</span> <span class="nx">AccordionView</span><span class="o">;</span>
+    
+    <span class="nx">YAHOO</span><span class="o">.</span><span class="nx">extend</span><span class="o">(</span><span class="nx">AccordionView</span><span class="o">,</span> <span class="nx">YAHOO</span><span class="o">.</span><span class="nx">util</span><span class="o">.</span><span class="nx">Element</span><span class="o">,</span> <span class="o">{</span>
+                
+        <span class="c">/**</span>
+<span class="c">        * Initialize attributes for the Accordion</span>
+<span class="c">        * @param {Object} oAttr attributes key map</span>
+<span class="c">        * @method initAttributes</span>
+<span class="c">        */</span>
+        
+        <span class="nx">initAttributes</span><span class="o">:</span> <span class="k">function</span> <span class="o">(</span><span class="nx">oAttr</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nx">AccordionView</span><span class="o">.</span><span class="nx">superclass</span><span class="o">.</span><span class="nx">initAttributes</span><span class="o">.</span><span class="nx">call</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="nx">oAttr</span><span class="o">);</span>
+            <span class="k">var</span> <span class="nx">bAnimate</span> <span class="o">=</span> <span class="o">(</span><span class="nx">YAHOO</span><span class="o">.</span><span class="nx">env</span><span class="o">.</span><span class="nx">modules</span><span class="o">.</span><span class="nx">animation</span><span class="o">)</span> <span class="o">?</span> <span class="kc">true</span> <span class="o">:</span> <span class="kc">false</span><span class="o">;</span>    
+            <span class="k">this</span><span class="o">.</span><span class="nx">setAttributeConfig</span><span class="o">(</span><span class="s1">&#39;id&#39;</span><span class="o">,</span> <span class="o">{</span>
+                <span class="nx">writeOnce</span><span class="o">:</span> <span class="kc">true</span><span class="o">,</span>
+                <span class="nx">validator</span><span class="o">:</span> <span class="k">function</span> <span class="o">(</span><span class="nx">value</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">return</span> <span class="o">(</span><span class="sr">/^[a-zA-Z][\w0-9\-_.:]*$/</span><span class="o">.</span><span class="nx">test</span><span class="o">(</span><span class="nx">value</span><span class="o">));</span>
+                <span class="o">},</span>
+                <span class="nx">value</span><span class="o">:</span> <span class="nx">YUD</span><span class="o">.</span><span class="nx">generateId</span><span class="o">(),</span>
+                <span class="nx">method</span><span class="o">:</span> <span class="k">function</span> <span class="o">(</span><span class="nx">value</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">this</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="s1">&#39;element&#39;</span><span class="o">).</span><span class="nx">id</span> <span class="o">=</span> <span class="nx">value</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">});</span>
+            <span class="k">this</span><span class="o">.</span><span class="nx">setAttributeConfig</span><span class="o">(</span><span class="s1">&#39;width&#39;</span><span class="o">,</span> <span class="o">{</span>
+                <span class="nx">value</span><span class="o">:</span> <span class="s1">&#39;400px&#39;</span><span class="o">,</span>
+                <span class="nx">method</span><span class="o">:</span> <span class="k">function</span> <span class="o">(</span><span class="nx">value</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">this</span><span class="o">.</span><span class="nx">setStyle</span><span class="o">(</span><span class="s1">&#39;width&#39;</span><span class="o">,</span> <span class="nx">value</span><span class="o">);</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">);</span>
+            <span class="k">this</span><span class="o">.</span><span class="nx">setAttributeConfig</span><span class="o">(</span><span class="s1">&#39;animationSpeed&#39;</span><span class="o">,</span> <span class="o">{</span>
+                <span class="nx">value</span><span class="o">:</span> <span class="m">0</span><span class="o">.</span><span class="m">7</span>
+                <span class="o">}</span>
+            <span class="o">);</span>
+            <span class="k">this</span><span class="o">.</span><span class="nx">setAttributeConfig</span><span class="o">(</span><span class="s1">&#39;animate&#39;</span><span class="o">,</span> <span class="o">{</span>
+                <span class="nx">value</span><span class="o">:</span> <span class="nx">bAnimate</span><span class="o">,</span>
+                <span class="nx">validator</span><span class="o">:</span> <span class="nx">YAHOO</span><span class="o">.</span><span class="nx">lang</span><span class="o">.</span><span class="nx">isBoolean</span>
+                <span class="o">}</span>
+            <span class="o">);</span>          
+            <span class="k">this</span><span class="o">.</span><span class="nx">setAttributeConfig</span><span class="o">(</span><span class="s1">&#39;collapsible&#39;</span><span class="o">,</span> <span class="o">{</span>
+                <span class="nx">value</span><span class="o">:</span> <span class="kc">false</span><span class="o">,</span>
+                <span class="nx">validator</span><span class="o">:</span> <span class="nx">YAHOO</span><span class="o">.</span><span class="nx">lang</span><span class="o">.</span><span class="nx">isBoolean</span>
+                <span class="o">}</span>
+            <span class="o">);</span>
+            <span class="k">this</span><span class="o">.</span><span class="nx">setAttributeConfig</span><span class="o">(</span><span class="s1">&#39;expandable&#39;</span><span class="o">,</span> <span class="o">{</span>
+                <span class="nx">value</span><span class="o">:</span> <span class="kc">false</span><span class="o">,</span>
+                <span class="nx">validator</span><span class="o">:</span> <span class="nx">YAHOO</span><span class="o">.</span><span class="nx">lang</span><span class="o">.</span><span class="nx">isBoolean</span>
+                <span class="o">}</span>
+            <span class="o">);</span>
+            <span class="k">this</span><span class="o">.</span><span class="nx">setAttributeConfig</span><span class="o">(</span><span class="s1">&#39;effect&#39;</span><span class="o">,</span> <span class="o">{</span>
+                <span class="nx">value</span><span class="o">:</span> <span class="nx">YAHOO</span><span class="o">.</span><span class="nx">util</span><span class="o">.</span><span class="nx">Easing</span><span class="o">.</span><span class="nx">easeBoth</span><span class="o">,</span>
+                <span class="nx">validator</span><span class="o">:</span> <span class="nx">YAHOO</span><span class="o">.</span><span class="nx">lang</span><span class="o">.</span><span class="nx">isString</span>
+
+                <span class="o">}</span>
+            <span class="o">);</span>
+            <span class="k">this</span><span class="o">.</span><span class="nx">setAttributeConfig</span><span class="o">(</span><span class="s1">&#39;hoverActivated&#39;</span><span class="o">,</span> <span class="o">{</span>
+                    <span class="nx">value</span><span class="o">:</span> <span class="kc">false</span><span class="o">,</span>
+                    <span class="nx">validator</span><span class="o">:</span> <span class="nx">YAHOO</span><span class="o">.</span><span class="nx">lang</span><span class="o">.</span><span class="nx">isBoolean</span><span class="o">,</span>
+                    <span class="nx">method</span><span class="o">:</span> <span class="k">function</span> <span class="o">(</span><span class="nx">value</span><span class="o">)</span> <span class="o">{</span>
+                            <span class="k">if</span> <span class="o">(</span><span class="nx">value</span><span class="o">)</span> <span class="o">{</span>
+                                    <span class="nx">YUE</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="s1">&#39;mouseover&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">_onMouseOver</span><span class="o">,</span> <span class="k">this</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>                        
+                            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                                    <span class="nx">YUE</span><span class="o">.</span><span class="nx">removeListener</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="s1">&#39;mouseover&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">_onMouseOver</span><span class="o">);</span>
+                            <span class="o">}</span>        
+                    <span class="o">}</span>
+            <span class="o">});</span>
+            <span class="k">this</span><span class="o">.</span><span class="nx">setAttributeConfig</span><span class="o">(</span><span class="s1">&#39;_hoverTimeout&#39;</span><span class="o">,</span> <span class="o">{</span>
+                <span class="nx">value</span><span class="o">:</span> <span class="m">500</span><span class="o">,</span>
+                <span class="nx">validator</span><span class="o">:</span> <span class="nx">YAHOO</span><span class="o">.</span><span class="nx">lang</span><span class="o">.</span><span class="nx">isInteger</span>
+                <span class="o">}</span>
+            <span class="o">);</span>
+        <span class="o">},</span>
+        
+        <span class="c">/**</span>
+<span class="c">         * Configuration object containing tag names used in the AccordionView component.</span>
+<span class="c">         * See sourcecode for explanation in case you need to change this</span>
+<span class="c">         * @property CONFIG</span>
+<span class="c">         * @public</span>
+<span class="c">         * @type Object</span>
+<span class="c">         */</span>
+        
+        <span class="nx">CONFIG</span> <span class="o">:</span> <span class="o">{</span>
+          <span class="c">// tag name for the entire accordion</span>
+<span class="c"></span>          <span class="nx">TAG_NAME</span> <span class="o">:</span> <span class="s1">&#39;UL&#39;</span><span class="o">,</span>
+          <span class="c">// tag name for the wrapper around a toggle + content pair</span>
+<span class="c"></span>          <span class="nx">ITEM_WRAPPER_TAG_NAME</span> <span class="o">:</span> <span class="s1">&#39;LI&#39;</span><span class="o">,</span>
+          <span class="c">// tag name for the wrapper around the content for a panel</span>
+<span class="c"></span>          <span class="nx">CONTENT_WRAPPER_TAG_NAME</span> <span class="o">:</span> <span class="s1">&#39;DIV&#39;</span>         
+        <span class="o">},</span>
+ 
+        <span class="c">/**</span>
+<span class="c">         * Configuration object containing classes used in the AccordionView component.</span>
+<span class="c">         * See sourcecode for explanation in case you need to change this</span>
+<span class="c">         * @property CLASSES</span>
+<span class="c">         * @public</span>
+<span class="c">         * @type Object</span>
+<span class="c">         */</span>
+        
+        <span class="nx">CLASSES</span> <span class="o">:</span> <span class="o">{</span>
+            <span class="c">// the entire accordion</span>
+<span class="c"></span>            <span class="nx">ACCORDION</span> <span class="o">:</span> <span class="s1">&#39;yui-accordionview&#39;</span><span class="o">,</span>
+            <span class="c">// the wrapper around a toggle + content pair</span>
+<span class="c"></span>            <span class="nx">PANEL</span> <span class="o">:</span> <span class="s1">&#39;yui-accordion-panel&#39;</span><span class="o">,</span>
+            <span class="c">// the element that toggles a panel</span>
+<span class="c"></span>            <span class="nx">TOGGLE</span> <span class="o">:</span> <span class="s1">&#39;yui-accordion-toggle&#39;</span><span class="o">,</span>
+            <span class="c">// the element that contains the content of a panel</span>
+<span class="c"></span>            <span class="nx">CONTENT</span> <span class="o">:</span> <span class="s1">&#39;yui-accordion-content&#39;</span><span class="o">,</span>
+            <span class="c">// to indicate that a toggle is active</span>
+<span class="c"></span>            <span class="nx">ACTIVE</span> <span class="o">:</span> <span class="s1">&#39;active&#39;</span><span class="o">,</span>
+            <span class="c">// to indicate that content is hidden</span>
+<span class="c"></span>            <span class="nx">HIDDEN</span> <span class="o">:</span> <span class="s1">&#39;hidden&#39;</span><span class="o">,</span>
+            <span class="c">// the opened/closed indicator</span>
+<span class="c"></span>            <span class="nx">INDICATOR</span> <span class="o">:</span> <span class="s1">&#39;indicator&#39;</span>                       
+        <span class="o">},</span>
+        
+        <span class="c">/**</span>
+<span class="c">        * Internal counter to make sure id&#39;s are unique</span>
+<span class="c">        * @property _idCounter</span>
+<span class="c">        * @private</span>
+<span class="c">        * @type Integer</span>
+<span class="c">        */</span>
+        
+        <span class="nx">_idCounter</span> <span class="o">:</span> <span class="s1">&#39;1&#39;</span><span class="o">,</span>
+        
+        <span class="c">/**</span>
+<span class="c">        * Holds the timer for hover activated accordions</span>
+<span class="c">        * @property _hoverTimer</span>
+<span class="c">        * @private</span>
+<span class="c">        */</span>
+        
+        <span class="nx">_hoverTimer</span> <span class="o">:</span> <span class="kc">null</span><span class="o">,</span>      
+
+        <span class="c">/**</span>
+<span class="c">        * Holds references to all accordion panels (list elements) in an array</span>
+<span class="c">        * @property _panels</span>
+<span class="c">        * @private</span>
+<span class="c">        * @type Array</span>
+<span class="c">        */</span>
+
+        <span class="nx">_panels</span> <span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+        
+        <span class="c">/**</span>
+<span class="c">        * Keeps track of whether a panel is currently in the process of opening.</span>
+<span class="c">        * Used to time when a full change is finished (open and close panel)</span>
+<span class="c">        * @property _opening</span>
+<span class="c">        * @private</span>
+<span class="c">        * @type Boolean</span>
+<span class="c">        */</span>        
+        <span class="nx">_opening</span> <span class="o">:</span> <span class="kc">false</span><span class="o">,</span>
+        
+        <span class="c">/**</span>
+<span class="c">        * Keeps track of whether a panel is currently in the process of closing.</span>
+<span class="c">        * Used to time when a full change is finished (open and close panel)</span>
+<span class="c">        * @property _closing</span>
+<span class="c">        * @private</span>
+<span class="c">        * @type Boolean</span>
+<span class="c">        */</span>        
+        
+        <span class="nx">_closing</span> <span class="o">:</span> <span class="kc">false</span><span class="o">,</span>
+                
+        <span class="c">/**</span>
+<span class="c">        * Whether we&#39;re running FF2 or older (or another derivate of Gecko &lt; 1.9)</span>
+<span class="c">        * @property _ff2</span>
+<span class="c">        * @private</span>
+<span class="c">        * @type Boolean</span>
+<span class="c">        */</span>
+        
+        <span class="nx">_ff2</span> <span class="o">:</span> <span class="o">(</span><span class="nx">YAHOO</span><span class="o">.</span><span class="nx">env</span><span class="o">.</span><span class="nx">ua</span><span class="o">.</span><span class="nx">gecko</span> <span class="o">&gt;</span> <span class="m">0</span> <span class="o">&amp;&amp;</span> <span class="nx">YAHOO</span><span class="o">.</span><span class="nx">env</span><span class="o">.</span><span class="nx">ua</span><span class="o">.</span><span class="nx">gecko</span> <span class="o">&lt;</span> <span class="m">1</span><span class="o">.</span><span class="m">9</span><span class="o">),</span>
+
+        <span class="c">/**</span>
+<span class="c">        * Whether we&#39;re running IE6 or IE7</span>
+<span class="c">        * @property _ie</span>
+<span class="c">        * @private</span>
+<span class="c">        * @type Boolean</span>
+<span class="c">        */</span>
+
+        <span class="nx">_ie</span> <span class="o">:</span> <span class="o">(</span><span class="nx">YAHOO</span><span class="o">.</span><span class="nx">env</span><span class="o">.</span><span class="nx">ua</span><span class="o">.</span><span class="nx">ie</span> <span class="o">&lt;</span> <span class="m">8</span> <span class="o">&amp;&amp;</span> <span class="nx">YAHOO</span><span class="o">.</span><span class="nx">env</span><span class="o">.</span><span class="nx">ua</span><span class="o">.</span><span class="nx">ie</span> <span class="o">&gt;</span> <span class="m">0</span><span class="o">),</span>
+
+        <span class="c">/**</span>
+<span class="c">        * Whether we&#39;re ARIA capable (currently only IE8 ad FF3)</span>
+<span class="c">        * @property _ARIACapable</span>
+<span class="c">        * @private</span>
+<span class="c">        * @type Boolean</span>
+<span class="c">        */</span>
+        
+        <span class="nx">_ARIACapable</span> <span class="o">:</span> <span class="o">(</span><span class="nx">YAHOO</span><span class="o">.</span><span class="nx">env</span><span class="o">.</span><span class="nx">ua</span><span class="o">.</span><span class="nx">ie</span> <span class="o">&gt;</span> <span class="m">7</span> <span class="o">||</span> <span class="nx">YAHOO</span><span class="o">.</span><span class="nx">env</span><span class="o">.</span><span class="nx">ua</span><span class="o">.</span><span class="nx">gecko</span> <span class="o">&gt;=</span> <span class="m">1</span><span class="o">.</span><span class="m">9</span><span class="o">),</span>
+        
+        <span class="c">/**</span>
+<span class="c">        * Initialize the list / accordion</span>
+<span class="c">        * @param {HTMLElement} el The element for the accordion</span>
+<span class="c">        * @param {Object} oAttr attributes key map</span>
+<span class="c">        * @method initList</span>
+<span class="c">        * @public</span>
+<span class="c">        */</span>
+
+        <span class="nx">initList</span> <span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">oAttr</span><span class="o">)</span> <span class="o">{</span>  
+            <span class="nx">YUD</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">ACCORDION</span><span class="o">);</span>
+            <span class="k">this</span><span class="o">.</span><span class="nx">_setARIA</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;role&#39;</span><span class="o">,</span> <span class="s1">&#39;tree&#39;</span><span class="o">);</span>
+            <span class="k">var</span> <span class="nx">aCollectedItems</span> <span class="o">=</span> <span class="o">[];</span>
+            <span class="k">var</span> <span class="nx">aListItems</span> <span class="o">=</span> <span class="nx">el</span><span class="o">.</span><span class="nx">getElementsByTagName</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">CONFIG</span><span class="o">.</span><span class="nx">ITEM_WRAPPER_TAG_NAME</span><span class="o">);</span>
+
+            <span class="k">for</span><span class="o">(</span><span class="k">var</span> <span class="nx">i</span><span class="o">=</span><span class="m">0</span><span class="o">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">aListItems</span><span class="o">.</span><span class="nx">length</span><span class="o">;</span><span class="nx">i</span><span class="o">++)</span> <span class="o">{</span>           
+                <span class="k">if</span><span class="o">(</span><span class="nx">YUD</span><span class="o">.</span><span class="nx">hasClass</span><span class="o">(</span><span class="nx">aListItems</span><span class="o">[</span><span class="nx">i</span><span class="o">],</span> <span class="s1">&#39;nopanel&#39;</span><span class="o">))</span> <span class="o">{</span>         
+                    <span class="nx">aCollectedItems</span><span class="o">.</span><span class="nx">push</span><span class="o">({</span><span class="k">label</span><span class="o">:</span> <span class="s1">&#39;SINGLE_LINK&#39;</span><span class="o">,</span> <span class="nx">content</span><span class="o">:</span> <span class="nx">aListItems</span><span class="o">[</span><span class="nx">i</span><span class="o">].</span><span class="nx">innerHTML</span><span class="o">.</span><span class="nx">replace</span><span class="o">(</span><span class="sr">/^\s\s*/</span><span class="o">,</span> <span class="s1">&#39;&#39;</span><span class="o">).</span><span class="nx">replace</span><span class="o">(</span><span class="sr">/\s\s*$/</span><span class="o">,</span> <span class="s1">&#39;&#39;</span><span class="o">)});</span>
+                <span class="o">}</span>
+                <span class="k">else</span> <span class="o">{</span>
+                    <span class="k">if</span><span class="o">(</span><span class="nx">aListItems</span><span class="o">[</span><span class="nx">i</span><span class="o">].</span><span class="nx">parentNode</span> <span class="o">===</span> <span class="nx">el</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="k">for</span> <span class="o">(</span><span class="k">var</span> <span class="nx">eHeader</span> <span class="o">=</span> <span class="nx">aListItems</span><span class="o">[</span><span class="nx">i</span><span class="o">].</span><span class="nx">firstChild</span><span class="o">;</span> <span class="nx">eHeader</span> <span class="o">&amp;&amp;</span> <span class="nx">eHeader</span><span class="o">.</span><span class="nx">nodeType</span> <span class="o">!=</span> <span class="m">1</span><span class="o">;</span> <span class="nx">eHeader</span> <span class="o">=</span> <span class="nx">eHeader</span><span class="o">.</span><span class="nx">nextSibling</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="c">// This loop looks for the first non-textNode element</span>
+<span class="c"></span>                        <span class="o">}</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="nx">eHeader</span><span class="o">)</span> <span class="o">{</span>
+                            <span class="k">for</span> <span class="o">(</span><span class="k">var</span> <span class="nx">eContent</span> <span class="o">=</span> <span class="nx">eHeader</span><span class="o">.</span><span class="nx">nextSibling</span><span class="o">;</span> <span class="nx">eContent</span> <span class="o">&amp;&amp;</span> <span class="nx">eContent</span> <span class="o">.</span><span class="nx">nodeType</span> <span class="o">!=</span> <span class="m">1</span><span class="o">;</span> <span class="nx">eContent</span> <span class="o">=</span> <span class="nx">eContent</span> <span class="o">.</span><span class="nx">nextSibling</span><span class="o">)</span> <span class="o">{</span>
+                            <span class="c">// here we go for the second non-textNode element, if there was a first one</span>
+<span class="c"></span>                            <span class="o">}</span>
+                        <span class="nx">aCollectedItems</span><span class="o">.</span><span class="nx">push</span><span class="o">({</span><span class="k">label</span><span class="o">:</span> <span class="nx">eHeader</span><span class="o">.</span><span class="nx">innerHTML</span><span class="o">,</span> <span class="nx">content</span><span class="o">:</span> <span class="o">(</span><span class="nx">eContent</span> <span class="o">&amp;&amp;</span> <span class="nx">eContent</span><span class="o">.</span><span class="nx">innerHTML</span><span class="o">)});</span>
+                        <span class="o">}</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="nx">el</span><span class="o">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">;</span>
+            <span class="k">if</span><span class="o">(</span><span class="nx">aCollectedItems</span><span class="o">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="m">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">this</span><span class="o">.</span><span class="nx">addPanels</span><span class="o">(</span><span class="nx">aCollectedItems</span><span class="o">);</span>
+            <span class="o">}</span>
+            
+            <span class="k">if</span><span class="o">((</span><span class="nx">oAttr</span><span class="o">.</span><span class="nx">expandItem</span> <span class="o">===</span> <span class="m">0</span><span class="o">)</span> <span class="o">||</span> <span class="o">(</span><span class="nx">oAttr</span><span class="o">.</span><span class="nx">expandItem</span> <span class="o">&gt;</span> <span class="m">0</span><span class="o">))</span> <span class="o">{</span>                                   
+                <span class="k">var</span> <span class="nx">eLink</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">_panels</span><span class="o">[</span><span class="nx">oAttr</span><span class="o">.</span><span class="nx">expandItem</span><span class="o">].</span><span class="nx">firstChild</span><span class="o">;</span>
+                <span class="k">var</span> <span class="nx">eContent</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">_panels</span><span class="o">[</span><span class="nx">oAttr</span><span class="o">.</span><span class="nx">expandItem</span><span class="o">].</span><span class="nx">firstChild</span><span class="o">.</span><span class="nx">nextSibling</span><span class="o">;</span>
+                <span class="nx">YUD</span><span class="o">.</span><span class="nx">removeClass</span><span class="o">(</span><span class="nx">eContent</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">HIDDEN</span><span class="o">);</span>
+                <span class="k">if</span><span class="o">(</span><span class="nx">eLink</span> <span class="o">&amp;&amp;</span> <span class="nx">eContent</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="nx">YUD</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="nx">eLink</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">ACTIVE</span><span class="o">);</span>
+                    <span class="nx">eLink</span><span class="o">.</span><span class="nx">tabIndex</span> <span class="o">=</span> <span class="m">0</span><span class="o">;</span>
+                    <span class="k">this</span><span class="o">.</span><span class="nx">_setARIA</span><span class="o">(</span><span class="nx">eLink</span><span class="o">,</span> <span class="s1">&#39;aria-expanded&#39;</span><span class="o">,</span> <span class="s1">&#39;true&#39;</span><span class="o">);</span>
+                    <span class="k">this</span><span class="o">.</span><span class="nx">_setARIA</span><span class="o">(</span><span class="nx">eContent</span><span class="o">,</span> <span class="s1">&#39;aria-hidden&#39;</span><span class="o">,</span> <span class="s1">&#39;false&#39;</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+   
+            <span class="k">this</span><span class="o">.</span><span class="nx">initEvents</span><span class="o">();</span>
+        <span class="o">},</span>
+        
+        <span class="c">/**</span>
+<span class="c">        * Attach all event listeners</span>
+<span class="c">        * @method initEvents</span>
+<span class="c">        * @public</span>
+<span class="c">        */</span>
+        
+        <span class="nx">initEvents</span> <span class="o">:</span> <span class="k">function</span><span class="o">()</span> <span class="o">{</span>
+            
+            <span class="k">if</span><span class="o">(</span><span class="kc">true</span> <span class="o">===</span> <span class="k">this</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="s1">&#39;hoverActivated&#39;</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="k">this</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="s1">&#39;mouseover&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">_onMouseOver</span><span class="o">,</span> <span class="k">this</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>        
+                    <span class="k">this</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="s1">&#39;mouseout&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">_onMouseOut</span><span class="o">,</span> <span class="k">this</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>         
+            <span class="o">}</span>
+            
+            <span class="k">this</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="s1">&#39;click&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">_onClick</span><span class="o">,</span> <span class="k">this</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+            <span class="k">this</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="s1">&#39;keydown&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">_onKeydown</span><span class="o">,</span> <span class="k">this</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+            
+            <span class="c">// set this._opening and this._closing before open/close operations begin</span>
+<span class="c"></span>            
+            <span class="k">this</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="s1">&#39;panelOpen&#39;</span><span class="o">,</span> <span class="k">function</span><span class="o">(){</span><span class="k">this</span><span class="o">.</span><span class="nx">_opening</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;},</span> <span class="k">this</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+            <span class="k">this</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="s1">&#39;panelClose&#39;</span><span class="o">,</span> <span class="k">function</span><span class="o">(){</span><span class="k">this</span><span class="o">.</span><span class="nx">_closing</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;},</span> <span class="k">this</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+            
+            <span class="c">// This makes sure that this._fixTabindexes is called after a change has</span>
+<span class="c"></span>            <span class="c">// fully completed</span>
+<span class="c"></span>            
+            <span class="k">this</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="s1">&#39;afterPanelClose&#39;</span><span class="o">,</span> <span class="k">function</span><span class="o">(){</span>
+                <span class="k">this</span><span class="o">.</span><span class="nx">_closing</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+                <span class="k">if</span><span class="o">(!</span><span class="k">this</span><span class="o">.</span><span class="nx">_closing</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="k">this</span><span class="o">.</span><span class="nx">_opening</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">this</span><span class="o">.</span><span class="nx">_fixTabIndexes</span><span class="o">();</span>
+                <span class="o">}</span>
+            <span class="o">},</span> <span class="k">this</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+            <span class="k">this</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="s1">&#39;afterPanelOpen&#39;</span><span class="o">,</span> <span class="k">function</span><span class="o">(){</span>
+                <span class="k">this</span><span class="o">.</span><span class="nx">_opening</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+                <span class="k">if</span><span class="o">(!</span><span class="k">this</span><span class="o">.</span><span class="nx">_closing</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="k">this</span><span class="o">.</span><span class="nx">_opening</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">this</span><span class="o">.</span><span class="nx">_fixTabIndexes</span><span class="o">();</span>
+                <span class="o">}</span>
+            <span class="o">},</span> <span class="k">this</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+            
+            <span class="c">/*</span>
+<span class="c">            This is needed when the hrefs are removed from links</span>
+<span class="c">            to be able to still hit enter to follow the link</span>
+<span class="c">            We only do this when we have ARIA support</span>
+<span class="c">            */</span>
+            
+            <span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_ARIACapable</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">this</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="s1">&#39;keypress&#39;</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">ev</span><span class="o">){</span>
+                    <span class="k">var</span> <span class="nx">eCurrentPanel</span> <span class="o">=</span> <span class="nx">YUD</span><span class="o">.</span><span class="nx">getAncestorByClassName</span><span class="o">(</span><span class="nx">YUE</span><span class="o">.</span><span class="nx">getTarget</span><span class="o">(</span><span class="nx">ev</span><span class="o">),</span> <span class="k">this</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">PANEL</span><span class="o">);</span>
+                    <span class="k">var</span> <span class="nx">keyCode</span> <span class="o">=</span> <span class="nx">YUE</span><span class="o">.</span><span class="nx">getCharCode</span><span class="o">(</span><span class="nx">ev</span><span class="o">);</span>
+                    <span class="k">if</span><span class="o">(</span><span class="nx">keyCode</span> <span class="o">===</span> <span class="m">13</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="k">this</span><span class="o">.</span><span class="nx">_onClick</span><span class="o">(</span><span class="nx">eCurrentPanel</span><span class="o">.</span><span class="nx">firstChild</span><span class="o">);</span>
+                        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+                    <span class="o">}</span>
+                <span class="o">});</span>
+            <span class="o">}</span>    
+        <span class="o">},</span>
+        
+        
+        <span class="c">/**</span>
+<span class="c">        * Wrapper around setAttribute to make sure we only set ARIA roles and states</span>
+<span class="c">        * in browsers that support it</span>
+<span class="c">        * @ethod _setARIA</span>
+<span class="c">        * @param {HTMLElement} el the element to set the attribute on</span>
+<span class="c">        * @param {String} sAttr the attribute name</span>
+<span class="c">        * @param {String} sValue the value for the attribute</span>
+<span class="c">        * @private</span>
+<span class="c">        */</span>
+        
+        <span class="nx">_setARIA</span> <span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">sAttr</span><span class="o">,</span> <span class="nx">sValue</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_ARIACapable</span><span class="o">)</span> <span class="o">{</span>
+                <span class="nx">el</span><span class="o">.</span><span class="nx">setAttribute</span><span class="o">(</span><span class="nx">sAttr</span><span class="o">,</span> <span class="nx">sValue</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">},</span>
+        
+        <span class="c">/**</span>
+<span class="c">        * Closes all panels </span>
+<span class="c">        * @method _collapseAccordion</span>
+<span class="c">        * @private</span>
+<span class="c">        */</span>
+
+        <span class="nx">_collapseAccordion</span> <span class="o">:</span> <span class="k">function</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nx">YUD</span><span class="o">.</span><span class="nx">batch</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_panels</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">e</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">var</span> <span class="nx">elContent</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">firstChild</span><span class="o">.</span><span class="nx">nextSibling</span><span class="o">;</span>
+                <span class="k">if</span><span class="o">(</span><span class="nx">elContent</span><span class="o">)</span> <span class="o">{</span> 
+                    <span class="nx">YUD</span><span class="o">.</span><span class="nx">removeClass</span><span class="o">(</span><span class="nx">e</span><span class="o">.</span><span class="nx">firstChild</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">ACTIVE</span><span class="o">);</span>
+                    <span class="nx">YUD</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="nx">elContent</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">HIDDEN</span><span class="o">);</span>
+                    <span class="k">this</span><span class="o">.</span><span class="nx">_setARIA</span><span class="o">(</span><span class="nx">elContent</span><span class="o">,</span> <span class="s1">&#39;aria-hidden&#39;</span><span class="o">,</span> <span class="s1">&#39;true&#39;</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">},</span> <span class="k">this</span><span class="o">);</span>
+        <span class="o">},</span>
+
+        <span class="c">/**</span>
+<span class="c">        * Set tabIndex to 0 on the first item in case all panels are closed</span>
+<span class="c">        * or active. Otherwise set it to -1</span>
+<span class="c">        * @method _fixTabIndexes</span>
+<span class="c">        * @private</span>
+<span class="c">        */</span>
+
+        <span class="nx">_fixTabIndexes</span> <span class="o">:</span> <span class="k">function</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">var</span> <span class="nx">aLength</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">_panels</span><span class="o">.</span><span class="nx">length</span><span class="o">;</span>
+            <span class="k">var</span> <span class="nx">bAllClosed</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="k">for</span><span class="o">(</span><span class="k">var</span> <span class="nx">i</span><span class="o">=</span><span class="m">0</span><span class="o">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">aLength</span><span class="o">;</span><span class="nx">i</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="k">if</span><span class="o">(</span><span class="nx">YUD</span><span class="o">.</span><span class="nx">hasClass</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_panels</span><span class="o">[</span><span class="nx">i</span><span class="o">].</span><span class="nx">firstChild</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">ACTIVE</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="k">this</span><span class="o">.</span><span class="nx">_panels</span><span class="o">[</span><span class="nx">i</span><span class="o">].</span><span class="nx">firstChild</span><span class="o">.</span><span class="nx">tabIndex</span> <span class="o">=</span> <span class="m">0</span><span class="o">;</span>
+                    <span class="nx">bAllClosed</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+                <span class="o">}</span>
+                <span class="k">else</span> <span class="o">{</span>
+                    <span class="k">this</span><span class="o">.</span><span class="nx">_panels</span><span class="o">[</span><span class="nx">i</span><span class="o">].</span><span class="nx">firstChild</span><span class="o">.</span><span class="nx">tabIndex</span> <span class="o">=</span> <span class="o">-</span><span class="m">1</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="k">if</span><span class="o">(</span><span class="nx">bAllClosed</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">this</span><span class="o">.</span><span class="nx">_panels</span><span class="o">[</span><span class="m">0</span><span class="o">].</span><span class="nx">firstChild</span><span class="o">.</span><span class="nx">tabIndex</span> <span class="o">=</span> <span class="m">0</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="c">// now everything is done so we can fire the stateChanged event</span>
+<span class="c"></span>            <span class="k">this</span><span class="o">.</span><span class="nx">fireEvent</span><span class="o">(</span><span class="nx">stateChangedEvent</span><span class="o">);</span>
+        <span class="o">},</span>
+
+        <span class="c">/**</span>
+<span class="c">        * Adds an Accordion panel to the AccordionView instance.  </span>
+<span class="c">        * If no index is specified, the panel is added to the end of the tab list.</span>
+<span class="c">        * @method addPanel</span>
+<span class="c">        * @param {Object} oAttr A key map of the Panel&#39;s properties</span>
+<span class="c">        * @param {Integer} nIndex The position to add the tab. </span>
+<span class="c">        */</span>
+
+        <span class="nx">addPanel</span> <span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">oAttr</span><span class="o">,</span> <span class="nx">nIndex</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">var</span> <span class="nx">oPanelParent</span> <span class="o">=</span> <span class="nb">document</span><span class="o">.</span><span class="nx">createElement</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">CONFIG</span><span class="o">.</span><span class="nx">ITEM_WRAPPER_TAG_NAME</span><span class="o">);</span>
+            <span class="nx">YUD</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="nx">oPanelParent</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">PANEL</span><span class="o">);</span>
+            
+            <span class="c">// single links that have no panel get class link and</span>
+<span class="c"></span>            <span class="c">// no +/- indicator</span>
+<span class="c"></span>            
+            <span class="k">if</span><span class="o">(</span><span class="nx">oAttr</span><span class="o">.</span><span class="k">label</span> <span class="o">===</span> <span class="s1">&#39;SINGLE_LINK&#39;</span><span class="o">)</span> <span class="o">{</span>
+                <span class="nx">oPanelParent</span><span class="o">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">oAttr</span><span class="o">.</span><span class="nx">content</span><span class="o">;</span>
+                <span class="nx">YUD</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="nx">oPanelParent</span><span class="o">.</span><span class="nx">firstChild</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">TOGGLE</span><span class="o">);</span>
+                <span class="nx">YUD</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="nx">oPanelParent</span><span class="o">.</span><span class="nx">firstChild</span><span class="o">,</span> <span class="s1">&#39;link&#39;</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">else</span> <span class="o">{</span>
+                <span class="k">var</span> <span class="nx">elIndicator</span> <span class="o">=</span> <span class="nb">document</span><span class="o">.</span><span class="nx">createElement</span><span class="o">(</span><span class="s1">&#39;span&#39;</span><span class="o">);</span>
+                <span class="nx">YUD</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="nx">elIndicator</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">INDICATOR</span><span class="o">);</span>
+                <span class="k">var</span> <span class="nx">elPanelLink</span> <span class="o">=</span> <span class="nx">oPanelParent</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="nb">document</span><span class="o">.</span><span class="nx">createElement</span><span class="o">(</span><span class="s1">&#39;A&#39;</span><span class="o">));</span>
+                <span class="nx">elPanelLink</span><span class="o">.</span><span class="nx">id</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="s1">&#39;element&#39;</span><span class="o">).</span><span class="nx">id</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="k">this</span><span class="o">.</span><span class="nx">_idCounter</span> <span class="o">+</span> <span class="s1">&#39;-label&#39;</span><span class="o">;</span>               
+                <span class="nx">elPanelLink</span><span class="o">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">oAttr</span><span class="o">.</span><span class="k">label</span> <span class="o">||</span> <span class="s1">&#39;&#39;</span><span class="o">;</span>
+                <span class="nx">elPanelLink</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="nx">elIndicator</span><span class="o">);</span>
+                
+                <span class="c">// if we use ARIA we remove the hrefs from links, UNLESS one has been</span>
+<span class="c"></span>                <span class="c">// provided by the developer</span>
+<span class="c"></span>                
+                <span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_ARIACapable</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">if</span><span class="o">(</span><span class="nx">oAttr</span><span class="o">.</span><span class="nx">href</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="nx">elPanelLink</span><span class="o">.</span><span class="nx">href</span> <span class="o">=</span> <span class="nx">oAttr</span><span class="o">.</span><span class="nx">href</span><span class="o">;</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+                <span class="k">else</span> <span class="o">{</span>
+                    <span class="nx">elPanelLink</span><span class="o">.</span><span class="nx">href</span> <span class="o">=</span> <span class="nx">oAttr</span><span class="o">.</span><span class="nx">href</span> <span class="o">||</span> <span class="s1">&#39;#toggle&#39;</span><span class="o">;</span>    
+                <span class="o">}</span>
+                
+                <span class="nx">elPanelLink</span><span class="o">.</span><span class="nx">tabIndex</span> <span class="o">=</span> <span class="o">-</span><span class="m">1</span><span class="o">;</span>
+                <span class="nx">YUD</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="nx">elPanelLink</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">TOGGLE</span><span class="o">);</span>
+                <span class="k">var</span> <span class="nx">elPanelContent</span> <span class="o">=</span> <span class="nb">document</span><span class="o">.</span><span class="nx">createElement</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">CONFIG</span><span class="o">.</span><span class="nx">CONTENT_WRAPPER_TAG_NAME</span><span class="o">);</span>
+                <span class="nx">elPanelContent</span><span class="o">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">oAttr</span><span class="o">.</span><span class="nx">content</span> <span class="o">||</span> <span class="s1">&#39;&#39;</span><span class="o">;</span>
+                <span class="nx">YUD</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="nx">elPanelContent</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">CONTENT</span><span class="o">);</span>
+                <span class="nx">oPanelParent</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="nx">elPanelContent</span><span class="o">);</span>
+                <span class="k">this</span><span class="o">.</span><span class="nx">_setARIA</span><span class="o">(</span><span class="nx">oPanelParent</span><span class="o">,</span> <span class="s1">&#39;role&#39;</span><span class="o">,</span> <span class="s1">&#39;presentation&#39;</span><span class="o">);</span>
+                <span class="k">this</span><span class="o">.</span><span class="nx">_setARIA</span><span class="o">(</span><span class="nx">elPanelLink</span><span class="o">,</span> <span class="s1">&#39;role&#39;</span><span class="o">,</span> <span class="s1">&#39;treeitem&#39;</span><span class="o">);</span>
+                <span class="k">this</span><span class="o">.</span><span class="nx">_setARIA</span><span class="o">(</span><span class="nx">elPanelContent</span><span class="o">,</span> <span class="s1">&#39;aria-labelledby&#39;</span><span class="o">,</span> <span class="nx">elPanelLink</span><span class="o">.</span><span class="nx">id</span><span class="o">);</span>
+                <span class="k">this</span><span class="o">.</span><span class="nx">_setARIA</span><span class="o">(</span><span class="nx">elIndicator</span><span class="o">,</span> <span class="s1">&#39;role&#39;</span><span class="o">,</span> <span class="s1">&#39;presentation&#39;</span><span class="o">);</span>             
+            <span class="o">}</span>
+            <span class="k">this</span><span class="o">.</span><span class="nx">_idCounter</span><span class="o">++;</span>
+            <span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_panels</span> <span class="o">===</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">this</span><span class="o">.</span><span class="nx">_panels</span> <span class="o">=</span> <span class="o">[];</span>
+            <span class="o">}</span>
+            <span class="k">if</span><span class="o">((</span><span class="nx">nIndex</span> <span class="o">!==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="nx">nIndex</span> <span class="o">!==</span> <span class="kc">undefined</span><span class="o">))</span> <span class="o">{</span>
+                <span class="k">var</span> <span class="nx">ePanelBefore</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">getPanel</span><span class="o">(</span><span class="nx">nIndex</span><span class="o">);</span>
+                <span class="k">this</span><span class="o">.</span><span class="nx">insertBefore</span><span class="o">(</span><span class="nx">oPanelParent</span><span class="o">,</span> <span class="nx">ePanelBefore</span><span class="o">);</span>             
+                <span class="k">var</span> <span class="nx">aNewPanels</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">_panels</span><span class="o">.</span><span class="nx">slice</span><span class="o">(</span><span class="m">0</span><span class="o">,</span><span class="nx">nIndex</span><span class="o">);</span>
+                <span class="k">var</span> <span class="nx">aNewPanelsAfter</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">_panels</span><span class="o">.</span><span class="nx">slice</span><span class="o">(</span><span class="nx">nIndex</span><span class="o">);</span>
+                <span class="nx">aNewPanels</span><span class="o">.</span><span class="nx">push</span><span class="o">(</span><span class="nx">oPanelParent</span><span class="o">);</span>
+                <span class="k">for</span><span class="o">(</span><span class="nx">i</span><span class="o">=</span><span class="m">0</span><span class="o">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">aNewPanelsAfter</span><span class="o">.</span><span class="nx">length</span><span class="o">;</span><span class="nx">i</span><span class="o">++)</span> <span class="o">{</span>
+                    <span class="nx">aNewPanels</span><span class="o">.</span><span class="nx">push</span><span class="o">(</span><span class="nx">aNewPanelsAfter</span><span class="o">[</span><span class="nx">i</span><span class="o">]);</span>
+                <span class="o">}</span>
+                <span class="k">this</span><span class="o">.</span><span class="nx">_panels</span> <span class="o">=</span> <span class="nx">aNewPanels</span><span class="o">;</span>               
+            <span class="o">}</span>
+            <span class="k">else</span> <span class="o">{</span>
+                <span class="k">this</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="nx">oPanelParent</span><span class="o">);</span>
+                <span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="s1">&#39;element&#39;</span><span class="o">)</span> <span class="o">===</span> <span class="nx">oPanelParent</span><span class="o">.</span><span class="nx">parentNode</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">this</span><span class="o">.</span><span class="nx">_panels</span><span class="o">[</span><span class="k">this</span><span class="o">.</span><span class="nx">_panels</span><span class="o">.</span><span class="nx">length</span><span class="o">]</span> <span class="o">=</span> <span class="nx">oPanelParent</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="k">if</span><span class="o">(</span><span class="nx">oAttr</span><span class="o">.</span><span class="k">label</span> <span class="o">!==</span> <span class="s1">&#39;SINGLE_LINK&#39;</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span><span class="o">(</span><span class="nx">oAttr</span><span class="o">.</span><span class="nx">expand</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">if</span><span class="o">(!</span><span class="k">this</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="s1">&#39;expandable&#39;</span><span class="o">))</span> <span class="o">{</span>
+                        <span class="k">this</span><span class="o">.</span><span class="nx">_collapseAccordion</span><span class="o">();</span>
+                    <span class="o">}</span>
+                    <span class="nx">YUD</span><span class="o">.</span><span class="nx">removeClass</span><span class="o">(</span><span class="nx">elPanelContent</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">HIDDEN</span><span class="o">);</span>
+                    <span class="nx">YUD</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="nx">elPanelLink</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">ACTIVE</span><span class="o">);</span>
+                    <span class="k">this</span><span class="o">.</span><span class="nx">_setARIA</span><span class="o">(</span><span class="nx">elPanelContent</span><span class="o">,</span> <span class="s1">&#39;aria-hidden&#39;</span><span class="o">,</span> <span class="s1">&#39;false&#39;</span><span class="o">);</span>
+                    <span class="k">this</span><span class="o">.</span><span class="nx">_setARIA</span><span class="o">(</span><span class="nx">elPanelLink</span><span class="o">,</span> <span class="s1">&#39;aria-expanded&#39;</span><span class="o">,</span> <span class="s1">&#39;true&#39;</span><span class="o">);</span>
+                <span class="o">}</span>
+                <span class="k">else</span> <span class="o">{</span>
+                    <span class="nx">YUD</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="nx">elPanelContent</span><span class="o">,</span> <span class="s1">&#39;hidden&#39;</span><span class="o">);</span>
+                    <span class="k">this</span><span class="o">.</span><span class="nx">_setARIA</span><span class="o">(</span><span class="nx">elPanelContent</span><span class="o">,</span> <span class="s1">&#39;aria-hidden&#39;</span><span class="o">,</span> <span class="s1">&#39;true&#39;</span><span class="o">);</span>
+                    <span class="k">this</span><span class="o">.</span><span class="nx">_setARIA</span><span class="o">(</span><span class="nx">elPanelLink</span><span class="o">,</span> <span class="s1">&#39;aria-expanded&#39;</span><span class="o">,</span> <span class="s1">&#39;false&#39;</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="k">var</span> <span class="nx">t</span><span class="o">=</span> <span class="nx">YAHOO</span><span class="o">.</span><span class="nx">lang</span><span class="o">.</span><span class="nx">later</span><span class="o">(</span><span class="m">0</span><span class="o">,</span> <span class="k">this</span><span class="o">,</span> <span class="k">function</span><span class="o">(){</span><span class="k">this</span><span class="o">.</span><span class="nx">_fixTabIndexes</span><span class="o">();</span><span class="k">this</span><span class="o">.</span><span class="nx">fireEvent</span><span class="o">(</span><span class="nx">stateChangedEvent</span><span class="o">);});</span>
+        <span class="o">},</span>
+
+        <span class="c">/**</span>
+<span class="c">        * Wrapper around addPanel to add multiple panels in one call</span>
+<span class="c">        * @method addPanels</span>
+<span class="c">        * @param {Array} oPanels array holding all individual panel configs</span>
+<span class="c">        */</span>
+
+        <span class="nx">addPanels</span> <span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">oPanels</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">for</span><span class="o">(</span><span class="k">var</span> <span class="nx">i</span><span class="o">=</span><span class="m">0</span><span class="o">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">oPanels</span><span class="o">.</span><span class="nx">length</span><span class="o">;</span><span class="nx">i</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="k">this</span><span class="o">.</span><span class="nx">addPanel</span><span class="o">(</span><span class="nx">oPanels</span><span class="o">[</span><span class="nx">i</span><span class="o">]);</span>
+            <span class="o">}</span>
+        <span class="o">},</span>
+
+        <span class="c">/**</span>
+<span class="c">        * Removes the specified Panel from the AccordionView.</span>
+<span class="c">        * @method removePanel</span>
+<span class="c">        * @param {Integer} index of the panel to be removed</span>
+<span class="c">        */</span>
+
+        <span class="nx">removePanel</span> <span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">index</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="nx">removeChild</span><span class="o">(</span><span class="nx">YUD</span><span class="o">.</span><span class="nx">getElementsByClassName</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">PANEL</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">CONFIG</span><span class="o">.</span><span class="nx">ITEM_WRAPPER_TAG_NAME</span><span class="o">,</span> <span class="k">this</span><span class="o">)[</span><span class="nx">index</span><span class="o">]);</span> 
+            <span class="k">var</span> <span class="nx">aNewPanels</span> <span class="o">=</span> <span class="o">[];</span> 
+            <span class="k">var</span> <span class="nx">nLength</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">_panels</span><span class="o">.</span><span class="nx">length</span><span class="o">;</span>
+            <span class="k">for</span><span class="o">(</span><span class="k">var</span> <span class="nx">i</span><span class="o">=</span><span class="m">0</span><span class="o">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">nLength</span><span class="o">;</span><span class="nx">i</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="k">if</span><span class="o">(</span><span class="nx">i</span> <span class="o">!==</span> <span class="nx">index</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="nx">aNewPanels</span><span class="o">.</span><span class="nx">push</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_panels</span><span class="o">[</span><span class="nx">i</span><span class="o">]);</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="k">this</span><span class="o">.</span><span class="nx">_panels</span> <span class="o">=</span> <span class="nx">aNewPanels</span><span class="o">;</span>
+            <span class="k">var</span> <span class="nx">t</span><span class="o">=</span> <span class="nx">YAHOO</span><span class="o">.</span><span class="nx">lang</span><span class="o">.</span><span class="nx">later</span><span class="o">(</span><span class="m">0</span><span class="o">,</span> <span class="k">this</span><span class="o">,</span> <span class="k">function</span><span class="o">(){</span><span class="k">this</span><span class="o">.</span><span class="nx">_fixTabIndexes</span><span class="o">();</span><span class="k">this</span><span class="o">.</span><span class="nx">fireEvent</span><span class="o">(</span><span class="nx">stateChangedEvent</span><span class="o">);});</span>
+        <span class="o">},</span>
+
+        <span class="c">/**</span>
+<span class="c">        * Returns the HTMLElement of the panel at the specified index.</span>
+<span class="c">        * @method getPanel</span>
+<span class="c">        * @param {Integer} nIndex The position of the Panel.</span>
+<span class="c">        * @return {HTMLElement} the requested panel element</span>
+<span class="c">        */</span>
+
+        <span class="nx">getPanel</span> <span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">nIndex</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="nx">_panels</span><span class="o">[</span><span class="nx">nIndex</span><span class="o">];</span>
+        <span class="o">},</span>
+
+        <span class="c">/**</span>
+<span class="c">        * Returns the Array containing all panels</span>
+<span class="c">        * @method getPanels</span>
+<span class="c">        * @return {Array} An array with references to the panels in the correct order</span>
+<span class="c">        */</span>
+
+        <span class="nx">getPanels</span> <span class="o">:</span> <span class="k">function</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="nx">_panels</span><span class="o">;</span>
+        <span class="o">},</span>
+
+        <span class="c">/**</span>
+<span class="c">        * Open a panel</span>
+<span class="c">        * @method openPanel</span>
+<span class="c">        * @param {Integer} nIndex The position of the Panel.</span>
+<span class="c">        * @return {Boolean} whether action resulted in opening a panel</span>
+<span class="c">        * that was previously closed</span>
+<span class="c">        */</span>
+
+        <span class="nx">openPanel</span> <span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">nIndex</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">var</span> <span class="nx">ePanelNode</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">_panels</span><span class="o">[</span><span class="nx">nIndex</span><span class="o">];</span>
+            <span class="k">if</span><span class="o">(!</span><span class="nx">ePanelNode</span><span class="o">)</span> <span class="o">{</span><span class="k">return</span> <span class="kc">false</span><span class="o">;}</span> <span class="c">// invalid node</span>
+<span class="c"></span>            <span class="k">if</span><span class="o">(</span><span class="nx">YUD</span><span class="o">.</span><span class="nx">hasClass</span><span class="o">(</span><span class="nx">ePanelNode</span><span class="o">.</span><span class="nx">firstChild</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">ACTIVE</span><span class="o">))</span> <span class="o">{</span><span class="k">return</span> <span class="kc">false</span><span class="o">;}</span> <span class="c">// already open</span>
+<span class="c"></span>            <span class="k">this</span><span class="o">.</span><span class="nx">_onClick</span><span class="o">(</span><span class="nx">ePanelNode</span><span class="o">.</span><span class="nx">firstChild</span><span class="o">);</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="o">},</span>
+
+        <span class="c">/**</span>
+<span class="c">        * Close a panel</span>
+<span class="c">        * @method closePanel</span>
+<span class="c">        * @param {Integer} nIndex The position of the Panel.</span>
+<span class="c">        * @return {Boolean} whether action resulted in closing a panel or not</span>
+<span class="c">        * that was previously open</span>
+<span class="c">        *</span>
+<span class="c">        * This method honors all constraints imposed by the properties collapsible and expandable</span>
+<span class="c">        * and will return false if the panel can&#39;t be closed because of a constraint in addition</span>
+<span class="c">        * to if it was already closed</span>
+<span class="c">        *</span>
+<span class="c">        */</span>
+
+        <span class="nx">closePanel</span> <span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">nIndex</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">var</span> <span class="nx">aItems</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">_panels</span><span class="o">;</span>
+            <span class="k">var</span> <span class="nx">ePanelNode</span> <span class="o">=</span> <span class="nx">aItems</span><span class="o">[</span><span class="nx">nIndex</span><span class="o">];</span>
+            <span class="k">if</span><span class="o">(!</span><span class="nx">ePanelNode</span><span class="o">)</span> <span class="o">{</span><span class="k">return</span> <span class="kc">false</span><span class="o">;}</span> <span class="c">// invalid node</span>
+<span class="c"></span>            <span class="k">var</span> <span class="nx">ePanelLink</span> <span class="o">=</span> <span class="nx">ePanelNode</span><span class="o">.</span><span class="nx">firstChild</span><span class="o">;</span>
+            <span class="k">if</span><span class="o">(!</span><span class="nx">YUD</span><span class="o">.</span><span class="nx">hasClass</span><span class="o">(</span><span class="nx">ePanelLink</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">ACTIVE</span><span class="o">))</span> <span class="o">{</span><span class="k">return</span> <span class="kc">true</span><span class="o">;}</span> <span class="c">// already closed</span>
+<span class="c"></span>            <span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="s1">&#39;collapsible&#39;</span><span class="o">)</span> <span class="o">===</span> <span class="kc">false</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="s1">&#39;expandable&#39;</span><span class="o">)</span> <span class="o">===</span> <span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">this</span><span class="o">.</span><span class="nx">set</span><span class="o">(</span><span class="s1">&#39;collapsible&#39;</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+                    <span class="k">for</span><span class="o">(</span><span class="k">var</span> <span class="nx">i</span><span class="o">=</span><span class="m">0</span><span class="o">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">aItems</span><span class="o">.</span><span class="nx">length</span><span class="o">;</span><span class="nx">i</span><span class="o">++)</span> <span class="o">{</span>
+                        <span class="k">if</span><span class="o">((</span><span class="nx">YUD</span><span class="o">.</span><span class="nx">hasClass</span><span class="o">(</span><span class="nx">aItems</span><span class="o">[</span><span class="nx">i</span><span class="o">].</span><span class="nx">firstChild</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">ACTIVE</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="nx">i</span> <span class="o">!==</span> <span class="nx">nIndex</span><span class="o">))</span> <span class="o">{</span>
+                            <span class="k">this</span><span class="o">.</span><span class="nx">_onClick</span><span class="o">(</span><span class="nx">ePanelLink</span><span class="o">);</span>
+                            <span class="k">this</span><span class="o">.</span><span class="nx">set</span><span class="o">(</span><span class="s1">&#39;collapsible&#39;</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>            
+                            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+                        <span class="o">}</span>
+                    <span class="o">}</span>
+                    <span class="k">this</span><span class="o">.</span><span class="nx">set</span><span class="o">(</span><span class="s1">&#39;collapsible&#39;</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>                
+                <span class="o">}</span>
+            <span class="o">}</span> <span class="c">// can&#39;t collapse</span>
+<span class="c"></span>            <span class="k">this</span><span class="o">.</span><span class="nx">_onClick</span><span class="o">(</span><span class="nx">ePanelLink</span><span class="o">);</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="o">},</span>
+
+        <span class="c">/**</span>
+<span class="c">        * Keyboard event handler for keyboard control of the widget</span>
+<span class="c">        * @method _onKeydown</span>
+<span class="c">        * @param {Event} ev The Dom event</span>
+<span class="c">        * @private</span>
+<span class="c">        */</span>
+
+        <span class="nx">_onKeydown</span> <span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">ev</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">var</span> <span class="nx">eCurrentPanel</span> <span class="o">=</span> <span class="nx">YUD</span><span class="o">.</span><span class="nx">getAncestorByClassName</span><span class="o">(</span><span class="nx">YUE</span><span class="o">.</span><span class="nx">getTarget</span><span class="o">(</span><span class="nx">ev</span><span class="o">),</span> <span class="k">this</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">PANEL</span><span class="o">);</span>
+            <span class="k">var</span> <span class="nx">nKeyCode</span> <span class="o">=</span> <span class="nx">YUE</span><span class="o">.</span><span class="nx">getCharCode</span><span class="o">(</span><span class="nx">ev</span><span class="o">);</span>
+            <span class="k">var</span> <span class="nx">nLength</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">_panels</span><span class="o">.</span><span class="nx">length</span><span class="o">;</span>
+            <span class="k">if</span><span class="o">(</span><span class="nx">nKeyCode</span> <span class="o">===</span> <span class="m">37</span> <span class="o">||</span> <span class="nx">nKeyCode</span> <span class="o">===</span> <span class="m">38</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">for</span><span class="o">(</span><span class="k">var</span> <span class="nx">i</span><span class="o">=</span><span class="m">0</span><span class="o">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">nLength</span><span class="o">;</span><span class="nx">i</span><span class="o">++)</span> <span class="o">{</span>
+                    <span class="k">if</span><span class="o">((</span><span class="nx">eCurrentPanel</span> <span class="o">===</span> <span class="k">this</span><span class="o">.</span><span class="nx">_panels</span><span class="o">[</span><span class="nx">i</span><span class="o">])</span> <span class="o">&amp;&amp;</span> <span class="nx">i</span><span class="o">&gt;</span><span class="m">0</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="k">this</span><span class="o">.</span><span class="nx">_panels</span><span class="o">[</span><span class="nx">i</span><span class="o">-</span><span class="m">1</span><span class="o">].</span><span class="nx">firstChild</span><span class="o">.</span><span class="nx">focus</span><span class="o">();</span>
+                        <span class="k">return</span><span class="o">;</span>
+                    <span class="o">}</span> 
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="k">if</span><span class="o">(</span><span class="nx">nKeyCode</span> <span class="o">===</span> <span class="m">39</span> <span class="o">||</span> <span class="nx">nKeyCode</span> <span class="o">===</span> <span class="m">40</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">for</span><span class="o">(</span><span class="k">var</span> <span class="nx">i</span><span class="o">=</span><span class="m">0</span><span class="o">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">nLength</span><span class="o">;</span><span class="nx">i</span><span class="o">++)</span> <span class="o">{</span>
+                    <span class="k">if</span><span class="o">((</span><span class="nx">eCurrentPanel</span> <span class="o">===</span> <span class="k">this</span><span class="o">.</span><span class="nx">_panels</span><span class="o">[</span><span class="nx">i</span><span class="o">])</span> <span class="o">&amp;&amp;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">nLength</span><span class="o">-</span><span class="m">1</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="k">this</span><span class="o">.</span><span class="nx">_panels</span><span class="o">[</span><span class="nx">i</span><span class="o">+</span><span class="m">1</span><span class="o">].</span><span class="nx">firstChild</span><span class="o">.</span><span class="nx">focus</span><span class="o">();</span>
+                        <span class="k">return</span><span class="o">;</span>
+                    <span class="o">}</span> 
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">},</span>
+
+        <span class="c">/**</span>
+<span class="c">        * Mouseover event handler</span>
+<span class="c">        * @method _onMouseOver</span>
+<span class="c">        * @param {Event} ev The Dom event</span>
+<span class="c">        * @private</span>
+<span class="c">        */</span>
+
+        <span class="nx">_onMouseOver</span> <span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">ev</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nx">YUE</span><span class="o">.</span><span class="nx">stopPropagation</span><span class="o">(</span><span class="nx">ev</span><span class="o">);</span>
+            <span class="c">// must provide the TARGET or IE will destroy the event before we can</span>
+<span class="c"></span>            <span class="c">// use it. Thanks Nicholas Zakas for pointing this out to me</span>
+<span class="c"></span>            <span class="k">var</span> <span class="nx">target</span> <span class="o">=</span> <span class="nx">YUE</span><span class="o">.</span><span class="nx">getTarget</span><span class="o">(</span><span class="nx">ev</span><span class="o">);</span>
+            <span class="k">this</span><span class="o">.</span><span class="nx">_hoverTimer</span> <span class="o">=</span> <span class="nx">YAHOO</span><span class="o">.</span><span class="nx">lang</span><span class="o">.</span><span class="nx">later</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="s1">&#39;_hoverTimeout&#39;</span><span class="o">),</span> <span class="k">this</span><span class="o">,</span> <span class="k">function</span><span class="o">(){</span>
+                <span class="k">this</span><span class="o">.</span><span class="nx">_onClick</span><span class="o">(</span><span class="nx">target</span><span class="o">);</span>
+             <span class="o">});</span>
+        <span class="o">},</span>
+
+        <span class="c">/**</span>
+<span class="c">        * Mouseout event handler</span>
+<span class="c">        * Cancels the timer set by AccordionView::_onMouseOver</span>
+<span class="c">        * @method _onMouseOut</span>
+<span class="c">        * @param {Event} ev The Dom event</span>
+<span class="c">        * @private</span>
+<span class="c">        */</span>
+        
+        <span class="nx">_onMouseOut</span> <span class="o">:</span> <span class="k">function</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_hoverTimer</span><span class="o">)</span> <span class="o">{</span> 
+                <span class="k">this</span><span class="o">.</span><span class="nx">_hoverTimer</span><span class="o">.</span><span class="nx">cancel</span><span class="o">();</span>
+                <span class="k">this</span><span class="o">.</span><span class="nx">_hoverTimer</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">},</span>
+        
+        <span class="c">/**</span>
+<span class="c">        * Global event handler for mouse clicks</span>
+<span class="c">        * This method can accept both an event and a node so it can be called internally if needed</span>
+<span class="c">        * @method _onClick</span>
+<span class="c">        * @param {HTMLElement|Event} arg The Dom event or event target</span>
+<span class="c">        * @private</span>
+<span class="c">        */</span>
+
+        <span class="nx">_onClick</span> <span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">arg</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">var</span> <span class="nx">ev</span><span class="o">;</span>
+            <span class="k">if</span><span class="o">(</span><span class="nx">arg</span><span class="o">.</span><span class="nx">nodeType</span> <span class="o">===</span> <span class="kc">undefined</span><span class="o">)</span> <span class="o">{</span>
+                <span class="nx">ev</span> <span class="o">=</span> <span class="nx">YUE</span><span class="o">.</span><span class="nx">getTarget</span><span class="o">(</span><span class="nx">arg</span><span class="o">);</span>
+                <span class="k">if</span><span class="o">(!</span><span class="nx">YUD</span><span class="o">.</span><span class="nx">hasClass</span><span class="o">(</span><span class="nx">ev</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">TOGGLE</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">YUD</span><span class="o">.</span><span class="nx">hasClass</span><span class="o">(</span><span class="nx">ev</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">INDICATOR</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+                <span class="o">}</span>
+                <span class="k">if</span><span class="o">(</span><span class="nx">YUD</span><span class="o">.</span><span class="nx">hasClass</span><span class="o">(</span><span class="nx">ev</span><span class="o">,</span> <span class="s1">&#39;link&#39;</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+                <span class="o">}</span>
+                <span class="nx">YUE</span><span class="o">.</span><span class="nx">preventDefault</span><span class="o">(</span><span class="nx">arg</span><span class="o">);</span>
+                <span class="nx">YUE</span><span class="o">.</span><span class="nx">stopPropagation</span><span class="o">(</span><span class="nx">arg</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">else</span> <span class="o">{</span>
+                <span class="nx">ev</span> <span class="o">=</span> <span class="nx">arg</span><span class="o">;</span>
+            <span class="o">}</span>
+
+            <span class="k">var</span> <span class="nx">elClickedNode</span> <span class="o">=</span> <span class="nx">ev</span><span class="o">;</span>
+            <span class="k">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="o">;</span>
+            <span class="c">/**</span>
+<span class="c">            *</span>
+<span class="c">            * helper function to fix IE problems with nested accordions</span>
+<span class="c">            * still looking for something better but for now this will have to do</span>
+<span class="c">            * @param {Object} el element to apply the fix to</span>
+<span class="c">            * @param {String} sHide whether to set visibility to hidden or visible</span>
+<span class="c">            *</span>
+<span class="c">            */</span>
+
+            <span class="k">function</span> <span class="nx">iehide</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">sHide</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span><span class="o">(</span><span class="nx">that</span><span class="o">.</span><span class="nx">_ie</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">var</span> <span class="nx">aInnerAccordions</span> <span class="o">=</span> <span class="nx">YUD</span><span class="o">.</span><span class="nx">getElementsByClassName</span><span class="o">(</span><span class="nx">that</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">ACCORDION</span><span class="o">,</span> <span class="nx">that</span><span class="o">.</span><span class="nx">CONFIG</span><span class="o">.</span><span class="nx">TAG_NAME</span><span class="o">,</span> <span class="nx">el</span><span class="o">);</span>
+                    <span class="k">if</span><span class="o">(</span><span class="nx">aInnerAccordions</span><span class="o">[</span><span class="m">0</span><span class="o">])</span> <span class="o">{</span>
+                        <span class="nx">YUD</span><span class="o">.</span><span class="nx">setStyle</span><span class="o">(</span><span class="nx">aInnerAccordions</span><span class="o">[</span><span class="m">0</span><span class="o">],</span> <span class="s1">&#39;visibility&#39;</span><span class="o">,</span> <span class="nx">sHide</span><span class="o">);</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+
+            <span class="c">/**</span>
+<span class="c">            *</span>
+<span class="c">            * Toggle an accordion panel</span>
+<span class="c">            * @param {Object} el element to toggle</span>
+<span class="c">            * @param {Object} elClicked the element that was clicked to toggle the corresponding panel</span>
+<span class="c">            *</span>
+<span class="c">            */</span>
+
+            <span class="k">function</span> <span class="nx">toggleItem</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">elClicked</span><span class="o">)</span> <span class="o">{</span>      
+                <span class="k">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="o">;</span>
+                <span class="k">function</span> <span class="nx">fireEvent</span><span class="o">(</span><span class="nx">type</span><span class="o">,</span><span class="nx">panel</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">if</span> <span class="o">(!</span><span class="nx">YUD</span><span class="o">.</span><span class="nx">hasClass</span><span class="o">(</span><span class="nx">panel</span><span class="o">,</span><span class="nx">that</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">PANEL</span><span class="o">))</span> <span class="o">{</span>
+                        <span class="nx">panel</span> <span class="o">=</span> <span class="nx">YUD</span><span class="o">.</span><span class="nx">getAncestorByClassName</span><span class="o">(</span><span class="nx">panel</span><span class="o">,</span> <span class="nx">that</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">PANEL</span><span class="o">);</span>
+                    <span class="o">}</span>
+                    <span class="k">for</span> <span class="o">(</span><span class="k">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="m">0</span><span class="o">,</span> <span class="nx">p</span> <span class="o">=</span> <span class="nx">panel</span><span class="o">;</span> <span class="nx">p</span><span class="o">.</span><span class="nx">previousSibling</span><span class="o">;</span> <span class="nx">i</span><span class="o">++)</span> <span class="o">{</span>
+                        <span class="nx">p</span> <span class="o">=</span> <span class="nx">p</span><span class="o">.</span><span class="nx">previousSibling</span><span class="o">;</span>
+                    <span class="o">}</span>
+                    <span class="k">return</span> <span class="nx">that</span><span class="o">.</span><span class="nx">fireEvent</span><span class="o">(</span><span class="nx">type</span><span class="o">,</span> <span class="o">{</span><span class="nx">panel</span><span class="o">:</span> <span class="nx">panel</span><span class="o">,</span> <span class="nx">index</span><span class="o">:</span> <span class="nx">i</span><span class="o">});</span>
+                <span class="o">}</span>
+                      
+                <span class="k">if</span><span class="o">(!</span><span class="nx">elClicked</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">if</span><span class="o">(!</span><span class="nx">el</span><span class="o">)</span> <span class="o">{</span> <span class="k">return</span> <span class="kc">false</span> <span class="o">;}</span>
+                    <span class="nx">elClicked</span> <span class="o">=</span> <span class="nx">el</span><span class="o">.</span><span class="nx">parentNode</span><span class="o">.</span><span class="nx">firstChild</span><span class="o">;</span>
+                <span class="o">}</span>
+                <span class="k">var</span> <span class="nx">oOptions</span> <span class="o">=</span> <span class="o">{};</span>
+                <span class="k">var</span> <span class="nx">nHeight</span> <span class="o">=</span> <span class="m">0</span><span class="o">;</span>
+
+                <span class="k">var</span> <span class="nx">bHideAfter</span> <span class="o">=</span> <span class="o">(!</span><span class="nx">YUD</span><span class="o">.</span><span class="nx">hasClass</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">HIDDEN</span><span class="o">));</span>
+
+                <span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="s1">&#39;animate&#39;</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="k">if</span><span class="o">(!</span><span class="nx">bHideAfter</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="c">// this eliminates a flash in Gecko &lt; 1.9</span>
+<span class="c"></span>                        <span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_ff2</span><span class="o">)</span> <span class="o">{</span>
+                            <span class="nx">YUD</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;almosthidden&#39;</span><span class="o">);</span>
+                            <span class="nx">YUD</span><span class="o">.</span><span class="nx">setStyle</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;width&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="s1">&#39;width&#39;</span><span class="o">));</span>
+                            <span class="o">}</span>
+                        <span class="nx">YUD</span><span class="o">.</span><span class="nx">removeClass</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">HIDDEN</span><span class="o">);</span>
+                        <span class="nx">nHeight</span> <span class="o">=</span> <span class="nx">el</span><span class="o">.</span><span class="nx">offsetHeight</span><span class="o">;</span>
+                        <span class="nx">YUD</span><span class="o">.</span><span class="nx">setStyle</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;height&#39;</span><span class="o">,</span> <span class="m">0</span><span class="o">);</span>
+                        <span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_ff2</span><span class="o">)</span> <span class="o">{</span>
+                            <span class="nx">YUD</span><span class="o">.</span><span class="nx">removeClass</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;almosthidden&#39;</span><span class="o">);</span>
+                            <span class="nx">YUD</span><span class="o">.</span><span class="nx">setStyle</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;width&#39;</span><span class="o">,</span> <span class="s1">&#39;auto&#39;</span><span class="o">);</span>
+                            <span class="o">}</span>
+                        <span class="nx">oOptions</span> <span class="o">=</span> <span class="o">{</span><span class="nx">height</span><span class="o">:</span> <span class="o">{</span><span class="nx">from</span><span class="o">:</span> <span class="m">0</span><span class="o">,</span> <span class="nx">to</span><span class="o">:</span> <span class="nx">nHeight</span><span class="o">}};</span>
+                    <span class="o">}</span>
+                    <span class="k">else</span> <span class="o">{</span>
+                        <span class="nx">nHeight</span> <span class="o">=</span> <span class="nx">el</span><span class="o">.</span><span class="nx">offsetHeight</span><span class="o">;</span>
+                        <span class="nx">oOptions</span> <span class="o">=</span> <span class="o">{</span><span class="nx">height</span><span class="o">:</span> <span class="o">{</span><span class="nx">from</span><span class="o">:</span> <span class="nx">nHeight</span><span class="o">,</span> <span class="nx">to</span><span class="o">:</span> <span class="m">0</span><span class="o">}};</span>
+                    <span class="o">}</span>
+                    <span class="k">var</span> <span class="nx">nSpeed</span> <span class="o">=</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="s1">&#39;animationSpeed&#39;</span><span class="o">))</span> <span class="o">?</span> <span class="k">this</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="s1">&#39;animationSpeed&#39;</span><span class="o">)</span> <span class="o">:</span> <span class="m">0</span><span class="o">.</span><span class="m">5</span><span class="o">;</span>
+                    <span class="k">var</span> <span class="nx">sEffect</span> <span class="o">=</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="s1">&#39;effect&#39;</span><span class="o">))</span> <span class="o">?</span> <span class="k">this</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="s1">&#39;effect&#39;</span><span class="o">)</span> <span class="o">:</span> <span class="nx">YAHOO</span><span class="o">.</span><span class="nx">util</span><span class="o">.</span><span class="nx">Easing</span><span class="o">.</span><span class="nx">easeBoth</span><span class="o">;</span>
+                    <span class="k">var</span> <span class="nx">oAnimator</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">YUA</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">oOptions</span><span class="o">,</span> <span class="nx">nSpeed</span><span class="o">,</span> <span class="nx">sEffect</span><span class="o">);</span>
+                    <span class="k">if</span><span class="o">(</span><span class="nx">bHideAfter</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">fireEvent</span><span class="o">(</span><span class="nx">panelCloseEvent</span><span class="o">,</span> <span class="nx">el</span><span class="o">)</span> <span class="o">===</span> <span class="kc">false</span><span class="o">)</span> <span class="o">{</span> <span class="k">return</span><span class="o">;</span> <span class="o">}</span>
+                        <span class="nx">YUD</span><span class="o">.</span><span class="nx">removeClass</span><span class="o">(</span><span class="nx">elClicked</span><span class="o">,</span> <span class="nx">that</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">ACTIVE</span><span class="o">);</span>
+                        <span class="nx">elClicked</span><span class="o">.</span><span class="nx">tabIndex</span> <span class="o">=</span> <span class="o">-</span><span class="m">1</span><span class="o">;</span>
+                        <span class="nx">iehide</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;hidden&#39;</span><span class="o">);</span>
+                        <span class="nx">that</span><span class="o">.</span><span class="nx">_setARIA</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;aria-hidden&#39;</span><span class="o">,</span> <span class="s1">&#39;true&#39;</span><span class="o">);</span>
+                        <span class="nx">that</span><span class="o">.</span><span class="nx">_setARIA</span><span class="o">(</span><span class="nx">elClicked</span><span class="o">,</span> <span class="s1">&#39;aria-expanded&#39;</span><span class="o">,</span> <span class="s1">&#39;false&#39;</span><span class="o">);</span>
+                        <span class="nx">oAnimator</span><span class="o">.</span><span class="nx">onComplete</span><span class="o">.</span><span class="nx">subscribe</span><span class="o">(</span><span class="k">function</span><span class="o">(){</span>
+                            <span class="nx">YUD</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">that</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">HIDDEN</span><span class="o">);</span>
+                            <span class="nx">YUD</span><span class="o">.</span><span class="nx">setStyle</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;height&#39;</span><span class="o">,</span> <span class="s1">&#39;auto&#39;</span><span class="o">);</span>
+                            <span class="nx">fireEvent</span><span class="o">(</span><span class="s1">&#39;afterPanelClose&#39;</span><span class="o">,</span> <span class="nx">el</span><span class="o">);</span>
+                        <span class="o">});</span>
+                    <span class="o">}</span>
+                    <span class="k">else</span> <span class="o">{</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="nx">fireEvent</span><span class="o">(</span><span class="nx">panelOpenEvent</span><span class="o">,</span> <span class="nx">el</span><span class="o">)</span> <span class="o">===</span> <span class="kc">false</span><span class="o">)</span> <span class="o">{</span> <span class="k">return</span><span class="o">;</span> <span class="o">}</span>
+                        <span class="c">//changed from visible to hidden so it doesn&#39;t show up behind the parent accordion until after the animation</span>
+<span class="c"></span>                        <span class="nx">iehide</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;hidden&#39;</span><span class="o">);</span>
+                        <span class="nx">oAnimator</span><span class="o">.</span><span class="nx">onComplete</span><span class="o">.</span><span class="nx">subscribe</span><span class="o">(</span><span class="k">function</span><span class="o">(){</span>
+                            <span class="nx">YUD</span><span class="o">.</span><span class="nx">setStyle</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;height&#39;</span><span class="o">,</span> <span class="s1">&#39;auto&#39;</span><span class="o">);</span>
+                            <span class="c">//Added to make the inner accordion visible again</span>
+<span class="c"></span>                            <span class="nx">iehide</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;visible&#39;</span><span class="o">);</span>
+                            <span class="nx">that</span><span class="o">.</span><span class="nx">_setARIA</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;aria-hidden&#39;</span><span class="o">,</span> <span class="s1">&#39;false&#39;</span><span class="o">);</span>
+                            <span class="nx">that</span><span class="o">.</span><span class="nx">_setARIA</span><span class="o">(</span><span class="nx">elClicked</span><span class="o">,</span> <span class="s1">&#39;aria-expanded&#39;</span><span class="o">,</span> <span class="s1">&#39;true&#39;</span><span class="o">);</span>
+                            <span class="nx">elClicked</span><span class="o">.</span><span class="nx">tabIndex</span> <span class="o">=</span> <span class="m">0</span><span class="o">;</span>
+                            <span class="nx">fireEvent</span><span class="o">(</span><span class="nx">afterPanelOpenEvent</span><span class="o">,</span> <span class="nx">el</span><span class="o">);</span>
+                        <span class="o">});</span>                 
+                        <span class="nx">YUD</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="nx">elClicked</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">ACTIVE</span><span class="o">);</span>
+                    <span class="o">}</span>
+                    <span class="nx">oAnimator</span><span class="o">.</span><span class="nx">animate</span><span class="o">();</span>
+                <span class="o">}</span>
+                <span class="k">else</span> <span class="o">{</span>
+                    <span class="k">if</span><span class="o">(</span><span class="nx">bHideAfter</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="nx">fireEvent</span><span class="o">(</span><span class="nx">panelCloseEvent</span><span class="o">,</span> <span class="nx">el</span><span class="o">)</span> <span class="o">===</span> <span class="kc">false</span><span class="o">)</span> <span class="o">{</span> <span class="k">return</span><span class="o">;</span> <span class="o">}</span>
+                        <span class="nx">YUD</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">that</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">HIDDEN</span><span class="o">);</span>
+                        <span class="nx">YUD</span><span class="o">.</span><span class="nx">setStyle</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;height&#39;</span><span class="o">,</span> <span class="s1">&#39;auto&#39;</span><span class="o">);</span>
+                        <span class="nx">YUD</span><span class="o">.</span><span class="nx">removeClass</span><span class="o">(</span><span class="nx">elClicked</span><span class="o">,</span> <span class="nx">that</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">ACTIVE</span><span class="o">);</span>
+                        <span class="nx">that</span><span class="o">.</span><span class="nx">_setARIA</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;aria-hidden&#39;</span><span class="o">,</span> <span class="s1">&#39;true&#39;</span><span class="o">);</span>
+                        <span class="nx">that</span><span class="o">.</span><span class="nx">_setARIA</span><span class="o">(</span><span class="nx">elClicked</span><span class="o">,</span> <span class="s1">&#39;aria-expanded&#39;</span><span class="o">,</span> <span class="s1">&#39;false&#39;</span><span class="o">);</span>
+                        <span class="nx">elClicked</span><span class="o">.</span><span class="nx">tabIndex</span> <span class="o">=</span> <span class="o">-</span><span class="m">1</span><span class="o">;</span>
+                        <span class="nx">fireEvent</span><span class="o">(</span><span class="nx">afterPanelCloseEvent</span><span class="o">,</span> <span class="nx">el</span><span class="o">);</span>
+                    <span class="o">}</span>
+                    <span class="k">else</span> <span class="o">{</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="nx">fireEvent</span><span class="o">(</span><span class="nx">panelOpenEvent</span><span class="o">,</span> <span class="nx">el</span><span class="o">)</span> <span class="o">===</span> <span class="kc">false</span><span class="o">)</span> <span class="o">{</span> <span class="k">return</span><span class="o">;</span> <span class="o">}</span>
+                        <span class="nx">YUD</span><span class="o">.</span><span class="nx">removeClass</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">that</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">HIDDEN</span><span class="o">);</span>
+                        <span class="nx">YUD</span><span class="o">.</span><span class="nx">setStyle</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;height&#39;</span><span class="o">,</span> <span class="s1">&#39;auto&#39;</span><span class="o">);</span>
+                        <span class="nx">YUD</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="nx">elClicked</span><span class="o">,</span> <span class="nx">that</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">ACTIVE</span><span class="o">);</span>
+                        <span class="nx">that</span><span class="o">.</span><span class="nx">_setARIA</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;aria-hidden&#39;</span><span class="o">,</span> <span class="s1">&#39;false&#39;</span><span class="o">);</span>
+                        <span class="nx">that</span><span class="o">.</span><span class="nx">_setARIA</span><span class="o">(</span><span class="nx">elClicked</span><span class="o">,</span> <span class="s1">&#39;aria-expanded&#39;</span><span class="o">,</span> <span class="s1">&#39;true&#39;</span><span class="o">);</span>
+                        <span class="nx">elClicked</span><span class="o">.</span><span class="nx">tabIndex</span> <span class="o">=</span> <span class="m">0</span><span class="o">;</span>
+                        <span class="nx">fireEvent</span><span class="o">(</span><span class="nx">afterPanelOpenEvent</span><span class="o">,</span> <span class="nx">el</span><span class="o">);</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+                <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="k">var</span> <span class="nx">eTargetListNode</span> <span class="o">=</span> <span class="o">(</span><span class="nx">elClickedNode</span><span class="o">.</span><span class="nx">nodeName</span><span class="o">.</span><span class="nx">toUpperCase</span><span class="o">()</span> <span class="o">===</span> <span class="s1">&#39;SPAN&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="nx">elClickedNode</span><span class="o">.</span><span class="nx">parentNode</span><span class="o">.</span><span class="nx">parentNode</span> <span class="o">:</span> <span class="nx">elClickedNode</span><span class="o">.</span><span class="nx">parentNode</span><span class="o">;</span>
+
+            <span class="k">var</span> <span class="nx">containedPanel</span> <span class="o">=</span> <span class="nx">YUD</span><span class="o">.</span><span class="nx">getElementsByClassName</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">CONTENT</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">CONFIG</span><span class="o">.</span><span class="nx">CONTENT_WRAPPER_TAG_NAME</span><span class="o">,</span> <span class="nx">eTargetListNode</span><span class="o">)[</span><span class="m">0</span><span class="o">];</span> 
+            <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">fireEvent</span><span class="o">(</span><span class="nx">beforeStateChangeEvent</span><span class="o">,</span> <span class="k">this</span><span class="o">)</span> <span class="o">===</span> <span class="kc">false</span><span class="o">)</span> <span class="o">{</span> <span class="k">return</span><span class="o">;</span> <span class="o">}</span>
+            <span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="s1">&#39;collapsible&#39;</span><span class="o">)</span> <span class="o">===</span> <span class="kc">false</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(!</span><span class="nx">YUD</span><span class="o">.</span><span class="nx">hasClass</span><span class="o">(</span><span class="nx">containedPanel</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">HIDDEN</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="k">else</span> <span class="o">{</span>
+                <span class="k">if</span><span class="o">(!</span><span class="nx">YUD</span><span class="o">.</span><span class="nx">hasClass</span><span class="o">(</span><span class="nx">containedPanel</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">HIDDEN</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="nx">toggleItem</span><span class="o">.</span><span class="nx">call</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="nx">containedPanel</span><span class="o">);</span>
+                    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>               
+                <span class="o">}</span>
+            <span class="o">}</span>
+                    
+            <span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="s1">&#39;expandable&#39;</span><span class="o">)</span> <span class="o">!==</span> <span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">var</span> <span class="nx">nLength</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">_panels</span><span class="o">.</span><span class="nx">length</span><span class="o">;</span>
+                <span class="k">for</span><span class="o">(</span><span class="k">var</span> <span class="nx">i</span><span class="o">=</span><span class="m">0</span><span class="o">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">nLength</span><span class="o">;</span> <span class="nx">i</span><span class="o">++)</span> <span class="o">{</span>
+                    <span class="k">var</span> <span class="nx">bMustToggle</span> <span class="o">=</span> <span class="nx">YUD</span><span class="o">.</span><span class="nx">hasClass</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_panels</span><span class="o">[</span><span class="nx">i</span><span class="o">].</span><span class="nx">firstChild</span><span class="o">.</span><span class="nx">nextSibling</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">CLASSES</span><span class="o">.</span><span class="nx">HIDDEN</span><span class="o">);</span>
+                    <span class="k">if</span><span class="o">(!</span><span class="nx">bMustToggle</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="nx">toggleItem</span><span class="o">.</span><span class="nx">call</span><span class="o">(</span><span class="k">this</span><span class="o">,</span><span class="k">this</span><span class="o">.</span><span class="nx">_panels</span><span class="o">[</span><span class="nx">i</span><span class="o">].</span><span class="nx">firstChild</span><span class="o">.</span><span class="nx">nextSibling</span><span class="o">);</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            
+            <span class="k">if</span><span class="o">(</span><span class="nx">elClickedNode</span><span class="o">.</span><span class="nx">nodeName</span><span class="o">.</span><span class="nx">toUpperCase</span><span class="o">()</span> <span class="o">===</span> <span class="s1">&#39;SPAN&#39;</span><span class="o">)</span>  <span class="o">{</span>
+                <span class="nx">toggleItem</span><span class="o">.</span><span class="nx">call</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="nx">containedPanel</span><span class="o">,</span> <span class="nx">elClickedNode</span><span class="o">.</span><span class="nx">parentNode</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">else</span> <span class="o">{</span>
+                <span class="nx">toggleItem</span><span class="o">.</span><span class="nx">call</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="nx">containedPanel</span><span class="o">,</span> <span class="nx">elClickedNode</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="o">},</span>
+        
+        <span class="c">/**</span>
+<span class="c">        * Provides a readable name for the AccordionView instance.</span>
+<span class="c">        * @method toString</span>
+<span class="c">        * @return {String} String representation of the object </span>
+<span class="c">        */</span>
+        <span class="nx">toString</span> <span class="o">:</span> <span class="k">function</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">var</span> <span class="nx">name</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="s1">&#39;id&#39;</span><span class="o">)</span> <span class="o">||</span> <span class="k">this</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="s1">&#39;tagName&#39;</span><span class="o">);</span>
+            <span class="k">return</span> <span class="s2">&quot;AccordionView &quot;</span> <span class="o">+</span> <span class="nx">name</span><span class="o">;</span> 
+        <span class="o">}</span>
+    <span class="o">});</span>    
+<span class="o">})();</span>
+<span class="nx">YAHOO</span><span class="o">.</span><span class="nx">register</span><span class="o">(</span><span class="s2">&quot;accordionview&quot;</span><span class="o">,</span> <span class="nx">YAHOO</span><span class="o">.</span><span class="nx">widget</span><span class="o">.</span><span class="nx">AccordionView</span><span class="o">,</span> <span class="o">{</span><span class="nx">version</span><span class="o">:</span> <span class="s2">&quot;0.99&quot;</span><span class="o">,</span> <span class="nx">build</span><span class="o">:</span> <span class="s2">&quot;33&quot;</span><span class="o">});</span>
+</pre></div>
+                    </div>
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+
+                                <li class="selected"><a href="module_accordionview.html">accordionview</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class=""><a href="YAHOO.widget.AccordionView.html">YAHOO.widget.AccordionView</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class="selected"><a href="accordionview.js.html">accordionview.js</a></li>
+                        </ul>
+                    </div>
+
+
+
+
+
+            </div>
+		</div>
+	</div>
+	<div id="ft">
+        <hr />
+        Copyright &copy; 2008 Marco van Hylckama Vlieg All rights reserved.
+	</div>
+</div>
+</body>
+</html>

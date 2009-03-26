@@ -1,0 +1,389 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <title>Inspector</title>
+
+    <!-- common styleguide styles -->
+    <%= stylesheet_link_tag "styleguide/styleguide.css" %>
+    <%= stylesheet_link_tag "styleguide/examples.css" %>
+  
+    <!-- YUI 3 basic grids -->
+    <%= stylesheet_link_tag "inspector/yui3/reset-context.css" %>
+    <%= stylesheet_link_tag "inspector/yui3/fonts-context.css" %>
+    <%= stylesheet_link_tag "inspector/yui3/grids-context.css" %>
+    <%= stylesheet_link_tag "inspector/yui3/base-context.css" %>
+    
+    <!-- YUI 2 Common -->
+    <%= javascript_include_tag "inspector/yui2/utilities/utilities.js" %>
+    <%= javascript_include_tag "inspector/yui2/dragdrop/dragdrop.js" %>
+    
+    <!-- YUI 2 Panel -->
+    <%= stylesheet_link_tag "inspector/yui2/container/assets/skins/sam/container.css" %>
+    <%= stylesheet_link_tag "inspector/yui2/resize/assets/skins/sam/resize.css" %>
+    <%= javascript_include_tag "inspector/yui2/container/container.js" %>
+    <%= javascript_include_tag "inspector/yui2/resize/resize.js" %>
+    
+    <!-- YUI 2 Accordion ref: http://www.i-marco.nl/weblog/yui-accordion/ -->
+    <%= stylesheet_link_tag "inspector/accordionview/accordionview.css" %>
+    <%= javascript_include_tag "inspector/accordionview/accordionview.js" %>
+    
+    <!-- jsHub Inspector -->
+    <%= stylesheet_link_tag "inspector/inspector.css" %>
+    <%= javascript_include_tag "inspector/inspector.js" %>
+  
+</head>
+<body class="jshub yui-skin-sam">
+
+<h1>Inspector</h1>
+<p>Development of the Inspector for jsHub based on YUI 2 Library.</p>
+
+<h2>Floating</h2>
+
+<div id="example1" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
+  <div id="inspector-floating" class="state1" >
+    <div class="hd">Activity Inspector</div>
+    <div class="bd">
+      <ul>
+        <li>jsHub</li>
+      </ul>
+    </div>
+    <div class="ft">jsHub Activity Inspector v1.123</div>
+  </div>
+</div>
+
+<style type="text/css" media="screen">
+  #inspector-floating .hd {
+    display: none;
+  }
+  #inspector-floating .bd ul {
+    margin: 0;
+    padding: 0;
+  }
+  #inspector-floating .bd ul li {
+    list-style-image: url(<%= url_for '../images/inspector/accept.png' %>);
+    list-style-position: inside;
+    list-style-type: disc;  
+  }
+  #inspector-floating .ft {
+    display: none;
+  }
+</style>
+
+<script type="text/javascript">
+  var inspectorFloating = new YAHOO.widget.Panel("inspector-floating", {
+        width: "100px", 
+        draggable: false, 
+        close: false, 
+        constraintoviewport: true, 
+        context:['example1','br','br']
+      })
+  inspectorFloating.render();
+</script>
+
+
+<h2>Minimised</h2>
+
+<div id="example2" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
+  <div id="inspector-minimised" class="state2" >
+    <div class="hd">Activity Inspector</div>
+    <div class="bd">
+      <div class="yui-g">
+        <div class="yui-u first">
+          Large Icon
+        </div>
+        <div class="yui-u">
+          jsHub is <br />
+          Installed &amp; active
+        </div>
+      </div>
+      <div class="yui-g">
+          View Events
+      </div>
+    </div>
+    <div class="ft">jsHub Activity Inspector v1.123</div>
+  </div>
+</div>
+
+<style type="text/css" media="screen">
+  #inspector-minimised .bd {
+  }
+  #inspector-minimised .ft {
+  }
+</style>
+
+<script type="text/javascript">
+  var inspectorMinimised = new YAHOO.widget.Panel("inspector-minimised", {
+        width: "225px",
+        draggable: true, 
+        close: true, 
+        constraintoviewport: true
+      })
+  inspectorMinimised.render();
+</script>
+
+
+<h2>Maximised</h2>
+
+<div id="example3" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
+  <div id="inspector-maximised" class="state3" >
+    <div class="hd">Activity Inspector</div>
+    <div class="bd">
+      <div class="yui-g">
+        <div class="yui-u first">
+          Small Icon
+        </div>
+        <div class="yui-u">
+          Installed &amp; active
+        </div>
+      </div>
+      <div class="yui-g">
+          Find <input type="text" />
+      </div>
+      <div>
+        <ul id="event-list">
+          <li>
+            <div class="hd">
+               Page (8)
+            </div>
+            <div class="bd">
+              <div class="yui-g">
+                <div class="yui-u first">
+                  Page-view-complete: <br />
+                  Google Analytics
+                </div>
+                <div class="yui-u">
+                   True
+                </div>
+              </div>
+              <div class="yui-g">
+                <hr />
+              </div>
+              
+              <div class="yui-g">
+                <div class="yui-u first">
+                  Page-name:
+                </div>
+                <div class="yui-u">
+                   Homepage
+                </div>
+              </div>
+              <div class="yui-g">
+                <ul>
+                  <li>Different values are being set:</li>
+                </ul>
+              </div>
+              <div class="yui-g">
+                <div class="yui-u first">
+                  Google Analytics
+                </div>
+                <div class="yui-u">
+                   Homepage
+                </div>
+              </div>
+              <div class="yui-g">
+                <div class="yui-u first">
+                  Coremetrics
+                </div>
+                <div class="yui-u">
+                   Home1
+                </div>
+              </div>
+              <div class="yui-g">
+                <div class="yui-u first">
+                  MF - pageview
+                </div>
+                <div class="yui-u">
+                   Homepage1
+                </div>
+              </div>
+              <div class="yui-g">
+                <hr />
+              </div>
+              
+              <div class="yui-g">
+                <div class="yui-u first">
+                  Page-category:
+                </div>
+                <div class="yui-u">
+                   Electrics
+                </div>
+              </div>
+              <div class="yui-g">
+                <ul>
+                  <li>Different values are being set:</li>
+                </ul>
+              </div>
+              <div class="yui-g">
+                <div class="yui-u first">
+                  Google Analytics
+                </div>
+                <div class="yui-u">
+                   Electrics
+                </div>
+              </div>
+              <div class="yui-g">
+                <div class="yui-u first">
+                  Coremetrics
+                </div>
+                <div class="yui-u">
+                   Homeware
+                </div>
+              </div>
+              <div class="yui-g">
+                <hr />
+              </div>
+
+              <div class="yui-g">
+                <div class="yui-u first">
+                  Page-ref: <br />
+                  Coremetrics
+                </div>
+                <div class="yui-u">
+                   123
+                </div>
+              </div>
+              <div class="yui-g">
+                <hr />
+              </div>
+
+            </div>
+          </li>
+          <li>
+            <div class="hd">
+               User Interactions (3)
+            </div>
+            <div class="bd">
+              <div class="yui-g help-text" title="<p>Coremetrics event.</p><p>Rollover reveal <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href='../docs/'>View documentation</a></p>">
+                <div class="yui-u first">
+                  Rollover reveal: <br />
+                  Coremetrics
+                </div>
+                <div class="yui-u">
+                   Prod123
+                </div>
+              </div>
+              <div class="yui-g">
+                <hr />
+              </div>
+
+              <div class="yui-g help-text" title="<p>Google Analytics event.</p><p>DetailsClick <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href='../docs/'>View documentation</a></p>">
+                <div class="yui-u first">
+                  DetailsClick: <br />
+                  Google Analytics
+                </div>
+                <div class="yui-u">
+                   123
+                </div>
+              </div>
+              <div class="yui-g">
+                <hr />
+              </div>
+
+              <div class="yui-g help-text" title="<p>Coremetrics event.</p><p>DetailsClicked <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href='../docs/'>View documentation</a></p>">
+                <div class="yui-u first">
+                  DetailsClicked: <br />
+                  Coremetrics
+                </div>
+                <div class="yui-u">
+                   Prod123
+                </div>
+              </div>
+              <div class="yui-g">
+                <hr />
+              </div>
+
+            </div>
+          </li>
+          <li>
+            <h3>Product data (6)</h3>
+            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam sit amet neque a elit convallis ullamcorper. Proin fermentum iaculis elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus quis enim quis neque convallis porta. Proin posuere convallis nunc. Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo. Cras odio metus, placerat ultricies, mollis ut, interdum ut, turpis. Aliquam vitae ligula vitae nunc vestibulum aliquet.</p>
+          </li>
+          <li>
+            <h3>Shopping cart (3)</h3>
+            <p>Maecenas mi quam, lobortis eu, feugiat ac, consequat eget, enim. Vivamus ac turpis a velit lacinia tempus. Vestibulum ac arcu. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce porttitor, ligula at cursus accumsan, metus enim gravida metus, id euismod turpis nibh vitae dolor. Sed magna orci, luctus ac, commodo id, malesuada vitae, lorem. Sed mattis metus. Integer vel massa.</p>
+          </li>
+          <li>
+            <h3>Inline content updates (1)</h3>
+            <p>Donec euismod gravida purus. Suspendisse dignissim velit id lectus. Nunc ultricies pede vel orci. Fusce commodo leo vitae mi. Quisque eleifend blandit quam. Quisque eu arcu sed dolor tincidunt fermentum. Pellentesque lorem erat, pulvinar eget, pellentesque nec, cursus at, risus. Phasellus enim purus, pulvinar eget, viverra at, congue id, massa. Cras ac quam feugiat nulla luctus dapibus.</p>
+          </li>  
+          <li>
+            <h3>Data sources (3)</h3>
+            <p>Donec euismod gravida purus. Suspendisse dignissim velit id lectus. Nunc ultricies pede vel orci. Fusce commodo leo vitae mi. Quisque eleifend blandit quam. Quisque eu arcu sed dolor tincidunt fermentum. Pellentesque lorem erat, pulvinar eget, pellentesque nec, cursus at, risus. Phasellus enim purus, pulvinar eget, viverra at, congue id, massa. Cras ac quam feugiat nulla luctus dapibus.</p>
+          </li>  
+        </ul>
+      </div>
+      <div class="yui-g">
+          Hide Events
+      </div>
+    </div>
+    <div class="ft">jsHub Activity Inspector v1.123</div>
+  </div>
+</div>
+
+<style type="text/css" media="screen">
+  #inspector-maximised .bd ul#event-list {
+    margin: 0;
+  }
+  #inspector-maximised .yui-resize-handle-br {
+    right: 0;
+    bottom: 0;
+    height: 8px;
+    width: 8px;
+    position:absolute; 
+  }  
+</style>
+
+<script type="text/javascript">
+  // init the accordion inside the panel body
+  var menu2 = new YAHOO.widget.AccordionView('event-list', {
+        width: '100%', 
+        collapsible: true
+      });
+  // init the panel
+  var inspectorMaximised = new YAHOO.widget.Panel("inspector-maximised", {
+        width: "225px",
+        draggable: true, 
+        close: true,
+        autofillheight: "body",
+        constraintoviewport: true
+      })
+  inspectorMaximised.render();
+
+  // add contextual tooltips for event specific help using the title attribute
+  // TODO make this appear above the panel
+  var eventListHelp = new YAHOO.widget.Tooltip("eventListHelp", { 
+			  context: YAHOO.util.Dom.getElementsByClassName('help-text', 'div'),
+        constraintoviewport: true,
+			  width: "300px",
+			  zindex: 1000
+			});
+  
+  // Make the panel resizable and handle events and repainting ref: http://developer.yahoo.com/yui/examples/container/panel-resize.html
+  // TODO account for open/closed accordion in recalculating the body height
+  var inspectorMaximisedResize = new YAHOO.util.Resize('inspector-maximised', {
+    handles: ['br'],
+    autoRatio: false,
+    minWidth: 225,
+    minHeight: 287,
+    status: false
+  });
+  inspectorMaximisedResize.on("startResize", function(args) {
+    if (this.cfg.getProperty("constraintoviewport")) {
+        var D = YAHOO.util.Dom;
+        var clientRegion = D.getClientRegion();
+        var elRegion = D.getRegion(this.element);
+        inspectorMaximisedResize.set("maxWidth", clientRegion.right - elRegion.left - YAHOO.widget.Overlay.VIEWPORT_OFFSET);
+        inspectorMaximisedResize.set("maxHeight", clientRegion.bottom - elRegion.top - YAHOO.widget.Overlay.VIEWPORT_OFFSET);
+      } else {
+        inspectorMaximisedResize.set("maxWidth", null);
+        inspectorMaximisedResize.set("maxHeight", null);
+    }
+  }, inspectorMaximised, true);
+  inspectorMaximisedResize.on("resize", function(args) {
+    var panelHeight = args.height;
+    this.cfg.setProperty("height", panelHeight + "px");
+  }, inspectorMaximised, true);
+</script>
+
+</body>
+</html>
