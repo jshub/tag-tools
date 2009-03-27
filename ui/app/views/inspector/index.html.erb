@@ -35,7 +35,7 @@
 <body class="jshub yui-skin-sam">
 
 <h1>Inspector</h1>
-<p>Development of the Inspector for jsHub based on YUI 2 Library.</p>
+<p>Development of the Inspector for jsHub based on YUI 2 Library and accordion widget (<%= link_to 'docs', '../docs/' %>).</p>
 
 <h2>Floating</h2>
 
@@ -52,6 +52,11 @@
 </div>
 
 <style type="text/css" media="screen">
+  /* TODO the panel should be position: fixed to keep place when the viewport is scrolled ref: http://stackoverflow.com/questions/624414/yui-panel-and-scrolling
+  #inspector-floating {
+    position: fixed;
+  }
+  */
   #inspector-floating .hd {
     display: none;
   }
@@ -67,6 +72,7 @@
   #inspector-floating .ft {
     display: none;
   }
+  
 </style>
 
 <script type="text/javascript">
@@ -320,7 +326,7 @@
   </div>
 </div>
 
-<style type="text/css" media="screen">
+<style type="text/css" media="screen">  
   #inspector-maximised .bd ul#event-list {
     margin: 0;
   }
@@ -331,17 +337,27 @@
     width: 8px;
     position:absolute; 
   }  
+
+  /* constrain the max height of an individual panel in the accordion so that content scrolls */
+  #inspector-maximised .yui-accordion-content {
+    min-height: 150px;
+    max-height: 150px;
+    overflow: auto;
+  }
 </style>
 
 <script type="text/javascript">
   // init the accordion inside the panel body
   var menu2 = new YAHOO.widget.AccordionView('event-list', {
         width: '100%', 
-        collapsible: true
+        collapsible: true,
+        animate: false
       });
+      
   // init the panel
   var inspectorMaximised = new YAHOO.widget.Panel("inspector-maximised", {
         width: "225px",
+        height: "450px",
         draggable: true, 
         close: true,
         autofillheight: "body",
@@ -364,7 +380,7 @@
     handles: ['br'],
     autoRatio: false,
     minWidth: 225,
-    minHeight: 287,
+    minHeight: 450,
     status: false
   });
   inspectorMaximisedResize.on("startResize", function(args) {
