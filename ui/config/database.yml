@@ -23,3 +23,11 @@ production:
 
 passenger:
   development
+  
+# paths specific for the Gromit server
+gromit:
+  adapter: sqlite3
+  # Keep data between capistrano deployments by putting the database in shared/db
+  # The db:migrate version is kept in the database itself
+  database: /var/capistrano/ui/shared/db/production.sqlite3
+  timeout: 5000
