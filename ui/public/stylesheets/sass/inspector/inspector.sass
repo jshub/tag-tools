@@ -1,0 +1,41 @@
+# for image urls use ../../images/inspector/
+
+# CONSTANTS
+
+# Mixins
+=accessible-link-replacement
+  :display block
+  :height inherit
+  :overflow hidden
+  :text-indent -10000em
+  
+div.jshub.inspector
+  .state1, .state2, .state3
+    :font-size 85%
+    
+    .event-item
+      .bd
+        :margin 0px
+        :padding 0px
+    
+  # Closed - small floating icon
+  .state1
+    # TODO the panel should be position: fixed to keep place when the viewport is scrolled ref: http://stackoverflow.com/questions/624414/yui-panel-and-scrolling
+    # position: fixed;   
+    .hd
+      :display none
+    .bd ul
+      :margin 0
+      :padding 0
+    .bd ul li.status
+      :list-style-image url('../../images/inspector/accept.png')
+      :list-style-position inside
+      :list-style-type disc  
+    .ft
+      :display none
+  
+  # Minimised - panel has large icon and buttons
+  .state2
+  
+  # Maximised - with accordion data and live updating
+  .state3

@@ -1,0 +1,7 @@
+      <% 
+      # set defaults ref: http://hackd.thrivesmarthq.com/how-to-make-a-rails-partial-with-optional-locals-parameters
+        text = 'Unknown Action' if local_assigns[:text].nil? 
+      %>
+      <div class="yui-g button">
+          <p class="button"><%= text %></p>
+      </div>

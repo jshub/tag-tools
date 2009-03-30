@@ -1,0 +1,19 @@
+
+
+
+div.jshub.inspector .state1, div.jshub.inspector .state2, div.jshub.inspector .state3 {
+  font-size: 85%; }
+  div.jshub.inspector .state1 .event-item .bd,   div.jshub.inspector .state2 .event-item .bd,   div.jshub.inspector .state3 .event-item .bd {
+    margin: 0px;
+    padding: 0px; }
+div.jshub.inspector .state1 .hd {
+  display: none; }
+div.jshub.inspector .state1 .bd ul {
+  margin: 0;
+  padding: 0; }
+div.jshub.inspector .state1 .bd ul li.status {
+  list-style-image: url('../../images/inspector/accept.png');
+  list-style-position: inside;
+  list-style-type: disc; }
+div.jshub.inspector .state1 .ft {
+  display: none; }

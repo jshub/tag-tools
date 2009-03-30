@@ -41,39 +41,13 @@
 
 <div id="example1" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
   <div id="inspector-floating" class="state1" >
-    <div class="hd">Activity Inspector</div>
     <div class="bd">
       <ul>
-        <li>jsHub</li>
+        <li class="status">jsHub</li>
       </ul>
     </div>
-    <div class="ft">jsHub Activity Inspector v1.123</div>
   </div>
 </div>
-
-<style type="text/css" media="screen">
-  /* TODO the panel should be position: fixed to keep place when the viewport is scrolled ref: http://stackoverflow.com/questions/624414/yui-panel-and-scrolling
-  #inspector-floating {
-    position: fixed;
-  }
-  */
-  #inspector-floating .hd {
-    display: none;
-  }
-  #inspector-floating .bd ul {
-    margin: 0;
-    padding: 0;
-  }
-  #inspector-floating .bd ul li {
-    list-style-image: url(<%= url_for '../images/inspector/accept.png' %>);
-    list-style-position: inside;
-    list-style-type: disc;  
-  }
-  #inspector-floating .ft {
-    display: none;
-  }
-  
-</style>
 
 <script type="text/javascript">
   var inspectorFloating = new YAHOO.widget.Panel("inspector-floating", {
@@ -91,31 +65,18 @@
 
 <div id="example2" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
   <div id="inspector-minimised" class="state2" >
-    <div class="hd">Activity Inspector</div>
-    <div class="bd">
-      <div class="yui-g">
-        <div class="yui-u first">
-          Large Icon
-        </div>
-        <div class="yui-u">
-          jsHub is <br />
-          Installed &amp; active
-        </div>
-      </div>
-      <div class="yui-g">
-          View Events
-      </div>
+    <div class="hd">
+<%= render 'container_header' %>   
     </div>
-    <div class="ft">jsHub Activity Inspector v1.123</div>
+    <div class="bd">
+<%= render 'status_large' %>
+<%= render :partial => 'buttons', :locals => { :text => 'View Events' } %>
+    </div>
+    <div class="ft">
+<%= render 'container_footer' %>   
+    </div>
   </div>
 </div>
-
-<style type="text/css" media="screen">
-  #inspector-minimised .bd {
-  }
-  #inspector-minimised .ft {
-  }
-</style>
 
 <script type="text/javascript">
   var inspectorMinimised = new YAHOO.widget.Panel("inspector-minimised", {
@@ -130,199 +91,117 @@
 
 <h2>Maximised</h2>
 
+<p>
+<button id="setPanel1Title">Set Panel 1 Title</button>
+<button id="setPanel2Title">Set Panel 2 Title</button>
+<button id="addPanel1Title">Add to Panel 1 Title</button>
+<button id="addPanel2Title">Subtract from Panel 2 Title</button>
+</p>
+
 <div id="example3" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
+
   <div id="inspector-maximised" class="state3" >
-    <div class="hd">Activity Inspector</div>
-    <div class="bd">
-      <div class="yui-g">
-        <div class="yui-u first">
-          Small Icon
-        </div>
-        <div class="yui-u">
-          Installed &amp; active
-        </div>
-      </div>
-      <div class="yui-g">
-          Find <input type="text" />
-      </div>
-      <div>
-        <ul id="event-list">
-          <li>
-            <div class="hd">
-               Page (8)
-            </div>
-            <div class="bd">
-              <div class="yui-g">
-                <div class="yui-u first">
-                  Page-view-complete: <br />
-                  Google Analytics
-                </div>
-                <div class="yui-u">
-                   True
-                </div>
-              </div>
-              <div class="yui-g">
-                <hr />
-              </div>
-              
-              <div class="yui-g">
-                <div class="yui-u first">
-                  Page-name:
-                </div>
-                <div class="yui-u">
-                   Homepage
-                </div>
-              </div>
-              <div class="yui-g">
-                <ul>
-                  <li>Different values are being set:</li>
-                </ul>
-              </div>
-              <div class="yui-g">
-                <div class="yui-u first">
-                  Google Analytics
-                </div>
-                <div class="yui-u">
-                   Homepage
-                </div>
-              </div>
-              <div class="yui-g">
-                <div class="yui-u first">
-                  Coremetrics
-                </div>
-                <div class="yui-u">
-                   Home1
-                </div>
-              </div>
-              <div class="yui-g">
-                <div class="yui-u first">
-                  MF - pageview
-                </div>
-                <div class="yui-u">
-                   Homepage1
-                </div>
-              </div>
-              <div class="yui-g">
-                <hr />
-              </div>
-              
-              <div class="yui-g">
-                <div class="yui-u first">
-                  Page-category:
-                </div>
-                <div class="yui-u">
-                   Electrics
-                </div>
-              </div>
-              <div class="yui-g">
-                <ul>
-                  <li>Different values are being set:</li>
-                </ul>
-              </div>
-              <div class="yui-g">
-                <div class="yui-u first">
-                  Google Analytics
-                </div>
-                <div class="yui-u">
-                   Electrics
-                </div>
-              </div>
-              <div class="yui-g">
-                <div class="yui-u first">
-                  Coremetrics
-                </div>
-                <div class="yui-u">
-                   Homeware
-                </div>
-              </div>
-              <div class="yui-g">
-                <hr />
-              </div>
-
-              <div class="yui-g">
-                <div class="yui-u first">
-                  Page-ref: <br />
-                  Coremetrics
-                </div>
-                <div class="yui-u">
-                   123
-                </div>
-              </div>
-              <div class="yui-g">
-                <hr />
-              </div>
-
-            </div>
-          </li>
-          <li>
-            <div class="hd">
-               User Interactions (3)
-            </div>
-            <div class="bd">
-              <div class="yui-g help-text" title="<p>Coremetrics event.</p><p>Rollover reveal <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href='../docs/'>View documentation</a></p>">
-                <div class="yui-u first">
-                  Rollover reveal: <br />
-                  Coremetrics
-                </div>
-                <div class="yui-u">
-                   Prod123
-                </div>
-              </div>
-              <div class="yui-g">
-                <hr />
-              </div>
-
-              <div class="yui-g help-text" title="<p>Google Analytics event.</p><p>DetailsClick <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href='../docs/'>View documentation</a></p>">
-                <div class="yui-u first">
-                  DetailsClick: <br />
-                  Google Analytics
-                </div>
-                <div class="yui-u">
-                   123
-                </div>
-              </div>
-              <div class="yui-g">
-                <hr />
-              </div>
-
-              <div class="yui-g help-text" title="<p>Coremetrics event.</p><p>DetailsClicked <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href='../docs/'>View documentation</a></p>">
-                <div class="yui-u first">
-                  DetailsClicked: <br />
-                  Coremetrics
-                </div>
-                <div class="yui-u">
-                   Prod123
-                </div>
-              </div>
-              <div class="yui-g">
-                <hr />
-              </div>
-
-            </div>
-          </li>
-          <li>
-            <h3>Product data (6)</h3>
-            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam sit amet neque a elit convallis ullamcorper. Proin fermentum iaculis elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus quis enim quis neque convallis porta. Proin posuere convallis nunc. Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo. Cras odio metus, placerat ultricies, mollis ut, interdum ut, turpis. Aliquam vitae ligula vitae nunc vestibulum aliquet.</p>
-          </li>
-          <li>
-            <h3>Shopping cart (3)</h3>
-            <p>Maecenas mi quam, lobortis eu, feugiat ac, consequat eget, enim. Vivamus ac turpis a velit lacinia tempus. Vestibulum ac arcu. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce porttitor, ligula at cursus accumsan, metus enim gravida metus, id euismod turpis nibh vitae dolor. Sed magna orci, luctus ac, commodo id, malesuada vitae, lorem. Sed mattis metus. Integer vel massa.</p>
-          </li>
-          <li>
-            <h3>Inline content updates (1)</h3>
-            <p>Donec euismod gravida purus. Suspendisse dignissim velit id lectus. Nunc ultricies pede vel orci. Fusce commodo leo vitae mi. Quisque eleifend blandit quam. Quisque eu arcu sed dolor tincidunt fermentum. Pellentesque lorem erat, pulvinar eget, pellentesque nec, cursus at, risus. Phasellus enim purus, pulvinar eget, viverra at, congue id, massa. Cras ac quam feugiat nulla luctus dapibus.</p>
-          </li>  
-          <li>
-            <h3>Data sources (3)</h3>
-            <p>Donec euismod gravida purus. Suspendisse dignissim velit id lectus. Nunc ultricies pede vel orci. Fusce commodo leo vitae mi. Quisque eleifend blandit quam. Quisque eu arcu sed dolor tincidunt fermentum. Pellentesque lorem erat, pulvinar eget, pellentesque nec, cursus at, risus. Phasellus enim purus, pulvinar eget, viverra at, congue id, massa. Cras ac quam feugiat nulla luctus dapibus.</p>
-          </li>  
-        </ul>
-      </div>
-      <div class="yui-g">
-          Hide Events
-      </div>
+    <div class="hd">
+<%= render 'container_header' %>   
     </div>
-    <div class="ft">jsHub Activity Inspector v1.123</div>
+    <div class="bd">
+<%= render 'status_small' %>
+<%= render 'search' %>
+      <ul id="event-list">
+        <li>
+          <div>Page (<span class="count">8</span>)</div>
+          <div>
+
+<%# Different type of event list items %>
+<%= render :partial => 'event_item', :locals => { 
+      :id => 'event1',
+      :variable => 'Page-view-complete',
+      :vendor => 'Google Analytics',
+      :value => 'True'
+    } %>
+<%= render :partial => 'event_item', :locals => { 
+      :id => 'event2',
+      :variable => 'Page-name',
+      :value => 'Homepage',
+      :warning => true,
+      :warnings => {
+          'Google Analytics' => 'Homepage',
+          'Coremetrics' => 'Home1',
+          'MF - hPage' => 'Homepage1'
+        }
+    } %>
+<%= render :partial => 'event_item', :locals => { 
+      :id => 'event3',
+      :variable => 'Page-category',
+      :value => 'Electrics',
+      :warning => true,
+      :warnings => {
+          'Google Analytics' => 'Electrics',
+          'Coremetrics' => 'Homeware'
+        }
+    } %>    
+<%= render :partial => 'event_item', :locals => { 
+      :id => 'event4',
+      :variable => 'Page-ref',
+      :vendor => 'Coremetrics',
+      :value => '123'
+    } %>
+
+          </div>
+        </li>
+        <script type="text/javascript">
+        var eventListSection1 = new YAHOO.widget.Module("event-list-section1");
+        </script>
+        <li>
+          <div>User Interactions (<span class="count">3</span>)</div>
+          <div>
+
+<%= render :partial => 'event_item', :locals => { 
+      :id => 'event5',
+      :variable => 'Rollover reveal',
+      :vendor => 'Coremetrics',
+      :value => 'Prod123',
+      :help_text => "<p>Coremetrics event.</p><p>Rollover reveal <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href='../docs/'>View documentation</a></p>"
+    } %>
+<%= render :partial => 'event_item', :locals => { 
+      :id => 'event6',
+      :variable => 'DetailsClick',
+      :vendor => 'Google Analytics',
+      :value => '123',
+      :help_text => "<p>Google Analytics event.</p><p>DetailsClick <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href='../docs/'>View documentation</a></p>"
+    } %>
+<%= render :partial => 'event_item', :locals => { 
+      :id => 'event7',
+      :variable => 'DetailsClicked',
+      :vendor => 'Coremetrics',
+      :value => 'Prod123',
+      :help_text => "<p>Coremetrics event.</p><p>DetailsClicked <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href='../docs/'>View documentation</a></p>"
+    } %>
+    
+          </div>
+        </li>
+        <li>
+          <h3>Product data (6)</h3>
+          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam sit amet neque a elit convallis ullamcorper. Proin fermentum iaculis elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus quis enim quis neque convallis porta. Proin posuere convallis nunc. Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo. Cras odio metus, placerat ultricies, mollis ut, interdum ut, turpis. Aliquam vitae ligula vitae nunc vestibulum aliquet.</p>
+        </li>
+        <li>
+          <h3>Shopping cart (3)</h3>
+          <p>Maecenas mi quam, lobortis eu, feugiat ac, consequat eget, enim. Vivamus ac turpis a velit lacinia tempus. Vestibulum ac arcu. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce porttitor, ligula at cursus accumsan, metus enim gravida metus, id euismod turpis nibh vitae dolor. Sed magna orci, luctus ac, commodo id, malesuada vitae, lorem. Sed mattis metus. Integer vel massa.</p>
+        </li>
+        <li>
+          <h3>Inline content updates (1)</h3>
+          <p>Donec euismod gravida purus. Suspendisse dignissim velit id lectus. Nunc ultricies pede vel orci. Fusce commodo leo vitae mi. Quisque eleifend blandit quam. Quisque eu arcu sed dolor tincidunt fermentum. Pellentesque lorem erat, pulvinar eget, pellentesque nec, cursus at, risus. Phasellus enim purus, pulvinar eget, viverra at, congue id, massa. Cras ac quam feugiat nulla luctus dapibus.</p>
+        </li>  
+        <li>
+          <h3>Data sources (3)</h3>
+          <p>Donec euismod gravida purus. Suspendisse dignissim velit id lectus. Nunc ultricies pede vel orci. Fusce commodo leo vitae mi. Quisque eleifend blandit quam. Quisque eu arcu sed dolor tincidunt fermentum. Pellentesque lorem erat, pulvinar eget, pellentesque nec, cursus at, risus. Phasellus enim purus, pulvinar eget, viverra at, congue id, massa. Cras ac quam feugiat nulla luctus dapibus.</p>
+        </li>  
+      </ul>
+<%= render :partial => 'buttons', :locals => { :text => 'Hide Events' } %>
+    </div>
+    <div class="ft">
+<%= render 'container_footer' %>   
+    </div>
   </div>
 </div>
 
@@ -348,7 +227,7 @@
 
 <script type="text/javascript">
   // init the accordion inside the panel body
-  var menu2 = new YAHOO.widget.AccordionView('event-list', {
+  var eventList = new YAHOO.widget.AccordionView('event-list', {
         width: '100%', 
         collapsible: true,
         animate: false
@@ -399,6 +278,28 @@
     var panelHeight = args.height;
     this.cfg.setProperty("height", panelHeight + "px");
   }, inspectorMaximised, true);
+</script>
+
+<script type="text/javascript">
+// example interaction API
+function setPanelCount(panelNumber, count) {
+  var Dom = YAHOO.util.Dom;
+  // we have a ref to the accordion from when we init it
+  var panel = Dom.get(eventList.getPanel(panelNumber));
+  Dom.batch(Dom.getElementsByClassName('count', 'span', panel), function(el){el.innerHTML = count});
+}
+function addPanelCount(panelNumber, count) {
+  var Dom = YAHOO.util.Dom;
+  // we have a ref to the accordion from when we init it
+  var panel = Dom.get(eventList.getPanel(panelNumber));
+  Dom.batch(Dom.getElementsByClassName('count', 'span', panel), function(el){el.innerHTML = parseInt(el.innerHTML,10) + count});
+}
+
+YAHOO.util.Event.addListener("setPanel1Title", "click", function(){setPanelCount(0,9)} );
+YAHOO.util.Event.addListener("setPanel2Title", "click", function(){setPanelCount(1,23)} );
+YAHOO.util.Event.addListener("addPanel1Title", "click", function(){addPanelCount(0,1)} );
+YAHOO.util.Event.addListener("addPanel2Title", "click", function(){addPanelCount(1,-2)} );
+
 </script>
 
 </body>
