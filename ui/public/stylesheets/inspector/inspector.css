@@ -3,9 +3,14 @@
 
 div.jshub.inspector .state1, div.jshub.inspector .state2, div.jshub.inspector .state3 {
   font-size: 85%; }
-  div.jshub.inspector .state1 .event-item .bd,   div.jshub.inspector .state2 .event-item .bd,   div.jshub.inspector .state3 .event-item .bd {
-    margin: 0px;
-    padding: 0px; }
+  div.jshub.inspector .state1 .event-section .bd,   div.jshub.inspector .state2 .event-section .bd,   div.jshub.inspector .state3 .event-section .bd {
+    margin: 0;
+    padding: 0;
+    border: none; }
+  div.jshub.inspector .state1 .event-section .event-item .bd,   div.jshub.inspector .state2 .event-section .event-item .bd,   div.jshub.inspector .state3 .event-section .event-item .bd {
+    margin: 0;
+    padding: 0;
+    border: none; }
 div.jshub.inspector .state1 .hd {
   display: none; }
 div.jshub.inspector .state1 .bd ul {

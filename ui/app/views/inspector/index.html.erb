@@ -96,6 +96,8 @@
 <button id="setPanel2Title">Set Panel 2 Title</button>
 <button id="addPanel1Title">Add to Panel 1 Title</button>
 <button id="addPanel2Title">Subtract from Panel 2 Title</button>
+<button id="addPanel1Event">Add an Event to Panel 1</button>
+<button id="addPanel2Event">Add and Event to Panel 2</button>
 </p>
 
 <div id="example3" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
@@ -111,16 +113,17 @@
         <li>
           <div>Page (<span class="count">8</span>)</div>
           <div>
-
+            <div id="event-section-1" class="event-section">
+              <div class="bd">
 <%# Different type of event list items %>
 <%= render :partial => 'event_item', :locals => { 
-      :id => 'event1',
+      :id => 'event-1',
       :variable => 'Page-view-complete',
       :vendor => 'Google Analytics',
       :value => 'True'
     } %>
 <%= render :partial => 'event_item', :locals => { 
-      :id => 'event2',
+      :id => 'event-2',
       :variable => 'Page-name',
       :value => 'Homepage',
       :warning => true,
@@ -131,7 +134,7 @@
         }
     } %>
 <%= render :partial => 'event_item', :locals => { 
-      :id => 'event3',
+      :id => 'event-3',
       :variable => 'Page-category',
       :value => 'Electrics',
       :warning => true,
@@ -141,45 +144,49 @@
         }
     } %>    
 <%= render :partial => 'event_item', :locals => { 
-      :id => 'event4',
+      :id => 'event-4',
       :variable => 'Page-ref',
       :vendor => 'Coremetrics',
       :value => '123'
     } %>
 
+              </div><!-- close module bd -->
+            </div><!-- close module -->
           </div>
         </li>
-        <script type="text/javascript">
-        var eventListSection1 = new YAHOO.widget.Module("event-list-section1");
-        </script>
         <li>
           <div>User Interactions (<span class="count">3</span>)</div>
           <div>
+            <div id="event-section-2" class="event-section">
+              <div class="bd">
 
 <%= render :partial => 'event_item', :locals => { 
-      :id => 'event5',
+      :id => 'event-5',
       :variable => 'Rollover reveal',
       :vendor => 'Coremetrics',
       :value => 'Prod123',
       :help_text => "<p>Coremetrics event.</p><p>Rollover reveal <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href='../docs/'>View documentation</a></p>"
     } %>
 <%= render :partial => 'event_item', :locals => { 
-      :id => 'event6',
+      :id => 'event-6',
       :variable => 'DetailsClick',
       :vendor => 'Google Analytics',
       :value => '123',
       :help_text => "<p>Google Analytics event.</p><p>DetailsClick <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href='../docs/'>View documentation</a></p>"
     } %>
 <%= render :partial => 'event_item', :locals => { 
-      :id => 'event7',
+      :id => 'event-7',
       :variable => 'DetailsClicked',
       :vendor => 'Coremetrics',
       :value => 'Prod123',
       :help_text => "<p>Coremetrics event.</p><p>DetailsClicked <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href='../docs/'>View documentation</a></p>"
     } %>
-    
+
+              </div><!-- close module bd -->
+            </div><!-- close module -->
           </div>
         </li>
+
         <li>
           <h3>Product data (6)</h3>
           <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam sit amet neque a elit convallis ullamcorper. Proin fermentum iaculis elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus quis enim quis neque convallis porta. Proin posuere convallis nunc. Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo. Cras odio metus, placerat ultricies, mollis ut, interdum ut, turpis. Aliquam vitae ligula vitae nunc vestibulum aliquet.</p>
@@ -226,6 +233,11 @@
 </style>
 
 <script type="text/javascript">
+
+  // init the Modules indie the Accordion Panels
+  var eventSection1 = new YAHOO.widget.Module("event-section-1");
+  var eventSection2 = new YAHOO.widget.Module("event-section-2");
+
   // init the accordion inside the panel body
   var eventList = new YAHOO.widget.AccordionView('event-list', {
         width: '100%', 
@@ -294,11 +306,22 @@ function addPanelCount(panelNumber, count) {
   var panel = Dom.get(eventList.getPanel(panelNumber));
   Dom.batch(Dom.getElementsByClassName('count', 'span', panel), function(el){el.innerHTML = parseInt(el.innerHTML,10) + count});
 }
+function addPanelEvent(panelNumber) {
+  var Dom = YAHOO.util.Dom;
+  var newEvent = new YAHOO.widget.Module("new-event", { visible: false});
+  newEvent.cfg.queueProperty("visible", true);
+  newEvent.setBody("This is the body");
+  newEvent.render('event-section-'+panelNumber);
+  // TODO is an changeBodyEvent raised on the parent module when we add this one? This can trigger the Panel title count update
+  console.log('New Event added to Panel'+panelNumber)
+}
 
 YAHOO.util.Event.addListener("setPanel1Title", "click", function(){setPanelCount(0,9)} );
 YAHOO.util.Event.addListener("setPanel2Title", "click", function(){setPanelCount(1,23)} );
 YAHOO.util.Event.addListener("addPanel1Title", "click", function(){addPanelCount(0,1)} );
 YAHOO.util.Event.addListener("addPanel2Title", "click", function(){addPanelCount(1,-2)} );
+YAHOO.util.Event.addListener("addPanel1Event", "click", function(){addPanelEvent(1)} );
+YAHOO.util.Event.addListener("addPanel2Event", "click", function(){addPanelEvent(2)} );
 
 </script>
 
