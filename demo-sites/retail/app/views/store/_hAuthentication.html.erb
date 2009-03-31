@@ -1,10 +1,7 @@
 <!-- Authentication event markup -->
-<ul class="hauthentication">
-  <li>
-    hAuthentication event <br />
-    <code>&lt;div class="hauthentication"&gt;</code> <br />
-	  <code>&lt;span class="userid"&gt;<span class="user-id"><%= session[:username] %></span>&lt;/span&gt;</code> <br />
-	  <code>&lt;span class="auth-method"&gt;<span class="auth-method">Password</span>&lt;/span&gt;</code> <br />
-    <code>&lt;div&gt;</code>
-  </li>
-</ul>
+<div class="hauthentication">
+  <p>hAuthentication event <br />
+	<span class="user-id"><%= session[:username] %></span><br />
+	<span class="auth-method">Password</span><br />
+  </p>
+</div>

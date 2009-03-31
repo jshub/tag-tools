@@ -1,17 +1,12 @@
-<ul class="hpurchase">
-  <li>
-    hProductPurchase event <br />
-    <code>&lt;div class="hpurchase"&gt;</code> <br />
-    <code>&lt;span class="cart-id"&gt;<span class="cart-id"><%= @cart.order_id %></span>&lt;/span&gt;</code>
-    <code>&lt;span class="cart-price"&gt; &pound;<span class="cart-price"><%= @cart.total_price %></span>&lt;/span&gt;</code> <br />
-    <% for item in @cart.items %>
-      <code>&lt;span class="n"&gt;<span class="n"><%= item.name %></span>&lt;/span&gt;</code> <br />
-      <code>
-        &lt;span class="price"&gt;<span class="price"> 
-        &lt;span class="money"&gt;<span class="money">
-        &lt;abbr class="currency" title="GBP"&gt;<abbr class="currency" title="GBP">&pound;</abbr>&lt;/abbr&gt;&lt;span class="amount"&gt;<span class="amount"><%= item.product.price %></span>&lt;/span&gt;</span>&lt;/span&gt;</span>&lt;/span&gt;
-      </code> <br />
-      <code>&lt;span class="quantity"&gt;<span class="quantity"><%= item.quantity %></span>&lt;/span&gt;</code>
-    <% end %>
-  </li>
-</ul>
+<h3>hProductPurchase event</h3>
+<div class="hpurchase">
+  <span class="cart-id"><%= @cart.order_id %></span><br/>
+  <span class="cart-price"><%= @cart.total_price %></span><br/>
+  <% for item in @cart.items %>
+  <span class="n"><%= item.name %></span><br/>
+  <span class="price"><br/>
+    &nbsp;&nbsp;<span class="money"><abbr class="currency" title="GBP">&pound;</abbr><span class="amount"><%= item.product.price %></span></span><br/>
+	&nbsp;&nbsp;</span><br/>
+  <span class="quantity"><%= item.quantity %></span><br/>
+  <% end %>
+</div>

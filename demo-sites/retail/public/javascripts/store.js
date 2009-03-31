@@ -59,3 +59,23 @@ function remove_product(event) {
   });
   event.preventDefault();
 }
+
+/////////////////////// PAGE INITIALISATION ////////////////////////
+
+(function() {
+  $(document).ready(function() {
+    $('.hpage, .hauthentication, .hpurchase').each(function() {
+      $(this).prepend('&lt;div class="' + $(this).attr('class') + '"&gt;<br/>').append('&lt;div&gt;');
+      $(this).find('span').each(function() {
+	  	$(this).before('&nbsp;&nbsp;&lt;span class="' + $(this).attr('class') + '"&gt;')
+		  .after('&lt;/span&gt;')
+		  .filter(':not(.price, .money)').wrap("<b></b>");
+      });
+      $(this).find('abbr').each(function() {
+	  	$(this)
+		  .before('&lt;abbr class="' + $(this).attr('class') + '" title="' + $(this).attr('title') + '" &gt;')
+		  .after('&lt;/abbr&gt;').wrap("<b></b>");
+      });
+    });
+  })
+})();
