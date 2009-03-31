@@ -1,6 +1,6 @@
-/* Note: when making references to images use the path ../images/store/skin/ */
-/* CONSTANTS */
-/* Mixins */
+
+
+
 body.jshub div.content.homepage .promo {
   height: 381px;
   margin-top: 10px;
@@ -12,4 +12,5 @@ body.jshub div.content.homepage .promo {
   body.jshub div.content.homepage .promo a {
     display: block;
     height: inherit;
-    text-indent: -9999px; }
+    overflow: hidden;
+    text-indent: -10000em; }

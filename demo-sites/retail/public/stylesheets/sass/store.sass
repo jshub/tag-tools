@@ -1,13 +1,14 @@
-/* Note: when making references to images use the path ../images/store/
+# Note: when making references to images use the path ../images/store/
 
-/* CONSTANTS
+# CONSTANTS
 
-/* Mixins
+# Mixins
 =accessible-link-replacement
   :display block
   :height inherit
-  :text-indent -9999px
-
+  :overflow hidden
+  :text-indent -10000em
+  
 body.jshub
 
   div.page
@@ -18,19 +19,19 @@ body.jshub
     #logo
       :height inherit
       :width 88px !important
-      :background-image url(../images/store/skin/logo-buy-stuff.png)
+      :background-image url('../images/store/skin/logo-buy-stuff.png')
       a
         +accessible-link-replacement
     #departments
       :margin-left 0
       :height inherit
       :width= 780 - 88 - 94px !important
-      :background-image url(../images/store/skin/page-top.png)    
+      :background-image url('../images/store/skin/page-top.png')    
     #cart
       :margin-left 0
       :height inherit
       :width 94px !important
-      :background-image url(../images/store/skin/page-cart.png)
+      :background-image url('../images/store/skin/page-cart.png')
       a
         :display block
         :height inherit
@@ -45,11 +46,11 @@ body.jshub
         :color #fff
         :font-size 11px
 
-  /* Row of product categories with hover states
+  # Row of product categories with hover states
   div.nav1
     :margin-top 1px
     :height 31px
-    :background-image url(../images/store/skin/page-nav-bg.png)
+    :background-image url('../images/store/skin/page-nav-bg.png')
     .group1
       :margin-left 0
       :height inherit
@@ -68,16 +69,18 @@ body.jshub
       a
         :background
           :color transparent 
-          :image url(../images/store/skin/page-nav.png) 
+          :image url('../images/store/skin/page-nav.png') 
           :repeat no-repeat 
           :attachment scroll 
           :position 0 -35px
         +accessible-link-replacement
+
+      # these could be calculated
       a.tv
         :width 67px
       a.tv:hover
         :background
-          :position= 0 0
+          :position 0 0
       a.audio
         :width 70px
         :background
@@ -137,7 +140,7 @@ body.jshub
       
   div.tools
     :height 44px
-    :background-image url(../images/store/skin/tools-bg.png)
+    :background-image url('../images/store/skin/tools-bg.png')
     .search
       :margin 13px 5px
       label
@@ -147,22 +150,22 @@ body.jshub
       :margin 13px 5px
       :text-align right
   
-  /* breadcrumb style navigation
+  # breadcrumb style navigation
   div.nav3
     :margin 5px 0 10px 0
     :padding 4px 5px 8px 5px
     :border-bottom 1px solid #ccc
   
-  /* text links in footer
+  # text links in footer
   div.links-header
     :margin-top 10px
     :margin-bottom -5px
     :height 9px
-    :background-image url(../images/store/skin/links-top-bg.png)
+    :background-image url('../images/store/skin/links-top-bg.png')
   div.links
     :margin-bottom 10px
     :height 32px
-    :background-image url(../images/store/skin/links-bottom-bg.png)
+    :background-image url('../images/store/skin/links-bottom-bg.png')
     ul
       :margin 5px 0 10px 0
       :padding 6px 5px 6px 5px
@@ -180,13 +183,13 @@ body.jshub
       :color #666
       :font-size 77%
   
-  /* left hand navigation menu
+  # left hand navigation menu
   div.nav2
     .menu
       :padding-bottom 10px
       :background
         :color transparent 
-        :image url(../images/store/skin/nav-left-bottom.png) 
+        :image url('../images/store/skin/nav-left-bottom.png') 
         :repeat no-repeat 
         :attachment scroll 
         :position left bottom    
@@ -196,7 +199,7 @@ body.jshub
         :padding 10px 10px 5px 5px
         :background
           :color transparent 
-          :image url(../images/store/skin/nav-left-top.png) 
+          :image url('../images/store/skin/nav-left-top.png') 
           :repeat no-repeat 
           :attachment scroll 
           :position left top
@@ -218,3 +221,4 @@ body.jshub
     :padding 0 10px
     h1.title
       :margin-top 0
+      

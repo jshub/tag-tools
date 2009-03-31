@@ -1,284 +1,182 @@
-/* Note: when making references to images use the path ../images/store/ */
-/* CONSTANTS */
-/* Mixins */
-body.jshub {
-  /* Row of product categories with hover states */
-  /* breadcrumb style navigation */
-  /* text links in footer */
-  /* left hand navigation menu */
-}
+
+
 
 body.jshub div.page {
-  width: 780px;
-}
-
+  width: 780px; }
 body.jshub div.header {
-  height: 65px;
-}
-
-body.jshub div.header #logo {
-  height: inherit;
-  width: 88px !important;
-  background-image: url(../images/store/skin/logo-buy-stuff.png);
-}
-
-body.jshub div.header #logo a {
-  display: block;
-  height: inherit;
-  text-indent: -9999px;
-}
-
-body.jshub div.header #departments {
-  margin-left: 0;
-  height: inherit;
-  width: 598px !important;
-  background-image: url(../images/store/skin/page-top.png);
-}
-
-body.jshub div.header #cart {
-  margin-left: 0;
-  height: inherit;
-  width: 94px !important;
-  background-image: url(../images/store/skin/page-cart.png);
-}
-
-body.jshub div.header #cart a {
-  display: block;
-  height: inherit;
-  text-decoration: none;
-}
-
-body.jshub div.header #cart #cart-items {
-  display: block;
-  position: relative;
-  text-align: center;
-  top: 40px;
-  width: 74px;
-  left: 8px;
-  color: #fff;
-  font-size: 11px;
-}
-
+  height: 65px; }
+  body.jshub div.header #logo {
+    height: inherit;
+    width: 88px !important;
+    background-image: url('../images/store/skin/logo-buy-stuff.png'); }
+    body.jshub div.header #logo a {
+      display: block;
+      height: inherit;
+      overflow: hidden;
+      text-indent: -10000em; }
+  body.jshub div.header #departments {
+    margin-left: 0;
+    height: inherit;
+    width: 598px !important;
+    background-image: url('../images/store/skin/page-top.png'); }
+  body.jshub div.header #cart {
+    margin-left: 0;
+    height: inherit;
+    width: 94px !important;
+    background-image: url('../images/store/skin/page-cart.png'); }
+    body.jshub div.header #cart a {
+      display: block;
+      height: inherit;
+      text-decoration: none; }
+    body.jshub div.header #cart #cart-items {
+      display: block;
+      position: relative;
+      text-align: center;
+      top: 40px;
+      width: 74px;
+      left: 8px;
+      color: #fff;
+      font-size: 11px; }
 body.jshub div.nav1 {
   margin-top: 1px;
   height: 31px;
-  background-image: url(../images/store/skin/page-nav-bg.png);
-}
-
-body.jshub div.nav1 .group1 {
-  margin-left: 0;
-  height: inherit;
-  width: 207px;
-}
-
-body.jshub div.nav1 .group2 {
-  margin-left: 0;
-  height: inherit;
-  width: 294px;
-}
-
-body.jshub div.nav1 .group3 {
-  margin-left: 0;
-  height: inherit;
-  width: 279px;
-}
-
-body.jshub div.nav1 .nav-item {
-  margin-left: 0;
-  height: inherit;
-}
-
-body.jshub div.nav1 .nav-item a {
-  background-color: transparent;
-  background-image: url(../images/store/skin/page-nav.png);
-  background-repeat: no-repeat;
-  background-attachment: scroll;
-  background-position: 0 -35px;
-  display: block;
-  height: inherit;
-  text-indent: -9999px;
-}
-
-body.jshub div.nav1 .nav-item a.tv {
-  width: 67px;
-}
-
-body.jshub div.nav1 .nav-item a.tv:hover {
-  background-position: 0 0;
-}
-
-body.jshub div.nav1 .nav-item a.audio {
-  width: 70px;
-  background-position: -66px -35px;
-}
-
-body.jshub div.nav1 .nav-item a.audio:hover {
-  background-position: -66px 0;
-}
-
-body.jshub div.nav1 .nav-item a.car {
-  width: 70px;
-  background-position: -132px -35px;
-}
-
-body.jshub div.nav1 .nav-item a.car:hover {
-  background-position: -132px 0;
-}
-
-body.jshub div.nav1 .nav-item a.cameras {
-  width: 104px;
-  background-position: -207px -35px;
-}
-
-body.jshub div.nav1 .nav-item a.cameras:hover {
-  background-position: -207px 0;
-}
-
-body.jshub div.nav1 .nav-item a.computers {
-  width: 97px;
-  background-position: -301px -35px;
-}
-
-body.jshub div.nav1 .nav-item a.computers:hover {
-  background-position: -301px 0;
-}
-
-body.jshub div.nav1 .nav-item a.phones {
-  width: 93px;
-  background-position: -395px -35px;
-}
-
-body.jshub div.nav1 .nav-item a.phones:hover {
-  background-position: -395px 0;
-}
-
-body.jshub div.nav1 .nav-item a.music {
-  width: 105px;
-  background-position: -501px -35px;
-}
-
-body.jshub div.nav1 .nav-item a.music:hover {
-  background-position: -501px 0;
-}
-
-body.jshub div.nav1 .nav-item a.games {
-  width: 77px;
-  background-position: -590px -35px;
-}
-
-body.jshub div.nav1 .nav-item a.games:hover {
-  background-position: -590px 0;
-}
-
-body.jshub div.nav1 .nav-item a.home {
-  width: 97px;
-  background-position: -680px -35px;
-}
-
-body.jshub div.nav1 .nav-item a.home:hover {
-  background-position: -680px 0;
-}
-
+  background-image: url('../images/store/skin/page-nav-bg.png'); }
+  body.jshub div.nav1 .group1 {
+    margin-left: 0;
+    height: inherit;
+    width: 207px; }
+  body.jshub div.nav1 .group2 {
+    margin-left: 0;
+    height: inherit;
+    width: 294px; }
+  body.jshub div.nav1 .group3 {
+    margin-left: 0;
+    height: inherit;
+    width: 279px; }
+  body.jshub div.nav1 .nav-item {
+    margin-left: 0;
+    height: inherit; }
+    body.jshub div.nav1 .nav-item a {
+      background-color: transparent;
+      background-image: url('../images/store/skin/page-nav.png');
+      background-repeat: no-repeat;
+      background-attachment: scroll;
+      background-position: 0 -35px;
+      display: block;
+      height: inherit;
+      overflow: hidden;
+      text-indent: -10000em; }
+    body.jshub div.nav1 .nav-item a.tv {
+      width: 67px; }
+    body.jshub div.nav1 .nav-item a.tv:hover {
+      background-position: 0 0; }
+    body.jshub div.nav1 .nav-item a.audio {
+      width: 70px;
+      background-position: -66px -35px; }
+    body.jshub div.nav1 .nav-item a.audio:hover {
+      background-position: -66px 0; }
+    body.jshub div.nav1 .nav-item a.car {
+      width: 70px;
+      background-position: -132px -35px; }
+    body.jshub div.nav1 .nav-item a.car:hover {
+      background-position: -132px 0; }
+    body.jshub div.nav1 .nav-item a.cameras {
+      width: 104px;
+      background-position: -207px -35px; }
+    body.jshub div.nav1 .nav-item a.cameras:hover {
+      background-position: -207px 0; }
+    body.jshub div.nav1 .nav-item a.computers {
+      width: 97px;
+      background-position: -301px -35px; }
+    body.jshub div.nav1 .nav-item a.computers:hover {
+      background-position: -301px 0; }
+    body.jshub div.nav1 .nav-item a.phones {
+      width: 93px;
+      background-position: -395px -35px; }
+    body.jshub div.nav1 .nav-item a.phones:hover {
+      background-position: -395px 0; }
+    body.jshub div.nav1 .nav-item a.music {
+      width: 105px;
+      background-position: -501px -35px; }
+    body.jshub div.nav1 .nav-item a.music:hover {
+      background-position: -501px 0; }
+    body.jshub div.nav1 .nav-item a.games {
+      width: 77px;
+      background-position: -590px -35px; }
+    body.jshub div.nav1 .nav-item a.games:hover {
+      background-position: -590px 0; }
+    body.jshub div.nav1 .nav-item a.home {
+      width: 97px;
+      background-position: -680px -35px; }
+    body.jshub div.nav1 .nav-item a.home:hover {
+      background-position: -680px 0; }
 body.jshub div.tools {
   height: 44px;
-  background-image: url(../images/store/skin/tools-bg.png);
-}
-
-body.jshub div.tools .search {
-  margin: 13px 5px;
-}
-
-body.jshub div.tools .search label {
-  margin-right: 5px;
-  font-weight: bolder;
-}
-
-body.jshub div.tools .login {
-  margin: 13px 5px;
-  text-align: right;
-}
-
+  background-image: url('../images/store/skin/tools-bg.png'); }
+  body.jshub div.tools .search {
+    margin: 13px 5px; }
+    body.jshub div.tools .search label {
+      margin-right: 5px;
+      font-weight: bolder; }
+  body.jshub div.tools .login {
+    margin: 13px 5px;
+    text-align: right; }
 body.jshub div.nav3 {
   margin: 5px 0 10px 0;
   padding: 4px 5px 8px 5px;
-  border-bottom: 1px solid #ccc;
-}
-
+  border-bottom: 1px solid #ccc; }
 body.jshub div.links-header {
   margin-top: 10px;
   margin-bottom: -5px;
   height: 9px;
-  background-image: url(../images/store/skin/links-top-bg.png);
-}
-
+  background-image: url('../images/store/skin/links-top-bg.png'); }
 body.jshub div.links {
   margin-bottom: 10px;
   height: 32px;
-  background-image: url(../images/store/skin/links-bottom-bg.png);
-}
-
-body.jshub div.links ul {
-  margin: 5px 0 10px 0;
-  padding: 6px 5px 6px 5px;
-  color: #fff;
-  text-align: center;
-}
-
-body.jshub div.links ul li {
-  list-style-type: none;
-  font-size: 85%;
-}
-
-body.jshub div.links ul li a {
-  color: inherit;
-  text-decoration: none;
-}
-
+  background-image: url('../images/store/skin/links-bottom-bg.png'); }
+  body.jshub div.links ul {
+    margin: 5px 0 10px 0;
+    padding: 6px 5px 6px 5px;
+    color: #fff;
+    text-align: center; }
+    body.jshub div.links ul li {
+      list-style-type: none;
+      font-size: 85%; }
+      body.jshub div.links ul li a {
+        color: inherit;
+        text-decoration: none; }
 body.jshub div.footer .legal {
   padding: 0 5px;
   color: #666;
-  font-size: 77%;
-}
-
+  font-size: 77%; }
 body.jshub div.nav2 .menu {
   padding-bottom: 10px;
   background-color: transparent;
-  background-image: url(../images/store/skin/nav-left-bottom.png);
+  background-image: url('../images/store/skin/nav-left-bottom.png');
   background-repeat: no-repeat;
   background-attachment: scroll;
-  background-position: left bottom;
-}
-
-body.jshub div.nav2 .menu h1 {
-  margin: 0;
-  font-size: 108%;
-  padding: 10px 10px 5px 5px;
-  background-color: transparent;
-  background-image: url(../images/store/skin/nav-left-top.png);
-  background-repeat: no-repeat;
-  background-attachment: scroll;
-  background-position: left top;
-}
-
-body.jshub div.nav2 .menu ul {
-  margin: 0 10px 0 0;
-  background-color: #ffc;
-  border-color: #ccc;
-  border-style: solid;
-  border-width: 0 1px;
-  font-size: 85%;
-}
-
-body.jshub div.nav2 .menu ul li {
-  list-style-type: none;
-  padding: 0 5px;
-}
-
+  background-position: left bottom; }
+  body.jshub div.nav2 .menu h1 {
+    margin: 0;
+    font-size: 108%;
+    padding: 10px 10px 5px 5px;
+    background-color: transparent;
+    background-image: url('../images/store/skin/nav-left-top.png');
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: left top; }
+  body.jshub div.nav2 .menu ul {
+    margin: 0 10px 0 0;
+    background-color: #ffc;
+    border-color: #ccc;
+    border-style: solid;
+    border-width: 0 1px;
+    font-size: 85%; }
+    body.jshub div.nav2 .menu ul li {
+      list-style-type: none;
+      padding: 0 5px; }
 body.jshub div.content {
   min-height: 255px;
-  padding: 0 10px;
-}
-
-body.jshub div.content h1.title {
-  margin-top: 0;
-}
+  padding: 0 10px; }
+  body.jshub div.content h1.title {
+    margin-top: 0; }

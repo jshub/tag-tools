@@ -1,6 +1,6 @@
-/* Note: when making references to images use the path ../images/store/ */
-/* CONSTANTS */
-/* Mixins */
+
+
+
 div.hproduct {
   color: #666; }
   div.hproduct a link, div.hproduct a visited {
@@ -42,7 +42,7 @@ div.hproduct {
     padding-right: 5px; }
   div.hproduct .rating {
     margin-bottom: 1em;
-    background: transparent url(../images/store/hproduct/stars-5.png) no-repeat scroll left 50%; }
+    background: transparent url('../images/store/hproduct/stars-5.png') no-repeat scroll left 50%; }
   div.hproduct .rating strong {
     margin-left: 70px; }
   div.hproduct .highlight {
@@ -51,7 +51,7 @@ div.hproduct {
     position: relative;
     z-index: 21; }
   div.hproduct a.availability link, div.hproduct a.availability visited {
-    background: transparent url(../images/store/skin/arrow-left.png) no-repeat scroll right 3px;
+    background: transparent url('../images/store/skin/arrow-left.png') no-repeat scroll right 3px;
     color: #339;
     padding-right: 8px; }
   div.hproduct h4.price {
@@ -70,7 +70,7 @@ div.hproduct {
     font-size: 85%; }
   div.hproduct .offers li {
     padding: 1px 0 1px 13px;
-    background: transparent url(../images/store/skin/tick-red.png) no-repeat scroll 0 4px;
+    background: transparent url('../images/store/skin/tick-red.png') no-repeat scroll 0 4px;
     color: #339;
     list-style-image: none;
     list-style-position: outside;

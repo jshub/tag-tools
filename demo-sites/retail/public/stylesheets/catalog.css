@@ -1,6 +1,6 @@
-/* Note: when making references to images use the path ../images/store/ */
-/* CONSTANTS */
-/* Mixins */
+
+
+
 body.jshub div.content hr {
   background: #E5E6E7 none repeat scroll 0 0;
   border: medium none;
@@ -13,5 +13,5 @@ body.jshub div.content .listing-header {
   padding: 8px 10px 8px 10px;
   height: 61px;
   width: 570px;
-  background: transparent url(../images/store/skin/listing-header.png) no-repeat scroll 0 0;
+  background: transparent url('../images/store/skin/listing-header.png') no-repeat scroll 0 0;
   color: #646464; }

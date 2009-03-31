@@ -1,13 +1,15 @@
-/* Note: when making references to images use the path ../images/store/
+# Note: when making references to images use the path ../images/store/
 
-/* CONSTANTS
+# CONSTANTS
 
-/* Mixins
+# Mixins
+
 =accessible-link-replacement
   :display block
   :height inherit
-  :text-indent -9999px
-
+  :overflow hidden
+  :text-indent -10000em
+  
 div.hproduct
   :color #666
   a link, a visited
@@ -49,7 +51,7 @@ div.hproduct
     :padding-right 5px
   .rating
     :margin-bottom 1em
-    :background transparent url(../images/store/hproduct/stars-5.png) no-repeat scroll left 50%
+    :background transparent url('../images/store/hproduct/stars-5.png') no-repeat scroll left 50%
   .rating strong
     :margin-left 70px
   .highlight
@@ -58,7 +60,7 @@ div.hproduct
     :position relative
     :z-index 21
   a.availability link, a.availability visited
-    :background transparent url(../images/store/skin/arrow-left.png) no-repeat scroll right 3px
+    :background transparent url('../images/store/skin/arrow-left.png') no-repeat scroll right 3px
     :color #339
     :padding-right 8px
   h4.price
@@ -77,7 +79,7 @@ div.hproduct
     :font-size 85%
   .offers li
     :padding 1px 0 1px 13px
-    :background transparent url(../images/store/skin/tick-red.png) no-repeat scroll 0 4px
+    :background transparent url('../images/store/skin/tick-red.png') no-repeat scroll 0 4px
     :color #339
     :list-style-image none
     :list-style-position outside

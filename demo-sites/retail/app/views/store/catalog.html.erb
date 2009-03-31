@@ -7,7 +7,7 @@
 <% for product in @products %>
   <% form_tag :add_to_cart_store do %>
   <%= hidden_field_tag "product_id", product.id, :id => nil %>
-  <div id="<%= product.id %>" class="yui-gb hproduct">
+  <div id="product-<%= product.id %>" class="yui-gb hproduct">
     <div class="yui-u first image-col">
       <%= link_to( image_tag( image_for(product) , :class => "thumb"), {}, :class => "uri", :rel => "product" ) %>
     </div>
