@@ -1,0 +1,11 @@
+            <% 
+            # copy of event-list.html.erb formatted as a single line
+              id = 'nil' if local_assigns[:id].nil? 
+              variable = 'Unknown variable' if local_assigns[:variable].nil? 
+              vendor = 'Unknown vendor' if local_assigns[:vendor].nil? 
+              value = 'Unknown value' if local_assigns[:value].nil?
+              help_text = 'No help text available' if local_assigns[:help_text].nil?              
+              warning = false if local_assigns[:warning].nil? 
+              warnings = false if local_assigns[:warnings].nil? 
+            -%>
+            <div id="<%=h id.to_s %>" class="event-item"> <div class="bd"> <div class="yui-g help-text" title="<%=h help_text %>"> <div class="yui-u first"> <p class="variable"><%=h variable %>:</p> <% if !warning %> <p class="vendor"><%=h vendor %></p> <% end %> </div> <div class="yui-u"> <p class="value"><%=h value %></p> </div> </div> <% if warning %> <div class="yui-g"> <ul> <li>Different values are being set:</li> </ul> </div> <% warnings.each do |key,value| %> <div class="yui-g"> <div class="yui-u first"> <p class="vendor"><%= h key.to_s %></p> </div> <div class="yui-u"> <p class="value"><%= h value.to_s %></p> </div> </div> <% end %> <% end %> <div class="yui-g"> <hr class="event-separator" /> </div> </div> </div>
