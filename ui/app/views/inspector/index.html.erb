@@ -39,7 +39,7 @@
   
 </head>
 <body class="jshub yui-skin-sam">
-
+<!--
 <h1>Inspector</h1>
 <p>Development of the Inspector for jsHub based on YUI 2 Library and accordion widget (<%= link_to 'docs', '../docs/' %>).</p>
 
@@ -189,7 +189,7 @@ YAHOO.util.Event.addListener("setState2Warning", "click", function(){setState2('
 YAHOO.util.Event.addListener("setState2Info", "click", function(){setState2('info')} );
 </script>
 
-
+-->
 <h2>Maximised</h2>
 
 <p>
@@ -336,70 +336,12 @@ YAHOO.util.Event.addListener("setState2Info", "click", function(){setState2('inf
 
   /* constrain the max height of an individual panel in the accordion so that content scrolls */
   #inspector-maximised .yui-accordion-content {
-    min-height: 150px;
-    max-height: 150px;
     overflow: auto;
   }
 </style>
 
 <script type="text/javascript">
-
-  // init the Modules indie the Accordion Panels
-  var eventSection0 = new YAHOO.widget.Module("event-section-0");
-  var eventSection1 = new YAHOO.widget.Module("event-section-1");
-
-  // init the accordion inside the panel body
-  var eventList = new YAHOO.widget.AccordionView('event-list', {
-        width: '100%', 
-        collapsible: true,
-        animate: false
-      });
-  
-  // init the panel
-  var inspectorMaximised = new YAHOO.widget.Panel("inspector-maximised", {
-        width: "225px",
-        height: "450px",
-        draggable: true, 
-        close: true,
-        autofillheight: "body",
-        constraintoviewport: true
-      })
-  inspectorMaximised.render();
-
-  // add contextual tooltips for event specific help using the title attribute
-  // TODO make this appear above the panel
-  var eventListHelp = new YAHOO.widget.Tooltip("eventListHelp", { 
-			  context: YAHOO.util.Dom.getElementsByClassName('help-text', 'div'),
-        constraintoviewport: true,
-			  width: "300px",
-			  zindex: 1000
-			});
-  
-  // Make the panel resizable and handle events and repainting ref: http://developer.yahoo.com/yui/examples/container/panel-resize.html
-  // TODO account for open/closed accordion in recalculating the body height
-  var inspectorMaximisedResize = new YAHOO.util.Resize('inspector-maximised', {
-    handles: ['br'],
-    autoRatio: false,
-    minWidth: 225,
-    minHeight: 450,
-    status: false
-  });
-  inspectorMaximisedResize.on("startResize", function(args) {
-    if (this.cfg.getProperty("constraintoviewport")) {
-        var D = YAHOO.util.Dom;
-        var clientRegion = D.getClientRegion();
-        var elRegion = D.getRegion(this.element);
-        inspectorMaximisedResize.set("maxWidth", clientRegion.right - elRegion.left - YAHOO.widget.Overlay.VIEWPORT_OFFSET);
-        inspectorMaximisedResize.set("maxHeight", clientRegion.bottom - elRegion.top - YAHOO.widget.Overlay.VIEWPORT_OFFSET);
-      } else {
-        inspectorMaximisedResize.set("maxWidth", null);
-        inspectorMaximisedResize.set("maxHeight", null);
-    }
-  }, inspectorMaximised, true);
-  inspectorMaximisedResize.on("resize", function(args) {
-    var panelHeight = args.height;
-    this.cfg.setProperty("height", panelHeight + "px");
-  }, inspectorMaximised, true);
+	setup_inspector("inspector-maximised");
 </script>
 
 <script type="text/javascript">
