@@ -31,12 +31,12 @@
                   if warning
                 %>
                 <div class="yui-g">
-                  <ul>
+                  <ul class="message">
                     <li>Different values are being set:</li>
                   </ul>
                 </div>            
                   <% warnings.each do |key,value| %>            
-                  <div class="yui-g">
+                  <div class="yui-g duplicate">
                     <div class="yui-u first">
                       <p class="vendor"><%= h key.to_s %></p>
                     </div>
