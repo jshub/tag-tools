@@ -30,10 +30,12 @@
     <!-- jsHub Inspector -->
     <%= stylesheet_link_tag "inspector/inspector.css" %>
     <%= javascript_include_tag "inspector/inspector.js" %>
+    <%= javascript_include_tag "inspector/sha1.js" %>
 
     <!-- jsHub Tag -->
     <%= javascript_include_tag "jquery/jquery-v1.2.6.js" %>
-    <%= javascript_include_tag "jshub/jshub-gromit-r1-debug.js" %>
+    <%= javascript_include_tag "json/json2.js" %>
+    <%= javascript_include_tag "jshub/jshub-gromit-r2-debug.js" %>
   
 </head>
 <body class="jshub yui-skin-sam">
@@ -64,8 +66,77 @@
   inspectorFloating.render();
 </script>
 
+<h2>Security</h2>
+
+<p>Security checking of the javascript file occurs on Inspector load.</p>
+
+<button id="checkJsFileHash">Check jshub JS file</button>
+
+<div id="jshub-outdated">
+  jsHub debug script, r2 up-to-date
+  <p>
+    Status icon: <span class="icon"></span>
+  </p>
+  <ul></ul>
+</div>
+    
+<script>
+  function checkJsFileHash() {
+
+      var node = $('#jshub-outdated') /* where to output the vsible text */, 
+          hashcode, 
+          // get the url to grab the jshub code from via AJAX
+          jshubURL = $("script[src~=jshub]").attr('src');
+          
+      $.get(jshubURL, function(jshubSrc) {
+        hashcode = SHA1(jshubSrc);
+        $.getJSON('http://gromit.etl.office/akita-on-rails/tag_configurations/find_by_sha1/' + hashcode + '.js?callback=?', function(data) {
+          
+          console.log('Data from server', data);
+          
+          node.append("<code>" + data.toSource() + "</code>");
+          var list = $('ul', node), icon = $('span.icon', node);
+          if (!data.info || !data.warnings || !data.errors) {
+            icon.text('Red error icon');
+            list.append("<li>Unable to parse response from server</li>");
+            return;
+          }
+          if (data.info.status === "not found") {
+            icon.text("Red error icon");
+            list.append("<li>Error: tag file was not found. Give a warning that it might have been tampered with.</li>");
+            return;
+          }
+          if (data.info.status === "up to date") {
+            icon.text('Green icon');
+            list.append("<li>Version up to date and all ok</li>");
+          } else if (data.info.status === "out of date") {
+            icon.text('Yellow warning icon');
+            list.append("<li>Warning, tag out of date but should work ok</li>");
+          }
+          if (data.warnings.tag_type === "debug") {
+            icon.text('Yellow warning icon');
+            list.append("<li>Warning, using debug tag. Not advised for a production site.</li>");
+          }
+          list.append("<li>Tag configuration name: " + data.info.name + "</li>");
+          list.append("<li>Tag prepared for site: " + data.info.site + "</li>");
+          list.append("<li>Tag last updated: " + $.dateFromISO8601(data.info.updated) + "</li>");
+          list.append("<li>Tag configuration url: <a href='" + data.info.url + "'>" + data.info.url + "</a></li>");
+        });
+      });
+  }
+  
+YAHOO.util.Event.addListener("checkJsFileHash", "click", function(){checkJsFileHash()} );
+  
+</script>
 
 <h2>Minimised</h2>
+
+<p>
+<button id="setState2Sucess">Set State 2 Success</button>
+<button id="setState2Error">Set State 2 Error</button>
+<button id="setState2Warning">Set State 2 Warning</button>
+<button id="setState2Info">Set State 2 Info</button>
+</p>
 
 <div id="example2" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
   <div id="inspector-minimised" class="state2" >
@@ -90,6 +161,28 @@
         constraintoviewport: true
       })
   inspectorMinimised.render();
+</script>
+
+<script type="text/javascript">
+// example interaction API
+function setState2(state) {
+  var Dom = YAHOO.util.Dom;
+  var statusArea = Dom.getElementsByClassName('status large', 'div', 'inspector-minimised');
+  var inspectorBody = Dom.getAncestorByClassName(statusArea[0], 'bd');
+  // clear the existing states
+  Dom.removeClass(inspectorBody, 'info');
+  Dom.removeClass(inspectorBody, 'warning');
+  Dom.removeClass(inspectorBody, 'error');
+  Dom.removeClass(inspectorBody, 'success');
+  // add the state class to the body of the inspector for contextual CSS switching
+  Dom.addClass(inspectorBody, state);
+  return;
+}
+
+YAHOO.util.Event.addListener("setState2Sucess", "click", function(){setState2('success')} );
+YAHOO.util.Event.addListener("setState2Error", "click", function(){setState2('error')} );
+YAHOO.util.Event.addListener("setState2Warning", "click", function(){setState2('warning')} );
+YAHOO.util.Event.addListener("setState2Info", "click", function(){setState2('info')} );
 </script>
 
 
@@ -334,7 +427,6 @@ function addPanelEvent(panelNumber) {
 function updatePanelTitles(accordion) {
   var Dom = YAHOO.util.Dom;
   var allPanels = accordion.getPanels();
-  console.log(allPanels);
   for (var i = 0, j = allPanels.length; i < j; i++) {
       var count = getNumberOfEventsByPanel(i);
       console.log(count+' Events in Panel '+i);
