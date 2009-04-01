@@ -1,6 +1,13 @@
 # for image urls use ../../images/inspector/
 
 # CONSTANTS
+!color_success = #060
+!color_error = #c00
+!color_warning = #fc3
+!color_info = #fc3
+
+!grid_icon_large = 50px
+!grid_icon_small = 25px
 
 # Mixins
 =accessible-link-replacement
@@ -12,7 +19,7 @@
 div.jshub.inspector
   .state1, .state2, .state3
     :font-size 85%
-    
+
     .event-section
       .bd
         :margin 0
@@ -42,6 +49,48 @@ div.jshub.inspector
   
   # Minimised - panel has large icon and buttons
   .state2
+    .status.large
+      div.icon
+        :width 50px
+        :height 50px
+        :background
+          :color transparent 
+          :image url('assets/images/icon-large-sprite.png') 
+          :repeat no-repeat 
+          :attachment scroll 
+          :position left top
+    .success 
+      .status.large div.icon
+        :background
+          :color = !color_success
+          :position = left (0-!grid_icon_large)
+    .error 
+      .status.large div.icon
+        :background
+          :color = !color_error
+          :position = left (2*(0-!grid_icon_large))
+    .warning 
+      .status.large div.icon
+        :background
+          :color = !color_warning
+          :position = left (3*(0-!grid_icon_large))
+    .info 
+      .status.large div.icon
+        :background
+          :color = !color_info
+          :position = left (4*(0-!grid_icon_large))
+
   
   # Maximised - with accordion data and live updating
   .state3
+    #event-list
+      .bd
+        :margin 0
+        :padding 0
+        :border none
+
+    .status.small
+      div.icon
+        :width 25px
+        :height 25px
+        :border 1px solid black  

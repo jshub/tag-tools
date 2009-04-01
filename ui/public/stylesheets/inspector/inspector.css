@@ -22,3 +22,31 @@ div.jshub.inspector .state1 .bd ul li.status {
   list-style-type: disc; }
 div.jshub.inspector .state1 .ft {
   display: none; }
+div.jshub.inspector .state2 .status.large div.icon {
+  width: 50px;
+  height: 50px;
+  background-color: transparent;
+  background-image: url('assets/images/icon-large-sprite.png');
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: left top; }
+div.jshub.inspector .state2 .success .status.large div.icon {
+  background-color: #006600;
+  background-position: left -50px; }
+div.jshub.inspector .state2 .error .status.large div.icon {
+  background-color: #cc0000;
+  background-position: left -100px; }
+div.jshub.inspector .state2 .warning .status.large div.icon {
+  background-color: #ffcc33;
+  background-position: left -150px; }
+div.jshub.inspector .state2 .info .status.large div.icon {
+  background-color: #ffcc33;
+  background-position: left -200px; }
+div.jshub.inspector .state3 #event-list .bd {
+  margin: 0;
+  padding: 0;
+  border: none; }
+div.jshub.inspector .state3 .status.small div.icon {
+  width: 25px;
+  height: 25px;
+  border: 1px solid black; }

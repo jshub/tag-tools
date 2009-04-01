@@ -1,0 +1,7 @@
+            <% 
+            # template for an event formatted as a single line
+              id = 'nil' if local_assigns[:id].nil? 
+              status = 'Unknown' if local_assigns[:status].nil? 
+              tag_type = 'Unknown' if local_assigns[:tag_type].nil? 
+            -%>
+            <div id="'+Dom.generateId()+'" class="event-item"> <div class="bd"> <div class="yui-g help-text" title="&lt;p&gt;Security event.&lt;/p&gt;&lt;p&gt;SecurityEvent &lt;br /&gt;"> <div class="yui-u first"> <p class="variable">File status:</p>  <p class="vendor">Causata</p>  </div> <div class="yui-u"> <p class="value"><%=h status%><%=h tag_type%></p> </div> </div>  <div class="yui-g"> <hr class="event-separator" /> </div> </div> </div>

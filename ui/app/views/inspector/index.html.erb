@@ -121,6 +121,10 @@
           list.append("<li>Tag prepared for site: " + data.info.site + "</li>");
           list.append("<li>Tag last updated: " + $.dateFromISO8601(data.info.updated) + "</li>");
           list.append("<li>Tag configuration url: <a href='" + data.info.url + "'>" + data.info.url + "</a></li>");
+          
+          addSecurityEvent(2,data)
+          
+          
         });
       });
   }
@@ -283,12 +287,23 @@ YAHOO.util.Event.addListener("setState2Info", "click", function(){setState2('inf
         </li>
 
         <li>
-          <h3>Product data (1)</h3>
-          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam sit amet neque a elit convallis ullamcorper. Proin fermentum iaculis elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus quis enim quis neque convallis porta. Proin posuere convallis nunc. Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo. Cras odio metus, placerat ultricies, mollis ut, interdum ut, turpis. Aliquam vitae ligula vitae nunc vestibulum aliquet.</p>
+          <div><span class="count">0</span> Tagging issues detected</div>
+          <div>
+            <div id="event-section-2" class="event-section">
+              <div class="bd">
+              </div><!-- close module bd -->
+            </div><!-- close module -->
+          </div>          
         </li>
         <li>
-          <h3>Shopping cart (1)</h3>
+          <div>Data Sources  (<span class="count">0</span>)</div>
+          <div>
+            <div id="event-section-3" class="event-section">
+              <div class="bd">
           <p>Maecenas mi quam, lobortis eu, feugiat ac, consequat eget, enim. Vivamus ac turpis a velit lacinia tempus. Vestibulum ac arcu. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce porttitor, ligula at cursus accumsan, metus enim gravida metus, id euismod turpis nibh vitae dolor. Sed magna orci, luctus ac, commodo id, malesuada vitae, lorem. Sed mattis metus. Integer vel massa.</p>
+              </div><!-- close module bd -->
+            </div><!-- close module -->
+          </div>          
         </li>
         <li>
           <h3>Inline content updates (1)</h3>
@@ -402,27 +417,6 @@ function setPanelCount(panelNumber, count) {
   Dom.batch(Dom.getElementsByClassName('count', 'span', panel), function(el){el.innerHTML = count});
 }
 
-function addPanelEvent(panelNumber) {
-  var Dom = YAHOO.util.Dom;
-  var newEvent = new YAHOO.widget.Module(Dom.generateId(), { visible: false});
-  newEvent.cfg.queueProperty("visible", true);
-  <%# uses Ruby partial to create a template string -%>
-  newEvent.setBody('<%= render :partial => 'event_item.js.erb', :locals => { 
-      :id => "'+Dom.generateId()+'",
-      :variable => 'DynamicEvent',
-      :vendor => 'Causata',
-      :value => 'content112',
-      :help_text => "<p>Causata event.</p><p>DynamicEvent <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href=\"../docs/\">View documentation</a></p>"
-    } %>');
-  // TODO this appends when really we want to prepend
-  newEvent.render('event-section-'+panelNumber);
-  console.log('New Event added to Panel'+panelNumber);
-  // TODO is an changeBodyEvent raised on the parent module when we add this one? This can trigger the Panel title count update
-  var count = getNumberOfEventsByPanel(panelNumber);
-  setPanelCount(panelNumber, count);
-  console.log(count+' Events now in Panel'+panelNumber);
-}
-
 // set the title text for each panel based on the number of events inside
 function updatePanelTitles(accordion) {
   var Dom = YAHOO.util.Dom;
@@ -432,6 +426,78 @@ function updatePanelTitles(accordion) {
       console.log(count+' Events in Panel '+i);
       setPanelCount(i, count);
   }
+}
+
+// generic event
+function addPanelEvent(panelNumber) {
+  var Dom = YAHOO.util.Dom;
+  var newEvent = new YAHOO.widget.Module(Dom.generateId(), { visible: false});
+  newEvent.cfg.queueProperty("visible", true);
+  
+  <%# use a Ruby partial to create a template string -%>
+  templateString = '<%= render :partial => 'event_item.js.erb', :locals => { 
+      :id => "'+Dom.generateId()+'",
+      :variable => 'DynamicEvent',
+      :vendor => 'Causata',
+      :value => 'content112',
+      :help_text => "<p>Causata event.</p><p>DynamicEvent <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href=\"../docs/\">View documentation</a></p>"
+    } %>'
+  
+  newEvent.setBody(templateString);
+  // TODO this appends when really we want to prepend
+  newEvent.render('event-section-'+panelNumber);
+  console.log('New Event added to Panel'+panelNumber);
+  // TODO is an changeBodyEvent raised on the parent module when we add this one? This can trigger the Panel title count update
+  var count = getNumberOfEventsByPanel(panelNumber);
+  setPanelCount(panelNumber, count);
+  console.log(count+' Events now in Panel'+panelNumber);
+}
+
+// security event
+function addSecurityEvent(panelNumber, data) {
+  var Dom = YAHOO.util.Dom;
+  var newEvent = new YAHOO.widget.Module(Dom.generateId(), { visible: false});
+  newEvent.cfg.queueProperty("visible", true);
+
+  <%# use a Ruby partial to create a template string -%>
+  templateString = '<%= render :partial => 'event_security_item.js.erb', :locals => { 
+      :id => "'+Dom.generateId()+'",
+      :status => "'+data.info.status+'",
+      :tag_type => "'+data.warnings.tag_type+'",
+    } %>'
+  
+  newEvent.setBody(templateString);
+  
+  // TODO this appends when really we want to prepend
+  newEvent.render('event-section-'+panelNumber);
+  console.log('New Event added to Panel'+panelNumber);
+  // TODO is an changeBodyEvent raised on the parent module when we add this one? This can trigger the Panel title count update
+  var count = getNumberOfEventsByPanel(panelNumber);
+  setPanelCount(panelNumber, count);
+  console.log(count+' Events now in Panel'+panelNumber);
+}
+
+// security event
+function addDatasourceEvent(panelNumber, data) {
+  var Dom = YAHOO.util.Dom;
+  var newEvent = new YAHOO.widget.Module(Dom.generateId(), { visible: false});
+  newEvent.cfg.queueProperty("visible", true);
+
+  // build the HTML template from the data passed in
+  <%# use a Ruby partial to create a template string -%>
+  templateString = '<%= render :partial => 'event_datasource_item.js.erb', :locals => { 
+      :id => "'+Dom.generateId()+'"
+    } %>'
+  
+  newEvent.setBody(templateString);
+  
+  // TODO this appends when really we want to prepend
+  newEvent.render('event-section-'+panelNumber);
+  console.log('New Event added to Panel'+panelNumber);
+  // TODO is an changeBodyEvent raised on the parent module when we add this one? This can trigger the Panel title count update
+  var count = getNumberOfEventsByPanel(panelNumber);
+  setPanelCount(panelNumber, count);
+  console.log(count+' Events now in Panel'+panelNumber);
 }
 
 updatePanelTitles(eventList);
