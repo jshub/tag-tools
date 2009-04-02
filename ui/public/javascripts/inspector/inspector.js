@@ -4,8 +4,6 @@ function setup_inspector(inspector_id){
 	    the_inspector,
 		// Used by height calculation - the height of the fixed parts of the inspector, ie everything except the event list accordion
 		_static_height;
-
-	  
   
   // init the panel
   the_inspector = new YAHOO.widget.Panel(inspector_id, {
@@ -212,6 +210,7 @@ var jshub = {};
 	// we want to create the Inspector immediately, even if it's too soon to render it, because
 	// we don't want to miss any events
 	jshub.Inspector = new Inspector;
+//	jshub.Inspector.init();
 
 	var DOM = YAHOO.util.Dom;
 
@@ -252,7 +251,6 @@ var jshub = {};
 			var div = document.body.appendChild(document.createElement("div"));
 			
 			div.className = "yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui";
-			
 			
 			 var panel = new YAHOO.widget.Panel("jshub_inspector", {
 			        width: "225px",
@@ -324,6 +322,7 @@ var jshub = {};
 	};
 	
 	Inspector.prototype.set_state = function(state){
+		
 		var container = document.getElementById("jshub_inspector"), match;
 		var class_name = container.className;
 		if (match = class_name.match(/(state\d)/)){
@@ -433,9 +432,6 @@ var jshub = {};
 		return _create_status_small() 
 		     + _create_search();
 	}
-	// Let's assume for now this is going to be a singleton...
-	jshub.Inspector = new Inspector();
-	jshub.Inspector.init();
 	
 	function _create_status_small(){
 
