@@ -206,12 +206,6 @@ var jshub = {};
  */
 (function(){
 	
-	// Let's assume for now this is going to be a singleton...
-	// we want to create the Inspector immediately, even if it's too soon to render it, because
-	// we don't want to miss any events
-	jshub.Inspector = new Inspector;
-//	jshub.Inspector.init();
-
 	var DOM = YAHOO.util.Dom;
 
 	
@@ -403,16 +397,41 @@ var jshub = {};
           newEvent.setBody(html);
           return newEvent;
         };
+		
+		/**
+		 * Retrieve all 'error' level messages from the status update
+		 */
+		this.getErrors = function() {
+          var html, error, event, events = [];
+          for (var i = 0; i < data.errors.length; i++) {
+            error = errors[i];
+            switch (error) {
+              case "hash code not found":
+                html = header("Altered tag");
+                html += subheader("error", "Tag is not recognized");
+                html += bodyMessage("The tag code was not recognized by the configurator. " +
+				  "This could mean that it has been altered since it was generated. This error may also " +
+				  "occur if the tag configuration has been deleted from the server which originally " +
+				  "generated it.");
+                event = createEvent(html);
+                events.push(event);
+                break;
+			  // other errors not yet implemented
+            }
+          }
+		  return events;
+		}
         
+		/**
+		 * Retrieve all 'warning' level messages from the status update
+		 */
         this.getWarnings = function() {
           var html, event, events = [];
           if (data.warnings.pending_revisions) {
             var pending = data.warnings.pending_revisions;
             html = header("Tag out of date");
-            html += subheader("warning", "Tag is " + pending +
-            " version" +
-            (pending > 1 ? "s" : "") +
-            " behind most recent revision");
+            html += subheader("warning", "Tag is " + pending + " version" 
+			  + (pending > 1 ? "s" : "") + " behind most recent revision");
             html += bodyMessage("You may need to update to the latest version.");
             event = createEvent(html);
             events.push(event);
@@ -426,20 +445,52 @@ var jshub = {};
           }
           return events;
         };
+		
+		/**
+		 * Retrieve all 'info' level messages from the status update
+		 */
+        this.getInfos = function() {
+          var html, event, events = [];
+          html = header("Tag status information");
+
+//      @data[:info][:status] = "up to date"
+//		@data[:info][:updated] = revision.updated_at
+//      @data[:info][:version] = revision.revision_number
+//      @data[:info][:url] = url_for(revision.tag_configuration)
+//      @data[:info][:name] = revision.tag_configuration.name
+//      @data[:info][:site] = revision.tag_configuration.site_name
+
+		  if (data.info.status === "up to date") {
+		    html += subheader("info", "Tag is up to date");
+		  }
+		  html += variable("Configuration URL", data.info.url);
+		  html += variable("Name", data.info.name);
+		  html += variable("Site", data.info.site);
+		  html += variable("Revision", data.info.version);
+		  html += variable("Last updated", $.dateFromISO8601(data.info.updated));
+          event = createEvent(html);
+          events.push(event);
+          return events;
+        };
       };
       
       var renderer = new StatusRenderer(data);
+      var errors = renderer.getErrors();
       var warnings = renderer.getWarnings();
-      
-      for (var i = 0; i < warnings.length; i++) {
-        var event = warnings[i];
-        // TODO this appends when really we want to prepend
-        event.render('event-section-' + panelNumber);
-        console.log('New Event added to Panel' + panelNumber);
-        // TODO is an changeBodyEvent raised on the parent module when we add this one? This can trigger the Panel title count update
-        var count = getNumberOfEventsByPanel(panelNumber);
-        setPanelCount(panelNumber, count);
-        console.log(count + ' Events now in Panel' + panelNumber);
+      var infos = renderer.getInfos();
+      var collections = [errors, warnings, infos];
+	  
+      for (var i = 0; i < collections.length; i++) {
+        for (var j = 0; j < collections[i].length; j++) {
+          var event = collections[i][j];
+          // TODO this appends when really we want to prepend
+          event.render('event-section-' + panelNumber);
+          console.log('New Event added to Panel' + panelNumber);
+          // TODO is an changeBodyEvent raised on the parent module when we add this one? This can trigger the Panel title count update
+          var count = getNumberOfEventsByPanel(panelNumber);
+          setPanelCount(panelNumber, count);
+          console.log(count + ' Events now in Panel' + panelNumber);
+        }
       }
     };
 	
@@ -475,7 +526,12 @@ var jshub = {};
 		return '<ul id="event-list"></ul';
 	}
 
-	
+	// Let's assume for now this is going to be a singleton...
+	// we want to create the Inspector immediately, even if it's too soon to render it, because
+	// we don't want to miss any events
+	jshub.Inspector = new Inspector;
+	jshub.Inspector.init();
+
 	
 	
 })();
