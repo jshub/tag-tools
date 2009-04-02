@@ -376,6 +376,8 @@ var jshub = {};
 			content.innerHTML = content.innerHTML + _create_event(event);			
 		}
 		
+		_increment_event_count(panel);
+		
 	};
 	
 	/**
@@ -603,6 +605,7 @@ var jshub = {};
 	}
 	
 	function _create_category_label(label){
+		label = label.replace("(${count})",'<span class="count">(0)</span>');
 		label = label.replace("${count}",'<span class="count">0</span>');
 		return  label;
 	}
@@ -671,6 +674,22 @@ var jshub = {};
 		return html.join('');
 	}
 
+	function _increment_event_count(panel){
+	    var count = DOM.getElementsByClassName('count', 'span', panel);
+		if (count.length){
+			var value = count[0].innerHTML;
+			if (value.charAt(0) == '('){
+				value = parseInt(value.substr(1));
+				value = "(" + (value+1) + ")";
+			}
+			else {
+				value = parseInt(value) + 1;
+			}
+			
+			count[0].innerHTML = value;
+		}
+
+	}
 	
 	jshub.Inspector = new Inspector;
 	jshub.Inspector.init();

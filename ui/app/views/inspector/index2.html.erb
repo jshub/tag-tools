@@ -179,7 +179,8 @@ function addPanelEvent(panelNumber) {
   var Dom = YAHOO.util.Dom;
   var newEvent = new YAHOO.widget.Module(Dom.generateId(), { visible: false});
   newEvent.cfg.queueProperty("visible", true);
-  
+
+/*  
   <%# use a Ruby partial to create a template string -%>
   templateString = '<%= render :partial => 'event_item.js.erb', :locals => { 
       :id => "'+Dom.generateId()+'",
@@ -188,7 +189,7 @@ function addPanelEvent(panelNumber) {
       :value => 'content112',
       :help_text => "<p>Causata event.</p><p>DynamicEvent <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href=\"../docs/\">View documentation</a></p>"
     } %>'
-  
+  */
   newEvent.setBody(templateString);
   // TODO this appends when really we want to prepend
   newEvent.render('event-section-'+panelNumber);
@@ -204,13 +205,13 @@ function addDatasourceEvent(panelNumber, data) {
   var Dom = YAHOO.util.Dom;
   var newEvent = new YAHOO.widget.Module(Dom.generateId(), { visible: false});
   newEvent.cfg.queueProperty("visible", true);
-
+/*
   // build the HTML template from the data passed in
   <%# use a Ruby partial to create a template string -%>
   templateString = '<%= render :partial => 'event_datasource_item.js.erb', :locals => { 
       :id => "'+Dom.generateId()+'"
     } %>'
-  
+ */ 
   newEvent.setBody(templateString);
   
   // TODO this appends when really we want to prepend
