@@ -51,13 +51,6 @@ end
 
 # additional custom tasks viewable with 'cap -T'
 namespace :custom do
-  desc 'Create the initial dist JS files. These files are linted and then merged via rake and an ERB template, if something goes wrong then the whole application is rolled back.'
-  task :dist, :roles => [:app] do
-    transaction do
-      run "cd #{current_path} && rake jshub:lint"
-    end
-  end
-  
   desc 'Symlink the public directory into the web root. This is for use by Passenger via RailsBaseURI
         ref: http://www.modrails.com/documentation/Users%20guide.html#deploying_rails_to_sub_uri'
   task :symlink do
@@ -68,5 +61,5 @@ end
 # use our custom tasks at the appropriate time
 # e.g. before :deploy, :my_custom_task
 #      after  "deploy:symlink", :do_this, :and_do_that
-after "deploy:update",   "deploy:migrate", "custom:dist"
+after "deploy:update",   "deploy:migrate"
 after "deploy:symlink",   "custom:symlink"
