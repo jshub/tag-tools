@@ -208,10 +208,23 @@ var jshub = {};
  */
 (function(){
 	
+	// Let's assume for now this is going to be a singleton...
+	// we want to create the Inspector immediately, even if it's too soon to render it, because
+	// we don't want to miss any events
+	jshub.Inspector = new Inspector;
+
+	var DOM = YAHOO.util.Dom;
+
+	
 	function Inspector(options){
 		
 		// I'll create the properties as instance properties for now - isn't as secure as storing them
 		// as locals within the closure, but we can easily change that.  
+		/**
+		 * 
+		 */
+		this.static_height = 0;
+		
 		/**
 		 * Default 'sticking' size when we expand a category - so the inspector may be smaller than this
 		 * if the selected category isn't very tall, but won't grow beyond this unless resized but the user.
@@ -219,7 +232,7 @@ var jshub = {};
 		this.default_expanded = 450;
 		
 		/**
-		 * We want to at least be able to see on whole event
+		 * We want to at least be able to see on whole event.
 		 */
 		this.min_category_height = 100;
 		
@@ -230,6 +243,35 @@ var jshub = {};
 		
 	};
 	
+	Inspector.prototype.render = function(container_id){
+		
+		if (container_id){
+			
+		}
+		else {
+			var div = document.body.appendChild(document.createElement("div"));
+			
+			div.className = "yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui";
+			
+			
+			 var panel = new YAHOO.widget.Panel("jshub_inspector", {
+			        width: "225px",
+			        draggable: true, 
+			        close: true,
+			        autofillheight: "body",
+			        constraintoviewport: true
+			  });
+			  
+			  panel.setHeader(_create_header());
+			  panel.setBody(_create_body());
+			  panel.setFooter("jsHub Activity Inspector v1.123");
+			  panel.render(div);
+			  
+			  // add additional css classes
+			  this.set_state("state3");
+		}
+		
+	}
     /**
      * Initialisation routines
      * @param {Object} container_id
@@ -253,7 +295,7 @@ var jshub = {};
 	 * @param {number} [index] where to insert - default to end of existing items
 	 */
 	Inspector.prototype.addCategory = function(category_name,index){
-		
+		console.log("add category " + category_name);
 	};
 	
 	/**
@@ -262,7 +304,7 @@ var jshub = {};
 	 * @param {Object} event
 	 */
 	Inspector.prototype.addEvent = function(category_name,event){
-		
+		console.log("add event ",event);
 	};
 	
 	/**
@@ -270,17 +312,33 @@ var jshub = {};
 	 * @param {Object} category_name
 	 */
 	Inspector.prototype.expandCategory = function(category_name){
-		
+		console.log("expand Category " + category_name);
 	};
 	
 	/**
-	 * Select a particular event - opening the containing Accordion item if necessary
+	 * Select a particular event - opening the containing Accordion item if necessary, and scrolling into view
 	 * @param {Object} event_id
 	 */
 	Inspector.prototype.selectEvent = function(event_id){
-		
+		console.log("selectEvent " + event_id);
+	};
+	
+	Inspector.prototype.set_state = function(state){
+		var container = document.getElementById("jshub_inspector"), match;
+		var class_name = container.className;
+		if (match = class_name.match(/(state\d)/)){
+			class_name = class_name.replace(match[1],state)
+		}
+		else {
+			class_name += " " + state;
+		}
+		container.className = class_name;		
 	};
 
+
+	function _create_header(){
+		return '<span class="title">Activity Inspector</span><a class="container-minimise" href="#">Minimise</a>'; 
+	}
 	/**
 	 * Initialise the tag revision status warnings
 	 * @param {Object} data the response from the configutor's find_by_sha1 lookup
@@ -371,10 +429,36 @@ var jshub = {};
       }
     };
 	
+	function _create_body(){
+		return _create_status_small() 
+		     + _create_search();
+	}
 	// Let's assume for now this is going to be a singleton...
 	jshub.Inspector = new Inspector();
 	jshub.Inspector.init();
 	
+	function _create_status_small(){
 
+		return '<div class="yui-g status small">' +
+	        		'<div class="yui-u first icon">Small Icon</div>' +
+	        		'<div class="yui-u">' +
+	          			'<p class="message">Installed &amp; active</p>' +
+	        		'</div>' +
+	    		'</div>';		
+	}
+	
+	function _create_search(){
+		return '<div class="yui-g">' +
+          	      '<p>Find <input type="text" class="search" /></p>' +
+      			'</div>';	
+	}
+	
+	function _create_event_list(){
+		return '<ul></ul';
+	}
+
+	
+	
+	
 })();
 
