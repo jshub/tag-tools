@@ -211,7 +211,27 @@ var jshub = {};
 	// Let's assume for now this is going to be a singleton...
 	jshub.Inspector = new Inspector;
 	
-	function Inspector(){
+	function Inspector(options){
+		
+		// I'll create the properties as instance properties for now - isn't as secure as storing them
+		// as locals within the closure, but we can easily change that.  
+		/**
+		 * Default 'sticking' size when we expand a category - so the inspector may be smaller than this
+		 * if the selected category isn't very tall, but won't grow beyond this unless resized but the user.
+		 */
+		this.default_expanded = 450;
+		
+		/**
+		 * We want to at least be able to see on whole event
+		 */
+		this.min_category_height = 100;
+		
+		/**
+		 * the category panels
+		 */
+		this.panels = [];
+		
+		
 		
 	}
 	
