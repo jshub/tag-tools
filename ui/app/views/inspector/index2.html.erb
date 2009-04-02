@@ -1,0 +1,235 @@
+
+    <!-- common styleguide styles -->
+    <%= stylesheet_link_tag "styleguide/styleguide.css" %>
+    <%= stylesheet_link_tag "styleguide/examples.css" %>
+  
+    <!-- YUI 3 basic grids -->
+    <%= stylesheet_link_tag "inspector/yui3/reset-context.css" %>
+    <%= stylesheet_link_tag "inspector/yui3/fonts-context.css" %>
+    <%= stylesheet_link_tag "inspector/yui3/grids-context.css" %>
+    <%= stylesheet_link_tag "inspector/yui3/base-context.css" %>
+    
+    <!-- YUI 2 Common -->
+    <%= javascript_include_tag "inspector/yui2/utilities/utilities.js" %>
+    <%= javascript_include_tag "inspector/yui2/dragdrop/dragdrop.js" %>
+    
+    <!-- YUI 2 Panel -->
+    <%= stylesheet_link_tag "inspector/yui2/container/assets/skins/sam/container.css" %>
+    <%= stylesheet_link_tag "inspector/yui2/resize/assets/skins/sam/resize.css" %>
+    <%= javascript_include_tag "inspector/yui2/container/container.js" %>
+    <%= javascript_include_tag "inspector/yui2/resize/resize.js" %>
+    
+    <!-- YUI 2 Accordion ref: http://www.i-marco.nl/weblog/yui-accordion/ -->
+    <%= stylesheet_link_tag "inspector/accordionview/accordionview.css" %>
+    <%= javascript_include_tag "inspector/accordionview/accordionview.js" %>
+    
+    <!-- jsHub Tag -->
+    <%= javascript_include_tag "jquery/jquery-v1.2.6.js" %>
+    <%= javascript_include_tag "json/json2.js" %>
+    <%= javascript_include_tag "jshub/jshub-gromit-r2-debug.js" %>
+  
+    <!-- jsHub Inspector -->
+    <%= stylesheet_link_tag "inspector/inspector.css" %>
+    <%= javascript_include_tag "inspector/sha1.js" %>
+    <%= javascript_include_tag "inspector/inspector.js" %>
+
+<h1>Inspector</h1>
+<p>Development of the Inspector for jsHub based on YUI 2 Library and accordion widget (<%= link_to 'docs', '../docs/' %>).</p>
+
+
+<script type="text/javascript">
+// example interaction API
+function setState2(state) {
+  var Dom = YAHOO.util.Dom;
+  
+  // update the minimised example
+  var statusArea = Dom.getElementsByClassName('status large', 'div', 'inspector-minimised');
+  var inspectorBody = Dom.getAncestorByClassName(statusArea[0], 'bd');
+  // clear the existing states
+  Dom.removeClass(inspectorBody, 'info');
+  Dom.removeClass(inspectorBody, 'warning');
+  Dom.removeClass(inspectorBody, 'error');
+  Dom.removeClass(inspectorBody, 'success');
+  // add the state class to the body of the inspector for contextual CSS switching
+  Dom.addClass(inspectorBody, state);
+
+  // update the maximised example
+  var statusArea = Dom.getElementsByClassName('status small', 'div', 'inspector-maximised');
+  var inspectorBody = Dom.getAncestorByClassName(statusArea[0], 'bd');
+  // clear the existing states
+  Dom.removeClass(inspectorBody, 'info');
+  Dom.removeClass(inspectorBody, 'warning');
+  Dom.removeClass(inspectorBody, 'error');
+  Dom.removeClass(inspectorBody, 'success');
+  // add the state class to the body of the inspector for contextual CSS switching
+  Dom.addClass(inspectorBody, state);
+  return;
+}
+setState2('success');
+YAHOO.util.Event.addListener("setState2Sucess", "click", function(){setState2('success')} );
+YAHOO.util.Event.addListener("setState2Error", "click", function(){setState2('error')} );
+YAHOO.util.Event.addListener("setState2Warning", "click", function(){setState2('warning')} );
+YAHOO.util.Event.addListener("setState2Info", "click", function(){setState2('info')} );
+</script>
+
+
+<h2>Security</h2>
+
+<p>Security checking of the javascript file occurs on Inspector load.</p>
+
+<button id="checkJsFileHash">Check jshub JS file</button>
+
+<div id="jshub-outdated">
+  jsHub debug script, r2 up-to-date
+  <p>
+    Status icon: <span class="icon"></span>
+  </p>
+  <ul></ul>
+</div>
+    
+<script>
+  function checkJsFileHash() {
+
+      var node = $('#jshub-outdated') /* where to output the vsible text */, 
+          hashcode, 
+          // get the url to grab the jshub code from via AJAX
+          jshubURL = $("script[src~=jshub]").attr('src');
+          
+      $.get(jshubURL, function(jshubSrc) {
+        hashcode = SHA1(jshubSrc);
+        // use a locally cached copy
+		// $.getJSON('http://gromit.etl.office/akita-on-rails/tag_configurations/find_by_sha1/' + hashcode + '.js?callback=?', function(data) {
+        $.getJSON('<%= javascript_path "jshub/e090e895a3193594e933b9e5782e72eb29f6a3c1.js" %>', function(data) {
+          
+          node.append("<code>" + data.toSource() + "</code>");
+          var list = $('ul', node), icon = $('span.icon', node);
+          if (!data.info || !data.warnings || !data.errors) {
+            icon.text('Red error icon');
+            list.append("<li>Unable to parse response from server</li>");
+            return;
+          }
+          if (data.info.status === "not found") {
+            icon.text("Red error icon");
+            list.append("<li>Error: tag file was not found. Give a warning that it might have been tampered with.</li>");
+            return;
+          }
+          if (data.info.status === "up to date") {
+            icon.text('Green icon');
+            list.append("<li>Version up to date and all ok</li>");
+          } else if (data.info.status === "out of date") {
+            icon.text('Yellow warning icon');
+            list.append("<li>Warning, tag out of date but should work ok</li>");
+          }
+          if (data.warnings.tag_type === "debug") {
+            icon.text('Yellow warning icon');
+            list.append("<li>Warning, using debug tag. Not advised for a production site.</li>");
+          }
+          list.append("<li>Tag configuration name: " + data.info.name + "</li>");
+          list.append("<li>Tag prepared for site: " + data.info.site + "</li>");
+          list.append("<li>Tag last updated: " + $.dateFromISO8601(data.info.updated) + "</li>");
+          list.append("<li>Tag configuration url: <a href='" + data.info.url + "'>" + data.info.url + "</a></li>");
+          
+        });
+      });
+  }
+  
+YAHOO.util.Event.addListener("checkJsFileHash", "click", function(){checkJsFileHash()} );
+  
+</script>
+
+
+<p>
+<button id="setPanel1Title">Set Panel 1 Title</button>
+<button id="setPanel2Title">Set Panel 2 Title</button>
+<button id="addPanel1Event">Add an Event to Panel 1</button>
+<button id="addPanel2Event">Add and Event to Panel 2</button>
+<button id="createInspector">Create Inspector</button>
+<button id="addCategoryToInspector">Add a Category</button>
+</p>
+
+
+<script type="text/javascript">
+// example interaction API for adding events to a panel
+function getNumberOfEventsByPanel(panelNumber) {
+  var Dom = YAHOO.util.Dom;
+  var allEvents = Dom.getElementsByClassName('event-item', 'div', 'event-section-'+panelNumber);
+  return allEvents.length;
+}
+
+function setPanelCount(panelNumber, count) {
+  var Dom = YAHOO.util.Dom;
+  // we have a ref to the accordion from when we init it = eventList
+  var panel = Dom.get(eventList.getPanel(panelNumber));
+  Dom.batch(Dom.getElementsByClassName('count', 'span', panel), function(el){el.innerHTML = count});
+}
+
+// set the title text for each panel based on the number of events inside
+function updatePanelTitles(accordion) {
+  var Dom = YAHOO.util.Dom;
+  var allPanels = accordion.getPanels();
+  for (var i = 0, j = allPanels.length; i < j; i++) {
+      var count = getNumberOfEventsByPanel(i);
+      console.log(count+' Events in Panel '+i);
+      setPanelCount(i, count);
+  }
+}
+
+// generic event
+function addPanelEvent(panelNumber) {
+  var Dom = YAHOO.util.Dom;
+  var newEvent = new YAHOO.widget.Module(Dom.generateId(), { visible: false});
+  newEvent.cfg.queueProperty("visible", true);
+  
+  <%# use a Ruby partial to create a template string -%>
+  templateString = '<%= render :partial => 'event_item.js.erb', :locals => { 
+      :id => "'+Dom.generateId()+'",
+      :variable => 'DynamicEvent',
+      :vendor => 'Causata',
+      :value => 'content112',
+      :help_text => "<p>Causata event.</p><p>DynamicEvent <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href=\"../docs/\">View documentation</a></p>"
+    } %>'
+  
+  newEvent.setBody(templateString);
+  // TODO this appends when really we want to prepend
+  newEvent.render('event-section-'+panelNumber);
+  console.log('New Event added to Panel'+panelNumber);
+  // TODO is an changeBodyEvent raised on the parent module when we add this one? This can trigger the Panel title count update
+  var count = getNumberOfEventsByPanel(panelNumber);
+  setPanelCount(panelNumber, count);
+  console.log(count+' Events now in Panel'+panelNumber);
+}
+
+// security event
+function addDatasourceEvent(panelNumber, data) {
+  var Dom = YAHOO.util.Dom;
+  var newEvent = new YAHOO.widget.Module(Dom.generateId(), { visible: false});
+  newEvent.cfg.queueProperty("visible", true);
+
+  // build the HTML template from the data passed in
+  <%# use a Ruby partial to create a template string -%>
+  templateString = '<%= render :partial => 'event_datasource_item.js.erb', :locals => { 
+      :id => "'+Dom.generateId()+'"
+    } %>'
+  
+  newEvent.setBody(templateString);
+  
+  // TODO this appends when really we want to prepend
+  newEvent.render('event-section-'+panelNumber);
+  console.log('New Event added to Panel'+panelNumber);
+  // TODO is an changeBodyEvent raised on the parent module when we add this one? This can trigger the Panel title count update
+  var count = getNumberOfEventsByPanel(panelNumber);
+  setPanelCount(panelNumber, count);
+  console.log(count+' Events now in Panel'+panelNumber);
+}
+
+setState2('success');
+//updatePanelTitles(eventList);
+YAHOO.util.Event.addListener("setPanel1Title", "click", function(){setPanelCount(0,4)} );
+YAHOO.util.Event.addListener("setPanel2Title", "click", function(){setPanelCount(1,3)} );
+YAHOO.util.Event.addListener("addPanel1Event", "click", function(){addPanelEvent(0)} );
+YAHOO.util.Event.addListener("addPanel2Event", "click", function(){addPanelEvent(1)} );
+YAHOO.util.Event.addListener("addCategoryToInspector", "click", function(){jshub.Inspector.addCategory("Test")} );
+YAHOO.util.Event.addListener("createInspector", "click", function(){jshub.Inspector.render()});
+
+
+</script>

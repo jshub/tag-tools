@@ -208,6 +208,24 @@ var jshub = {};
 	
 	var DOM = YAHOO.util.Dom;
 
+	// use this list for now - allow it to be configured through options later
+	var default_categories = {
+		"page" 					 : {label :"Page (${count})"},
+		"user-interactions" 	 : {label : "User Interactions (${count})"},
+		"tagging-issues"		 : {label : "${count} Tagging Issues Detected"},
+		"data-sources"			 : {label : "Data Sources (${count})"},
+		"inline-content-updates" : {label : "Inline content updates (${count})"}
+	};
+	
+	var events = [
+		{category:"page",id:"event-1",variable:"Page-view-complete",vendor:"Google Analytics",value:"True"},
+		{category:"page",id:"event-2",variable:"Page-name",value:"Homepage",warning:true,warnings:{'Google Analytics':'Homepage','Coremetrics':'Home1','MF - hPage':'Homepage1'}},
+		{category:"page",id:"event-3",variable:"Page-category",value:"Electrics",warning:true,warnings:{'Google Analytics':'Electrics','Coremetrics':'Homeware'}},
+		{category:"page",id:"event-4",variable:"Page-ref",vendor:"Coremetrics",value:"123"},
+		{category:"user-interactions",id:"event-5",variable:"Rollover reveal",vendor:"Coremetrics",value:"Prod123",help_text:"<p>Coremetrics event.</p><p>Rollover reveal <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href='../docs/'>View documentation</a></p>"},
+		{category:"user-interactions",id:"event-6",variable:"DetailsClick",vendor:"Google Analytics",value:"123",help_text:"<p>Google Analytics event.</p><p>DetailsClick <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href='../docs/'>View documentation</a></p>"},
+		{category:"user-interactions",id:"event-7",variable:"DetailsClicked",vendor:"Coremetrics",value:"Prod123",help_text:"<p>Coremetrics event.</p><p>DetailsClicked <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href='../docs/'>View documentation</a></p>"}
+	];
 	
 	function Inspector(options){
 		
@@ -232,7 +250,7 @@ var jshub = {};
 		/**
 		 * the category panels
 		 */
-		this.panels = [];
+		this.panels = {};
 		
 	};
 	
@@ -265,9 +283,14 @@ var jshub = {};
 			  panel.setFooter("jsHub Activity Inspector v1.123");
 			  panel.render(div);
 			  
-			  // add additional css classes
-			  this.set_state("state3");
 			  
+			    // init the accordion inside the panel body
+			  this.event_list = new YAHOO.widget.AccordionView("event-list", {
+			        width: '100%', 
+			        collapsible: true,
+			        animate: false
+			      }
+			  );
 			  
 			  // Make the panel resizable and handle events and repainting ref: http://developer.yahoo.com/yui/examples/container/panel-resize.html
 			  // TODO account for open/closed accordion in recalculating the body height
@@ -278,6 +301,29 @@ var jshub = {};
 			    minHeight: 290,
 			    status: false
 			  });
+			  
+			resizer.on("resize", function(args) {
+				var panelHeight = args.height;
+				this.cfg.setProperty("height", panelHeight + "px");
+			
+				//manage_height();
+			
+				}, panel, true);			  
+
+
+			var categories = default_categories;
+		
+			for(var name in categories){
+				this.add_category(name, categories[name].label,categories[name]);
+			}
+			
+			// initialize events
+			for (var i in events){
+				this.add_event(events[i].category,events[i]);
+			}
+
+			// add additional css classes
+			this.set_state("state3");
 			  
 		}
 		
@@ -299,13 +345,19 @@ var jshub = {};
       });
     };
 	
+	
 	/**
 	 * 
 	 * @param {string} category_name - what are we going to call it - refer to it as
 	 * @param {number} [index] where to insert - default to end of existing items
 	 */
-	Inspector.prototype.addCategory = function(category_name,index){
-		console.log("add category " + category_name);
+	Inspector.prototype.add_category = function(category_id, label,index){
+		
+		var panel = this.event_list.addPanel({label: _create_category_label(label), content: _create_category_panel()});		
+
+		var panels = this.event_list.getPanels();
+		
+		this.panels[category_id] = panels[panels.length-1];
 	};
 	
 	/**
@@ -313,8 +365,17 @@ var jshub = {};
 	 * @param {Object} category_name
 	 * @param {Object} event
 	 */
-	Inspector.prototype.addEvent = function(category_name,event){
-		console.log("add event ",event);
+	Inspector.prototype.add_event = function(category_id,event){
+		
+		var panel = this.panels[category_id];
+		
+		var content = panel.childNodes[1];
+		content = content.childNodes[0].childNodes[0];
+
+		if (content.className == "bd"){
+			content.innerHTML = content.innerHTML + _create_event(event);			
+		}
+		
 	};
 	
 	/**
@@ -492,7 +553,6 @@ var jshub = {};
       }
     };
 	
-	
 	function _create_header(){
 		return '<span class="title">Activity Inspector</span><a class="container-minimise" href="#">Minimise</a>'; 
 	}
@@ -520,13 +580,79 @@ var jshub = {};
 	}
 	
 	function _create_event_list(){
-		// jshub-inspector-event-list might be safer...
-		return '<ul id="event-list"></ul';
+		return '<ul id="event-list"></ul>';
+	}
+	
+	function _create_category_label(label){
+		label = label.replace("${count}",'<span class="count">0</span>');
+		return '<div>' + label + '</div>'
+	}
+	
+	function _create_category_panel(){
+		var html = [];
+		
+		html.push('<div class="event-section">');
+		html.push('<div class="bd">');
+		html.push('</div>');
+		html.push('</div>');
+
+		return html.join('');
 	}
 
-	// Let's assume for now this is going to be a singleton...
-	// we want to create the Inspector immediately, even if it's too soon to render it, because
-	// we don't want to miss any events
+
+	
+	function _create_event(event){
+		var html = [];
+		
+		html.push('<div id="' + event.id + '" class="event-item">');
+		html.push('<div class="bd">');
+		html.push('<div class="yui-g help-text" title="No help text available">');
+		html.push('<div class="yui-u first">');
+		html.push('<p class="variable">' + event.variable + ':</p>');
+		if (!event.warning){
+			html.push('<p class="vendor">' + event.vendor + '</p>');
+		}
+		html.push('</div>');
+
+		html.push('<div class="yui-u">');
+		html.push('<p class="value">' + event.value + '</p>');
+		html.push('</div>');
+		html.push('</div>');
+
+		if (event.warning){
+			html.push('<div class="yui-g">');
+			html.push('<ul class="message">');
+			html.push('<li>Different values are being set:</li>');
+			html.push('</ul>');
+			html.push('</div> ');
+			
+			for (var i in event.warnings){
+				var w = event.warnings[i];
+				
+ 				html.push('<div class="yui-g duplicate">');
+ 				html.push('<div class="yui-u first">');
+ 				html.push('<p class="vendor">' + i + '</p>');
+ 				html.push('</div>');
+ 				html.push('<div class="yui-u">');
+ 				html.push('<p class="value">' + w[i] + '</p>');
+ 				html.push('</div>');
+ 				html.push('</div>');
+                  
+ 			}
+		}	
+
+
+		html.push('</div>');
+        html.push('<div class="yui-g">');      
+        html.push('<hr class="event-separator" />');      
+        html.push('</div>');      
+        html.push('</div>');      
+        html.push(' </div>');      
+
+		return html.join('');
+	}
+
+	
 	jshub.Inspector = new Inspector;
 	jshub.Inspector.init();
 
