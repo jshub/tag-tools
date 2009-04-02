@@ -300,23 +300,24 @@ YAHOO.util.Event.addListener("checkJsFileHash", "click", function(){checkJsFileH
           </div>          
         </li>
         <li>
-          <div>Data Sources  <span class="count">(0)</span></div>
+          <div>Data sources <span class="count">0</span></div>
           <div>
-            <div id="event-section-3" class="event-section">
+            <div class="event-section">
               <div class="bd">
-          <p>Maecenas mi quam, lobortis eu, feugiat ac, consequat eget, enim. Vivamus ac turpis a velit lacinia tempus. Vestibulum ac arcu. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce porttitor, ligula at cursus accumsan, metus enim gravida metus, id euismod turpis nibh vitae dolor. Sed magna orci, luctus ac, commodo id, malesuada vitae, lorem. Sed mattis metus. Integer vel massa.</p>
+                <%= render :partial => 'event_datasource_item' %>
               </div><!-- close module bd -->
             </div><!-- close module -->
-          </div>          
+          </div>         
         </li>
         <li>
-          <h3>Inline content updates (1)</h3>
-          <p>Donec euismod gravida purus. Suspendisse dignissim velit id lectus. Nunc ultricies pede vel orci. Fusce commodo leo vitae mi. Quisque eleifend blandit quam. Quisque eu arcu sed dolor tincidunt fermentum. Pellentesque lorem erat, pulvinar eget, pellentesque nec, cursus at, risus. Phasellus enim purus, pulvinar eget, viverra at, congue id, massa. Cras ac quam feugiat nulla luctus dapibus.</p>
-        </li>  
-        <li>
-          <h3>Data sources (1)</h3>
-          <p>Donec euismod gravida purus. Suspendisse dignissim velit id lectus. Nunc ultricies pede vel orci. Fusce commodo leo vitae mi. Quisque eleifend blandit quam. Quisque eu arcu sed dolor tincidunt fermentum. Pellentesque lorem erat, pulvinar eget, pellentesque nec, cursus at, risus. Phasellus enim purus, pulvinar eget, viverra at, congue id, massa. Cras ac quam feugiat nulla luctus dapibus.</p>
-        </li>  
+          <div><span class="count">0</span> Tagging issues detected (static)</div>
+          <div>
+            <div class="event-section">
+              <div class="bd">
+                <%= render :partial => 'event_tagstatus_item' %>
+              </div><!-- close module bd -->
+            </div><!-- close module -->
+          </div>         </li>  
       </ul>
 <%= render :partial => 'buttons', :locals => { :text => 'Hide Events' } %>
     </div>

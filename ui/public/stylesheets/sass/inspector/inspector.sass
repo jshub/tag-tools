@@ -170,6 +170,8 @@ div.jshub.inspector
               :margin-top 5px
               :border none
               :border-top = 1px solid !color_border_separator
+            p
+              :margin 0
 
           #inline status icons
           ul.message.success li, div.message.success ul li
@@ -186,7 +188,7 @@ div.jshub.inspector
               :position = -21px (-18-(4*!grid_icon_large))
               
         # Data event
-        .event-item
+        .event-item, .datasource-item
           ul.message
             :margin 0
             :padding 2px
@@ -200,7 +202,6 @@ div.jshub.inspector
                 :attachment scroll 
                 :position top left
           p
-            :margin 0
             &.variable
               :font-weight bold
             &.vendor
@@ -211,7 +212,8 @@ div.jshub.inspector
             
         # datasource event
         .datasource-item
-
+          div.event-header
+            :font-weight bold  
         # tag status event
         .tag-status-item
           div.event-header
