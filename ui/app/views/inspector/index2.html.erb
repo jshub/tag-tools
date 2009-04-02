@@ -156,11 +156,10 @@ function getNumberOfEventsByPanel(panelNumber) {
   return allEvents.length;
 }
 
+
 function setPanelCount(panelNumber, count) {
-  var Dom = YAHOO.util.Dom;
-  // we have a ref to the accordion from when we init it = eventList
-  var panel = Dom.get(eventList.getPanel(panelNumber));
-  Dom.batch(Dom.getElementsByClassName('count', 'span', panel), function(el){el.innerHTML = count});
+
+
 }
 
 // set the title text for each panel based on the number of events inside

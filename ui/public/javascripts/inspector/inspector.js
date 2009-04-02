@@ -416,8 +416,7 @@ var jshub = {};
 	Inspector.prototype.set_display_state = function(state){
 
 	  // update the maximised example
-	  var statusArea = DOM.getElementsByClassName('status small', 'div', 'jshub_inspector');
-	  var inspectorBody = DOM.getAncestorByClassName(statusArea[0], 'bd');
+	  var inspectorBody = document.getElementById('jshub_inspector');
 	  // clear the existing states
 	  DOM.removeClass(inspectorBody, 'state1');
 	  DOM.removeClass(inspectorBody, 'state2');
@@ -663,7 +662,6 @@ var jshub = {};
  			}
 		}	
 
-
 		html.push('</div>');
         html.push('<div class="yui-g">');      
         html.push('<hr class="event-separator" />');      
@@ -688,7 +686,6 @@ var jshub = {};
 			
 			count[0].innerHTML = value;
 		}
-
 	}
 	
 	jshub.Inspector = new Inspector;
