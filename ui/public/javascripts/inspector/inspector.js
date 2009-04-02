@@ -365,16 +365,14 @@ var jshub = {};
           return '<div class="message ' + type + '"><ul><li>' + text + '</li></ul></div>';
         };
         var variable = function(name, value) {
-          return '  <div class="yui-u first">' +
-          '    <p class="variable">' +
-          name +
-          ':</p>' +
+          return '<div class="yui-g">' +
+		  '  <div class="yui-u first">' +
+          '    <p class="variable">' + name + ':</p>' +
           '  </div>' +
           '  <div class="yui-u">' +
-          '    <p class="value">' +
-          value +
-          '</p>' +
-          '  </div>';
+          '    <p class="value">' + value + '</p>' +
+          '  </div>' +
+		  '</div>';
         };
         var bodyMessage = function(text) {
           return '<div class="message">' + text + '</div>';
