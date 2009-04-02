@@ -585,7 +585,7 @@ var jshub = {};
 	
 	function _create_category_label(label){
 		label = label.replace("${count}",'<span class="count">0</span>');
-		return '<div>' + label + '</div>'
+		return  label;
 	}
 	
 	function _create_category_panel(){
