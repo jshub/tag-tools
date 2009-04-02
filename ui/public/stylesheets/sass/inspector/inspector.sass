@@ -20,30 +20,58 @@
   :height inherit
   :overflow hidden
   :text-indent -10000em
+  :text-decoration none
   
 div.jshub.inspector
   .state1, .state2, .state3
     :font-size 85%
 
-    .hd
-      a.container-minimise
-        +accessible-link-replacement
+    a.container-close
+
+    a.container-minimise
+      :position absolute
+      :width 25px
+      # resizing causes the style to be changed to inherit
+      :height 15px !important
+      :top 5px
+      :right 36px
+      :border 1px solid black
+      +accessible-link-replacement
+
+    a.container-info
+      :position absolute
+      :width 16px
+      # resizing causes the style to be changed to inherit
+      :height 16px !important
+      :bottom 2px
+      :left 2px
+      :border 1px solid black
+      +accessible-link-replacement
 
     .bd
       :padding 0
-      ul#event-list
-        :margin 0     
 
-    .event-section
-      .bd
+      # Accordion styles
+      ul#event-list
+        # override the default width so we can add margins without breaking the bounding box
+        :width inherit !important
+        :margin 2px
+
+        .event-section
+          .bd
+            :margin 0
+            :padding 0
+            :border none
+          .event-item
+            .bd
+              :margin 0
+              :padding 0
+              :border none
+    
+    .ft
+      p
         :margin 0
-        :padding 0
-        :border none
-      .event-item
-        .bd
-          :margin 0
-          :padding 0
-          :border none
+        :padding-left 12px
 
   .state2, .state3
     .status

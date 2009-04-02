@@ -3,23 +3,46 @@
 
 div.jshub.inspector .state1, div.jshub.inspector .state2, div.jshub.inspector .state3 {
   font-size: 85%; }
-  div.jshub.inspector .state1 .hd a.container-minimise,   div.jshub.inspector .state2 .hd a.container-minimise,   div.jshub.inspector .state3 .hd a.container-minimise {
+  div.jshub.inspector .state1 a.container-minimise,   div.jshub.inspector .state2 a.container-minimise,   div.jshub.inspector .state3 a.container-minimise {
+    position: absolute;
+    width: 25px;
+    height: 15px !important;
+    top: 5px;
+    right: 36px;
+    border: 1px solid black;
     display: block;
     height: inherit;
     overflow: hidden;
-    text-indent: -10000em; }
+    text-indent: -10000em;
+    text-decoration: none; }
+  div.jshub.inspector .state1 a.container-info,   div.jshub.inspector .state2 a.container-info,   div.jshub.inspector .state3 a.container-info {
+    position: absolute;
+    width: 16px;
+    height: 16px !important;
+    bottom: 2px;
+    left: 2px;
+    border: 1px solid black;
+    display: block;
+    height: inherit;
+    overflow: hidden;
+    text-indent: -10000em;
+    text-decoration: none; }
   div.jshub.inspector .state1 .bd,   div.jshub.inspector .state2 .bd,   div.jshub.inspector .state3 .bd {
     padding: 0; }
     div.jshub.inspector .state1 .bd ul#event-list,     div.jshub.inspector .state2 .bd ul#event-list,     div.jshub.inspector .state3 .bd ul#event-list {
-      margin: 0; }
-  div.jshub.inspector .state1 .event-section .bd,   div.jshub.inspector .state2 .event-section .bd,   div.jshub.inspector .state3 .event-section .bd {
+      width: inherit !important;
+      margin: 2px; }
+      div.jshub.inspector .state1 .bd ul#event-list .event-section .bd,       div.jshub.inspector .state2 .bd ul#event-list .event-section .bd,       div.jshub.inspector .state3 .bd ul#event-list .event-section .bd {
+        margin: 0;
+        padding: 0;
+        border: none; }
+      div.jshub.inspector .state1 .bd ul#event-list .event-section .event-item .bd,       div.jshub.inspector .state2 .bd ul#event-list .event-section .event-item .bd,       div.jshub.inspector .state3 .bd ul#event-list .event-section .event-item .bd {
+        margin: 0;
+        padding: 0;
+        border: none; }
+  div.jshub.inspector .state1 .ft p,   div.jshub.inspector .state2 .ft p,   div.jshub.inspector .state3 .ft p {
     margin: 0;
-    padding: 0;
-    border: none; }
-  div.jshub.inspector .state1 .event-section .event-item .bd,   div.jshub.inspector .state2 .event-section .event-item .bd,   div.jshub.inspector .state3 .event-section .event-item .bd {
-    margin: 0;
-    padding: 0;
-    border: none; }
+    padding-left: 12px; }
 div.jshub.inspector .state2 .status, div.jshub.inspector .state3 .status {
   border-bottom: 1px solid #808080; }
 div.jshub.inspector .state1 .hd {
