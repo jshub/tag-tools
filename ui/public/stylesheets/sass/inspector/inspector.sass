@@ -5,14 +5,23 @@
 !color_text_bold = #000
 !color_text_light = #999
 
+!color_bg_dark = #000
+!color_bg_mid = #666
+!color_bg_light = #ccc
+
 !color_success = #060
 !color_error = #c00
 !color_warning = #fc3
 !color_info = #fc3
 !color_border = #808080
 
+!color_border_button = #000
+!color_bg_button = #666
+
 !grid_icon_large = 50px
 !grid_icon_small = 25px
+
+!radius_border = 0.25em
 
 # Mixins
 =accessible-link-replacement
@@ -25,6 +34,8 @@
 div.jshub.inspector
   .state1, .state2, .state3
     :font-size 85%
+    :background
+      :color = !color_bg_light
 
     a.container-close
 
@@ -48,38 +59,63 @@ div.jshub.inspector
       :border 1px solid black
       +accessible-link-replacement
 
+    .hd, .ft, .bd
+      :background
+        :color inherit
+    .hd
+      :border-color = !color_border
+    .ft
+      p
+        :margin 0
+        :padding-left 12px
     .bd
       :padding 0
+      :background
+        :color inherit
 
       # Accordion styles
       ul#event-list
         # override the default width so we can add margins without breaking the bounding box
         :width inherit !important
         :margin 2px
+        :margin-bottom 5px
 
         .event-section
           .bd
             :margin 0
             :padding 0
             :border none
-          .event-item
+          .event-item, .tag-status-item
             .bd
               :margin 0
               :padding 0
               :border none
-    
-    .ft
-      p
+      
+      p.search
         :margin 0
-        :padding-left 12px
-      .event-item, .tag-status-item
-        .bd
+        :padding 5px 10px
+        :color = !color_text_normal
+        :font
+          :size 100%        
+      
+      div.buttons
+        :padding 5px 10px
+        a.button
+          :display block
           :margin 0
-          :padding 0
-          :border none
-        .event-header
-          :font-weight bold
-
+          :padding 2px
+          :border = 2px solid !color_border_button
+          :background
+            :color = !color_bg_button
+          :text-align center
+          :text-decoration none
+          :font
+            :weight bolder
+            :size 116%
+          :color = !color_text_bold
+          :-moz-border-radius = !radius_border
+          :border-radius = !radius_border
+    
   .state2, .state3
     .status
       :border-bottom = 1px solid !color_border
