@@ -1,5 +1,3 @@
-var causata = {};
-
 function setup_inspector(inspector_id){
 	
 	var DOM = YAHOO.util.Dom,
@@ -197,3 +195,67 @@ function setup_inspector(inspector_id){
 	
 	
 };
+
+var jshub = {};
+
+/**
+ * Assuming we only want one of these guys in the page...
+ * It must be initialised somehow - we can provide an init function to be called explicitly
+ * or expect a struture with a known name to exist - eg id = jshub-inspector OR create the whole
+ * thing here within the component - OR create on demand, say when a button is clicked in the 
+ * page ?
+ * 
+ */
+(function(){
+	
+	// Let's assume for now this is going to be a singleton...
+	jshub.Inspector = new Inspector;
+	
+	function Inspector(){
+		
+	}
+	
+	Inspector.prototype.init = function(container_id){
+		
+	}
+	
+	/**
+	 * 
+	 * @param {string} category_name - what are we going to call it - refer to it as
+	 * @param {number} [index] where to insert - default to end of existing items
+	 */
+	Inspector.prototype.addCategory = function(category_name,index){
+		
+	};
+	
+	/**
+	 * Add an event to the appropriate list
+	 * @param {Object} category_name
+	 * @param {Object} event
+	 */
+	Inspector.prototype.addEvent = function(category_name,event){
+		
+	};
+	
+	/**
+	 * Expand one of the Accordion items
+	 * @param {Object} category_name
+	 */
+	Inspector.prototype.expandCategory = function(category_name){
+		
+	};
+	
+	/**
+	 * Select a particular event - opening the containing Accordion item if necessary
+	 * @param {Object} event_id
+	 */
+	Inspector.prototype.selectEvent = function(event_id){
+		
+	};
+
+	
+	
+	
+	
+})();
+
