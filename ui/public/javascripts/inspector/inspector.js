@@ -248,9 +248,15 @@ var jshub = {};
 			
 		}
 		else {
-			var div = document.body.appendChild(document.createElement("div"));
-			
-			div.className = "yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui";
+			var div = document.getElementById("jshub-inspector-container");
+			if (!div){
+				div = document.body.appendChild(document.createElement("div"));
+				div.id = "jshub-inspector-container";
+				div.className = "yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui";
+			}
+			else {
+				div.innerHTML = "";
+			}			
 			
 			 var panel = new YAHOO.widget.Panel("jshub_inspector", {
 			        width: "225px",
@@ -267,6 +273,18 @@ var jshub = {};
 			  
 			  // add additional css classes
 			  this.set_state("state3");
+			  
+			  
+			  // Make the panel resizable and handle events and repainting ref: http://developer.yahoo.com/yui/examples/container/panel-resize.html
+			  // TODO account for open/closed accordion in recalculating the body height
+			  var resizer = new YAHOO.util.Resize('jshub_inspector', {
+			    handles: ['br'],
+			    autoRatio: false,
+			    minWidth: 225,
+			    minHeight: 290,
+			    status: false
+			  });
+			  
 		}
 		
 	}
@@ -432,7 +450,8 @@ var jshub = {};
 
 	function _create_body(){
 		return _create_status_small() 
-		     + _create_search();
+		     + _create_search() 
+			 + _create_event_list();
 	}
 	
 	function _create_status_small(){
@@ -452,7 +471,8 @@ var jshub = {};
 	}
 	
 	function _create_event_list(){
-		return '<ul></ul';
+		// jshub-inspector-event-list might be safer...
+		return '<ul id="event-list"></ul';
 	}
 
 	
