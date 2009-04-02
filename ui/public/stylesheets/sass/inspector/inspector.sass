@@ -3,6 +3,7 @@
 # CONSTANTS
 !color_text_normal = #333
 !color_text_bold = #000
+!color_text_mid = #666
 !color_text_light = #999
 
 !color_bg_dark = #000
@@ -15,13 +16,18 @@
 !color_info = #fc3
 !color_border = #808080
 
-!color_border_button = #000
-!color_bg_button = #666
-
 !grid_icon_large = 50px
 !grid_icon_small = 25px
 
 !radius_border = 0.25em
+
+# button constants
+!color_border_button = #000
+!color_bg_button = #666
+
+# accordion constants
+!color_events_bg_light = #fff
+!color_border_separator = #999
 
 # Mixins
 =accessible-link-replacement
@@ -72,24 +78,6 @@ div.jshub.inspector
       :padding 0
       :background
         :color inherit
-
-      # Accordion styles
-      ul#event-list
-        # override the default width so we can add margins without breaking the bounding box
-        :width inherit !important
-        :margin 2px
-        :margin-bottom 5px
-
-        .event-section
-          .bd
-            :margin 0
-            :padding 0
-            :border none
-          .event-item, .tag-status-item
-            .bd
-              :margin 0
-              :padding 0
-              :border none
       
       p.search
         :margin 0
@@ -119,7 +107,98 @@ div.jshub.inspector
   .state2, .state3
     .status
       :border-bottom = 1px solid !color_border
+
+    # Accordion styles
+    ul#event-list
+      # override the default width so we can add margins without breaking the bounding box
+      :width inherit !important
+      :margin 2px
+      :margin-bottom 5px
+
+      # accordion panel including header
+      .event-section
+        .bd
+          :margin 0
+          :padding 0
+          :border none
           
+        # single event entry
+        .event-item, .tag-status-item
+          .bd
+            :margin 0
+            :padding 5px
+            :padding-bottom 0
+            :border none
+            :background
+              :color = !color_events_bg_light
+            hr.event-separator
+              :margin 0
+              :margin-top 5px
+              :border none
+              :border-top = 1px solid !color_border_separator
+
+          #inline status icons
+          ul.message.success li, div.message.success ul li
+            :background
+              :position = -21px (-18-(1*!grid_icon_large))
+          ul.message.error li, div.message.error ul li
+            :background
+              :position = -21px (-18-(2*!grid_icon_large))
+          ul.message.info li, div.message.info ul li
+            :background
+              :position = -21px (-18-(3*!grid_icon_large))
+          ul.message.warning li, div.message.warning ul li
+            :background
+              :position = -21px (-18-(4*!grid_icon_large))
+              
+        # Data event
+        .event-item
+          ul.message
+            :margin 0
+            :padding 2px
+            li
+              :padding 0
+              :padding-left 20px
+              :background
+                :color transparent 
+                :image url('assets/images/icon-indicator-sprite.png') 
+                :repeat no-repeat 
+                :attachment scroll 
+                :position top left
+          p
+            :margin 0
+            &.variable
+              :font-weight bold
+            &.vendor
+              :color = !color_text_mid
+            &.value
+          div.duplicate p.value
+            :color = !color_text_mid
+            
+        # datasource event
+        .datasource-item
+
+        # tag status event
+        .tag-status-item
+          div.event-header
+            :font-weight bold              
+          div.message 
+            ul
+              :margin 0
+              :padding 2px
+              li
+                :min-height 20px
+                :padding-left 20px
+                :background
+                  :color transparent 
+                  :image url('assets/images/icon-indicator-sprite.png') 
+                  :repeat no-repeat 
+                  :attachment scroll 
+                  :position top left
+
+                
+
+                
   # Closed - small floating icon
   .state1
     # TODO the panel should be position: fixed to keep place when the viewport is scrolled ref: http://stackoverflow.com/questions/624414/yui-panel-and-scrolling
