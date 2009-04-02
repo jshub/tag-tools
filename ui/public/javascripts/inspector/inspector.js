@@ -283,7 +283,6 @@ var jshub = {};
 			  panel.setFooter("jsHub Activity Inspector v1.123");
 			  panel.render(div);
 			  
-			  
 			    // init the accordion inside the panel body
 			  this.event_list = new YAHOO.widget.AccordionView("event-list", {
 			        width: '100%', 
@@ -323,7 +322,8 @@ var jshub = {};
 			}
 
 			// add additional css classes
-			this.set_state("state3");
+			this.set_success_state("success");
+			this.set_display_state("state3");
 			  
 		}
 		
@@ -394,19 +394,37 @@ var jshub = {};
 		console.log("selectEvent " + event_id);
 	};
 	
-	Inspector.prototype.set_state = function(state){
-		
-		var container = document.getElementById("jshub_inspector"), match;
-		var class_name = container.className;
-		if (match = class_name.match(/(state\d)/)){
-			class_name = class_name.replace(match[1],state)
-		}
-		else {
-			class_name += " " + state;
-		}
-		container.className = class_name;		
+	//TODO remove duplication between these nextb two
+	Inspector.prototype.set_success_state = function(state){
+
+	  // update the maximised example
+	  var statusArea = DOM.getElementsByClassName('status small', 'div', 'jshub_inspector');
+	  var inspectorBody = DOM.getAncestorByClassName(statusArea[0], 'bd');
+	  // clear the existing states
+	  DOM.removeClass(inspectorBody, 'info');
+	  DOM.removeClass(inspectorBody, 'warning');
+	  DOM.removeClass(inspectorBody, 'error');
+	  DOM.removeClass(inspectorBody, 'success');
+	  
+	  // add the state class to the body of the inspector for contextual CSS switching
+	  DOM.addClass(inspectorBody, state);
+
 	};
 
+	Inspector.prototype.set_display_state = function(state){
+
+	  // update the maximised example
+	  var statusArea = DOM.getElementsByClassName('status small', 'div', 'jshub_inspector');
+	  var inspectorBody = DOM.getAncestorByClassName(statusArea[0], 'bd');
+	  // clear the existing states
+	  DOM.removeClass(inspectorBody, 'state1');
+	  DOM.removeClass(inspectorBody, 'state2');
+	  DOM.removeClass(inspectorBody, 'state3');
+	  
+	  // add the state class to the body of the inspector for contextual CSS switching
+	  DOM.addClass(inspectorBody, state);
+
+	};
 
 	/**
 	 * Initialise the tag revision status warnings
@@ -566,13 +584,14 @@ var jshub = {};
 	function _create_status_small(){
 
 		return '<div class="yui-g status small">' +
-	        		'<div class="yui-u first icon">Small Icon</div>' +
-	        		'<div class="yui-u">' +
+	        		'<div class="yui-u first icon">&nbsp;</div>' +
+	        		'<div class="yui-u text">' +
 	          			'<p class="message">Installed &amp; active</p>' +
 	        		'</div>' +
 	    		'</div>';		
 	}
-	
+
+	  	
 	function _create_search(){
 		return '<div class="yui-g">' +
           	      '<p>Find <input type="text" class="search" /></p>' +
