@@ -27,16 +27,16 @@
     <%= stylesheet_link_tag "inspector/accordionview/accordionview.css" %>
     <%= javascript_include_tag "inspector/accordionview/accordionview.js" %>
     
-    <!-- jsHub Inspector -->
-    <%= stylesheet_link_tag "inspector/inspector.css" %>
-    <%= javascript_include_tag "inspector/inspector.js" %>
-    <%= javascript_include_tag "inspector/sha1.js" %>
-
     <!-- jsHub Tag -->
     <%= javascript_include_tag "jquery/jquery-v1.2.6.js" %>
     <%= javascript_include_tag "json/json2.js" %>
     <%= javascript_include_tag "jshub/jshub-gromit-r2-debug.js" %>
   
+    <!-- jsHub Inspector -->
+    <%= stylesheet_link_tag "inspector/inspector.css" %>
+    <%= javascript_include_tag "inspector/sha1.js" %>
+    <%= javascript_include_tag "inspector/inspector.js" %>
+
 </head>
 <body class="jshub yui-skin-sam">
 
@@ -165,8 +165,6 @@ YAHOO.util.Event.addListener("setState2Info", "click", function(){setState2('inf
 		// $.getJSON('http://gromit.etl.office/akita-on-rails/tag_configurations/find_by_sha1/' + hashcode + '.js?callback=?', function(data) {
         $.getJSON('<%= javascript_path "jshub/e090e895a3193594e933b9e5782e72eb29f6a3c1.js" %>', function(data) {
           
-          console.log('Data from server', data);
-          
           node.append("<code>" + data.toSource() + "</code>");
           var list = $('ul', node), icon = $('span.icon', node);
           if (!data.info || !data.warnings || !data.errors) {
@@ -194,9 +192,6 @@ YAHOO.util.Event.addListener("setState2Info", "click", function(){setState2('inf
           list.append("<li>Tag prepared for site: " + data.info.site + "</li>");
           list.append("<li>Tag last updated: " + $.dateFromISO8601(data.info.updated) + "</li>");
           list.append("<li>Tag configuration url: <a href='" + data.info.url + "'>" + data.info.url + "</a></li>");
-          
-          addRevisionStatus(2,data)
-          
           
         });
       });
@@ -407,113 +402,6 @@ function addPanelEvent(panelNumber) {
   var count = getNumberOfEventsByPanel(panelNumber);
   setPanelCount(panelNumber, count);
   console.log(count+' Events now in Panel'+panelNumber);
-}
-
-// security event
-function addRevisionStatus(panelNumber, data) {
-  var panelNumber = 2;
-  var Dom = YAHOO.util.Dom;
-	
-  var StatusRenderer = function (data) {
-    var header = function(text) {
-      return '<div class="event-header">' + text + '</div>'
-    };
-    var subheader = function(type, text) {
-      return '<div class="message ' + type + '"><ul><li>' + text + '</li></ul></div>';
-    };
-    var variable = function(name, value) {
-      return '  <div class="yui-u first">' +
-        '    <p class="variable">' + name + ':</p>' +
-        '  </div>' +
-        '  <div class="yui-u">' +
-        '    <p class="value">' + value + '</p>' +
-        '  </div>';
-    };
-	var bodyMessage = function(text) {
-      return '<div class="message">' + text + '</div>';
-	}
-    var wrap = function(text, eventId) {
-      return '<div id="' + eventId + '" class="security-item"><div class="bd">' +
-        '<div class="yui-g help-text" title="Security event">' + text + '</div>' +
-        '<div class="yui-g"><hr class="event-separator" /></div>' +
-        '</div></div>';
-    };
-    var createEvent = function(html) {
-	  var eventId = Dom.generateId();
-      var newEvent = new YAHOO.widget.Module(eventId, {
-        visible: false
-      });
-      newEvent.cfg.queueProperty("visible", true);
-	  html = wrap(html, eventId);
-      newEvent.setBody(html);
-	  return newEvent;
-    };
-    
-    var data = data;
-    
-    this.getWarnings = function() {
-      var html, event, events = [];
-	  if (data.warnings.pending_revisions) {
-	  	var pending = data.warnings.pending_revisions;
-        html = header("Tag out of date");
-        html += subheader("warning", "Tag is " + pending + 
-		  " version" + (pending > 1 ? "s":"") + " behind most recent revision");
-		html += bodyMessage("You may need to update to the latest version.");
-		event = createEvent(html);
-		events.push(event);
-      }
-      if (data.warnings.tag_type) {
-        html = header("Debug version detected");
-        html += subheader("warning", "Using the debug version of the jsHub code");
-		html += bodyMessage("You are not recommended to use this on a production website.");
-		event = createEvent(html);
-		events.push(event);
-      }
-	  return events;
-    };
-  };
-	
-//  	var html = '<div id="'+eventId+'" class="security-item"><div class="bd">' +
-//	   '<div class="yui-g help-text" title="Security event">' +
-//	   '  <div class="event-header">'+event.title+'</div>' +
-//       (event.warning ? '  <div class="message warning">'+event.warning+'</div>' : '') +
-//	   '  <div class="yui-u first">' +
-//	   '    <p class="variable">Variable:</p>' + 
-//	   '  </div>' +
-//	   '  <div class="yui-u">' +
-//	   '    <p class="value">value</p>' +
-//	   '  </div>' +
-//	   '</div>' + 
-//	   '<div class="yui-g"><hr class="event-separator" /></div>' +
-//	   '</div></div>';
-//  }	
-	
-  
-//  if (data.warnings.tag_type) {
-//    var event = {
-//		title: "Debug version of code",
-//		warning: "You are using the debug version of the jsHub code." +
-//		  " You are not recommended to use this on a production website.",
-//		variables: {}
-//	};
-//	var eventHtml = render(event);
-//	console.log("Rendering " + eventHtml);
-//    
-//  }
-  
-  var renderer = new StatusRenderer(data);
-  var warnings = renderer.getWarnings();
-  
-  for (var i = 0; i < warnings.length; i++) {
-  	var event = warnings[i];
-    // TODO this appends when really we want to prepend
-    event.render('event-section-' + panelNumber);
-    console.log('New Event added to Panel' + panelNumber);
-    // TODO is an changeBodyEvent raised on the parent module when we add this one? This can trigger the Panel title count update
-    var count = getNumberOfEventsByPanel(panelNumber);
-    setPanelCount(panelNumber, count);
-    console.log(count + ' Events now in Panel' + panelNumber);    
-  }
 }
 
 // security event

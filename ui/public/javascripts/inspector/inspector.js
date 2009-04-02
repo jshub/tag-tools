@@ -208,9 +208,6 @@ var jshub = {};
  */
 (function(){
 	
-	// Let's assume for now this is going to be a singleton...
-	jshub.Inspector = new Inspector;
-	
 	function Inspector(options){
 		
 		// I'll create the properties as instance properties for now - isn't as secure as storing them
@@ -231,13 +228,24 @@ var jshub = {};
 		 */
 		this.panels = [];
 		
-		
-		
-	}
+	};
 	
-	Inspector.prototype.init = function(container_id){
-		
-	}
+    /**
+     * Initialisation routines
+     * @param {Object} container_id
+     */
+    Inspector.prototype.init = function(container_id) {
+	  var self = this, jshubURL = $("script[src~=jshub]").attr('src');
+	  $.get(jshubURL, function(jshubTagSrc) {
+        hashcode = SHA1(jshubTagSrc);
+        // use a locally cached copy
+		// $.getJSON('http://gromit.etl.office/akita-on-rails/tag_configurations/find_by_sha1/' + hashcode + '.js?callback=?', function(data) {
+        $.getJSON('javascripts/jshub/e090e895a3193594e933b9e5782e72eb29f6a3c1.js', function(data) {
+          console.log('Data from server', data);
+		  self.initRevisionStatus(data);
+		});
+      });
+    };
 	
 	/**
 	 * 
@@ -273,9 +281,100 @@ var jshub = {};
 		
 	};
 
+	/**
+	 * Initialise the tag revision status warnings
+	 * @param {Object} data the response from the configutor's find_by_sha1 lookup
+	 */
+    Inspector.prototype.initRevisionStatus = function(data) {
+      var panelNumber = 2;
+      var Dom = YAHOO.util.Dom;
+      
+      var StatusRenderer = function(data) {
+        var data = data;
+        
+        var header = function(text) {
+          return '<div class="event-header">' + text + '</div>'
+        };
+        var subheader = function(type, text) {
+          return '<div class="message ' + type + '"><ul><li>' + text + '</li></ul></div>';
+        };
+        var variable = function(name, value) {
+          return '  <div class="yui-u first">' +
+          '    <p class="variable">' +
+          name +
+          ':</p>' +
+          '  </div>' +
+          '  <div class="yui-u">' +
+          '    <p class="value">' +
+          value +
+          '</p>' +
+          '  </div>';
+        };
+        var bodyMessage = function(text) {
+          return '<div class="message">' + text + '</div>';
+        }
+        var wrap = function(text, eventId) {
+          return '<div id="' + eventId + '" class="tag-status-item"><div class="bd">' +
+          '<div class="yui-g help-text" title="Tag status report">' +
+          text +
+          '</div>' +
+          '<div class="yui-g"><hr class="event-separator" /></div>' +
+          '</div></div>';
+        };
+        var createEvent = function(html) {
+          var eventId = Dom.generateId();
+          var newEvent = new YAHOO.widget.Module(eventId, {
+            visible: false
+          });
+          newEvent.cfg.queueProperty("visible", true);
+          html = wrap(html, eventId);
+          newEvent.setBody(html);
+          return newEvent;
+        };
+        
+        this.getWarnings = function() {
+          var html, event, events = [];
+          if (data.warnings.pending_revisions) {
+            var pending = data.warnings.pending_revisions;
+            html = header("Tag out of date");
+            html += subheader("warning", "Tag is " + pending +
+            " version" +
+            (pending > 1 ? "s" : "") +
+            " behind most recent revision");
+            html += bodyMessage("You may need to update to the latest version.");
+            event = createEvent(html);
+            events.push(event);
+          }
+          if (data.warnings.tag_type) {
+            html = header("Debug version detected");
+            html += subheader("warning", "Using the debug version of the jsHub code");
+            html += bodyMessage("You are not recommended to use this on a production website.");
+            event = createEvent(html);
+            events.push(event);
+          }
+          return events;
+        };
+      };
+      
+      var renderer = new StatusRenderer(data);
+      var warnings = renderer.getWarnings();
+      
+      for (var i = 0; i < warnings.length; i++) {
+        var event = warnings[i];
+        // TODO this appends when really we want to prepend
+        event.render('event-section-' + panelNumber);
+        console.log('New Event added to Panel' + panelNumber);
+        // TODO is an changeBodyEvent raised on the parent module when we add this one? This can trigger the Panel title count update
+        var count = getNumberOfEventsByPanel(panelNumber);
+        setPanelCount(panelNumber, count);
+        console.log(count + ' Events now in Panel' + panelNumber);
+      }
+    };
 	
+	// Let's assume for now this is going to be a singleton...
+	jshub.Inspector = new Inspector();
+	jshub.Inspector.init();
 	
-	
-	
+
 })();
 
