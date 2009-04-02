@@ -335,9 +335,6 @@ var jshub = {};
 	};
 
 
-	function _create_header(){
-		return '<span class="title">Activity Inspector</span><a class="container-minimise" href="#">Minimise</a>'; 
-	}
 	/**
 	 * Initialise the tag revision status warnings
 	 * @param {Object} data the response from the configutor's find_by_sha1 lookup
@@ -428,6 +425,11 @@ var jshub = {};
       }
     };
 	
+	
+	function _create_header(){
+		return '<span class="title">Activity Inspector</span><a class="container-minimise" href="#">Minimise</a>'; 
+	}
+
 	function _create_body(){
 		return _create_status_small() 
 		     + _create_search();
