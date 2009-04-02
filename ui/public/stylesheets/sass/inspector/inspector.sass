@@ -141,11 +141,11 @@ div.jshub.inspector
       :margin 2px
       :margin-bottom 5px
       :background
-        :color = !color_events_bg_light
+        :color transparent
       
       li.yui-accordion-panel
         :background
-          :color transparent
+          :color = !color_events_bg_light
         a.yui-accordion-toggle
           :padding 1px
           +thick-rounded-border
@@ -169,7 +169,7 @@ div.jshub.inspector
           
         div.yui-accordion-content
           :background
-            :color transparent
+            :color = !color_events_bg_light
 
       # accordion panel including header
       .event-section
