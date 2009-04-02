@@ -439,13 +439,13 @@ var jshub = {};
         var data = data;
         
         var header = function(text) {
-          return '<div class="event-header">' + text + '</div>'
+          return '<div class="yui-g help-text event-header" title="Tag status report">' + text + '</div>'
         };
         var subheader = function(type, text) {
           return '<div class="message ' + type + '"><ul><li>' + text + '</li></ul></div>';
         };
         var variable = function(name, value) {
-          return '<div class="yui-g">' +
+          return '<div class="yui-gd">' +
 		  '  <div class="yui-u first">' +
           '    <p class="variable">' + name + ':</p>' +
           '  </div>' +
@@ -459,9 +459,7 @@ var jshub = {};
         }
         var wrap = function(text, eventId) {
           return '<div id="' + eventId + '" class="tag-status-item"><div class="bd">' +
-          '<div class="yui-g help-text" title="Tag status report">' +
           text +
-          '</div>' +
           '<div class="yui-g"><hr class="event-separator" /></div>' +
           '</div></div>';
         };
@@ -541,8 +539,7 @@ var jshub = {};
 		  if (data.info.status === "up to date") {
 		    html += subheader("info", "Tag is up to date");
 		  }
-		  html += variable("Configuration URL", data.info.url);
-		  html += variable("Name", data.info.name);
+		  html += variable("Name", '<a href="'+data.info.url+'" title="Click to edit">'+data.info.name+'</a>');
 		  html += variable("Site", data.info.site);
 		  html += variable("Revision", data.info.version);
 		  html += variable("Last updated", $.dateFromISO8601(data.info.updated));
@@ -564,10 +561,6 @@ var jshub = {};
           // TODO this appends when really we want to prepend
           event.render('event-section-' + panelNumber);
           console.log('New Event added to Panel' + panelNumber);
-          // TODO is an changeBodyEvent raised on the parent module when we add this one? This can trigger the Panel title count update
-          var count = getNumberOfEventsByPanel(panelNumber);
-          setPanelCount(panelNumber, count);
-          console.log(count + ' Events now in Panel' + panelNumber);
         }
       }
     };
