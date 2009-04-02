@@ -1,10 +1,15 @@
 # for image urls use ../../images/inspector/
 
 # CONSTANTS
+!color_text_normal = #333
+!color_text_bold = #000
+!color_text_light = #999
+
 !color_success = #060
 !color_error = #c00
 !color_warning = #fc3
 !color_info = #fc3
+!color_border = #808080
 
 !grid_icon_large = 50px
 !grid_icon_small = 25px
@@ -20,6 +25,15 @@ div.jshub.inspector
   .state1, .state2, .state3
     :font-size 85%
 
+    .hd
+      a.container-minimise
+        +accessible-link-replacement
+
+    .bd
+      :padding 0
+      ul#event-list
+        :margin 0     
+
     .event-section
       .bd
         :margin 0
@@ -30,20 +44,36 @@ div.jshub.inspector
           :margin 0
           :padding 0
           :border none
-    
+
+  .state2, .state3
+    .status
+      :border-bottom = 1px solid !color_border
+          
   # Closed - small floating icon
   .state1
     # TODO the panel should be position: fixed to keep place when the viewport is scrolled ref: http://stackoverflow.com/questions/624414/yui-panel-and-scrolling
     # position: fixed;   
     .hd
       :display none
-    .bd ul
-      :margin 0
-      :padding 0
-    .bd ul li.status
-      :list-style-image url('../../images/inspector/accept.png')
-      :list-style-position inside
-      :list-style-type disc  
+    .bd 
+      :padding 5px
+      ul
+        :margin 0
+        :padding 0
+        li.status
+          :padding-left 25px
+          :list-style-image none
+          :list-style-position inside
+          :list-style-type none  
+          :background
+            :color transparent 
+            :image url('assets/images/icon-indicator-sprite.png') 
+            :repeat no-repeat 
+            :attachment scroll 
+            :position = -21px (-16-!grid_icon_large)
+          :font
+            :weight bolder
+
     .ft
       :display none
   
@@ -59,6 +89,27 @@ div.jshub.inspector
           :repeat no-repeat 
           :attachment scroll 
           :position left top
+      div.text
+        :width 74.1%
+      p.self
+        :margin 0
+        :padding 0
+        :padding-top 4px
+        :color = !color_text_normal
+        :font
+          :size 100%
+          :weight normal
+        :line-height 20px
+      p.message
+        :margin 0
+        :padding 0
+        :color = !color_text_bold
+        :font
+          :size 116%
+          :weight bold  
+        :line-height 20px
+
+    # Icon states          
     .success 
       .status.large div.icon
         :background
@@ -93,4 +144,48 @@ div.jshub.inspector
       div.icon
         :width 25px
         :height 25px
-        :border 1px solid black  
+        :background
+          :color transparent 
+          :image url('assets/images/icon-small-sprite.png') 
+          :repeat no-repeat 
+          :attachment scroll 
+          :position left top
+      div.text
+        :width 87.1%
+      p.self
+        :color = !color_text_normal
+        :font
+          :size 77%
+          :weight normal         
+      p.message
+        :margin 0
+        :padding 0
+        :padding-top 2px
+        :padding-left 2px
+        :color = !color_text_bold
+        :font
+          :size 116%
+          :weight bold  
+        :line-height 20px 
+
+    # Icon states          
+    .success 
+      .status.small div.icon
+        :background
+          :color = !color_success
+          :position = -10px (-10-!grid_icon_large)
+    .error 
+      .status.small div.icon
+        :background
+          :color = !color_error
+          :position = -10px (-60-!grid_icon_large)
+    .warning 
+      .status.small div.icon
+        :background
+          :color = !color_warning
+          :position = -10px (-112-!grid_icon_large)
+    .info 
+      .status.small div.icon
+        :background
+          :color = !color_info
+          :position = -10px (-164-!grid_icon_large)

@@ -57,7 +57,6 @@
 
 <script type="text/javascript">
   var inspectorFloating = new YAHOO.widget.Panel("inspector-floating", {
-        width: "100px", 
         draggable: false, 
         close: false, 
         constraintoviewport: true, 
@@ -65,6 +64,7 @@
       })
   inspectorFloating.render();
 </script>
+
 
 <h2>Minimised</h2>
 
@@ -104,7 +104,20 @@
 // example interaction API
 function setState2(state) {
   var Dom = YAHOO.util.Dom;
+  
+  // update the minimised example
   var statusArea = Dom.getElementsByClassName('status large', 'div', 'inspector-minimised');
+  var inspectorBody = Dom.getAncestorByClassName(statusArea[0], 'bd');
+  // clear the existing states
+  Dom.removeClass(inspectorBody, 'info');
+  Dom.removeClass(inspectorBody, 'warning');
+  Dom.removeClass(inspectorBody, 'error');
+  Dom.removeClass(inspectorBody, 'success');
+  // add the state class to the body of the inspector for contextual CSS switching
+  Dom.addClass(inspectorBody, state);
+
+  // update the maximised example
+  var statusArea = Dom.getElementsByClassName('status small', 'div', 'inspector-maximised');
   var inspectorBody = Dom.getAncestorByClassName(statusArea[0], 'bd');
   // clear the existing states
   Dom.removeClass(inspectorBody, 'info');
@@ -116,6 +129,7 @@ function setState2(state) {
   return;
 }
 
+setState2('success');
 YAHOO.util.Event.addListener("setState2Sucess", "click", function(){setState2('success')} );
 YAHOO.util.Event.addListener("setState2Error", "click", function(){setState2('error')} );
 YAHOO.util.Event.addListener("setState2Warning", "click", function(){setState2('warning')} );
@@ -148,7 +162,7 @@ YAHOO.util.Event.addListener("setState2Info", "click", function(){setState2('inf
         hashcode = SHA1(jshubSrc);
         // use a locally cached copy
 		// $.getJSON('http://gromit.etl.office/akita-on-rails/tag_configurations/find_by_sha1/' + hashcode + '.js?callback=?', function(data) {
-        $.getJSON('javascripts/jshub/e090e895a3193594e933b9e5782e72eb29f6a3c1.js', function(data) {
+        $.getJSON('<%= javascript_path "jshub/e090e895a3193594e933b9e5782e72eb29f6a3c1.js" %>', function(data) {
           
           console.log('Data from server', data);
           
@@ -324,9 +338,6 @@ YAHOO.util.Event.addListener("checkJsFileHash", "click", function(){checkJsFileH
 </div>
 
 <style type="text/css" media="screen">  
-  #inspector-maximised .bd ul#event-list {
-    margin: 0;
-  }
   #inspector-maximised .yui-resize-handle-br {
     right: 0;
     bottom: 0;
@@ -526,6 +537,7 @@ function addDatasourceEvent(panelNumber, data) {
   console.log(count+' Events now in Panel'+panelNumber);
 }
 
+setState2('success');
 updatePanelTitles(eventList);
 YAHOO.util.Event.addListener("setPanel1Title", "click", function(){setPanelCount(0,4)} );
 YAHOO.util.Event.addListener("setPanel2Title", "click", function(){setPanelCount(1,3)} );

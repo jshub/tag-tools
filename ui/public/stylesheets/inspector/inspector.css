@@ -3,6 +3,15 @@
 
 div.jshub.inspector .state1, div.jshub.inspector .state2, div.jshub.inspector .state3 {
   font-size: 85%; }
+  div.jshub.inspector .state1 .hd a.container-minimise,   div.jshub.inspector .state2 .hd a.container-minimise,   div.jshub.inspector .state3 .hd a.container-minimise {
+    display: block;
+    height: inherit;
+    overflow: hidden;
+    text-indent: -10000em; }
+  div.jshub.inspector .state1 .bd,   div.jshub.inspector .state2 .bd,   div.jshub.inspector .state3 .bd {
+    padding: 0; }
+    div.jshub.inspector .state1 .bd ul#event-list,     div.jshub.inspector .state2 .bd ul#event-list,     div.jshub.inspector .state3 .bd ul#event-list {
+      margin: 0; }
   div.jshub.inspector .state1 .event-section .bd,   div.jshub.inspector .state2 .event-section .bd,   div.jshub.inspector .state3 .event-section .bd {
     margin: 0;
     padding: 0;
@@ -11,15 +20,26 @@ div.jshub.inspector .state1, div.jshub.inspector .state2, div.jshub.inspector .s
     margin: 0;
     padding: 0;
     border: none; }
+div.jshub.inspector .state2 .status, div.jshub.inspector .state3 .status {
+  border-bottom: 1px solid #808080; }
 div.jshub.inspector .state1 .hd {
   display: none; }
-div.jshub.inspector .state1 .bd ul {
-  margin: 0;
-  padding: 0; }
-div.jshub.inspector .state1 .bd ul li.status {
-  list-style-image: url('../../images/inspector/accept.png');
-  list-style-position: inside;
-  list-style-type: disc; }
+div.jshub.inspector .state1 .bd {
+  padding: 5px; }
+  div.jshub.inspector .state1 .bd ul {
+    margin: 0;
+    padding: 0; }
+    div.jshub.inspector .state1 .bd ul li.status {
+      padding-left: 25px;
+      list-style-image: none;
+      list-style-position: inside;
+      list-style-type: none;
+      background-color: transparent;
+      background-image: url('assets/images/icon-indicator-sprite.png');
+      background-repeat: no-repeat;
+      background-attachment: scroll;
+      background-position: -21px -66px;
+      font-weight: bolder; }
 div.jshub.inspector .state1 .ft {
   display: none; }
 div.jshub.inspector .state2 .status.large div.icon {
@@ -30,6 +50,23 @@ div.jshub.inspector .state2 .status.large div.icon {
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-position: left top; }
+div.jshub.inspector .state2 .status.large div.text {
+  width: 74.1%; }
+div.jshub.inspector .state2 .status.large p.self {
+  margin: 0;
+  padding: 0;
+  padding-top: 4px;
+  color: #333333;
+  font-size: 100%;
+  font-weight: normal;
+  line-height: 20px; }
+div.jshub.inspector .state2 .status.large p.message {
+  margin: 0;
+  padding: 0;
+  color: #000000;
+  font-size: 116%;
+  font-weight: bold;
+  line-height: 20px; }
 div.jshub.inspector .state2 .success .status.large div.icon {
   background-color: #006600;
   background-position: left -50px; }
@@ -49,4 +86,35 @@ div.jshub.inspector .state3 #event-list .bd {
 div.jshub.inspector .state3 .status.small div.icon {
   width: 25px;
   height: 25px;
-  border: 1px solid black; }
+  background-color: transparent;
+  background-image: url('assets/images/icon-small-sprite.png');
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: left top; }
+div.jshub.inspector .state3 .status.small div.text {
+  width: 87.1%; }
+div.jshub.inspector .state3 .status.small p.self {
+  color: #333333;
+  font-size: 77%;
+  font-weight: normal; }
+div.jshub.inspector .state3 .status.small p.message {
+  margin: 0;
+  padding: 0;
+  padding-top: 2px;
+  padding-left: 2px;
+  color: #000000;
+  font-size: 116%;
+  font-weight: bold;
+  line-height: 20px; }
+div.jshub.inspector .state3 .success .status.small div.icon {
+  background-color: #006600;
+  background-position: -10px -60px; }
+div.jshub.inspector .state3 .error .status.small div.icon {
+  background-color: #cc0000;
+  background-position: -10px -110px; }
+div.jshub.inspector .state3 .warning .status.small div.icon {
+  background-color: #ffcc33;
+  background-position: -10px -162px; }
+div.jshub.inspector .state3 .info .status.small div.icon {
+  background-color: #ffcc33;
+  background-position: -10px -214px; }
