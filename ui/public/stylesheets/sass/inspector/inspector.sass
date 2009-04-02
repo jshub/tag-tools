@@ -7,7 +7,7 @@
 !color_text_light = #999
 
 !color_bg_dark = #000
-!color_bg_mid = #666
+!color_bg_mid = #808080
 !color_bg_light = #ccc
 
 !color_success = #060
@@ -23,7 +23,7 @@
 
 # button constants
 !color_border_button = #000
-!color_bg_button = #666
+!color_bg_button = #808080
 
 # accordion constants
 !color_events_bg_light = #fff
@@ -36,6 +36,12 @@
   :overflow hidden
   :text-indent -10000em
   :text-decoration none
+
+=thick-rounded-border
+  :border = 2px solid !color_border_button
+  :border-radius = !radius_border
+  :-moz-border-radius = !radius_border
+
   
 div.jshub.inspector
   .state1, .state2, .state3
@@ -92,7 +98,7 @@ div.jshub.inspector
           :display block
           :margin 0
           :padding 2px
-          :border = 2px solid !color_border_button
+          +thick-rounded-border
           :background
             :color = !color_bg_button
           :text-align center
@@ -101,8 +107,6 @@ div.jshub.inspector
             :weight bolder
             :size 116%
           :color = !color_text_bold
-          :-moz-border-radius = !radius_border
-          :border-radius = !radius_border
     
   .state2, .state3
     .status
@@ -114,6 +118,36 @@ div.jshub.inspector
       :width inherit !important
       :margin 2px
       :margin-bottom 5px
+      :background
+        :color = !color_events_bg_light
+      
+      li.yui-accordion-panel
+        :background
+          :color transparent
+        a.yui-accordion-toggle
+          :padding 1px
+          +thick-rounded-border
+          :border-width 1px
+          :background none
+          :background
+            :color = !color_bg_mid
+          :text-decoration none
+          &.active
+            :background
+              :color = !color_bg_dark
+            :color #fff
+            :text-decoration none
+          span.indicator
+            :display none
+          # custom count indicator
+          span.count
+            :position absolute
+            :right 1.5em
+          
+          
+        div.yui-accordion-content
+          :background
+            :color transparent
 
       # accordion panel including header
       .event-section
@@ -123,14 +157,14 @@ div.jshub.inspector
           :border none
           
         # single event entry
-        .event-item, .tag-status-item
+        div.event-item, div.datasource-item, div.tag-status-item
           .bd
             :margin 0
             :padding 5px
             :padding-bottom 0
             :border none
             :background
-              :color = !color_events_bg_light
+              :color transparent
             hr.event-separator
               :margin 0
               :margin-top 5px
