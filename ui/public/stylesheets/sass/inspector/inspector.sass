@@ -37,6 +37,12 @@
   :text-indent -10000em
   :text-decoration none
 
+=icon-indicator-background
+  :color transparent 
+  :image url('assets/images/icon-indicator-sprite.png') 
+  :repeat no-repeat 
+  :attachment scroll
+
 =thick-rounded-border
   :border = 2px solid !color_border_button
   :border-radius = !radius_border
@@ -50,16 +56,24 @@ div.jshub.inspector
       :color = !color_bg_light
 
     a.container-close
-
+      :width 16px
+      # resizing causes the style to be changed to inherit
+      :height 17px !important
+      :background
+        +icon-indicator-background
+        :position = -17px (-17-(6*!grid_icon_large))
+        
     a.container-minimise
       :position absolute
-      :width 25px
+      :width 16px
       # resizing causes the style to be changed to inherit
-      :height 15px !important
+      :height 17px !important
       :top 5px
-      :right 36px
-      :border 1px solid black
+      :right 26px
       +accessible-link-replacement
+      :background
+        +icon-indicator-background
+        :position = -17px (-18-(5*!grid_icon_large))
 
     a.container-info
       :position absolute
@@ -68,14 +82,22 @@ div.jshub.inspector
       :height 16px !important
       :bottom 2px
       :left 2px
-      :border 1px solid black
       +accessible-link-replacement
+      :background
+        +icon-indicator-background
+        :position = -17px (-17-(7*!grid_icon_large))
 
     .hd, .ft, .bd
       :background
         :color inherit
     .hd
+      :height 24px
+      :line-height 24px
       :border-color = !color_border
+      # clear out YUI sam skin
+      :background none
+      :background
+        :color = !color_bg_light
     .ft
       p
         :margin 0
@@ -196,10 +218,7 @@ div.jshub.inspector
               :padding 0
               :padding-left 20px
               :background
-                :color transparent 
-                :image url('assets/images/icon-indicator-sprite.png') 
-                :repeat no-repeat 
-                :attachment scroll 
+                +icon-indicator-background
                 :position top left
           p
             &.variable
@@ -226,13 +245,8 @@ div.jshub.inspector
                 :min-height 20px
                 :padding-left 20px
                 :background
-                  :color transparent 
-                  :image url('assets/images/icon-indicator-sprite.png') 
-                  :repeat no-repeat 
-                  :attachment scroll 
+                  +icon-indicator-background
                   :position top left
-
-                
 
                 
   # Closed - small floating icon
@@ -252,10 +266,7 @@ div.jshub.inspector
           :list-style-position inside
           :list-style-type none  
           :background
-            :color transparent 
-            :image url('assets/images/icon-indicator-sprite.png') 
-            :repeat no-repeat 
-            :attachment scroll 
+            +icon-indicator-background
             :position = -21px (-16-!grid_icon_large)
           :font
             :weight bolder
