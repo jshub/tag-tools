@@ -411,7 +411,7 @@ var jshub = {};
       
       // initialise jshub tag status 
       if (window.ETL) {
-        var jshubURL = $("script[src~=jshub]").attr('src');
+        var jshubURL = $("script[src*=jshub]").attr('src');
         $.get(jshubURL, function(jshubTagSrc) {
           hashcode = SHA1(jshubTagSrc);
           $.getJSON('http://gromit.etl.office/akita-on-rails/tag_configurations/find_by_sha1/' + hashcode + '.js?callback=?', function(data) {
@@ -768,11 +768,12 @@ var jshub = {};
                 html = header("Altered tag");
                 html += subheader("error", "Tag is not recognized");
                 html += bodyMessage("The tag code was not recognized by the configurator. " +
-				  "This could mean that it has been altered since it was generated. This error may also " +
-				  "occur if the tag configuration has been deleted from the server which originally " +
-				  "generated it.");
+				  "This could mean that it has been altered since it was generated. <br/>" +
+				  "This error may also occur if the tag configuration has been deleted from " +
+				  "the server which originally generated it.");
                 event = createEvent(html);
                 events.push(event);
+				self.set_success_state('error');
                 break;
 			  // other errors not yet implemented
             }
@@ -813,6 +814,10 @@ var jshub = {};
 		 */
         this.getInfos = function() {
           var html, event, events = [];
+		  if (data.info.status == "not found") {
+		  	return [];
+		  }
+		  
           html = header("Tag status information");
 
 //      @data[:info][:status] = "up to date"
