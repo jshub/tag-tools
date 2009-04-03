@@ -6,10 +6,12 @@
  */
 function add_product(event) {
   var form = event.target.form;
-  ETL.trigger("cart-add", {
-    "product-id": form.product_id.value,
-    quantity: 1
-  });
+  if (window.ETL) {
+    ETL.trigger("cart-add", {
+      "product-id": form.product_id.value,
+      quantity: 1
+    });
+  }
   $("#shopping-cart").load("add_to_cart", {
     ajax: true,
     product_id: form.product_id.value,
@@ -26,10 +28,12 @@ function add_product(event) {
  */
 function update_quantity(event) {
   var form = event.target.form;
-  ETL.trigger("cart-update", {
-    "product-id": form.product_id.value,
-    quantity: form.quantity.value
-  });
+  if (window.ETL) {
+    ETL.trigger("cart-update", {
+      "product-id": form.product_id.value,
+      quantity: form.quantity.value
+    });
+  }
   $("#shopping-cart").load(ENV.APP_ROOT+"/update_quantity", {
     ajax: true,
     product_id: form.product_id.value,
@@ -54,10 +58,12 @@ function update_quantity(event) {
  */
 function remove_product(event) {
   var form = event.target.form;
-  ETL.trigger("cart-remove", {
-    "product-id": form.product_id.value,
-    quantity: 1
-  });
+  if (window.ETL) {
+    ETL.trigger("cart-remove", {
+      "product-id": form.product_id.value,
+      quantity: 1
+    });
+  }
   $("#shopping-cart").load(ENV.APP_ROOT+"/remove_from_cart", {
     ajax: true,
     product_id: form.product_id.value,
