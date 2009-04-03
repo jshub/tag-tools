@@ -384,14 +384,17 @@ var jshub = {};
 			var self = this; 
 			var launcher =  DOM.getElementsByClassName("launcher","ul",inspector_div);
 			YAHOO.util.Event.addListener(launcher, "click", function(){self.set_display_state("state2")});
-			var button_large =  DOM.getElementsByClassName("buttons large","div",inspector_div);
-			YAHOO.util.Event.addListener(button_large, "click", function(){self.set_display_state("state3")});
-			var button_small =  DOM.getElementsByClassName("buttons small","div",inspector_div);
-			YAHOO.util.Event.addListener(button_small, "click", function(){self.set_display_state("state2")});
+			var button_large_container =  DOM.getElementsByClassName("buttons large","div",inspector_div);
+			var button_large = DOM.getElementsByClassName("button","a",button_large_container[0]);
+			YAHOO.util.Event.addListener(button_large, "click", function(e){e.preventDefault();self.set_display_state("state3");});
+			
+			var button_small_container =  DOM.getElementsByClassName("buttons small","div",inspector_div);
+			var button_small =  DOM.getElementsByClassName("button","a",button_small_container[0]);
+			YAHOO.util.Event.addListener(button_small, "click", function(e){e.preventDefault();self.set_display_state("state2");});
 			var container_minimise =  DOM.getElementsByClassName("container-minimise","a",inspector_div);
-			YAHOO.util.Event.addListener(container_minimise, "click", function(){self.set_display_state("state2")});
+			YAHOO.util.Event.addListener(container_minimise, "click", function(e){e.preventDefault();self.set_display_state("state2");});
 			var container_close =  DOM.getElementsByClassName("container-close","a",inspector_div);
-			YAHOO.util.Event.addListener(container_close, "click", function(){self.set_display_state("state1")});
+			YAHOO.util.Event.addListener(container_close, "click", function(e){e.preventDefault();self.set_display_state("state1");});
 		
 		
 	}
@@ -999,6 +1002,7 @@ var jshub = {};
 
 	
 	jshub.Inspector = new Inspector;
+	jshub.Inspector.render("state1");
 	jshub.Inspector.init();
 
 	
