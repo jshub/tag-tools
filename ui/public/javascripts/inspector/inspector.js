@@ -1,3 +1,7 @@
+
+
+
+
 function setup_inspector(inspector_id){
 	
 	var DOM = YAHOO.util.Dom,
@@ -194,6 +198,13 @@ function setup_inspector(inspector_id){
 	
 };
 
+
+
+
+
+
+
+
 var jshub = {};
 
 /**
@@ -217,6 +228,12 @@ var jshub = {};
 		"inline-content-updates" : {label : "Inline content updates (${count})"}
 	};
 	
+	
+	// eventually we'll build this dyynamically from a simple list of types in above categories collection
+	var event_type_mappings = {
+		"data-capture-start" : "page"
+	};
+	
 	var events = [
 		{category:"page",id:"event-1",variable:"Page-view-complete",vendor:"Google Analytics",value:"True"},
 		{category:"page",id:"event-2",variable:"Page-name",value:"Homepage",warning:true,warnings:{'Google Analytics':'Homepage','Coremetrics':'Home1','MF - hPage':'Homepage1'}},
@@ -226,6 +243,13 @@ var jshub = {};
 		{category:"user-interactions",id:"event-6",variable:"DetailsClick",vendor:"Google Analytics",value:"123",help_text:"<p>Google Analytics event.</p><p>DetailsClick <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href='../docs/'>View documentation</a></p>"},
 		{category:"user-interactions",id:"event-7",variable:"DetailsClicked",vendor:"Coremetrics",value:"Prod123",help_text:"<p>Coremetrics event.</p><p>DetailsClicked <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href='../docs/'>View documentation</a></p>"}
 	];
+	
+	events = [];
+	
+	var yui_events = {
+		"page" : [],
+		"user-interactions" : []
+	}
 	
 	function Inspector(options){
 		
@@ -257,18 +281,20 @@ var jshub = {};
 		this._collapsed_event_list_height = 0;
 		
 		/**
-		 * the category panels
+		 * the category panels, stored by category_id
 		 */
 		this.panels = {};
 		
+		/**
+		 * listen out for Hub events
+		 */
+		var self = this;
+		ETL.bind("*",null,function(a,b){self.on_hub_event(a,b)});
+		
 	};
 	
-	Inspector.prototype.render = function(container_id){
+	Inspector.prototype.render = function(display_state){
 		
-		if (container_id){
-			
-		}
-		else {
 			var div = document.getElementById("jshub-inspector-container");
 			if (!div){
 				div = document.body.appendChild(document.createElement("div"));
@@ -296,8 +322,8 @@ var jshub = {};
 			// Set the state before we build all of the internals, as we need to collect
 			// accurate offset dimensions as we build
 			this.set_success_state("success");
-			this.set_display_state("state3");
-
+			//TODO make the initial state a configuration option
+			this.set_display_state(display_state || "state3");
 			  
 			    // init the accordion inside the panel body
 			  this.event_list = new YAHOO.widget.AccordionView("event-list", {
@@ -329,16 +355,33 @@ var jshub = {};
 				this.add_category(name, categories[name].label,categories[name]);
 			}
 			
+			this.add_event = _post_render_add_event; 
+			
+			for (var i in yui_events){
+				var panel = this.panels[i];
+				var section_container = DOM.getElementsByClassName("event-section","div",panel);
+				
+				for (var ii in yui_events[i]){
+					yui_events[i][ii].render(section_container[0]);	
+					_increment_event_count(panel);
+				} 
+			}
+			
 			// initialize events
 			for (var i in events){
-				this.add_event(events[i].category,events[i]);
+				this.add_event(event_type_mappings[events[i].type],events[i]);
 			}
-
 
 			var inspector_div = document.getElementById("jshub_inspector");
 			this._static_height = inspector_div.offsetHeight - this._min_list_item_height; 
-			  
-		}
+			
+			var self = this; 
+			var launcher =  DOM.getElementsByClassName("launcher","ul",inspector_div);
+			YAHOO.util.Event.addListener(launcher, "click", function(){self.set_display_state("state2")});
+			var button_large =  DOM.getElementsByClassName("buttons large","div",inspector_div);
+			YAHOO.util.Event.addListener(button_large, "click", function(){self.set_display_state("state3")});
+			var button_small =  DOM.getElementsByClassName("buttons small","div",inspector_div);
+			YAHOO.util.Event.addListener(button_small, "click", function(){self.set_display_state("state2")});
 		
 	}
     /**
@@ -351,7 +394,7 @@ var jshub = {};
         hashcode = SHA1(jshubTagSrc);
         // use a locally cached copy
 		// $.getJSON('http://gromit.etl.office/akita-on-rails/tag_configurations/find_by_sha1/' + hashcode + '.js?callback=?', function(data) {
-        $.getJSON('javascripts/jshub/e090e895a3193594e933b9e5782e72eb29f6a3c1.js', function(data) {
+        $.getJSON('../javascripts/jshub/e090e895a3193594e933b9e5782e72eb29f6a3c1.js', function(data) {
           console.log('Data from server', data);
 		  self.initRevisionStatus(data);
 		});
@@ -399,6 +442,12 @@ var jshub = {};
 		
 	};
 
+	/**
+	 * Set height of Inspector, taking into account height related configuration options, as well as
+	 * whether user has manually adjusted height. This is invoked in response to several operations - 
+	 * manual resize, expand category, add category etc.
+	 * @param {Object} selected_item
+	 */
 	function _set_height(selected_item){
 	
 		if (!selected_item){
@@ -481,16 +530,31 @@ var jshub = {};
 
 		this._collapsed_event_list_height += this._category_item_height;
 		
+		// TODO - _set_height if this is being added at runtime
 	};
 	
 	
+	Inspector.prototype.on_hub_event = function(event){
+		if (event_type_mappings[event.type]){
+			this.add_event(event_type_mappings[event.type],event)
+		}
+	};
+
+	/**
+	 * Until the inspector is rendered, just store the captured events.
+	 * @param {Object} category_id
+	 * @param {Object} event
+	 */
+	Inspector.prototype.add_event = function(category_id,event){
+		events.push(event);
+	}
+
 	/**
 	 * Add an event to the appropriate list
 	 * @param {Object} category_name
 	 * @param {Object} event
 	 */
-	Inspector.prototype.add_event = function(category_id,event){
-		
+	function _post_render_add_event(category_id,event){
 		var panel = this.panels[category_id];
 		
 		var content = panel.childNodes[1];
@@ -503,8 +567,7 @@ var jshub = {};
 		_increment_event_count(panel);
 
 		_set_height.call(this);
-		
-	};
+	}
 	
 	/**
 	 * Expand one of the Accordion items
@@ -540,7 +603,6 @@ var jshub = {};
 	};
 
 	Inspector.prototype.set_display_state = function(state){
-
 	  // update the maximised example
 	  var inspectorBody = document.getElementById('jshub_inspector');
 	  // clear the existing states
@@ -558,9 +620,9 @@ var jshub = {};
 	 * @param {Object} data the response from the configutor's find_by_sha1 lookup
 	 */
     Inspector.prototype.initRevisionStatus = function(data) {
-      var panelNumber = 2;
-      var Dom = YAHOO.util.Dom;
-      
+ 	  var panelNumber = 2;
+	  
+	  
       var StatusRenderer = function(data) {
         var data = data;
         
@@ -590,7 +652,7 @@ var jshub = {};
           '</div></div>';
         };
         var createEvent = function(html) {
-          var eventId = Dom.generateId();
+          var eventId = DOM.generateId();
           var newEvent = new YAHOO.widget.Module(eventId, {
             visible: false
           });
@@ -627,7 +689,7 @@ var jshub = {};
 		/**
 		 * Retrieve all 'warning' level messages from the status update
 		 */
-        this.getWarnings = function() {
+        this.getWarnings = function(){ 
           var html, event, events = [];
           if (data.warnings.pending_revisions) {
             var pending = data.warnings.pending_revisions;
@@ -685,7 +747,8 @@ var jshub = {};
         for (var j = 0; j < collections[i].length; j++) {
           var event = collections[i][j];
           // TODO this appends when really we want to prepend
-          event.render('event-section-' + panelNumber);
+          //event.render('event-section-' + panelNumber);
+		  yui_events["user-interactions"].push(event);
           console.log('New Event added to Panel' + panelNumber);
         }
       }
@@ -698,7 +761,9 @@ var jshub = {};
 	function _create_body(){
 		return _create_status_small() 
 		     + _create_search() 
-			 + _create_event_list();
+			 + _create_event_list()
+			 + _create_footer_buttons("Hide Events")
+			 + _create_launcher();
 	}
 	
 	function _create_status_small(){
@@ -710,10 +775,26 @@ var jshub = {};
 	        		'</div>' +
 	    		'</div>';		
 	}
+	
+	function _create_footer_buttons(){
+	     var html = [];
+		 html.push('<div class="yui-g buttons large">');
+		 html.push('<a class="button" href="#">View Events</a>');
+		 html.push('</div>');
+		 html.push('<div class="yui-g buttons small">');
+		 html.push('<a class="button" href="#">Hide Events</a>');
+		 html.push('</div>');
+	  	return html.join("");
+	}
+	
+	function _create_launcher(){
 
+    return '<ul class="launcher"><li class="status">jsHub</li></ul>';
+		
+	}
 	  	
 	function _create_search(){
-		return '<div class="yui-g">' +
+		return '<div class="yui-g search">' +
           	      '<p>Find <input type="text" class="search" /></p>' +
       			'</div>';	
 	}
@@ -744,19 +825,23 @@ var jshub = {};
 	function _create_event(event){
 		var html = [];
 		
-		html.push('<div id="' + event.id + '" class="event-item">');
+		html.push('<div id="' + (event.id || DOM.generateId()) + '" class="event-item">');
 		html.push('<div class="bd">');
-		html.push('<div class="yui-g help-text" title="No help text available">');
+		html.push('<div class="yui-g help-text" title="' + (event.help_text || "No help text available") + '">');
 		html.push('<div class="yui-u first">');
-		html.push('<p class="variable">' + event.variable + ':</p>');
-		if (!event.warning){
+		html.push('<p class="variable">' + (event.variable || event.type) + ':</p>');
+		if (!event.warning && event.vendor){
 			html.push('<p class="vendor">' + event.vendor + '</p>');
 		}
 		html.push('</div>');
-
-		html.push('<div class="yui-u">');
-		html.push('<p class="value">' + event.value + '</p>');
-		html.push('</div>');
+		
+		if (typeof event.value != "undefined"){
+			html.push('<div class="yui-u">');
+			html.push('<p class="value">' + event.value + '</p>');
+			html.push('</div>');
+		}
+		
+		
 		html.push('</div>');
 
 		if (event.warning){
@@ -780,6 +865,17 @@ var jshub = {};
                   
  			}
 		}	
+		
+		if (event.timestamp){
+ 				html.push('<div class="yui-g">');
+ 				html.push('<div class="yui-u first">');
+ 				html.push('<p>' + "Timestamp" + '</p>');
+ 				html.push('</div>');
+ 				html.push('<div class="yui-u">');
+ 				html.push('<p class="value">' + event.timestamp + '</p>');
+ 				html.push('</div>');
+ 				html.push('</div>');
+		}
 
 		html.push('</div>');
         html.push('<div class="yui-g">');      

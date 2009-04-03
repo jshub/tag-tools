@@ -66,10 +66,6 @@ function setState2(state) {
   return;
 }
 setState2('success');
-YAHOO.util.Event.addListener("setState2Sucess", "click", function(){setState2('success')} );
-YAHOO.util.Event.addListener("setState2Error", "click", function(){setState2('error')} );
-YAHOO.util.Event.addListener("setState2Warning", "click", function(){setState2('warning')} );
-YAHOO.util.Event.addListener("setState2Info", "click", function(){setState2('info')} );
 </script>
 
 
@@ -137,14 +133,28 @@ YAHOO.util.Event.addListener("checkJsFileHash", "click", function(){checkJsFileH
   
 </script>
 
-
 <p>
+<button id="createInspector">Create Inspector</button>
 <button id="setPanel1Title">Set Panel 1 Title</button>
 <button id="setPanel2Title">Set Panel 2 Title</button>
 <button id="addPageEvent">Add a Page Event</button>
 <button id="addUserInteractionsEvent">Add a User Interactions Event</button>
-<button id="createInspector">Create Inspector</button>
 <button id="addCategoryToInspector">Add a Category</button>
+</p>
+
+<p>Set Success States</p>
+<p>
+<button id="setState2Sucess">Set State 2 Success</button>
+<button id="setState2Error">Set State 2 Error</button>
+<button id="setState2Warning">Set State 2 Warning</button>
+<button id="setState2Info">Set State 2 Info</button>
+</p>
+
+<p>Set Display States</p>
+<p>
+<button id="setDisplayState1">Set State 1</button>
+<button id="setDisplayState2">Set State 2</button>
+<button id="setDisplayState3">Set State 3</button>
 </p>
 
 
@@ -181,7 +191,7 @@ function addPanelEvent(category_id) {
 	              variable	: "DynamicEvent",
 				  vendor	: "Causata",
 				  value		: "content12",
-				  help_text : "<p>Causata event.</p><p>DynamicEvent <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href=\"../docs/\">View documentation</a></p>"
+				  help_text : '<p>Causata event.</p><p>DynamicEvent <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href="../docs">View documentation</a></p>'
 	};	
 	
 	jshub.Inspector.add_event(category_id,event);	
@@ -220,7 +230,16 @@ YAHOO.util.Event.addListener("addPageEvent", "click", function(){addPanelEvent("
 YAHOO.util.Event.addListener("addUserInteractionsEvent", "click", function(){addPanelEvent("user-interactions")} );
 
 YAHOO.util.Event.addListener("addCategoryToInspector", "click", function(){jshub.Inspector.addCategory("Test")} );
-YAHOO.util.Event.addListener("createInspector", "click", function(){jshub.Inspector.render()});
+YAHOO.util.Event.addListener("createInspector", "click", function(){jshub.Inspector.render("state1")});
+
+YAHOO.util.Event.addListener("setState2Sucess", "click", function(){jshub.Inspector.set_success_state("success")} );
+YAHOO.util.Event.addListener("setState2Error", "click", function(){jshub.Inspector.set_success_state("error")} );
+YAHOO.util.Event.addListener("setState2Warning", "click", function(){jshub.Inspector.set_success_state("warning")} );
+YAHOO.util.Event.addListener("setState2Info", "click", function(){jshub.Inspector.set_success_state("info")} );
+
+YAHOO.util.Event.addListener("setDisplayState1", "click", function(){jshub.Inspector.set_display_state("state1")} );
+YAHOO.util.Event.addListener("setDisplayState2", "click", function(){jshub.Inspector.set_display_state("state2")} );
+YAHOO.util.Event.addListener("setDisplayState3", "click", function(){jshub.Inspector.set_display_state("state3")} );
 
 
 </script>
