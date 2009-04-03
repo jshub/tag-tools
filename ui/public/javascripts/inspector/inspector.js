@@ -502,7 +502,7 @@ var jshub = {};
 					if (available_height < min_panel_size){
 						// we have to grow the inspector - this won't normally happen unless we really add a lot of categories
 						var new_inspector_height = inspector_height + (min_panel_size - available_height + 10);
-		    			the_inspector.cfg.setProperty("height", new_inspector_height + "px");
+		    			this.yuipanel.cfg.setProperty("height", new_inspector_height + "px");
 					}
 					else {
 						content.style.height = available_height + "px";
@@ -513,7 +513,6 @@ var jshub = {};
 				}
 			}
 		}		
-	
 	}
 
 	/**
@@ -621,16 +620,22 @@ var jshub = {};
 
 		var inner_element = this.yuipanel.innerElement;
 		var auto_height = inner_element.style.height == "";
+		
+		var panel_body = this.yuipanel.body;
 		if (!auto_height){
 			if (state == "state1"){
 				this.yuipanel.cfg.setProperty("height", 30 + "px");
+				panel_body.style.height = "auto";
 			}			
 			else if (state == "state2"){
 				this.yuipanel.cfg.setProperty("height", 135 + "px");
+				panel_body.style.height = "auto";
 			}
-			
+			else {
+				this.set_height();
+			}
 		}	
-
+		
 	  if (state == "state3" && typeof this._category_item_height == "undefined"){
  		  var inspector_div = document.getElementById("jshub_inspector");
 		  this._static_height = inspector_div.offsetHeight - this._min_list_item_height; 
@@ -638,6 +643,15 @@ var jshub = {};
 		  this._category_item_height = panels[0].offsetHeight;
 		  this._collapsed_event_list_height = this._category_item_height * panels.length;
 	  }	
+
+	  if (this.resizer){
+		if (state == "state3"){
+			this.resizer.unlock();
+		}
+		else {
+			this.resizer.lock();
+		}
+	  }		
 
 
 	};
@@ -776,7 +790,7 @@ var jshub = {};
           // TODO this appends when really we want to prepend
           //event.render('event-section-' + panelNumber);
 		  yui_events["user-interactions"].push(event);
-          console.log('New Event added to Panel' + panelNumber);
+          //onsole.log('New Event added to Panel' + panelNumber);
         }
       }
     };
