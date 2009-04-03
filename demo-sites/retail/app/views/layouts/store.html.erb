@@ -60,7 +60,7 @@
         
           <!-- Show what has been added / removed to cart -->
           <% if flash[:notice] %>
-          <div id="flash" style="display: block">
+          <div id="flash" class="notice" style="display: block">
             <strong><%= flash[:notice] %></strong>
           <% flash[:notice] = nil %>
           </div>
