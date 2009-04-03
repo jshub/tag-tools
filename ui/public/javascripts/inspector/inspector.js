@@ -231,7 +231,9 @@ var jshub = {};
 	
 	// eventually we'll build this dyynamically from a simple list of types in above categories collection
 	var event_type_mappings = {
-		"data-capture-start" : "page"
+		"data-capture-start" : "page",
+		"page-view" : "page",
+		"cart-add": "user-interactions"
 	};
 	
 	var events = [
@@ -913,16 +915,15 @@ var jshub = {};
 	}
 	
 	function _create_launcher(){
-
-    return '<ul class="launcher"><li class="status">jsHub</li></ul>';
-		
+    	return '<ul class="launcher"><li class="status">jsHub</li></ul>';
 	}
 	  	
 	function _create_search(){
 		return '<div class="yui-g search">' +
-          	      '<p>Find <input type="text" class="search" /></p>' +
+          	      '<p class="search"><label class="search">Find</label><input type="text" class="search" /></p>' +
       			'</div>';	
 	}
+	
 	
 	function _create_event_list(){
 		return '<ul id="event-list"></ul>';
@@ -968,6 +969,22 @@ var jshub = {};
 		
 		
 		html.push('</div>');
+
+		if (event.data){
+			for (var i in event.data){
+				var w = event.data[i];
+				
+ 				html.push('<div class="yui-g duplicate">');
+ 				html.push('<div class="yui-u first">');
+ 				html.push('<p class="vendor">' + i + '</p>');
+ 				html.push('</div>');
+ 				html.push('<div class="yui-u">');
+ 				html.push('<p class="value">' + w + '</p>');
+ 				html.push('</div>');
+ 				html.push('</div>');
+                  
+ 			}
+		}
 
 		if (event.warning){
 			html.push('<div class="yui-g">');

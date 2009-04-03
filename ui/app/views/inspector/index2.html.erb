@@ -194,8 +194,15 @@ function addPanelEvent(category_id) {
 				  help_text : '<p>Causata event.</p><p>DynamicEvent <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href="../docs">View documentation</a></p>'
 	};	
 	
-	jshub.Inspector.add_event(category_id,event);	
+	var event = {type:"cart-add",data:{product:123,quantity:2}}
+	
+	jshub.Inspector.on_hub_event(event);	
   
+
+	var event = {type:"page-view",data:{page:"blah",quantity:2}}
+	
+	jshub.Inspector.on_hub_event(event);	
+
 }
 
 // security event
