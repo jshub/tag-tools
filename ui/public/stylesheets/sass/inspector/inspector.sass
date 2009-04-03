@@ -12,7 +12,7 @@
 
 !color_success = #060
 !color_error = #c00
-!color_warning = #fc3
+!color_warning = #808080
 !color_info = #fc3
 !color_border = #808080
 
@@ -319,12 +319,12 @@ div.jshub.inspector
         :background
           :color = !color_error
           :position = left (2*(0-!grid_icon_large))
-    .warning 
+    .info 
       .status.large div.icon
         :background
           :color = !color_warning
           :position = left (3*(0-!grid_icon_large))
-    .info 
+    .warning 
       .status.large div.icon
         :background
           :color = !color_info
@@ -378,12 +378,12 @@ div.jshub.inspector
         :background
           :color = !color_error
           :position = -10px (-60-!grid_icon_large)
-    .warning 
+    .info 
       .status.small div.icon
         :background
           :color = !color_warning
           :position = -10px (-112-!grid_icon_large)
-    .info 
+    .warning 
       .status.small div.icon
         :background
           :color = !color_info
