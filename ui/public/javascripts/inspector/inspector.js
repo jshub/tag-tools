@@ -295,7 +295,10 @@ var jshub = {};
 		 * listen out for Hub events
 		 */
 		var self = this;
-		ETL.bind("*",null,function(a,b){self.on_hub_event(a,b)});
+		if (window.ETL) {
+			ETL.bind("*",null,function(a,b){self.on_hub_event(a,b)});
+			this.success_state = 'success';
+		}
 		
 	};
 	
