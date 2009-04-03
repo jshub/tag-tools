@@ -407,16 +407,21 @@ var jshub = {};
      * @param {Object} container_id
      */
     Inspector.prototype.init = function(container_id) {
-	  var self = this, jshubURL = $("script[src~=jshub]").attr('src');
-	  $.get(jshubURL, function(jshubTagSrc) {
-        hashcode = SHA1(jshubTagSrc);
-        // use a locally cached copy
-		// $.getJSON('http://gromit.etl.office/akita-on-rails/tag_configurations/find_by_sha1/' + hashcode + '.js?callback=?', function(data) {
-        $.getJSON('../javascripts/jshub/e090e895a3193594e933b9e5782e72eb29f6a3c1.js', function(data) {
-          console.log('Data from server', data);
-		  self.initRevisionStatus(data);
-		});
-      });
+      var self = this;
+      
+      // initialise jshub tag status 
+      if (window.ETL) {
+        var jshubURL = $("script[src~=jshub]").attr('src');
+        $.get(jshubURL, function(jshubTagSrc) {
+          hashcode = SHA1(jshubTagSrc);
+          $.getJSON('http://gromit.etl.office/akita-on-rails/tag_configurations/find_by_sha1/' + hashcode + '.js?callback=?', function(data) {
+          // (or use a locally cached copy)
+          // $.getJSON('../javascripts/jshub/e090e895a3193594e933b9e5782e72eb29f6a3c1.js', function(data) {
+            console.log('Data from server', data);
+            self.initRevisionStatus(data);
+          });
+        });
+      }
     };
 	
 
