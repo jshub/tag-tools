@@ -679,7 +679,13 @@ var jshub = {};
 				panel_body.style.height = "auto";
 			}
 			else {
+				//debugger;
 				this.set_height();
+				//debugger;
+				// couldn't find a nicer way to keep the resizer in sync...
+				this.resizer.unlock();
+				var element = this.yuipanel.innerElement;
+				this.resizer.resize(null,element.offsetHeight,element.offsetWidth,0,0,true,true);
 			}
 		}	
 		
