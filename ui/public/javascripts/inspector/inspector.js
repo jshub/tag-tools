@@ -229,23 +229,32 @@ var jshub = {};
 	
 	function Inspector(options){
 		
-		// I'll create the properties as instance properties for now - isn't as secure as storing them
-		// as locals within the closure, but we can easily change that.  
 		/**
 		 * 
 		 */
-		this.static_height = 0;
+		this._static_height = 0;
 		
 		/**
 		 * Default 'sticking' size when we expand a category - so the inspector may be smaller than this
 		 * if the selected category isn't very tall, but won't grow beyond this unless resized but the user.
 		 */
-		this.default_expanded = 450;
+		this.default_expanded_height = 450;
 		
+
+		/**
+		 * How big do we want this to be before user has resized the inspector.
+		 */
+		this._preferred_list_item_height = 150;
+
 		/**
 		 * We want to at least be able to see on whole event.
 		 */
-		this.min_category_height = 100;
+		this._min_list_item_height = 100;
+		
+		/**
+		 * We keep track of the Accordion height for use in the overall height calculation...
+		 */
+		this._collapsed_event_list_height = 0;
 		
 		/**
 		 * the category panels
@@ -282,6 +291,13 @@ var jshub = {};
 			  panel.setBody(_create_body());
 			  panel.setFooter("jsHub Activity Inspector v1.123");
 			  panel.render(div);
+			  this.yuipanel = panel;
+
+			// Set the state before we build all of the internals, as we need to collect
+			// accurate offset dimensions as we build
+			this.set_success_state("success");
+			this.set_display_state("state3");
+
 			  
 			    // init the accordion inside the panel body
 			  this.event_list = new YAHOO.widget.AccordionView("event-list", {
@@ -290,6 +306,8 @@ var jshub = {};
 			        animate: false
 			      }
 			  );
+
+			  this.event_list.subscribe("afterPanelOpen",this.on_panel_expand,null,this);
 			  
 			  // Make the panel resizable and handle events and repainting ref: http://developer.yahoo.com/yui/examples/container/panel-resize.html
 			  // TODO account for open/closed accordion in recalculating the body height
@@ -301,17 +319,12 @@ var jshub = {};
 			    status: false
 			  });
 			  
-			resizer.on("resize", function(args) {
-				var panelHeight = args.height;
-				this.cfg.setProperty("height", panelHeight + "px");
-			
-				//manage_height();
-			
-				}, panel, true);			  
+			resizer.on("startResize",this.prepare_to_resize,null,this);
+			resizer.on("resize",this.set_height,null,this);
 
-
+			this.resizer = resizer;
+			
 			var categories = default_categories;
-		
 			for(var name in categories){
 				this.add_category(name, categories[name].label,categories[name]);
 			}
@@ -321,9 +334,9 @@ var jshub = {};
 				this.add_event(events[i].category,events[i]);
 			}
 
-			// add additional css classes
-			this.set_success_state("success");
-			this.set_display_state("state3");
+
+			var inspector_div = document.getElementById("jshub_inspector");
+			this._static_height = inspector_div.offsetHeight - this._min_list_item_height; 
 			  
 		}
 		
@@ -345,7 +358,111 @@ var jshub = {};
       });
     };
 	
+
+	/**
+	 * 
+	 */	
+	Inspector.prototype.prepare_to_resize = function(){
+		
+		// set our minimum height
+		var min_height = this.minimum_height();
+	    this.resizer.set("minHeight", min_height);
+		
+		// or should it be the outer container, parent of this...
+	  	var inspectorBody = document.getElementById('jshub_inspector');
+		
+	    if (this.yuipanel.cfg.getProperty("constraintoviewport")) {
+	        var clientRegion = DOM.getClientRegion();
+	        var elRegion = DOM.getRegion(inspectorBody);
+	        this.resizer.set("maxWidth", clientRegion.right - elRegion.left - YAHOO.widget.Overlay.VIEWPORT_OFFSET);
+	        this.resizer.set("maxHeight", clientRegion.bottom - elRegion.top - YAHOO.widget.Overlay.VIEWPORT_OFFSET);
+	      } 
+		  else {
+	        this.resizer.set("maxWidth", null);
+	        this.resizer.set("maxHeight", null);
+	    }
+		
+	};
+
+ 	Inspector.prototype.on_panel_expand = function(message){
+		_set_height.call(this,message.panel);
+  }
+
+ 	Inspector.prototype.minimum_height = function(){
+	 return this._static_height + this._min_list_item_height + this._collapsed_event_list_height;
+  }
 	
+	Inspector.prototype.set_height = function(args){
+		var panelHeight = args.height;
+		this.yuipanel.cfg.setProperty("height", panelHeight + "px");
+		_set_height.call(this);
+		
+	};
+
+	function _set_height(selected_item){
+	
+		if (!selected_item){
+			var panels = this.event_list.getPanels();
+			for (var i=0;i<panels.length;i++){
+				if (DOM.hasClass(panels[i].firstChild,this.event_list.CLASSES.ACTIVE)){
+					selected_item = panels[i];
+					break;
+				}
+			}
+		}
+		
+		if (!selected_item){
+			return;
+		}
+
+		var preferred_panel_height = this._preferred_list_item_height;
+		var default_inspector_height = this.default_expanded_height;
+		var min_panel_size = this._min_list_item_height;
+	
+		//TODO make this a bit more robust...
+		var content = selected_item.childNodes[1];
+		
+		var inner_element = this.yuipanel.innerElement;
+		var auto_height = inner_element.style.height == "";
+		var inspector_height = inner_element.clientHeight;
+		
+		if (auto_height){
+			
+			var max_inspector_size = this._collapsed_event_list_height + this._static_height + preferred_panel_height;
+			var preferred_height = Math.max(default_inspector_height,max_inspector_size);
+
+			if (inspector_height > preferred_height){
+				var diff =  inspector_height - preferred_height;
+				var current_height = content.offsetHeight;
+				var new_height = current_height - diff;
+				content.style.height =new_height + "px";
+			}
+		}
+		else {
+			
+			var available_height = inspector_height - this._static_height - this._collapsed_event_list_height;
+			var content_height = content.offsetHeight;
+			var actual_content = content.getElementsByTagName("div");
+			if (actual_content.length){
+				var full_content_height = actual_content[0].offsetHeight;
+				if (content_height > available_height){
+					if (available_height < min_panel_size){
+						// we have to grow the inspector - this won't normally happen unless we really add a lot of categories
+						var new_inspector_height = inspector_height + (min_panel_size - available_height + 10);
+		    			the_inspector.cfg.setProperty("height", new_inspector_height + "px");
+					}
+					else {
+						content.style.height = available_height + "px";
+					}
+				} 
+				else if (full_content_height > content_height){
+					content.style.height = (available_height) + "px";
+				}
+			}
+		}		
+	
+	}
+
 	/**
 	 * 
 	 * @param {string} category_name - what are we going to call it - refer to it as
@@ -353,12 +470,19 @@ var jshub = {};
 	 */
 	Inspector.prototype.add_category = function(category_id, label,index){
 		
-		var panel = this.event_list.addPanel({label: _create_category_label(label), content: _create_category_panel()});		
+		this.event_list.addPanel({label: _create_category_label(label), content: _create_category_panel()});		
 
 		var panels = this.event_list.getPanels();
-		
 		this.panels[category_id] = panels[panels.length-1];
+		
+		if (!this._category_item_height){
+			this._category_item_height = this.panels[category_id].offsetHeight;
+		}		
+
+		this._collapsed_event_list_height += this._category_item_height;
+		
 	};
+	
 	
 	/**
 	 * Add an event to the appropriate list
@@ -377,6 +501,8 @@ var jshub = {};
 		}
 		
 		_increment_event_count(panel);
+
+		_set_height.call(this);
 		
 	};
 	
@@ -405,7 +531,7 @@ var jshub = {};
 	  // clear the existing states
 	  DOM.removeClass(inspectorBody, 'info');
 	  DOM.removeClass(inspectorBody, 'warning');
-	  DOM.removeClass(inspectorBody, 'error');
+	  DOM.removeClass(inspectorBody, 'error'); 
 	  DOM.removeClass(inspectorBody, 'success');
 	  
 	  // add the state class to the body of the inspector for contextual CSS switching
@@ -648,7 +774,7 @@ var jshub = {};
  				html.push('<p class="vendor">' + i + '</p>');
  				html.push('</div>');
  				html.push('<div class="yui-u">');
- 				html.push('<p class="value">' + w[i] + '</p>');
+ 				html.push('<p class="value">' + w + '</p>');
  				html.push('</div>');
  				html.push('</div>');
                   
@@ -680,6 +806,8 @@ var jshub = {};
 			count[0].innerHTML = value;
 		}
 	}
+	
+
 	
 	jshub.Inspector = new Inspector;
 	jshub.Inspector.init();

@@ -141,8 +141,8 @@ YAHOO.util.Event.addListener("checkJsFileHash", "click", function(){checkJsFileH
 <p>
 <button id="setPanel1Title">Set Panel 1 Title</button>
 <button id="setPanel2Title">Set Panel 2 Title</button>
-<button id="addPanel1Event">Add an Event to Panel 1</button>
-<button id="addPanel2Event">Add and Event to Panel 2</button>
+<button id="addPageEvent">Add a Page Event</button>
+<button id="addUserInteractionsEvent">Add a User Interactions Event</button>
 <button id="createInspector">Create Inspector</button>
 <button id="addCategoryToInspector">Add a Category</button>
 </p>
@@ -158,6 +158,7 @@ function getNumberOfEventsByPanel(panelNumber) {
 
 
 function setPanelCount(panelNumber, count) {
+	
 
 
 }
@@ -174,29 +175,17 @@ function updatePanelTitles(accordion) {
 }
 
 // generic event
-function addPanelEvent(panelNumber) {
-  var Dom = YAHOO.util.Dom;
-  var newEvent = new YAHOO.widget.Module(Dom.generateId(), { visible: false});
-  newEvent.cfg.queueProperty("visible", true);
-
-/*  
-  <%# use a Ruby partial to create a template string -%>
-  templateString = '<%= render :partial => 'event_item.js.erb', :locals => { 
-      :id => "'+Dom.generateId()+'",
-      :variable => 'DynamicEvent',
-      :vendor => 'Causata',
-      :value => 'content112',
-      :help_text => "<p>Causata event.</p><p>DynamicEvent <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href=\"../docs/\">View documentation</a></p>"
-    } %>'
-  */
-  newEvent.setBody(templateString);
-  // TODO this appends when really we want to prepend
-  newEvent.render('event-section-'+panelNumber);
-  console.log('New Event added to Panel'+panelNumber);
-  // TODO is an changeBodyEvent raised on the parent module when we add this one? This can trigger the Panel title count update
-  var count = getNumberOfEventsByPanel(panelNumber);
-  setPanelCount(panelNumber, count);
-  console.log(count+' Events now in Panel'+panelNumber);
+function addPanelEvent(category_id) {
+	
+	 var event = {id		:YAHOO.util.Dom.generateId(),
+	              variable	: "DynamicEvent",
+				  vendor	: "Causata",
+				  value		: "content12",
+				  help_text : "<p>Causata event.</p><p>DynamicEvent <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href=\"../docs/\">View documentation</a></p>"
+	};	
+	
+	jshub.Inspector.add_event(category_id,event);	
+  
 }
 
 // security event
@@ -226,8 +215,10 @@ setState2('success');
 //updatePanelTitles(eventList);
 YAHOO.util.Event.addListener("setPanel1Title", "click", function(){setPanelCount(0,4)} );
 YAHOO.util.Event.addListener("setPanel2Title", "click", function(){setPanelCount(1,3)} );
-YAHOO.util.Event.addListener("addPanel1Event", "click", function(){addPanelEvent(0)} );
-YAHOO.util.Event.addListener("addPanel2Event", "click", function(){addPanelEvent(1)} );
+
+YAHOO.util.Event.addListener("addPageEvent", "click", function(){addPanelEvent("page")} );
+YAHOO.util.Event.addListener("addUserInteractionsEvent", "click", function(){addPanelEvent("user-interactions")} );
+
 YAHOO.util.Event.addListener("addCategoryToInspector", "click", function(){jshub.Inspector.addCategory("Test")} );
 YAHOO.util.Event.addListener("createInspector", "click", function(){jshub.Inspector.render()});
 
