@@ -23,3 +23,6 @@ production:
 
 passenger:
   development
+  
+gromit:
+  development  
