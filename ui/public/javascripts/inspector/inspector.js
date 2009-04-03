@@ -221,10 +221,10 @@ var jshub = {};
 
 	// use this list for now - allow it to be configured through options later
 	var default_categories = {
-		"page" 					 : {label :"Page (${count})"},
-		"user-interactions" 	 : {label : "User Interactions (${count})"},
-		"tagging-issues"		 : {label : "${count} Tagging Issues Detected"},
-		"data-sources"			 : {label : "Data Sources (${count})"},
+		"tagging-issues"		 : {label : "Tagging issues (${count})"},
+		"page" 					 : {label : "Page events (${count})"},
+		"user-interactions" 	 : {label : "Ecommerce events (${count})"},
+		"data-sources"			 : {label : "Data sources (${count})"},
 		"inline-content-updates" : {label : "Inline content updates (${count})"}
 	};
 	
@@ -248,7 +248,8 @@ var jshub = {};
 	
 	var yui_events = {
 		"page" : [],
-		"user-interactions" : []
+		"user-interactions" : [],
+		"tagging-issues" : []
 	}
 	
 	function Inspector(options){
@@ -284,6 +285,11 @@ var jshub = {};
 		 * the category panels, stored by category_id
 		 */
 		this.panels = {};
+		
+		/** 
+		 * start in success state
+		 */
+		this.success_state = 'info';
 		
 		/**
 		 * listen out for Hub events
@@ -321,7 +327,8 @@ var jshub = {};
 
 			// Set the state before we build all of the internals, as we need to collect
 			// accurate offset dimensions as we build
-			this.set_success_state("success");
+			this.set_success_state(this.success_state);
+			
 			//TODO make the initial state a configuration option
 			this.set_display_state(display_state || "state3");
 			  
@@ -591,10 +598,14 @@ var jshub = {};
 	
 	//TODO remove duplication between these nextb two
 	Inspector.prototype.set_success_state = function(state){
+	  
+	  // cache new state
+	  this.success_state = state;
 
 	  // update the maximised example
-	  var statusArea = DOM.getElementsByClassName('status small', 'div', 'jshub_inspector');
-	  var inspectorBody = DOM.getAncestorByClassName(statusArea[0], 'bd');
+	  var statusAreaSmall = DOM.getElementsByClassName('status small', 'div', 'jshub_inspector');
+	  var statusAreaLarge = DOM.getElementsByClassName('status large', 'div', 'jshub_inspector');
+	  var inspectorBody = DOM.getAncestorByClassName(statusAreaSmall[0], 'bd');
 	  // clear the existing states
 	  DOM.removeClass(inspectorBody, 'info');
 	  DOM.removeClass(inspectorBody, 'warning');
@@ -603,6 +614,30 @@ var jshub = {};
 	  
 	  // add the state class to the body of the inspector for contextual CSS switching
 	  DOM.addClass(inspectorBody, state);
+	  
+	  // and add descriptive text
+	  function setMessage (text) {
+	    var messageDivSmall = DOM.getElementsByClassName('message', 'p', statusAreaSmall[0]);
+	    var messageDivLarge = DOM.getElementsByClassName('message', 'p', statusAreaLarge[0]);
+		messageDivSmall[0].innerHTML = text;
+		messageDivLarge[0].innerHTML = text;
+	  }
+	  
+	  switch (state) {
+	  	case 'success':
+		  setMessage('Installed &amp; active');
+		  break;
+	  	case 'info':
+		  setMessage('Not installed');
+		  break;
+	  	case 'warning':
+		  setMessage('Active with warnings');
+		  break;
+	  	case 'error':
+		  setMessage('Having problems');
+		  break;
+	  }
+	  
 
 	};
 
@@ -661,7 +696,7 @@ var jshub = {};
 	 * @param {Object} data the response from the configutor's find_by_sha1 lookup
 	 */
     Inspector.prototype.initRevisionStatus = function(data) {
- 	  var panelNumber = 2;
+ 	  var self = this, panelNumber = 2;
 	  
 	  
       var StatusRenderer = function(data) {
@@ -739,6 +774,10 @@ var jshub = {};
 			  + (pending > 1 ? "s" : "") + " behind most recent revision");
             html += bodyMessage("You may need to update to the latest version.");
             event = createEvent(html);
+			console.log("Sending a warning - ", self.success_state);
+			if (self.success_state == 'success') {
+				self.set_success_state('warning');
+			}
             events.push(event);
           }
           if (data.warnings.tag_type) {
@@ -771,7 +810,7 @@ var jshub = {};
 		  html += variable("Name", '<a href="'+data.info.url+'" title="Click to edit">'+data.info.name+'</a>');
 		  html += variable("Site", data.info.site);
 		  html += variable("Revision", data.info.version);
-		  html += variable("Last updated", $.dateFromISO8601(data.info.updated));
+		  html += variable("Updated", $.dateFromISO8601(data.info.updated));
           event = createEvent(html);
           events.push(event);
           return events;
@@ -789,7 +828,7 @@ var jshub = {};
           var event = collections[i][j];
           // TODO this appends when really we want to prepend
           //event.render('event-section-' + panelNumber);
-		  yui_events["user-interactions"].push(event);
+		  yui_events["tagging-issues"].push(event);
           //onsole.log('New Event added to Panel' + panelNumber);
         }
       }
