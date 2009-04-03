@@ -308,7 +308,7 @@ var jshub = {};
 			 var panel = new YAHOO.widget.Panel("jshub_inspector", {
 			        width: "225px",
 			        draggable: true, 
-			        close: true,
+			        close: false,
 			        autofillheight: "body",
 			        constraintoviewport: true
 			  });
@@ -373,7 +373,6 @@ var jshub = {};
 			}
 
 			var inspector_div = document.getElementById("jshub_inspector");
-			this._static_height = inspector_div.offsetHeight - this._min_list_item_height; 
 			
 			var self = this; 
 			var launcher =  DOM.getElementsByClassName("launcher","ul",inspector_div);
@@ -382,6 +381,11 @@ var jshub = {};
 			YAHOO.util.Event.addListener(button_large, "click", function(){self.set_display_state("state3")});
 			var button_small =  DOM.getElementsByClassName("buttons small","div",inspector_div);
 			YAHOO.util.Event.addListener(button_small, "click", function(){self.set_display_state("state2")});
+			var container_minimise =  DOM.getElementsByClassName("container-minimise","a",inspector_div);
+			YAHOO.util.Event.addListener(container_minimise, "click", function(){self.set_display_state("state2")});
+			var container_close =  DOM.getElementsByClassName("container-close","a",inspector_div);
+			YAHOO.util.Event.addListener(container_close, "click", function(){self.set_display_state("state1")});
+		
 		
 	}
     /**
@@ -436,8 +440,10 @@ var jshub = {};
   }
 	
 	Inspector.prototype.set_height = function(args){
-		var panelHeight = args.height;
-		this.yuipanel.cfg.setProperty("height", panelHeight + "px");
+		if (args){
+			var panelHeight = args.height;
+			this.yuipanel.cfg.setProperty("height", panelHeight + "px");
+		}
 		_set_height.call(this);
 		
 	};
@@ -463,7 +469,6 @@ var jshub = {};
 		if (!selected_item){
 			return;
 		}
-
 		var preferred_panel_height = this._preferred_list_item_height;
 		var default_inspector_height = this.default_expanded_height;
 		var min_panel_size = this._min_list_item_height;
@@ -488,7 +493,6 @@ var jshub = {};
 			}
 		}
 		else {
-			
 			var available_height = inspector_height - this._static_height - this._collapsed_event_list_height;
 			var content_height = content.offsetHeight;
 			var actual_content = content.getElementsByTagName("div");
@@ -524,11 +528,13 @@ var jshub = {};
 		var panels = this.event_list.getPanels();
 		this.panels[category_id] = panels[panels.length-1];
 		
-		if (!this._category_item_height){
-			this._category_item_height = this.panels[category_id].offsetHeight;
-		}		
-
-		this._collapsed_event_list_height += this._category_item_height;
+		//if (!this._category_item_height){
+		//	this._category_item_height = this.panels[category_id].offsetHeight;
+		//}		
+		
+		if (this._category_item_height){
+			this._collapsed_event_list_height += this._category_item_height;
+		}
 		
 		// TODO - _set_height if this is being added at runtime
 	};
@@ -565,7 +571,6 @@ var jshub = {};
 		}
 		
 		_increment_event_count(panel);
-
 		_set_height.call(this);
 	}
 	
@@ -612,6 +617,28 @@ var jshub = {};
 	  
 	  // add the state class to the body of the inspector for contextual CSS switching
 	  DOM.addClass(inspectorBody, state);
+
+
+		var inner_element = this.yuipanel.innerElement;
+		var auto_height = inner_element.style.height == "";
+		if (!auto_height){
+			if (state == "state1"){
+				this.yuipanel.cfg.setProperty("height", 30 + "px");
+			}			
+			else if (state == "state2"){
+				this.yuipanel.cfg.setProperty("height", 135 + "px");
+			}
+			
+		}	
+
+	  if (state == "state3" && typeof this._category_item_height == "undefined"){
+ 		  var inspector_div = document.getElementById("jshub_inspector");
+		  this._static_height = inspector_div.offsetHeight - this._min_list_item_height; 
+		  var panels = this.event_list.getPanels();
+		  this._category_item_height = panels[0].offsetHeight;
+		  this._collapsed_event_list_height = this._category_item_height * panels.length;
+	  }	
+
 
 	};
 
@@ -755,15 +782,28 @@ var jshub = {};
     };
 	
 	function _create_header(){
-		return '<span class="title">Activity Inspector</span><a class="container-minimise" href="#">Minimise</a>'; 
+		return '<span class="title">Activity Inspector</span><a class="container-minimise" href="#">Minimise</a><a class="container-close" href="#">Close</a>'; 
 	}
 
 	function _create_body(){
 		return _create_status_small() 
+		     + _create_status_large() 
 		     + _create_search() 
 			 + _create_event_list()
 			 + _create_footer_buttons("Hide Events")
 			 + _create_launcher();
+	}
+	
+	function _create_status_large(){
+		var html = [];
+		html.push('<div class="yui-g status large">');
+		html.push('<div class="yui-u first icon" title="Inspector status icon">&nbsp;</div>');
+		html.push('<div class="yui-u text">');
+		html.push('<p class="self">jsHub is</p>');
+		html.push('<p class="message">Installed &amp; active</p>');
+		html.push('</div>');
+		html.push('</div>');
+		return html.join("");
 	}
 	
 	function _create_status_small(){
