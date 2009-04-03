@@ -130,70 +130,6 @@ YAHOO.util.Event.addListener("setState2Warning", "click", function(){setState2('
 YAHOO.util.Event.addListener("setState2Info", "click", function(){setState2('info')} );
 </script>
 
-<h2>Security</h2>
-
-<p>Security checking of the javascript file occurs on Inspector load.</p>
-
-<button id="checkJsFileHash">Check jshub JS file</button>
-
-<div id="jshub-outdated">
-  jsHub debug script, r2 up-to-date
-  <p>
-    Status icon: <span class="icon"></span>
-  </p>
-  <ul></ul>
-</div>
-    
-<script>
-  function checkJsFileHash() {
-
-      var node = $('#jshub-outdated') /* where to output the vsible text */, 
-          hashcode, 
-          // get the url to grab the jshub code from via AJAX
-          jshubURL = $("script[src~=jshub]").attr('src');
-          
-      $.get(jshubURL, function(jshubSrc) {
-        hashcode = SHA1(jshubSrc);
-        // use a locally cached copy
-		// $.getJSON('http://gromit.etl.office/akita-on-rails/tag_configurations/find_by_sha1/' + hashcode + '.js?callback=?', function(data) {
-        $.getJSON('<%= javascript_path "jshub/e090e895a3193594e933b9e5782e72eb29f6a3c1.js" %>', function(data) {
-          
-          node.append("<code>" + data.toSource() + "</code>");
-          var list = $('ul', node), icon = $('span.icon', node);
-          if (!data.info || !data.warnings || !data.errors) {
-            icon.text('Red error icon');
-            list.append("<li>Unable to parse response from server</li>");
-            return;
-          }
-          if (data.info.status === "not found") {
-            icon.text("Red error icon");
-            list.append("<li>Error: tag file was not found. Give a warning that it might have been tampered with.</li>");
-            return;
-          }
-          if (data.info.status === "up to date") {
-            icon.text('Green icon');
-            list.append("<li>Version up to date and all ok</li>");
-          } else if (data.info.status === "out of date") {
-            icon.text('Yellow warning icon');
-            list.append("<li>Warning, tag out of date but should work ok</li>");
-          }
-          if (data.warnings.tag_type === "debug") {
-            icon.text('Yellow warning icon');
-            list.append("<li>Warning, using debug tag. Not advised for a production site.</li>");
-          }
-          list.append("<li>Tag configuration name: " + data.info.name + "</li>");
-          list.append("<li>Tag prepared for site: " + data.info.site + "</li>");
-          list.append("<li>Tag last updated: " + $.dateFromISO8601(data.info.updated) + "</li>");
-          list.append("<li>Tag configuration url: <a href='" + data.info.url + "'>" + data.info.url + "</a></li>");
-          
-        });
-      });
-  }
-  
-YAHOO.util.Event.addListener("checkJsFileHash", "click", function(){checkJsFileHash()} );
-  
-</script>
-
 <h2>Maximised</h2>
 
 <p>
@@ -252,7 +188,6 @@ YAHOO.util.Event.addListener("checkJsFileHash", "click", function(){checkJsFileH
       :vendor => 'Coremetrics',
       :value => '123'
     } %>
-
               </div><!-- close module bd -->
             </div><!-- close module -->
           </div>
@@ -328,20 +263,6 @@ YAHOO.util.Event.addListener("checkJsFileHash", "click", function(){checkJsFileH
   </div>
 </div>
 
-<style type="text/css" media="screen">  
-  #inspector-maximised .yui-resize-handle-br {
-    right: 0;
-    bottom: 0;
-    height: 8px;
-    width: 8px;
-    position:absolute; 
-  }  
-
-  /* constrain the max height of an individual panel in the accordion so that content scrolls */
-  #inspector-maximised .yui-accordion-content {
-    overflow: auto;
-  }
-</style>
 
 <script type="text/javascript">
 	setup_inspector("inspector-maximised");
@@ -389,29 +310,6 @@ function addPanelEvent(panelNumber) {
     } %>'
   
   newEvent.setBody(templateString);
-  // TODO this appends when really we want to prepend
-  newEvent.render('event-section-'+panelNumber);
-  console.log('New Event added to Panel'+panelNumber);
-  // TODO is an changeBodyEvent raised on the parent module when we add this one? This can trigger the Panel title count update
-  var count = getNumberOfEventsByPanel(panelNumber);
-  setPanelCount(panelNumber, count);
-  console.log(count+' Events now in Panel'+panelNumber);
-}
-
-// security event
-function addDatasourceEvent(panelNumber, data) {
-  var Dom = YAHOO.util.Dom;
-  var newEvent = new YAHOO.widget.Module(Dom.generateId(), { visible: false});
-  newEvent.cfg.queueProperty("visible", true);
-
-  // build the HTML template from the data passed in
-  <%# use a Ruby partial to create a template string -%>
-  templateString = '<%= render :partial => 'event_datasource_item.js.erb', :locals => { 
-      :id => "'+Dom.generateId()+'"
-    } %>'
-  
-  newEvent.setBody(templateString);
-  
   // TODO this appends when really we want to prepend
   newEvent.render('event-section-'+panelNumber);
   console.log('New Event added to Panel'+panelNumber);

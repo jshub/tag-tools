@@ -1,13 +1,3 @@
-            <% 
-            # template for an event formatted as a single line
-              id = 'nil' if local_assigns[:id].nil? 
-              variable = 'Unknown variable' if local_assigns[:variable].nil? 
-              vendor = 'Unknown vendor' if local_assigns[:vendor].nil? 
-              value = 'Unknown value' if local_assigns[:value].nil?
-              help_text = 'No help text available' if local_assigns[:help_text].nil?              
-              warning = false if local_assigns[:warning].nil? 
-              warnings = false if local_assigns[:warnings].nil? 
-            -%>
             <div id="&lt;%=h id.to_s %&gt;" class="datasource-item">
               <div class="bd">
                 <div title="Data source information" class="yui-g help-text event-header">
