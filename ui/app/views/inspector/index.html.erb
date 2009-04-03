@@ -2,36 +2,17 @@
     <!-- common styleguide styles -->
     <%= stylesheet_link_tag "styleguide/styleguide.css" %>
     <%= stylesheet_link_tag "styleguide/examples.css" %>
-  
-    <!-- YUI 3 basic grids -->
-    <%= stylesheet_link_tag "inspector/yui3/reset-context.css" %>
-    <%= stylesheet_link_tag "inspector/yui3/fonts-context.css" %>
-    <%= stylesheet_link_tag "inspector/yui3/grids-context.css" %>
-    <%= stylesheet_link_tag "inspector/yui3/base-context.css" %>
-    
-    <!-- YUI 2 Common -->
-    <%= javascript_include_tag "inspector/yui2/utilities/utilities.js" %>
-    <%= javascript_include_tag "inspector/yui2/dragdrop/dragdrop.js" %>
-    
-    <!-- YUI 2 Panel -->
-    <%= stylesheet_link_tag "inspector/yui2/container/assets/skins/sam/container.css" %>
-    <%= stylesheet_link_tag "inspector/yui2/resize/assets/skins/sam/resize.css" %>
-    <%= javascript_include_tag "inspector/yui2/container/container.js" %>
-    <%= javascript_include_tag "inspector/yui2/resize/resize.js" %>
-    
-    <!-- YUI 2 Accordion ref: http://www.i-marco.nl/weblog/yui-accordion/ -->
-    <%= stylesheet_link_tag "inspector/accordionview/accordionview.css" %>
-    <%= javascript_include_tag "inspector/accordionview/accordionview.js" %>
-    
+      
+    <!-- YUI -->
+    <%= stylesheet_link_tag :yui, :cache => 'cached/yui' %>
+    <%= javascript_include_tag :yui, :cache => 'cached/yui' %>
+        
     <!-- jsHub Tag -->
-    <%= javascript_include_tag "jquery/jquery-v1.2.6.js" %>
-    <%= javascript_include_tag "json/json2.js" %>
-    <%= javascript_include_tag "jshub/jshub-gromit-r2-debug.js" %>
+    <%= javascript_include_tag :jshub, :cache => 'cached/jshub' %>
   
     <!-- jsHub Inspector -->
-    <%= stylesheet_link_tag "inspector/inspector.css" %>
-    <%= javascript_include_tag "inspector/sha1.js" %>
-    <%= javascript_include_tag "inspector/inspector.js" %>
+    <%= stylesheet_link_tag :inspector, :cache => 'cached/inspector' %>
+    <%= javascript_include_tag :inspector, :cache => 'cached/inspector' %>
 
 <h1>Inspector</h1>
 <p>Development of the Inspector for jsHub based on YUI 2 Library and accordion widget (<%= link_to 'docs', '../docs/' %>).</p>
