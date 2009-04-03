@@ -48,3 +48,14 @@
   <hr />
   <% end %>
 <% end %>
+
+  <script type="text/javascript">
+    // The [+] button triggers a basket add event
+    $(".product_add").bind("click", add_product);
+
+    // Pressing enter in the quantity form triggers an update event
+    $("input[name='quantity']").change(update_quantity);
+    
+    // The [-] button triggers a basket remove event
+    $(".product_remove").bind("click", remove_product);
+  </script>

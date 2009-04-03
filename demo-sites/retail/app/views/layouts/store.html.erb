@@ -27,6 +27,11 @@
           ENV.APP_ROOT = "<%= store_index_path %>";
     </script>
     <%= javascript_include_tag "store.js" %>
+
+    <!-- Data capture tags -->
+	<%= javascript_include_tag "jshub.js" %>
+    <%= javascript_include_tag "ga.js" %>
+
   </head>
   <body class="jshub store yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase">
   
@@ -56,7 +61,7 @@
           <!-- Show what has been added / removed to cart -->
           <% if flash[:notice] %>
           <div id="flash" style="display: block">
-            <%= flash[:notice] %>
+            <strong><%= flash[:notice] %></strong>
           <% flash[:notice] = nil %>
           </div>
           <script type="text/javascript">

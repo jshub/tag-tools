@@ -8,14 +8,14 @@ module StoreHelper
   end
   
   def image_for (product)
-    "sample_store/#{product.image_file}"
+    "store/products/#{product.image_file}"
   end
   
   def cart_size_message
     if @cart.size > 0
       "#{pluralize(@cart.size, 'item')}"
     else
-      "0 items"
+      "Empty"
     end 
   end
   

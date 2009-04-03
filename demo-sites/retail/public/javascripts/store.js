@@ -10,11 +10,14 @@ function add_product(event) {
     "product-id": form.product_id.value,
     quantity: 1
   });
-  $("#shopping-cart").load(ENV.APP_ROOT+"/add_to_cart", {
+  $("#shopping-cart").load("add_to_cart", {
     ajax: true,
     product_id: form.product_id.value,
     authenticity_token: form.authenticity_token.value
   });
+  setTimeout(function () {
+  	$("#cart").load("cart_status")
+  }, 50);
   event.preventDefault();
 }
 
@@ -33,6 +36,9 @@ function update_quantity(event) {
     quantity: form.quantity.value,
     authenticity_token: form.authenticity_token.value
   });
+  setTimeout(function () {
+  	$("#cart").load("cart_status")
+  }, 50);
   event.preventDefault();
   
   // jquery preventDefault does not seem to prevent the form submitting
@@ -57,6 +63,9 @@ function remove_product(event) {
     product_id: form.product_id.value,
     authenticity_token: form.authenticity_token.value
   });
+  setTimeout(function () {
+  	$("#cart").load("cart_status")
+  }, 50);
   event.preventDefault();
 }
 

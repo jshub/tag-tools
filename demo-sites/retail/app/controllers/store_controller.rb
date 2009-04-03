@@ -26,6 +26,9 @@ class StoreController < ApplicationController
     @hpage = { :pagename => 'View catalog', :category => 'Store' }
     @products = Product.find(:all)
     @cart = find_cart
+    
+    # NB this is different from the hpage pagename for demonstration purposes
+    @ga_pagename = '"store/catalog"'
    
     respond_to do |format|
       format.html {
@@ -35,6 +38,12 @@ class StoreController < ApplicationController
     end
   end
   
+  # GET /store/cart_status
+  def cart_status
+    @cart = find_cart
+    render :partial => "cart_header"
+  end
+  
   # POST /store/add_to_cart
   def add_to_cart
     @hpage = { :pagename => 'Add to cart', :category => 'Store' }
@@ -42,6 +51,7 @@ class StoreController < ApplicationController
     @product = Product.find( params[:product_id] )
     @cart = find_cart
     @cart.add(@product)
+    session[:cart] = @cart
     flash[:notice] = "\"#{@product.name}\" added to cart"
     
     if params[:ajax] 

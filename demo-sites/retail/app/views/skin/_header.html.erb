@@ -5,11 +5,5 @@
       <div id="departments" class="yui-u">
         &nbsp;
       </div>
-      <div id="cart" class="yui-u">
-        <a href="<%= url_for :action => 'checkout' %>">
-        <span id="cart-items">
-          <%= cart_size_message %>
-        </span>
-        </a>
-      </div>      
+      <%= render :partial => 'cart_header.html.erb' %>     
     </div>
