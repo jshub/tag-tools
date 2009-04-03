@@ -762,7 +762,7 @@ var jshub = {};
 		this.getErrors = function() {
           var html, error, event, events = [];
           for (var i = 0; i < data.errors.length; i++) {
-            error = errors[i];
+            error = data.errors[i];
             switch (error) {
               case "hash code not found":
                 html = header("Altered tag");
