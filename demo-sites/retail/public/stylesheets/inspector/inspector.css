@@ -171,10 +171,10 @@ div.jshub.inspector .state1 .hd {
   display: none; }
 div.jshub.inspector .state1 .bd {
   padding: 5px; }
-  div.jshub.inspector .state1 .bd ul {
+  div.jshub.inspector .state1 .bd ul.launcher {
     margin: 0;
     padding: 0; }
-    div.jshub.inspector .state1 .bd ul li.status {
+    div.jshub.inspector .state1 .bd ul.launcher li.status {
       padding-left: 25px;
       list-style-image: none;
       list-style-position: inside;
@@ -185,6 +185,14 @@ div.jshub.inspector .state1 .bd {
       background-attachment: scroll;
       background-position: -21px -66px;
       font-weight: bolder; }
+div.jshub.inspector .state1 .success ul.launcher li.status {
+  background-position: -15px -66px; }
+div.jshub.inspector .state1 .error ul.launcher li.status {
+  background-position: -15px -116px; }
+div.jshub.inspector .state1 .info ul.launcher li.status {
+  background-position: -15px -168px; }
+div.jshub.inspector .state1 .warning ul.launcher li.status {
+  background-position: -15px -220px; }
 div.jshub.inspector .state1 .ft {
   display: none; }
 div.jshub.inspector .state2 .status.large div.icon {

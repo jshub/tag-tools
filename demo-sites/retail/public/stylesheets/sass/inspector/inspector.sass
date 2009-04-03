@@ -258,7 +258,7 @@ div.jshub.inspector
       :display none
     .bd 
       :padding 5px
-      ul
+      ul.launcher
         :margin 0
         :padding 0
         li.status
@@ -271,6 +271,24 @@ div.jshub.inspector
             :position = -21px (-16-!grid_icon_large)
           :font
             :weight bolder
+
+    # Icon states
+    .success 
+      ul.launcher li.status
+        :background
+          :position = -15px (-16-!grid_icon_large)
+    .error 
+      ul.launcher li.status
+        :background
+          :position = -15px (-66-!grid_icon_large)
+    .info 
+      ul.launcher li.status
+        :background
+          :position = -15px (-118-!grid_icon_large)
+    .warning 
+      ul.launcher li.status
+        :background
+          :position = -15px (-168-!grid_icon_large)
 
     .ft
       :display none
