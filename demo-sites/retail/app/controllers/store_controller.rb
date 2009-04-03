@@ -154,11 +154,12 @@ class StoreController < ApplicationController
   def confirm
     @page_title = "Checkout"
     @page_breadcrumb = "Buy Stuff > Checkout > Confirmation"
+    @ga_pagename = '"/store/thankyou"'
     @hpage = { :pagename => 'Thank you', :category => 'Store' }
 
     @cart = find_cart
     render :template => "store/thankyou"
-    #session[:cart] = nil
+    session[:cart] = nil
   end
 
   def contact

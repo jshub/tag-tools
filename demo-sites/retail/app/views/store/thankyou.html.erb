@@ -3,4 +3,7 @@
 <p>Your order number is <strong><%= @cart.order_id %></strong>, and you should receive an email update
 with your order status shortly.</p>
 <p>Thank you for shopping with this store.</p>
+<script type="text/javascript">
+  $("#cart").load("cart_status");
+</script>
 <p><%= link_to "Return to homepage", :action => "index" %>
