@@ -41,9 +41,7 @@
 <div id="example1" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
   <div id="inspector-floating" class="state1" >
     <div class="bd">
-      <ul>
-        <li class="status">jsHub</li>
-      </ul>
+<%= render 'launcher' %>   
     </div>
   </div>
 </div>
@@ -120,14 +118,38 @@ function setState2(state) {
   Dom.removeClass(inspectorBody, 'success');
   // add the state class to the body of the inspector for contextual CSS switching
   Dom.addClass(inspectorBody, state);
+
+  // update the full example
+  var statusArea = Dom.getElementsByClassName('status large', 'div', 'inspector');
+  var inspectorBody = Dom.getAncestorByClassName(statusArea[0], 'bd');
+  // clear the existing states
+  Dom.removeClass(inspectorBody, 'info');
+  Dom.removeClass(inspectorBody, 'warning');
+  Dom.removeClass(inspectorBody, 'error');
+  Dom.removeClass(inspectorBody, 'success');
+  // add the state class to the body of the inspector for contextual CSS switching
+  Dom.addClass(inspectorBody, state);
+
+  // update the maximised example
+  var statusArea = Dom.getElementsByClassName('status small', 'div', 'inspector');
+  var inspectorBody = Dom.getAncestorByClassName(statusArea[0], 'bd');
+  // clear the existing states
+  Dom.removeClass(inspectorBody, 'info');
+  Dom.removeClass(inspectorBody, 'warning');
+  Dom.removeClass(inspectorBody, 'error');
+  Dom.removeClass(inspectorBody, 'success');
+  // add the state class to the body of the inspector for contextual CSS switching
+  Dom.addClass(inspectorBody, state);
+
   return;
 }
 
-setState2('success');
 YAHOO.util.Event.addListener("setState2Sucess", "click", function(){setState2('success')} );
 YAHOO.util.Event.addListener("setState2Error", "click", function(){setState2('error')} );
 YAHOO.util.Event.addListener("setState2Warning", "click", function(){setState2('warning')} );
 YAHOO.util.Event.addListener("setState2Info", "click", function(){setState2('info')} );
+setState2('success');
+
 </script>
 
 <h2>Maximised</h2>
@@ -326,5 +348,162 @@ YAHOO.util.Event.addListener("setPanel2Title", "click", function(){setPanelCount
 YAHOO.util.Event.addListener("addPanel1Event", "click", function(){addPanelEvent(0)} );
 YAHOO.util.Event.addListener("addPanel2Event", "click", function(){addPanelEvent(1)} );
 
+</script>
 
+<h2>Full states</h2>
+
+<p>
+<button id="setInspectorState1">Set Inspector State 1</button>
+<button id="setInspectorState2">Set Inspector State 2</button>
+<button id="setInspectorState3">Set Inspector State 3</button>
+</p>
+
+<div id="example4" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
+
+  <div id="inspector" class="state2" >
+    <div class="hd">
+<%= render 'container_header' %>   
+    </div>
+    <div class="bd">
+<%= render 'status_large' %>    
+<%= render 'status_small' %>
+<%= render 'search' %>
+      <ul id="event-list">
+        <li>
+          <div>Page <span class="count">(0)</span></div>
+          <div>
+            <div id="event-section-0" class="event-section">
+              <div class="bd">
+<%# Different type of event list items %>
+<%= render :partial => 'event_item', :locals => { 
+      :id => 'event-1',
+      :variable => 'Page-view-complete',
+      :vendor => 'Google Analytics',
+      :value => 'True'
+    } %>
+<%= render :partial => 'event_item', :locals => { 
+      :id => 'event-2',
+      :variable => 'Page-name',
+      :value => 'Homepage',
+      :warning => true,
+      :warnings => {
+          'Google Analytics' => 'Homepage',
+          'Coremetrics' => 'Home1',
+          'MF - hPage' => 'Homepage1'
+        }
+    } %>
+<%= render :partial => 'event_item', :locals => { 
+      :id => 'event-3',
+      :variable => 'Page-category',
+      :value => 'Electrics',
+      :warning => true,
+      :warnings => {
+          'Google Analytics' => 'Electrics',
+          'Coremetrics' => 'Homeware'
+        }
+    } %>    
+<%= render :partial => 'event_item', :locals => { 
+      :id => 'event-4',
+      :variable => 'Page-ref',
+      :vendor => 'Coremetrics',
+      :value => '123'
+    } %>
+              </div><!-- close module bd -->
+            </div><!-- close module -->
+          </div>
+        </li>
+        <li>
+          <div>User Interactions <span class="count">(0)</span></div>
+          <div>
+            <div id="event-section-1" class="event-section">
+              <div class="bd">
+
+<%= render :partial => 'event_item', :locals => { 
+      :id => 'event-5',
+      :variable => 'Rollover reveal',
+      :vendor => 'Coremetrics',
+      :value => 'Prod123',
+      :help_text => "<p>Coremetrics event.</p><p>Rollover reveal <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href='../docs/'>View documentation</a></p>"
+    } %>
+<%= render :partial => 'event_item', :locals => { 
+      :id => 'event-6',
+      :variable => 'DetailsClick',
+      :vendor => 'Google Analytics',
+      :value => '123',
+      :help_text => "<p>Google Analytics event.</p><p>DetailsClick <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href='../docs/'>View documentation</a></p>"
+    } %>
+<%= render :partial => 'event_item', :locals => { 
+      :id => 'event-7',
+      :variable => 'DetailsClicked',
+      :vendor => 'Coremetrics',
+      :value => 'Prod123',
+      :help_text => "<p>Coremetrics event.</p><p>DetailsClicked <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href='../docs/'>View documentation</a></p>"
+    } %>
+
+              </div><!-- close module bd -->
+            </div><!-- close module -->
+          </div>
+        </li>
+
+        <li>
+          <div><span class="count">0</span> Tagging issues detected</div>
+          <div>
+            <div id="event-section-2" class="event-section">
+              <div class="bd">
+              </div><!-- close module bd -->
+            </div><!-- close module -->
+          </div>          
+        </li>
+        <li>
+          <div>Data sources <span class="count">0</span></div>
+          <div>
+            <div class="event-section">
+              <div class="bd">
+                <%= render :partial => 'event_datasource_item' %>
+              </div><!-- close module bd -->
+            </div><!-- close module -->
+          </div>         
+        </li>
+        <li>
+          <div><span class="count">0</span> Tagging issues detected (static)</div>
+          <div>
+            <div class="event-section">
+              <div class="bd">
+                <%= render :partial => 'event_tagstatus_item' %>
+              </div><!-- close module bd -->
+            </div><!-- close module -->
+          </div>         </li>  
+      </ul>
+<%= render :partial => 'buttons', :locals => { :text => 'View Events', :size => 'large' } %>
+<%= render :partial => 'buttons', :locals => { :text => 'Hide Events', :size => 'small' } %>
+<%= render 'launcher' %>   
+    </div>
+    <div class="ft">
+<%= render 'container_footer' %>   
+    </div>
+<%= render 'container_icons' %>       
+  </div>
+</div>
+
+<script type="text/javascript">
+	setup_inspector("inspector");
+	setState2('success');
+	
+// example interaction API
+function setInspectorState(state) {
+  var Dom = YAHOO.util.Dom;
+  
+  // update the minimised example
+  var inspectorBody = Dom.get('inspector');
+  // clear the existing states
+  Dom.removeClass(inspectorBody, 'state1');
+  Dom.removeClass(inspectorBody, 'state2');
+  Dom.removeClass(inspectorBody, 'state3');
+  // add the state class to the body of the inspector for contextual CSS switching
+  Dom.addClass(inspectorBody, state);	
+}
+
+YAHOO.util.Event.addListener("setInspectorState1", "click", function(){setInspectorState('state1')} );
+YAHOO.util.Event.addListener("setInspectorState2", "click", function(){setInspectorState('state2')} );
+YAHOO.util.Event.addListener("setInspectorState3", "click", function(){setInspectorState('state3')} );
 </script>

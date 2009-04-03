@@ -277,6 +277,7 @@ div.jshub.inspector
   
   # Minimised - panel has large icon and buttons
   .state2
+
     .status.large
       div.icon
         :width 50px
@@ -387,3 +388,14 @@ div.jshub.inspector
         :background
           :color = !color_info
           :position = -10px (-164-!grid_icon_large)
+
+  # hide panels not needed in states
+  .state1
+    a.container-minimise, a.container-info, a.container-close, div.status.small, div.search, ul#event-list, div.buttons.small, div.status.large, div.buttons.large
+      :display none !important
+  .state2
+    ul.launcher, div.status.small, div.search, ul#event-list, div.buttons.small
+      :display none !important
+  .state3
+    ul.launcher, div.status.large, div.buttons.large
+      :display none !important
