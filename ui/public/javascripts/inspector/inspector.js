@@ -822,7 +822,7 @@ var jshub = {};
 		  html += variable("Name", '<a href="'+data.info.url+'" title="Click to edit">'+data.info.name+'</a>');
 		  html += variable("Site", data.info.site);
 		  html += variable("Revision", data.info.version);
-		  html += variable("Updated", $.dateFromISO8601(data.info.updated));
+		  html += variable("Updated", data.info.updated);
           event = createEvent(html);
           events.push(event);
           return events;
