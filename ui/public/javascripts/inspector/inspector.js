@@ -396,6 +396,7 @@ var jshub = {};
 			var container_close =  DOM.getElementsByClassName("container-close","a",inspector_div);
 			YAHOO.util.Event.addListener(container_close, "click", function(e){e.preventDefault();self.set_display_state("state1");});
 		
+		this.rendered = true;
 		
 	}
     /**
@@ -835,6 +836,20 @@ var jshub = {};
           //onsole.log('New Event added to Panel' + panelNumber);
         }
       }
+	  
+	  if (this.rendered){
+			// just copied from render for now...tidy up after demo
+			for (var i in yui_events){
+				var panel = this.panels[i];
+				var section_container = DOM.getElementsByClassName("event-section","div",panel);
+				
+				for (var ii in yui_events[i]){
+					yui_events[i][ii].render(section_container[0]);	
+					_increment_event_count(panel);
+				} 
+			}
+	  }
+
     };
 	
 	function _create_header(){
