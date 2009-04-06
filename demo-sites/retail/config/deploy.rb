@@ -14,15 +14,15 @@ set :deploy_to,   "/var/capistrano/#{application}"
 set :scm,         "subversion"
 
 #If you log into your server with a different user name than you are logged 
-#into your local machine with, youÕll need to tell Capistrano about that user 
+#into your local machine with, youll need to tell Capistrano about that user 
 #name.
 set :user, "dev"
 
 #If you access your source repository with a different user name than you are 
 #logged into your local machine with, Capistrano needs to know. Note that not 
-#all SCMÕs support the scm_username variable; you might need to embed the 
+#all SCMs support the scm_username variable; you might need to embed the 
 #scm_username into the repository, 
-#e.g. Òsvn+ssh://#{scm_username}@foo.bar.com/path/to/repoÓ.
+#e.g. svn+ssh://#{scm_username}@foo.bar.com/path/to/repo.
 set :scm_username, "capistrano"
 # Liam: needed due to Basic Auth protecting the SVN server
 set :scm_password, "tant0ine"
@@ -57,9 +57,13 @@ namespace :custom do
     run "ln -nfs #{current_path}/public /var/www/html/#{application}"
   end
 
+  desc 'Output the Subversion version number'
+  task :version do
+    run "echo \"r#{real_revision}\" > #{release_path}/app/views/shared/_version.html.erb"
+  end
 end
 # use our custom tasks at the appropriate time
 # e.g. before :deploy, :my_custom_task
 #      after  "deploy:symlink", :do_this, :and_do_that
-after "deploy:update",   "deploy:migrate"
+after "deploy:update",   "deploy:migrate", "custom:version"
 after "deploy:symlink",   "custom:symlink"

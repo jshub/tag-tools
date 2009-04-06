@@ -57,9 +57,13 @@ namespace :custom do
     run "ln -nfs #{current_path}/public /var/www/html/#{application}"
   end
 
+  desc 'Output the Subversion version number'
+  task :version do
+    run "echo \"r#{real_revision}\" > #{release_path}/app/views/shared/_version.html.erb"
+  end
 end
 # use our custom tasks at the appropriate time
 # e.g. before :deploy, :my_custom_task
 #      after  "deploy:symlink", :do_this, :and_do_that
-after "deploy:update",   "deploy:migrate"
+after "deploy:update",   "deploy:migrate", "custom:version"
 after "deploy:symlink",   "custom:symlink"
