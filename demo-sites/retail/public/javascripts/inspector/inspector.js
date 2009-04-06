@@ -231,7 +231,11 @@ var jshub = {};
 	
 	// eventually we'll build this dyynamically from a simple list of types in above categories collection
 	var event_type_mappings = {
-		"data-capture-start" : "page"
+		"data-capture-start" : "page",
+		"page-view" : "page",
+		"cart-add": "user-interactions",
+		"duplicate-value-error": "page",
+		"plugin-initialization-start": "data-sources"
 	};
 	
 	var events = [
@@ -411,7 +415,8 @@ var jshub = {};
       
       // initialise jshub tag status 
       if (window.ETL) {
-        var jshubURL = $("script[src*=jshub]").attr('src');
+        var jshubURL = $("script[src*=jshub.js]").attr('src');
+		ETL.logger.log("Inspector: loading tag source from " + jshubURL);
         $.get(jshubURL, function(jshubTagSrc) {
           hashcode = SHA1(jshubTagSrc);
           $.getJSON('http://gromit.etl.office/akita-on-rails/tag_configurations/find_by_sha1/' + hashcode + '.js?callback=?', function(data) {
@@ -768,12 +773,11 @@ var jshub = {};
                 html = header("Altered tag");
                 html += subheader("error", "Tag is not recognized");
                 html += bodyMessage("The tag code was not recognized by the configurator. " +
-				  "This could mean that it has been altered since it was generated. <br/>" +
-				  "This error may also occur if the tag configuration has been deleted from " +
-				  "the server which originally generated it.");
+				  "This could mean that it has been altered since it was generated. This error may also " +
+				  "occur if the tag configuration has been deleted from the server which originally " +
+				  "generated it.");
                 event = createEvent(html);
                 events.push(event);
-				self.set_success_state('error');
                 break;
 			  // other errors not yet implemented
             }
@@ -814,10 +818,6 @@ var jshub = {};
 		 */
         this.getInfos = function() {
           var html, event, events = [];
-		  if (data.info.status == "not found") {
-		  	return [];
-		  }
-		  
           html = header("Tag status information");
 
 //      @data[:info][:status] = "up to date"
@@ -918,16 +918,15 @@ var jshub = {};
 	}
 	
 	function _create_launcher(){
-
-    return '<ul class="launcher"><li class="status">jsHub</li></ul>';
-		
+    	return '<ul class="launcher"><li class="status">jsHub</li></ul>';
 	}
 	  	
 	function _create_search(){
 		return '<div class="yui-g search">' +
-          	      '<p>Find <input type="text" class="search" /></p>' +
+          	      '<p class="search"><label class="search">Find</label><input type="text" class="search" /></p>' +
       			'</div>';	
 	}
+	
 	
 	function _create_event_list(){
 		return '<ul id="event-list"></ul>';
@@ -973,6 +972,22 @@ var jshub = {};
 		
 		
 		html.push('</div>');
+
+		if (event.data){
+			for (var i in event.data){
+				var w = event.data[i];
+				
+ 				html.push('<div class="yui-g duplicate">');
+ 				html.push('<div class="yui-u first">');
+ 				html.push('<p class="vendor">' + i + '</p>');
+ 				html.push('</div>');
+ 				html.push('<div class="yui-u">');
+ 				html.push('<p class="value">' + w + '</p>');
+ 				html.push('</div>');
+ 				html.push('</div>');
+                  
+ 			}
+		}
 
 		if (event.warning){
 			html.push('<div class="yui-g">');
