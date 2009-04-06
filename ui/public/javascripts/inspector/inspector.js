@@ -233,7 +233,9 @@ var jshub = {};
 	var event_type_mappings = {
 		"data-capture-start" : "page",
 		"page-view" : "page",
-		"cart-add": "user-interactions"
+		"cart-add": "user-interactions",
+		"duplicate-value-error": "page",
+		"plugin-initialization-start": "data-sources"
 	};
 	
 	var events = [
@@ -413,7 +415,8 @@ var jshub = {};
       
       // initialise jshub tag status 
       if (window.ETL) {
-        var jshubURL = $("script[src~=jshub]").attr('src');
+        var jshubURL = $("script[src*=jshub.js]").attr('src');
+		ETL.logger.log("Inspector: loading tag source from " + jshubURL);
         $.get(jshubURL, function(jshubTagSrc) {
           hashcode = SHA1(jshubTagSrc);
           $.getJSON('http://gromit.etl.office/akita-on-rails/tag_configurations/find_by_sha1/' + hashcode + '.js?callback=?', function(data) {
