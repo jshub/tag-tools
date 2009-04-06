@@ -954,11 +954,29 @@ var jshub = {};
 	function _create_event(event){
 		var html = [];
 		
+		function humanize(name) {
+		  return name.substring(0,1).toUpperCase() + 
+		    name.substring(1).replace(/-/g, " ");
+		}
+		
+		function render_variable(html, name, value) {
+			html.push('<div class="yui-g duplicate">');
+			html.push('<div class="yui-u first">');
+			html.push('<p class="vendor">' + humanize(name) + '</p>');
+			html.push('</div>');
+			html.push('<div class="yui-u">');
+			html.push('<p class="value">' + value + '</p>');
+			html.push('</div>');
+			html.push('</div>');
+		}
+		
+		var event_name = humanize(event.variable || event.type);
+		
 		html.push('<div id="' + (event.id || DOM.generateId()) + '" class="event-item">');
 		html.push('<div class="bd">');
 		html.push('<div class="yui-g help-text" title="' + (event.help_text || "No help text available") + '">');
 		html.push('<div class="yui-u first">');
-		html.push('<p class="variable">' + (event.variable || event.type) + ':</p>');
+		html.push('<p class="variable">' + event_name + '</p>');
 		if (!event.warning && event.vendor){
 			html.push('<p class="vendor">' + event.vendor + '</p>');
 		}
@@ -977,14 +995,23 @@ var jshub = {};
 			for (var i in event.data){
 				var w = event.data[i];
 				
- 				html.push('<div class="yui-g duplicate">');
- 				html.push('<div class="yui-u first">');
- 				html.push('<p class="vendor">' + i + '</p>');
- 				html.push('</div>');
- 				html.push('<div class="yui-u">');
- 				html.push('<p class="value">' + w + '</p>');
- 				html.push('</div>');
- 				html.push('</div>');
+				// filter some fields
+				if (event.type === 'duplicate-value-error' && i === 'fields') {
+					for (var field_name in w) {
+						var value = w[field_name]['found-values'] 
+						  + " (was " + w[field_name]['previous-value'] + ")";
+						render_variable(html, field_name, value);
+					}
+					continue;
+				}
+				if (typeof w !== 'string' && typeof w !== 'number') {
+					continue;
+				}
+				if (/-visibility$/.test(i) && (w === '*' || w === '')) {
+					continue;
+				}
+				
+				render_variable(html, i, w);
                   
  			}
 		}
@@ -1011,16 +1038,16 @@ var jshub = {};
  			}
 		}	
 		
-		if (event.timestamp){
- 				html.push('<div class="yui-g">');
- 				html.push('<div class="yui-u first">');
- 				html.push('<p>' + "Timestamp" + '</p>');
- 				html.push('</div>');
- 				html.push('<div class="yui-u">');
- 				html.push('<p class="value">' + event.timestamp + '</p>');
- 				html.push('</div>');
- 				html.push('</div>');
-		}
+//		if (event.timestamp){
+// 				html.push('<div class="yui-g">');
+// 				html.push('<div class="yui-u first">');
+// 				html.push('<p>' + "Timestamp" + '</p>');
+// 				html.push('</div>');
+// 				html.push('<div class="yui-u">');
+// 				html.push('<p class="value">' + event.timestamp + '</p>');
+// 				html.push('</div>');
+// 				html.push('</div>');
+//		}
 
 		html.push('</div>');
         html.push('<div class="yui-g">');      
