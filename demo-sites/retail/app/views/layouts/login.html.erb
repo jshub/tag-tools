@@ -24,6 +24,9 @@
           ENV.APP_ROOT = "<%= store_index_path %>";
     </script>
     <%= javascript_include_tag "store.js" %>
+    
+    <%= render :partial => "shared/analytics_tags" %>    
+    
   </head>
   <body class="jshub store yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase">
   
@@ -63,12 +66,7 @@
 
     </div> <!-- yui-d1f -->
 
-    <!-- YUI -->
-    <%= stylesheet_link_tag :yui, :cache => 'cached/yui' %>
-    <%= javascript_include_tag :yui, :cache => 'cached/yui' %>          
-    <!-- jsHub Inspector -->
-    <%= stylesheet_link_tag :inspector, :cache => 'cached/inspector' %>
-    <%= javascript_include_tag :inspector, :cache => 'cached/inspector' %>
+    <%= render :partial => "shared/jshub_inspector" %>
     
   </body>
 </html>
