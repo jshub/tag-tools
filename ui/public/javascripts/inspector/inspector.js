@@ -773,12 +773,16 @@ var jshub = {};
                 html = header("Altered tag");
                 html += subheader("error", "Tag is not recognized");
                 html += bodyMessage("The tag code was not recognized by the configurator. " +
-				  "This could mean that it has been altered since it was generated. This error may also " +
-				  "occur if the tag configuration has been deleted from the server which originally " +
-				  "generated it.");
+                "This could mean that it has been altered since it was generated. This error may also " +
+                "occur if the tag configuration has been deleted from the server which originally " +
+                "generated it.");
                 event = createEvent(html);
                 events.push(event);
-                break;
+				// this is a warning not an error, as the tag may still be operating correctly
+                if (self.success_state == 'success') {
+                  self.set_success_state('warning');
+                }    
+				break;
 			  // other errors not yet implemented
             }
           }
@@ -797,11 +801,10 @@ var jshub = {};
 			  + (pending > 1 ? "s" : "") + " behind most recent revision");
             html += bodyMessage("You may need to update to the latest version.");
             event = createEvent(html);
-			console.log("Sending a warning - ", self.success_state);
+            events.push(event);
 			if (self.success_state == 'success') {
 				self.set_success_state('warning');
 			}
-            events.push(event);
           }
           if (data.warnings.tag_type) {
             html = header("Debug version detected");
@@ -817,6 +820,10 @@ var jshub = {};
 		 * Retrieve all 'info' level messages from the status update
 		 */
         this.getInfos = function() {
+		  if (data.info.status === "not found") {
+		  	return [];
+		  }
+		  
           var html, event, events = [];
           html = header("Tag status information");
 
