@@ -391,13 +391,15 @@ var jshub = {};
 			var self = this; 
 			var launcher =  DOM.getElementsByClassName("launcher","ul",inspector_div);
 			YAHOO.util.Event.addListener(launcher, "click", function(){self.set_display_state("state2")});
+			
 			var button_large_container =  DOM.getElementsByClassName("buttons large","div",inspector_div);
-			var button_large = DOM.getElementsByClassName("button","a",button_large_container[0]);
+			var button_large = DOM.getElementsByClassName("button events","a",button_large_container[0]);
 			YAHOO.util.Event.addListener(button_large, "click", function(e){e.preventDefault();self.set_display_state("state3");});
 			
 			var button_small_container =  DOM.getElementsByClassName("buttons small","div",inspector_div);
 			var button_small =  DOM.getElementsByClassName("button","a",button_small_container[0]);
 			YAHOO.util.Event.addListener(button_small, "click", function(e){e.preventDefault();self.set_display_state("state2");});
+			
 			var container_minimise =  DOM.getElementsByClassName("container-minimise","a",inspector_div);
 			YAHOO.util.Event.addListener(container_minimise, "click", function(e){e.preventDefault();self.set_display_state("state2");});
 			var container_close =  DOM.getElementsByClassName("container-close","a",inspector_div);
@@ -904,7 +906,6 @@ var jshub = {};
 	}
 	
 	function _create_status_small(){
-
 		return '<div class="yui-g status small">' +
 	        		'<div class="yui-u first icon">&nbsp;</div>' +
 	        		'<div class="yui-u text">' +
@@ -916,7 +917,8 @@ var jshub = {};
 	function _create_footer_buttons(){
 	     var html = [];
 		 html.push('<div class="yui-g buttons large">');
-		 html.push('<a class="button" href="#">View Events</a>');
+		 html.push('<a class="button events" href="#">View Events</a>');
+		 html.push('<a class="button get" href="http://www.jshub.org/">Get jsHub</a>');
 		 html.push('</div>');
 		 html.push('<div class="yui-g buttons small">');
 		 html.push('<a class="button" href="#">Hide Events</a>');
