@@ -93,6 +93,7 @@ var jshub = {};
 		 */
 		this.success_state = 'info';
 		
+		this._manually_positioned = false;
 		/**
 		 * listen out for Hub events
 		 */
@@ -106,106 +107,120 @@ var jshub = {};
 	
 	Inspector.prototype.render = function(display_state){
 		
-			var div = document.getElementById("jshub-inspector-container");
-			if (!div){
-				div = document.body.appendChild(document.createElement("div"));
-				div.id = "jshub-inspector-container";
-				div.className = "yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui";
-				div.style.position = "absolute";
-				div.style.height = "0px";
-				div.style.width = "0px";
-				
-			}
-			else {
-				div.innerHTML = "";
-			}			
+		var div = document.getElementById("jshub-inspector-container");
+		if (!div){
+			div = document.body.appendChild(document.createElement("div"));
+			div.id = "jshub-inspector-container";
+			div.className = "yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui";
+			div.style.position = "absolute";
+			div.style.height = "0px";
+			div.style.width = "0px";
 			
-			 var panel = new YAHOO.widget.Panel("jshub_inspector", {
-			        width: "95px",
-			        draggable: true, 
-			        close: false,
-			        autofillheight: "body",
-			        constraintoviewport: true
-			  });
-			  
-			  panel.setHeader(_create_header());
-			  panel.setBody(_create_body());
-			  panel.setFooter("jsHub Activity Inspector v1.123");
-			  panel.render(div);
-			  this.yuipanel = panel;
+		}
+		else {
+			div.innerHTML = "";
+		}			
+	
+		var self = this; 
+	
+		 var panel = new YAHOO.widget.Panel("jshub_inspector", {
+		        width: "95px",
+		        draggable: true, 
+		        close: false,
+		        autofillheight: "body",
+		        constraintoviewport: true
+		  });
+		  
+		  panel.setHeader(_create_header());
+		  panel.setBody(_create_body());
+		  panel.setFooter("jsHub Activity Inspector v1.123");
+		  panel.render(div);
+		  this.yuipanel = panel;
 
-			// Set the state before we build all of the internals, as we need to collect
-			// accurate offset dimensions as we build
-			this.set_success_state(this.success_state);
-			
-			//TODO make the initial state a configuration option
-			this.set_display_state(display_state || "state3");
-			  
-			    // init the accordion inside the panel body
-			  this.event_list = new YAHOO.widget.AccordionView("event-list", {
-			        width: '100%', 
-			        collapsible: true,
-			        animate: false
-			      }
-			  );
-
-			  this.event_list.subscribe("afterPanelOpen",this.on_panel_expand,null,this);
-			  
-			  // Make the panel resizable and handle events and repainting ref: http://developer.yahoo.com/yui/examples/container/panel-resize.html
-			  // TODO account for open/closed accordion in recalculating the body height
-			  var resizer = new YAHOO.util.Resize('jshub_inspector', {
-			    handles: ['br'],
-			    autoRatio: false,
-			    minWidth: 225,
-			    minHeight: 290,
-			    status: false
-			  });
-			  
-			resizer.on("startResize",this.prepare_to_resize,null,this);
-			resizer.on("resize",this.set_height,null,this);
-
-			this.resizer = resizer;
-			
-			var categories = default_categories;
-			for(var name in categories){
-				this.add_category(name, categories[name].label,categories[name]);
+		panel.subscribe("drag",function(name,evt){
+			if (evt[0] == "endDrag"){
+				debugger;
+				self._manually_positioned = true;
+				self._current_x = evt[1][0].clientX;
+				self._current_y = evt[1][0].clientY;
 			}
-			
-			this.add_event = _post_render_add_event; 
-			
-			for (var i in yui_events){
-				var panel = this.panels[i];
-				var section_container = DOM.getElementsByClassName("event-section","div",panel);
-				
-				for (var ii in yui_events[i]){
-					yui_events[i][ii].render(section_container[0]);	
-					_increment_event_count(panel);
-				} 
-			}
-			
-			// initialize events
-			for (var i in events){
-				this.add_event(event_type_mappings[events[i].type],events[i]);
-			}
+		}
+		);
 
-			var inspector_div = document.getElementById("jshub_inspector");
+		// Set the state before we build all of the internals, as we need to collect
+		// accurate offset dimensions as we build
+		this.set_success_state(this.success_state);
+		
+		//TODO make the initial state a configuration option
+		this.set_display_state(display_state || "state3");
+		  
+		    // init the accordion inside the panel body
+		  this.event_list = new YAHOO.widget.AccordionView("event-list", {
+		        width: '100%', 
+		        collapsible: true,
+		        animate: false
+		      }
+		  );
+
+		  this.event_list.subscribe("afterPanelOpen",this.on_panel_expand,null,this);
+		  
+		  // Make the panel resizable and handle events and repainting ref: http://developer.yahoo.com/yui/examples/container/panel-resize.html
+		  // TODO account for open/closed accordion in recalculating the body height
+		  var resizer = new YAHOO.util.Resize('jshub_inspector', {
+		    handles: ['br'],
+		    autoRatio: false,
+		    minWidth: 225,
+		    minHeight: 290,
+		    status: false
+		  });
+		  
+		resizer.on("startResize",this.prepare_to_resize,null,this);
+		resizer.on("resize",this.set_height,null,this);
+
+		this.resizer = resizer;
+		
+		var categories = default_categories;
+		for(var name in categories){
+			this.add_category(name, categories[name].label,categories[name]);
+		}
+		
+		this.add_event = _post_render_add_event; 
+		
+		for (var i in yui_events){
+			var panel = this.panels[i];
+			var section_container = DOM.getElementsByClassName("event-section","div",panel);
 			
-			var self = this; 
-			var launcher =  DOM.getElementsByClassName("launcher","ul",inspector_div);
-			YAHOO.util.Event.addListener(launcher, "click", function(){self.set_display_state("state2")});
-			
-			var button_large_container =  DOM.getElementsByClassName("buttons large","div",inspector_div);
-			var button_large = DOM.getElementsByClassName("button events","a",button_large_container[0]);
-			YAHOO.util.Event.addListener(button_large, "click", function(e){e.preventDefault();self.set_display_state("state3");});
-			
-			var button_small_container =  DOM.getElementsByClassName("buttons small","div",inspector_div);
-			var button_small =  DOM.getElementsByClassName("button","a",button_small_container[0]);
-			YAHOO.util.Event.addListener(button_small, "click", function(e){e.preventDefault();self.set_display_state("state2");});
-			
-			var container_minimise =  DOM.getElementsByClassName("container-minimise","a",inspector_div);
-			YAHOO.util.Event.addListener(container_minimise, "click", function(e){e.preventDefault();self.set_display_state("state2");});
-			var container_close =  DOM.getElementsByClassName("container-close","a",inspector_div);
-			YAHOO.util.Event.addListener(container_close, "click", function(e){e.preventDefault();self.set_display_state("state1");});
+			for (var ii in yui_events[i]){
+				yui_events[i][ii].render(section_container[0]);	
+				_increment_event_count(panel);
+			} 
+		}
+		
+		// initialize events
+		for (var i in events){
+			this.add_event(event_type_mappings[events[i].type],events[i]);
+		}
+
+		var inspector_div = document.getElementById("jshub_inspector");
+		
+		var launcher =  DOM.getElementsByClassName("launcher","ul",inspector_div);
+		YAHOO.util.Event.addListener(launcher, "click", function(){self.set_display_state("state2")});
+		
+		var button_large_container =  DOM.getElementsByClassName("buttons large","div",inspector_div);
+		var button_large = DOM.getElementsByClassName("button events","a",button_large_container[0]);
+		YAHOO.util.Event.addListener(button_large, "click", function(e){e.preventDefault();self.set_display_state("state3");});
+		
+		var button_small_container =  DOM.getElementsByClassName("buttons small","div",inspector_div);
+		var button_small =  DOM.getElementsByClassName("button","a",button_small_container[0]);
+		YAHOO.util.Event.addListener(button_small, "click", function(e){e.preventDefault();self.set_display_state("state2");});
+		
+		var container_minimise =  DOM.getElementsByClassName("container-minimise","a",inspector_div);
+		YAHOO.util.Event.addListener(container_minimise, "click", function(e){e.preventDefault();self.set_display_state("state2");});
+		var container_close =  DOM.getElementsByClassName("container-close","a",inspector_div);
+		YAHOO.util.Event.addListener(container_close, "click", function(e){e.preventDefault();self.set_display_state("state1");});
+	
+		// TODO this one needs a browser-specific solution - this will do the job for FF/Safari
+		YAHOO.util.Event.addListener(window, "scroll", function(evt){self.on_scroll(evt);});
 		
 		this.rendered = true;
 		
@@ -517,12 +532,18 @@ var jshub = {};
 			this.yuipanel.cfg.setProperty("width", "225px");
 		}
 		
+		// Positioning
 		// Can't position until both dimensions have been set
 		if (state == "state1"){
 			this.position("br");
 		}
 		else if (previous_state == "state1"){
-			this.position("tr");
+			if (this._manually_positioned){
+				this.position("restore");
+			}
+			else {
+				this.position("tr");
+			}
 		}
 		
 	  if (state == "state3" && typeof this._category_item_height == "undefined"){
@@ -733,14 +754,32 @@ var jshub = {};
 
 		if (position == "br"){
 			var left = dimensions.width - width - 20;
-			var top = dimensions.height - height - 10;
+			var top = dimensions.height + dimensions.scrollTop + height - 10;
 		}
 		else if (position == "tr"){
 			var left = dimensions.width - width - 20;
-			var top = 0;
+			var top = + dimensions.scrollTop;
+		}
+		else if (position == "top"){
+			var left = null;
+			var top = + dimensions.scrollTop;
 		}
 
 		this.yuipanel.cfg.setProperty("xy",[left,top]);		
+		
+	};
+	
+	Inspector.prototype.on_scroll = function(evt){
+		
+		if (this._display_state == "state1"){
+			this.position("br");
+		}	
+		else if (this._manually_positioned){
+			this.position("top");
+		}
+		else {
+			this.position("tr");
+		}	
 		
 	};
 	
@@ -976,9 +1015,17 @@ var jshub = {};
 	    	var maxH = 600;
 	    }	
 
-//		var $dimensions = {top:0,left:0,width:maxW,height:maxH,scrollTop:document.body.scrollTop};
-		var dimensions = {top:0,left:0,width:maxW,height:maxH};
-	
+		console.log("scrollTop: " + document.body.scrollTop);
+
+		if (document.documentElement){
+			var scrollTop = document.documentElement.scrollTop;
+		}
+		else {
+			var scrollTop = document.body.scrollTop;
+		}	
+
+		var dimensions = {top:0,left:0,width:maxW,height:maxH,scrollTop:scrollTop};
+
 		if (typeof dimension != "undefined"){
 			return dimensions[dimension];
 		}
