@@ -157,6 +157,9 @@ var jshub = {};
 		}
 		);
 
+		var yui_container = document.getElementById("jshub_inspector_c");
+		yui_container.style.position = "fixed";
+
 		// Set the state before we build all of the internals, as we need to collect
 		// accurate offset dimensions as we build
 		this.set_success_state(this.success_state);
@@ -230,7 +233,7 @@ var jshub = {};
 		YAHOO.util.Event.addListener(container_close, "click", function(e){e.preventDefault();self.set_display_state("state1");});
 	
 		// TODO this one needs a browser-specific solution - this will do the job for FF/Safari
-		YAHOO.util.Event.addListener(window, "scroll", function(evt){self.on_scroll(evt);});
+		//YAHOO.util.Event.addListener(window, "scroll", function(evt){self.on_scroll(evt);});
 		
 		this.rendered = true;
 		
@@ -789,7 +792,6 @@ var jshub = {};
 	};
 	
 	Inspector.prototype.on_scroll = function(evt){
-		
 		if (this._display_state == "state1"){
 			this.set_position("br");
 		}	
@@ -799,7 +801,6 @@ var jshub = {};
 		else {
 			this.set_position("tr");
 		}	
-		
 	};
 	
 	
