@@ -38,8 +38,9 @@ class PopulateTvProducts < ActiveRecord::Migration
     tv.model = 'LC-32SB24U'
     tv.sku = 8849268
     tv.rating = 4.5
-    tv.energy_compliant = true
     tv.description = '2 HDMI inputs; PC input; black cabinet; 16:9 aspect ratio'
+    tv.energy_compliant = true
+    tv.reviews = 66
     tv.save!
 
     tv  = Product.new
@@ -50,8 +51,9 @@ class PopulateTvProducts < ActiveRecord::Migration
     tv.model = 'KDL-46V4100'
     tv.sku = 8828637
     tv.rating = 4.8
-    tv.energy_compliant = true
     tv.description = '4 HDMI inputs; PC input; black cabinet; 16:9 widescreen aspect ratio'
+    tv.energy_compliant = true
+    tv.reviews = 46
     tv.save!
 
   end
