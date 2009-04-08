@@ -15,7 +15,7 @@ class PopulateTvProducts < ActiveRecord::Migration
     tv.description = '2 HDMI inputs; PC input; black cabinet; 16:9 aspect ratio'
     tv.energy_compliant = true
     tv.reviews = 184
-    tv.save
+    tv.save!
     
     tv  = Product.new
     tv.name = 'Dynex &copy; - 32" Class 720p Flat-Panel LCD HDTV - Matte Black'
@@ -28,7 +28,7 @@ class PopulateTvProducts < ActiveRecord::Migration
     tv.description = '2 HDMI inputs; PC input; matte black finish; 16:9 aspect ratio'
     tv.energy_compliant = true
     tv.reviews = 216
-    tv.save
+    tv.save!
 
     tv  = Product.new
     tv.name = 'Sharp - 32" Class / 720p / 60Hz / LCD HDTV'
@@ -40,7 +40,7 @@ class PopulateTvProducts < ActiveRecord::Migration
     tv.rating = 4.5
     tv.energy_compliant = true
     tv.description = '2 HDMI inputs; PC input; black cabinet; 16:9 aspect ratio'
-    tv.save
+    tv.save!
 
     tv  = Product.new
     tv.name = 'Sony - BRAVIA / 46" Class / 1080p / 60Hz / LCD HDTV'
@@ -52,7 +52,7 @@ class PopulateTvProducts < ActiveRecord::Migration
     tv.rating = 4.8
     tv.energy_compliant = true
     tv.description = '4 HDMI inputs; PC input; black cabinet; 16:9 widescreen aspect ratio'
-    tv.save
+    tv.save!
 
   end
   
