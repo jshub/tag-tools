@@ -93,7 +93,18 @@ var jshub = {};
 		 */
 		this.success_state = 'info';
 		
+		/**
+		 * to correctly resize the Inspector on display state change, we need to know 
+		 * when the user has resized it...
+		 */
+		this._manually_sized = false;
+
+		/**
+		 * likewise, to correctly reposition the Inspector on display state change or scroll, 
+		 * we need to know when the user has moved it...
+		 */
 		this._manually_positioned = false;
+
 		/**
 		 * listen out for Hub events
 		 */
@@ -139,7 +150,6 @@ var jshub = {};
 
 		panel.subscribe("drag",function(name,evt){
 			if (evt[0] == "endDrag"){
-				debugger;
 				self._manually_positioned = true;
 				self._current_x = evt[1][0].clientX;
 				self._current_y = evt[1][0].clientY;
@@ -274,6 +284,7 @@ var jshub = {};
 	        this.resizer.set("maxHeight", null);
 	    }
 		
+		this._manually_resized = true;
 	};
 
  	Inspector.prototype.on_panel_expand = function(message){
@@ -322,10 +333,9 @@ var jshub = {};
 		var content = selected_item.childNodes[1];
 		
 		var inner_element = this.yuipanel.innerElement;
-		var auto_height = inner_element.style.height == "";
 		var inspector_height = inner_element.clientHeight;
 		
-		if (auto_height){
+		if (this._manually_resized == false){
 			
 			var max_inspector_size = this._collapsed_event_list_height + this._static_height + preferred_panel_height;
 			var preferred_height = Math.max(default_inspector_height,max_inspector_size);
@@ -501,11 +511,8 @@ var jshub = {};
 		var previous_state = this._display_state;
 		this._display_state = state;
 		
-		var inner_element = this.yuipanel.innerElement;
-		var auto_height = inner_element.style.height == "";
-		
 		var panel_body = this.yuipanel.body;
-		if (!auto_height){
+		if (this._manually_resized){
 			if (state == "state1"){
 				this.yuipanel.cfg.setProperty("height", 30 + "px");
 				panel_body.style.height = "auto";
@@ -535,14 +542,14 @@ var jshub = {};
 		// Positioning
 		// Can't position until both dimensions have been set
 		if (state == "state1"){
-			this.position("br");
+			this.set_position("br");
 		}
 		else if (previous_state == "state1"){
 			if (this._manually_positioned){
-				this.position("restore");
+				this.set_position();
 			}
 			else {
-				this.position("tr");
+				this.set_position("tr");
 			}
 		}
 		
@@ -565,6 +572,7 @@ var jshub = {};
 
 
 	};
+
 
 	/**
 	 * Initialise the tag revision status warnings
@@ -741,10 +749,16 @@ var jshub = {};
 	};
 	
 
-	
-	Inspector.prototype.position = function(position){
+	/**
+	 * Set the position of the Inspector. Either position to fixed locations on the viewport
+	 * (top-right, bottom-right) or move just enough to keep within viewport when scrolling
+	 * or restore last position the user chose.
+	 * 
+	 * @param {Object} position
+	 */
+	Inspector.prototype.set_position = function(position){
 		
-		var dimensions = _get_available_space();
+		var dimensions = _get_available_space(),left=0,top=0;
 		//alert("width: " + dimensions.width + "\nheight:" + dimensions.height);
 		
 		var element = this.yuipanel.innerElement;
@@ -753,16 +767,21 @@ var jshub = {};
 		var height = element.offsetHeight;
 
 		if (position == "br"){
-			var left = dimensions.width - width - 20;
-			var top = dimensions.height + dimensions.scrollTop + height - 10;
+			left = dimensions.width - width - 20;
+			top = dimensions.height + dimensions.scrollTop + height - 10;
 		}
 		else if (position == "tr"){
-			var left = dimensions.width - width - 20;
-			var top = + dimensions.scrollTop;
+			left = dimensions.width - width - 20;
+			top = + dimensions.scrollTop;
 		}
 		else if (position == "top"){
-			var left = null;
-			var top = + dimensions.scrollTop;
+			left = null;
+			top = + dimensions.scrollTop;
+		}
+		else if (this._manually_positioned){
+			left =  this._current_x;
+			top = this._current_y;
+			
 		}
 
 		this.yuipanel.cfg.setProperty("xy",[left,top]);		
@@ -772,13 +791,13 @@ var jshub = {};
 	Inspector.prototype.on_scroll = function(evt){
 		
 		if (this._display_state == "state1"){
-			this.position("br");
+			this.set_position("br");
 		}	
 		else if (this._manually_positioned){
-			this.position("top");
+			this.set_position("top");
 		}
 		else {
-			this.position("tr");
+			this.set_position("tr");
 		}	
 		
 	};
