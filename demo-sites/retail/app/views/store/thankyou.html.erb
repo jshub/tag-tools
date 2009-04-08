@@ -1,4 +1,3 @@
-<h1 class="title">Retail shop</h1>
 <p>Thank you for your purchase.</p>
 <p>Your order number is <strong><%= @cart.order_id %></strong>, and you should receive an email update
 with your order status shortly.</p>
@@ -6,4 +5,4 @@ with your order status shortly.</p>
 <script type="text/javascript">
   $("#cart").load("cart_status");
 </script>
-<p><%= link_to "Return to homepage", :action => "index" %>
+<p><%= link_to "Homepage", :action => "index" %>

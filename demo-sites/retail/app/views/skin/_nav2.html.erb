@@ -1,16 +1,28 @@
       <div class="yui-b nav2">
+      
+        <% if controller.action_name != 'checkout' %>
         <div class="menu">
           <h1 class="title"><%= @page_title || "No title" %></h1>
           <ul>
             <li>
-              <%= link_to("Homepage", :action => "index") %>
+              <%= link_to("Flat-Panel TVs", :action => "buy") %>
             </li>
             <li>
-              <%= link_to("Products", :action => "buy") %>
+              <%= link_to("Projection TVs", :action => "buy") %>
             </li>
             <li>
-              <%= link_to("Checkout", :action => "checkout") %>
+              <%= link_to("Projectors &amp; Screens", :action => "buy") %>
+            </li>
+            <li>
+              <%= link_to("TV/DVD Combos", :action => "buy") %>
+            </li>
+            <li>
+              <%= link_to("Tube TVs", :action => "buy") %>
+            </li>
+            <li>
+              <%= link_to("TV &amp; Home Theater Installation", :action => "buy") %>
             </li>
           </ul>
         </div>
+        <% end %>
       </div>

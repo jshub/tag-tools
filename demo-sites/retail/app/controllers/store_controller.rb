@@ -20,10 +20,10 @@ class StoreController < ApplicationController
   # GET /store/buy
   # GET /store/buy.xml
   def buy
-    @page_title = "Products"
-    @page_breadcrumb = "Buy Stuff > Products"
+    @page_title = "Shop Televisions"
+    @page_breadcrumb = "Buy Stuff > Products > TV & Video"
 
-    @hpage = { :pagename => 'View catalog', :category => 'Store' }
+    @hpage = { :pagename => 'View catalog', :category => 'TV' }
     @products = Product.find(:all)
     @cart = find_cart
     

@@ -1,23 +1,24 @@
-<h1>Retail shop</h1>
+<h1>Your account</h1>
 <p>Please log in to complete your purchase</p>
 <% form_tag({ :action => "login" }, { :name => "basket" }) do %>
 <%= hidden_field_tag "original_uri", params[:original_uri] %>
 <p>
   <%= radio_button_tag "usertype", "registered", true %>
-  <label for="usertype_registered">I am a returning customer and my details are:</label>
-  <br/>
-  &nbsp; &nbsp; &nbsp; &nbsp; 
-  Username: <%= text_field_tag( "username", "customer@etl2dot0.com", :size => "30" ) %>
-  <br/>
-  &nbsp; &nbsp; &nbsp; &nbsp; 
-  Password: <%= password_field_tag( "password", "secret", :size => "12" ) %>
+  <label for="usertype_registered" class="right">I am a returning customer and my details are:</label>
+</p>
+<p>
+  <label>Username:</label>
+  <%= text_field_tag( "username", "customer@etl2dot0.com", :size => "30" ) %>
+</p>
+<p>
+  <label>Password:</label>
+  <%= password_field_tag( "password", "secret", :size => "12" ) %>
 </p>
 <p>
   <%= radio_button_tag "usertype", "new", false, :disabled => true %>
-  <label for="usertype_new">I am a new customer and I want to register now.</label>
+  <label for="usertype_new" class="right">I am a new customer and I want to register now.</label>
 </p> 
 <p>
-  &nbsp; &nbsp; &nbsp; &nbsp;
   <button id="login">Log in</button>
 </p>
 <% end %>
