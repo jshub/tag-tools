@@ -15,17 +15,19 @@
       <h3 class="name"><%= product.name %></h3>
       <h5>
         <strong>Model:</strong>
-        <span class="model">LN46A650</span> | 
+        <span class="model"><%= product.model %></span> | 
         <strong>SKU:</strong> 
-        <span class="sku">8753645</span>
+        <span class="sku"><%= product.sku %></span>
       </h5>
       <p class="description">
-        <strong>ENERGY STAR Qualified</strong>
-        <br/>
-        4 HDMI inputs; USB 2.0 port; Touch of Color cabinet; 16:9 aspect ratio
+        <% if product.energy_compliant %>
+          <strong>ENERGY STAR Qualified</strong>
+          <br/>
+        <% end %>
+        <%= product.description %>
       </p>
       <div class="rating">
-        <strong>5 of 5</strong>
+        <strong><%= product.rating %> of 5</strong>
       </div>      
     </div>
     <div class="yui-u info-side">
