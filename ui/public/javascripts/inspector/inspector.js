@@ -51,7 +51,8 @@ var jshub = {};
 	var yui_events = {
 		"page" : [],
 		"user-interactions" : [],
-		"tagging-issues" : []
+		"tagging-issues" : [],
+		"data-sources" : []
 	}
 	
 	function Inspector(options){
@@ -249,6 +250,7 @@ var jshub = {};
       
       // initialise jshub tag status 
       if (window.ETL) {
+	  	self.initDataSources();
         var jshubURL = $("script[src*=jshub.js]").attr('src');
 		ETL.logger.log("Inspector: loading tag source from " + jshubURL);
         $.get(jshubURL, function(jshubTagSrc) {
@@ -739,6 +741,73 @@ var jshub = {};
 			}
 	  }
 
+    };
+	
+    Inspector.prototype.initDataSources = function() {
+      var plugins = ETL.getPluginInfo(), plugin, event;
+      
+      var wrap = function(text, eventId) {
+        return '<div id="' + eventId + '" class="tag-status-item"><div class="bd">' +
+        text +
+        '<div class="yui-g"><hr class="event-separator" /></div>' +
+        '</div></div>';
+      };
+	  
+      var createEvent = function(html) {
+        var eventId = DOM.generateId();
+        var newEvent = new YAHOO.widget.Module(eventId, {
+          visible: false
+        });
+        newEvent.cfg.queueProperty("visible", true);
+        html = wrap(html, eventId);
+        newEvent.setBody(html);
+        return newEvent;
+      };
+      
+      function humanize(name) {
+        return name.substring(0, 1).toUpperCase() + name.substring(1).replace(/-/g, " ");
+      }
+      var header = function(text) {
+        return '<div class="yui-g help-text event-header" title="Data source">' + text + '</div>'
+      };
+      var subheader = function(type, text) {
+        return '<div class="message ' + type + '"><ul><li>' + text + '</li></ul></div>';
+      };
+      var variable = function(name, value) {
+        return '<div class="yui-gd">' +
+        '  <div class="yui-u first">' +
+        '    <p class="variable">' + name + ':</p>' +
+        '  </div>' +
+        '  <div class="yui-u">' +
+        '    <p class="value">' + value + '</p>' +
+        '  </div>' +
+        '</div>';
+      }; 
+	     
+      for (var i = 0; i < plugins.length; i++) {
+        plugin = plugins[i];
+        var html = [];
+        html.push(header(plugin.name));
+		html.push(subheader('info', humanize(plugin.type) + " plugin"));
+		html.push(variable("Vendor", plugin.vendor));
+		html.push(variable("Author", plugin.author));
+		html.push(variable("Version", plugin.version));
+		var event = createEvent(html.join(""));
+        yui_events["data-sources"].push(event);
+      }
+      
+      if (this.rendered) {
+        // just copied from render for now...tidy up after demo
+        for (var i in yui_events) {
+          var panel = this.panels[i];
+          var section_container = DOM.getElementsByClassName("event-section", "div", panel);
+          
+          for (var ii in yui_events[i]) {
+            yui_events[i][ii].render(section_container[0]);
+            _increment_event_count(panel);
+          }
+        }
+      }
     };
 
 	Inspector.prototype.show = function(){
