@@ -1,6 +1,12 @@
 # for image urls use ../../images/inspector/
 
 # CONSTANTS
+!color_bg = #000
+!color_text_message = #fff
+!color_text_title = #858689
+
+
+# OLD CONSTANTS
 !color_text_normal = #333
 !color_text_bold = #000
 !color_text_mid = #666
@@ -14,12 +20,12 @@
 !color_error = #c00
 !color_warning = #808080
 !color_info = #fc3
-!color_border = #808080
+!color_border = #000
 
 !grid_icon_large = 50px
 !grid_icon_small = 25px
 
-!radius_border = 0.25em
+!radius_border = 0.6em
 
 # button constants
 !color_border_button = #000
@@ -50,18 +56,68 @@
 
   
 div.jshub.inspector
+  .underlay.jshub-shadow
+    :left 10px
+    :top 10px
+    :right -13px
+    :bottom -17px
+    :background-color transparent
+    .shadow-right
+      :position absolute
+      :width 13px
+      :height 100%
+      :right 0
+      :bottom 17px
+      :background
+        :image url('assets/images/inspector_shadow.png')
+        :repeat no-repeat
+        :position -1150px top
+      
+
+    .shadow-bottom
+      :position absolute
+      :width 100%
+      :height 17px
+      :bottom 0
+      :right 13px
+      :background
+        :image url('assets/images/inspector_shadow.png')
+        :repeat no-repeat
+        :position left -900px 
+    
+    .shadow-corner
+      :position absolute
+      :width 13px
+      :height 17px
+      :bottom 0
+      :right 0
+      :background
+        :image url('assets/images/inspector_shadow.png')
+        :repeat no-repeat
+        :position -1150px -900px 
+  
+  .title 
+    :color = !color_text_title
+    :font-weight bold
+    :font-size 110%
   .state1, .state2, .state3
     :font-size 85%
+    :border-top-color  #171717
+    :border-bottom-color = !color_border
     :background
-      :color = !color_bg_light
-
+      :color  = !color_bg
+    
+    .yui-resize-handle
+      :visibility hidden
+      
     a.container-close
       :width 16px
       # resizing causes the style to be changed to inherit
       :height 17px !important
       :background
-        +icon-indicator-background
-        :position = -17px (-17-(6*!grid_icon_large))
+        :image url('assets/images/inspector_icons_small.png')
+        :position -50px -450px
+        :repeat no-repeat
         
     a.container-minimise
       :position absolute
@@ -98,10 +154,27 @@ div.jshub.inspector
       :background none
       :background
         :color = !color_bg_light
+        :image url('assets/images/inspector_highlights.png')
+        :repeat no-repeat 
+        :attachment scroll 
+        :position left -50px
+
     .ft
-      p
-        :margin 0
-        :padding-left 12px
+      :position relative
+      div.version
+        :width 60%
+        :height 100%
+        :color #fff
+        :font-size 120%
+      div.logo
+        :position absolute
+        :right 0
+        :top 0
+        :width 60px
+        :height 100%
+        :background
+          :image url('assets/images/inspector_icons_small.png')
+          :position -50px -50px        
     .bd
       :padding 0
       :background
@@ -110,27 +183,38 @@ div.jshub.inspector
       p.search
         :margin 0
         :padding 5px 10px
-        :color = !color_text_normal
+        :color #858689
         :font
-          :size 100%        
+          :size 100%
+          :weight bold    
+        input.search
+          +thick-rounded-border  
+          :padding 3px 2px   
+          :margin-left 5px 
+          :background
+            :image url('assets/images/inspector_icons_small.png') 
+            :repeat no-repeat
+            :position 65px -397px
       
       div.buttons
-        :padding 5px 10px
+        :padding 10px 10px
         a.button
-          :display block
           :margin 0
-          :padding 2px
+          :padding 3px 10px
           +thick-rounded-border
           :background
-            :color = !color_bg_button
+            :color = #035b9d
+            :image url('assets/images/inspector_highlights.png')
+            :repeat no-repeat 
+            :attachment scroll 
+            :position left -50px
           :text-align center
           :text-decoration none
           :font
             :weight bolder
             :size 116%
-          :color = !color_text_bold
-    
-  .state2, .state3
+          :color = #fff
+   
     .status
       :border-bottom = 1px solid !color_border
 
@@ -138,6 +222,7 @@ div.jshub.inspector
     ul#event-list
       # override the default width so we can add margins without breaking the bounding box
       :width inherit !important
+      :border none
       :margin 2px
       :margin-bottom 5px
       :background
@@ -148,23 +233,51 @@ div.jshub.inspector
           :color = !color_events_bg_light
         a.yui-accordion-toggle
           :padding 0.2em 0.3em 0.15em 0.3em
-          +thick-rounded-border
           :border-width 1px
+          :border-style solid
+          :border-top-color #c4c4c6
+          :border-right-color #545556
+          :border-bottom-color #383839
+          :border-left-color #9fa0a2
           :background none
           :background
-            :color = !color_bg_mid
+            :image url('assets/images/inspector_highlights.png')
+            :repeat no-repeat 
+            :attachment scroll 
+            :position left -150px
+          :color #fff
           :text-decoration none
           &.active
             :background
-              :color = !color_bg_dark
-            :color #fff
-            :text-decoration none
+              :position left -250px
+            :border-top-color #85afd0
+            :border-right-color #1c4a6d
+            :border-bottom-color #012642
+            :border-left-color #387eb2
           span.indicator
             :display none
           # custom count indicator
           span.count
             :position absolute
             :right 1.5em
+
+        a.yui-accordion-toggle:hover
+          :background
+            :image url('assets/images/inspector_highlights.png')
+            :repeat no-repeat 
+            :attachment scroll 
+            :position left -200px
+            :border-top-color #9b9b9b
+            :border-right-color #1f1f1f
+            :border-bottom-color #151515
+            :border-left-color #5d5d5d
+          &.active
+            :background
+              :position left -250px
+              :border-top-color #85afd0
+              :border-right-color #1c4a6d
+              :border-bottom-color #012642
+              :border-left-color #387eb2
           
           
         div.yui-accordion-content
@@ -199,16 +312,16 @@ div.jshub.inspector
           #inline status icons
           ul.message.success li, div.message.success ul li
             :background
-              :position = -21px (-18-(1*!grid_icon_large))
+              :position -50px -147px
           ul.message.error li, div.message.error ul li
             :background
-              :position = -21px (-16-(2*!grid_icon_large))
+              :position -50px -147px
           ul.message.info li, div.message.info ul li
             :background
-              :position = -21px (-18-(3*!grid_icon_large))
+              :position -50px -147px
           ul.message.warning li, div.message.warning ul li
             :background
-              :position = -21px (-18-(4*!grid_icon_large))
+              :position -50px -147px
               
         # Data event
         .event-item, .datasource-item
@@ -226,8 +339,6 @@ div.jshub.inspector
               :font-weight bold
             &.vendor
               :color = !color_text_mid
-              &.source
-                :padding-bottom 4px
             &.value
           div.duplicate p.value
             :color = !color_text_mid
@@ -241,19 +352,33 @@ div.jshub.inspector
           div.event-header
             :font-weight bold              
           div.message 
+            font-family:tahoma
+            font-size:small
             ul
               :margin 0
               :padding 2px
               li
+                :color #ff6600
+                :font
+                  :family tahoma
                 :min-height 20px
                 :padding-left 20px
                 :background
-                  +icon-indicator-background
-                  :position top left
+                  :image url('assets/images/inspector_icons_small.png')
 
-                
+  .state2, .state3
+    .hd
+      :background-color = !color_bg
+    .ft
+      :background
+        :image url('assets/images/inspector_icons_small.png')
+        :repeat no-repeat
+        :position -48px -97px
+      :padding-left 22px 
+  
   # Closed - small floating icon
   .state1
+
     # TODO the panel should be position: fixed to keep place when the viewport is scrolled ref: http://stackoverflow.com/questions/624414/yui-panel-and-scrolling
     # position: fixed;   
     .hd
@@ -263,34 +388,39 @@ div.jshub.inspector
       ul.launcher
         :margin 0
         :padding 0
+        :background
+          :image url('assets/images/inspector_icons_small.png')
+          :position -20px -52px 
+          :repeat no-repeat       
         li.status
-          :padding-left 25px
+          :padding 0 0 3px 25px
           :list-style-image none
           :list-style-position inside
           :list-style-type none  
           :background
-            +icon-indicator-background
+            :image url('assets/images/inspector_stateicons_slug.png') 
+            :repeat no-repeat
             :position = -15px (-16-!grid_icon_large)
           :font
             :weight bolder
-
+      
     # Icon states
     .success 
       ul.launcher li.status
         :background
-          :position = -15px (-16-(1*!grid_icon_large))
+          :position -50px -150px
     .error 
       ul.launcher li.status
         :background
-          :position = -15px (-16-(2*!grid_icon_large))
+          :position -50px -100px
     .info 
       ul.launcher li.status
         :background
-          :position = -15px (-18-(7*!grid_icon_large))
+          :position -50px -200px
     .warning 
       ul.launcher li.status
         :background
-          :position = -15px (-18-(4*!grid_icon_large))
+          :position  -50px -50px
 
     .ft
       :display none
@@ -299,22 +429,19 @@ div.jshub.inspector
   .state2
 
     .status.large
-      div.icon
-        :width 50px
-        :height 50px
-        :background
-          :color transparent 
-          :image url('assets/images/icon-large-sprite.png') 
-          :repeat no-repeat 
-          :attachment scroll 
-          :position left top
+      :height 50px
+      :background
+        :color transparent 
+        :image url('assets/images/inspector_icons_large.png') 
+        :repeat no-repeat 
+        :attachment scroll 
       div.text
         :width 74.1%
       p.self
         :margin 0
         :padding 0
         :padding-top 4px
-        :color = !color_text_normal
+        :color = #fff
         :font
           :size 100%
           :weight normal
@@ -322,92 +449,94 @@ div.jshub.inspector
       p.message
         :margin 0
         :padding 0
-        :color = !color_text_bold
+        :color = !color_text_message
         :font
           :size 116%
           :weight bold  
         :line-height 20px
 
+    .buttons.large
+      :text-align center
+      :padding 3px 0
+
     # Icon states          
     .success 
-      .status.large div.icon
+      .status.large
         :background
-          :color = !color_success
-          :position = left (0-!grid_icon_large)
+          :position -50px -150px
     .error 
-      .status.large div.icon
+      .status.large
         :background
-          :color = !color_error
-          :position = left (2*(0-!grid_icon_large))
+          :position -50px -100px
     .info 
-      .status.large div.icon
+      .status.large
         :background
-          :color = !color_warning
-          :position = left (3*(0-!grid_icon_large))
+          :position -50px -200px
     .warning 
-      .status.large div.icon
+      .status.large
         :background
-          :color = !color_info
-          :position = left (4*(0-!grid_icon_large))
+          :position -50px -50px
 
   
   # Maximised - with accordion data and live updating
   .state3
+    .yui-resize-handle
+      :visibility visible
+      :width 15px
+      :height 15px 
+      :background
+        :color #000
+        :image url('assets/images/inspector_icons_small.png')
+        :position -50px -350px
+        :repeat no-repeat
+      
     #event-list
+      :padding 0 5px
       .bd
         :margin 0
         :padding 0
         :border none
 
     .status.small
-      div.icon
-        :width 25px
-        :height 25px
-        :background
-          :color transparent 
-          :image url('assets/images/icon-small-sprite.png') 
-          :repeat no-repeat 
-          :attachment scroll 
-          :position left top
+      :background
+        :image url('assets/images/inspector_icons_small.png')
+        :repeat no-repeat
+        :color #000
+      :padding-bottom 6px
       div.text
         :width 87.1%
       p.self
-        :color = !color_text_normal
+        :color #fff
         :font
           :size 77%
           :weight normal         
       p.message
         :margin 0
         :padding 0
-        :padding-top 2px
-        :padding-left 2px
-        :color = !color_text_bold
+        :padding-top 3px
+        :padding-left 14px
+        :color = #fff
         :font
           :size 116%
           :weight bold  
         :line-height 20px 
 
+    .buttons.small
+      :text-align center
+ 
     # Icon states          
     .success 
-      .status.small div.icon
+      .status.small
         :background
-          :color = !color_success
-          :position = -10px (-10-!grid_icon_large)
+          :position -50px -300px
     .error 
-      .status.small div.icon
+      .status.small
         :background
-          :color = !color_error
-          :position = -10px (-60-!grid_icon_large)
-    .info 
-      .status.small div.icon
-        :background
-          :color = !color_warning
-          :position = -10px (-112-!grid_icon_large)
+          :position -50px -250px
     .warning 
-      .status.small div.icon
+      .status.small
         :background
-          :color = !color_info
-          :position = -10px (-164-!grid_icon_large)
+          :position -50px -200px
 
   # hide panels not needed in states
   .state1

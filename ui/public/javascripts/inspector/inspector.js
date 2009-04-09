@@ -19,11 +19,11 @@ var jshub = {};
 
 	// use this list for now - allow it to be configured through options later
 	var default_categories = {
-		"tagging-issues"		 : {label : "Tagging issues (${count})"},
-		"page" 					 : {label : "Page events (${count})"},
-		"user-interactions" 	 : {label : "Ecommerce events (${count})"},
-		"data-sources"			 : {label : "Data sources (${count})"},
-		"inline-content-updates" : {label : "Inline content updates (${count})"}
+		"tagging-issues"		 : {label : "Tagging issues ${count}"},
+		"page" 					 : {label : "Page events ${count}"},
+		"user-interactions" 	 : {label : "Ecommerce events ${count}"},
+		"data-sources"			 : {label : "Data sources ${count}"},
+		"inline-content-updates" : {label : "Inline content updates ${count}"}
 	};
 	
 	
@@ -140,12 +140,13 @@ var jshub = {};
 		        draggable: true, 
 		        close: false,
 		        autofillheight: "body",
-		        constraintoviewport: true
+		        constraintoviewport: true,
+				underlay : "shadow"
 		  });
 		  
 		  panel.setHeader(_create_header());
 		  panel.setBody(_create_body());
-		  panel.setFooter("jsHub Activity Inspector v1.123");
+		  panel.setFooter(_create_footer());
 		  panel.render(div);
 		  this.yuipanel = panel;
 
@@ -160,7 +161,22 @@ var jshub = {};
 
 		var yui_container = document.getElementById("jshub_inspector_c");
 		yui_container.style.position = "fixed";
-
+		var underlay = DOM.getElementsByClassName("underlay","div",yui_container);
+		
+		if (underlay.length){
+			this.shadow = underlay[0];
+			this.shadow.className += " jshub-shadow"; 
+			
+			var shadow_right = this.shadow.appendChild(document.createElement("div"));
+			shadow_right.className = "shadow-right";
+			var shadow_corner = this.shadow.appendChild(document.createElement("div"));
+			shadow_corner.className = "shadow-corner";
+			var shadow_bottom = this.shadow.appendChild(document.createElement("div"));
+			shadow_bottom.className = "shadow-bottom";
+			
+			
+		}
+		
 		// Set the state before we build all of the internals, as we need to collect
 		// accurate offset dimensions as we build
 		this.set_success_state(this.success_state);
@@ -228,8 +244,6 @@ var jshub = {};
 		var button_small =  DOM.getElementsByClassName("button","a",button_small_container[0]);
 		YAHOO.util.Event.addListener(button_small, "click", function(e){e.preventDefault();self.set_display_state("state2");});
 		
-		var container_minimise =  DOM.getElementsByClassName("container-minimise","a",inspector_div);
-		YAHOO.util.Event.addListener(container_minimise, "click", function(e){e.preventDefault();self.set_display_state("state2");});
 		var container_close =  DOM.getElementsByClassName("container-close","a",inspector_div);
 		YAHOO.util.Event.addListener(container_close, "click", function(e){e.preventDefault();self.set_display_state("state1");});
 	
@@ -545,6 +559,15 @@ var jshub = {};
 		}
 		else if (previous_state == "state1"){
 			this.yuipanel.cfg.setProperty("width", "225px");
+		}
+		
+		if (this.shadow){
+			if (state == "state1"){
+				this.shadow.style.display = "none";
+			}
+			else {
+				this.shadow.style.display = "";
+			}
 		}
 		
 		// Positioning
@@ -877,7 +900,7 @@ var jshub = {};
 	
 	
 	function _create_header(){
-		return '<span class="title">Activity Inspector</span><a class="container-minimise" href="#">Minimise</a><a class="container-close" href="#">Close</a>'; 
+		return '<span class="title">Activity Inspector</span><a class="container-close" href="#">Close</a>'; 
 	}
 
 	function _create_body(){
@@ -892,7 +915,6 @@ var jshub = {};
 	function _create_status_large(){
 		var html = [];
 		html.push('<div class="yui-g status large">');
-		html.push('<div class="yui-u first icon" title="Inspector status icon">&nbsp;</div>');
 		html.push('<div class="yui-u text">');
 		html.push('<p class="self">jsHub is</p>');
 		html.push('<p class="message">Installed &amp; active</p>');
@@ -903,7 +925,6 @@ var jshub = {};
 	
 	function _create_status_small(){
 		return '<div class="yui-g status small">' +
-	        		'<div class="yui-u first icon">&nbsp;</div>' +
 	        		'<div class="yui-u text">' +
 	          			'<p class="message">Installed &amp; active</p>' +
 	        		'</div>' +
@@ -921,9 +942,13 @@ var jshub = {};
 		 html.push('</div>');
 	  	return html.join("");
 	}
+
+	function _create_footer(){
+    	return '<div class="version">Activity Inspector v1.123</div><div class="logo"></div>';
+	}
 	
 	function _create_launcher(){
-    	return '<ul class="launcher"><li class="status">jsHub</li></ul>';
+    	return '<ul class="launcher"><li class="status">&nbsp;</li></ul>';
 	}
 	  	
 	function _create_search(){
