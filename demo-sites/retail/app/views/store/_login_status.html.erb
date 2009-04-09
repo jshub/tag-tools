@@ -7,10 +7,11 @@
   <% end %>
 <% else %>
   <% form_tag( :action => "logout" ) do %>
-    <%= hidden_field_tag "original_uri", request.request_uri %>
-    <strong class="login-state">Logged in</strong>
-    as <%= session[:username] %>
-    <button id="logout">Log out</button>
+    <div>
+      <%= hidden_field_tag "original_uri", request.request_uri %>
+      <strong class="login-state">Logged in</strong> as <%= session[:username] %>
+      <button id="logout">Log out</button>
+    </div>
   <% end %>
 <% end %>
 </div>
