@@ -238,6 +238,9 @@ var jshub = {};
 		
 		this.rendered = true;
 		
+		// start invisible
+		this.hide();
+		
 		return this;
 		
 	}
