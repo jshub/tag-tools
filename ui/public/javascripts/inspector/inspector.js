@@ -32,7 +32,7 @@ var jshub = {};
 		"data-capture-start" : "page",
 		"page-view" : "page",
 		"cart-add": "user-interactions",
-		"duplicate-value-error": "page",
+		"duplicate-value-warning": "tagging-issues",
 		"plugin-initialization-start": "data-sources"
 	};
 	
@@ -908,32 +908,27 @@ var jshub = {};
 		html.push('<div id="' + (event.id || DOM.generateId()) + '" class="event-item">');
 		html.push('<div class="bd">');
 		html.push('<div class="yui-g help-text" title="' + (event.help_text || "No help text available") + '">');
-		html.push('<div class="yui-u first">');
 		html.push('<p class="variable">' + event_name + '</p>');
-		if (!event.warning && event.vendor){
-			html.push('<p class="vendor">' + event.vendor + '</p>');
-		}
-		html.push('</div>');
-		
-		if (typeof event.value != "undefined"){
-			html.push('<div class="yui-u">');
-			html.push('<p class="value">' + event.value + '</p>');
-			html.push('</div>');
-		}
-		
 		
 		html.push('</div>');
 
 		if (event.data){
+			if (event.type === 'duplicate-value-warning') {
+				html.push('<ul class="message warning"><li>Conflicting data in the markup</li></ul>');
+			}
 			for (var i in event.data){
+
 				var w = event.data[i];
 				
 				// filter some fields
-				if (event.type === 'duplicate-value-error' && i === 'fields') {
+				if (event.type === 'duplicate-value-warning' && i === 'fields') {
 					for (var field_name in w) {
-						var value = w[field_name]['found-values'] 
-						  + " (was " + w[field_name]['previous-value'] + ")";
-						render_variable(html, field_name, value);
+						render_variable(html, "Duplicate field:", humanize(field_name));
+						var value = w[field_name].found; 
+						render_variable(html, "Value used:", value);
+					    var previous = w[field_name].previous.value + 
+						  " (found by " + w[field_name].previous.source + ")";
+						render_variable(html, "Other values:", previous);
 					}
 					continue;
 				}
@@ -943,8 +938,15 @@ var jshub = {};
 				if (/-visibility$/.test(i) && (w === '*' || w === '')) {
 					continue;
 				}
+				if (/-source$/.test(i)) {
+					continue;
+				}
 				
-				render_variable(html, i, w);
+				render_variable(html, i + ":", w);
+				if (event.data[i + '-source']) {
+					html.push('<div class="yui-g"><p class="vendor source">(from ' +
+					  event.data[i + '-source'] + ')</p></div>');
+				}
                   
  			}
 		}
@@ -1035,7 +1037,7 @@ var jshub = {};
 	    	var maxH = 600;
 	    }	
 
-		console.log("scrollTop: " + document.body.scrollTop);
+//		console.log("scrollTop: " + document.body.scrollTop);
 
 		if (document.documentElement){
 			var scrollTop = document.documentElement.scrollTop;
