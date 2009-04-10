@@ -294,6 +294,7 @@ div.jshub.inspector
           
         # single event entry
         div.event-item, div.datasource-item, div.tag-status-item
+          :color +text_color_normal
           .bd
             :margin 0
             :padding 5px
@@ -312,15 +313,20 @@ div.jshub.inspector
           #inline status icons
           ul.message.success li, div.message.success ul li
             :background
-              :position -50px -147px
+              +icon-indicator-background
+              :position = -21px (-18-(1*!grid_icon_large))
           ul.message.error li, div.message.error ul li
             :background
-              :position -50px -147px
+              +icon-indicator-background
+              :position = -21px (-16-(2*!grid_icon_large))
           ul.message.info li, div.message.info ul li
             :background
-              :position -50px -147px
+              +icon-indicator-background
+              :position = -21px (-18-(3*!grid_icon_large))
           ul.message.warning li, div.message.warning ul li
+            :color #ff6600
             :background
+              :image url('assets/images/inspector_icons_small.png')
               :position -50px -147px
               
         # Data event
@@ -338,10 +344,12 @@ div.jshub.inspector
             &.variable
               :font-weight bold
             &.vendor
-              :color = !color_text_mid
+              :color = !color_text_normal
+              &.source
+                :padding-bottom 4px
             &.value
           div.duplicate p.value
-            :color = !color_text_mid
+            :color = !color_text_normal
             
         # datasource event
         .datasource-item
@@ -358,7 +366,7 @@ div.jshub.inspector
               :margin 0
               :padding 2px
               li
-                :color #ff6600
+                :color = !color_text_normal
                 :font
                   :family tahoma
                 :min-height 20px
