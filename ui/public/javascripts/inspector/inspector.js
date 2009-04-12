@@ -3,7 +3,7 @@
 
 
 
-var jshub = {};
+this.jsHub = this.jsHub || {};
 
 /**
  * Assuming we only want one of these guys in the page...
@@ -15,7 +15,7 @@ var jshub = {};
  */
 (function() {
 
-  var DOM = YAHOO.util.Dom;
+  var DOM = YAHOO.util.Dom, jsHub = this.jsHub;
   
   // use this list for now - allow it to be configured through options later
   var default_categories = {
@@ -337,10 +337,10 @@ var jshub = {};
       var jshubURL = $("script[src*=jshub.js]").attr('src');
       ETL.logger.log("Inspector: loading tag source from " + jshubURL);
       $.get(jshubURL, function(jshubTagSrc) {
-        hashcode = SHA1(jshubTagSrc);
-        $.getJSON('http://gromit.etl.office/akita-on-rails/tag_configurations/find_by_sha1/' + hashcode + '.js?callback=?', function(data) {
-          // (or use a locally cached copy)
-          // $.getJSON('../javascripts/jshub/e090e895a3193594e933b9e5782e72eb29f6a3c1.js', function(data) {
+        var hashcode = SHA1(jshubTagSrc);
+		var configuratorURL = (jsHub.GeneratedBy || 'http://gromit.etl.office/akita-on-rails/tag_configurations/') 
+		  + '/find_by_sha1/' + hashcode + '.js?callback=?';
+        $.getJSON(configuratorURL, function(data) {
           console.log('Data from server', data);
           self.initRevisionStatus(data);
         });
@@ -790,7 +790,7 @@ var jshub = {};
         html += variable("Name", '<a href="' + data.info.url + '" title="Click to edit">' + data.info.name + '</a>');
         html += variable("Site", data.info.site);
         html += variable("Revision", data.info.version);
-        html += variable("Updated", data.info.updated);
+        html += variable("Updated", data.info.updated + ' ago');
         event = createEvent(html);
         events.push(event);
         return events;
@@ -1064,7 +1064,7 @@ var jshub = {};
 
     if (event.type === 'duplicate-value-warning') {
       html.push('<ul class="message warning"><li>Conflicting data in the markup</li></ul>');
-	  jshub.Inspector.set_success_state('warning');
+	  jsHub.Inspector.set_success_state('warning');
     }
     
     if (event.data) {
@@ -1169,9 +1169,9 @@ var jshub = {};
   
   
   
-  jshub.Inspector = new Inspector;
-  jshub.Inspector.render("state1");
-  jshub.Inspector.init();
+  jsHub.Inspector = new Inspector;
+  jsHub.Inspector.render("state1");
+  jsHub.Inspector.init();
   
   
   // borrowed from leon...
