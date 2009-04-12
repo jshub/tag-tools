@@ -998,7 +998,7 @@ var jshub = {};
   }
   
   function _create_footer() {
-    return '<div class="version">Activity Inspector v1.123</div><div class="logo"></div>';
+    return '<div class="version">Inspector v0.1 r3031</div><div class="logo"></div>';
   }
   
   function _create_launcher() {
