@@ -6,7 +6,7 @@ class StoreController < ApplicationController
   
   # GET /store
   def index
-    @hpage = { :pagename => 'Homepage', :category => 'Store' }
+    @hpage = { :pagename => '', :category => 'Store' }
 
     @cart = find_cart
 
