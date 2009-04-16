@@ -722,9 +722,7 @@ this.jsHub = this.jsHub || {};
               html = header("Altered tag");
               html += subheader("error", "Tag is not recognized");
               html += bodyMessage("The tag code was not recognized by the configurator. " +
-              "This could mean that it has been altered since it was generated. This error may also " +
-              "occur if the tag configuration has been deleted from the server which originally " +
-              "generated it.");
+              "This could mean that it has been altered since it was generated.");
               event = createEvent(html);
               events.push(event);
               // this is a warning not an error, as the tag may still be operating correctly
@@ -758,7 +756,7 @@ this.jsHub = this.jsHub || {};
         }
         if (data.warnings.tag_type) {
           html = header("Debug version detected");
-          html += subheader("warning", "Using the debug version of the jsHub code");
+          html += subheader("info", "Using the debug version of the jsHub code");
           html += bodyMessage("You are not recommended to use this on a production website.");
           event = createEvent(html);
           events.push(event);
