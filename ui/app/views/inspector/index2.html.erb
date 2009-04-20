@@ -1,73 +1,4 @@
-
-    <!-- common styleguide styles -->
-    <%= stylesheet_link_tag "styleguide/styleguide.css" %>
-    <%= stylesheet_link_tag "styleguide/examples.css" %>
-  
-    <!-- YUI 3 basic grids -->
-    <%= stylesheet_link_tag "inspector/yui3/reset-context.css" %>
-    <%= stylesheet_link_tag "inspector/yui3/fonts-context.css" %>
-    <%= stylesheet_link_tag "inspector/yui3/grids-context.css" %>
-    <%= stylesheet_link_tag "inspector/yui3/base-context.css" %>
-    
-    <!-- YUI 2 Common -->
-    <%= javascript_include_tag "inspector/yui2/utilities/utilities.js" %>
-    <%= javascript_include_tag "inspector/yui2/dragdrop/dragdrop.js" %>
-    
-    <!-- YUI 2 Panel -->
-    <%= stylesheet_link_tag "inspector/yui2/container/assets/skins/sam/container.css" %>
-    <%= stylesheet_link_tag "inspector/yui2/resize/assets/skins/sam/resize.css" %>
-    <%= javascript_include_tag "inspector/yui2/container/container.js" %>
-    <%= javascript_include_tag "inspector/yui2/resize/resize.js" %>
-    
-    <!-- YUI 2 Accordion ref: http://www.i-marco.nl/weblog/yui-accordion/ -->
-    <%= stylesheet_link_tag "inspector/accordionview/accordionview.css" %>
-    <%= javascript_include_tag "inspector/accordionview/accordionview.js" %>
-    
-    <!-- jsHub Tag -->
-    <%= javascript_include_tag "jquery/jquery-v1.2.6.js" %>
-    <%= javascript_include_tag "json/json2.js" %>
-    <%= javascript_include_tag "jshub/jshub-gromit-r2-debug.js" %>
-  
-    <!-- jsHub Inspector -->
-    <%= stylesheet_link_tag "inspector/inspector.css" %>
-    <%= javascript_include_tag "inspector/sha1.js" %>
-    <%= javascript_include_tag "inspector/inspector.js" %>
-
-<h1>Inspector</h1>
-<p>Development of the Inspector for jsHub based on YUI 2 Library and accordion widget (<%= link_to 'docs', '../docs/' %>).</p>
-
-
-<script type="text/javascript">
-// example interaction API
-function setState2(state) {
-  var Dom = YAHOO.util.Dom;
-  
-  // update the minimised example
-  var statusArea = Dom.getElementsByClassName('status large', 'div', 'inspector-minimised');
-  var inspectorBody = Dom.getAncestorByClassName(statusArea[0], 'bd');
-  // clear the existing states
-  Dom.removeClass(inspectorBody, 'info');
-  Dom.removeClass(inspectorBody, 'warning');
-  Dom.removeClass(inspectorBody, 'error');
-  Dom.removeClass(inspectorBody, 'success');
-  // add the state class to the body of the inspector for contextual CSS switching
-  Dom.addClass(inspectorBody, state);
-
-  // update the maximised example
-  var statusArea = Dom.getElementsByClassName('status small', 'div', 'inspector-maximised');
-  var inspectorBody = Dom.getAncestorByClassName(statusArea[0], 'bd');
-  // clear the existing states
-  Dom.removeClass(inspectorBody, 'info');
-  Dom.removeClass(inspectorBody, 'warning');
-  Dom.removeClass(inspectorBody, 'error');
-  Dom.removeClass(inspectorBody, 'success');
-  // add the state class to the body of the inspector for contextual CSS switching
-  Dom.addClass(inspectorBody, state);
-  return;
-}
-setState2('success');
-</script>
-
+<p>This page demonstrates the javascript API of the Inspector</p>
 
 <h2>Security</h2>
 
@@ -133,79 +64,68 @@ YAHOO.util.Event.addListener("checkJsFileHash", "click", function(){checkJsFileH
   
 </script>
 
+<h2>Setup Inspector</h2>
 <p>
-<button id="createInspector">Create Inspector</button>
-<button id="setPanel1Title">Set Panel 1 Title</button>
-<button id="setPanel2Title">Set Panel 2 Title</button>
-<button id="addPageEvent">Add a Page Event</button>
-<button id="addUserInteractionsEvent">Add a User Interactions Event</button>
-<button id="addCategoryToInspector">Add a Category</button>
+<button id="showInspector">Show Inspector</button>
+<button id="hideInspector">Hide Inspector</button>
 </p>
+<script type="text/javascript">
+YAHOO.util.Event.addListener("showInspector", "click", function(){jsHub.Inspector.show()});
+YAHOO.util.Event.addListener("hideInspector", "click", function(){jsHub.Inspector.hide()});
+</script>
 
-<p>Set Success States</p>
+<h2>Set display states</h2>
+<p>
+<button id="setDisplayState1">Set State 1</button>
+<button id="setDisplayState2">Set State 2</button>
+<button id="setDisplayState3">Set State 3</button>
+</p>
+<script type="text/javascript">
+YAHOO.util.Event.addListener("setDisplayState1", "click", function(){jsHub.Inspector.set_display_state("state1")} );
+YAHOO.util.Event.addListener("setDisplayState2", "click", function(){jsHub.Inspector.set_display_state("state2")} );
+YAHOO.util.Event.addListener("setDisplayState3", "click", function(){jsHub.Inspector.set_display_state("state3")} );
+</script>
+
+<h2>Set icon states</h2>
 <p>
 <button id="setState2Sucess">Set State 2 Success</button>
 <button id="setState2Error">Set State 2 Error</button>
 <button id="setState2Warning">Set State 2 Warning</button>
 <button id="setState2Info">Set State 2 Info</button>
 </p>
-
-<p>Set Display States</p>
-<p>
-<button id="setDisplayState1">Set State 1</button>
-<button id="setDisplayState2">Set State 2</button>
-<button id="setDisplayState3">Set State 3</button>
-</p>
-
-
 <script type="text/javascript">
-// example interaction API for adding events to a panel
-function getNumberOfEventsByPanel(panelNumber) {
-  var Dom = YAHOO.util.Dom;
-  var allEvents = Dom.getElementsByClassName('event-item', 'div', 'event-section-'+panelNumber);
-  return allEvents.length;
-}
+YAHOO.util.Event.addListener("setState2Sucess", "click", function(){jsHub.Inspector.set_success_state("success")} );
+YAHOO.util.Event.addListener("setState2Error", "click", function(){jsHub.Inspector.set_success_state("error")} );
+YAHOO.util.Event.addListener("setState2Warning", "click", function(){jsHub.Inspector.set_success_state("warning")} );
+YAHOO.util.Event.addListener("setState2Info", "click", function(){jsHub.Inspector.set_success_state("info")} );
+</script>
 
-
-function setPanelCount(panelNumber, count) {
-	
-
-
-}
-
-// set the title text for each panel based on the number of events inside
-function updatePanelTitles(accordion) {
-  var Dom = YAHOO.util.Dom;
-  var allPanels = accordion.getPanels();
-  for (var i = 0, j = allPanels.length; i < j; i++) {
-      var count = getNumberOfEventsByPanel(i);
-      console.log(count+' Events in Panel '+i);
-      setPanelCount(i, count);
-  }
-}
-
+<h2>Simulate event types</h2>
+<p>
+<button id="addPageEvent">Add a Page Event</button>
+<button id="addUserInteractionsEvent">Add a User Interactions Event</button>
+</p>
+<script type="text/javascript">
 // generic event
 function addPanelEvent(category_id) {
 	
-	 var event = {id		:YAHOO.util.Dom.generateId(),
+   // complex event
+	 var event = {id		    :YAHOO.util.Dom.generateId(),
 	              variable	: "DynamicEvent",
-				  vendor	: "Causata",
-				  value		: "content12",
-				  help_text : '<p>Causata event.</p><p>DynamicEvent <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href="../docs">View documentation</a></p>'
-	};	
+                vendor	  : "Causata",
+                value		  : "content12",
+                help_text : '<p>Causata event.</p><p>DynamicEvent <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href="../docs">View documentation</a></p>'
+	};
 	
-	var event = {type:"cart-add",data:{product:123,quantity:2}}
-	
-	jshub.Inspector.on_hub_event(event);	
-  
+	// simple events
+	event = {type:"cart-add",data:{product:123,quantity:2}}	
+	jsHub.Inspector.on_hub_event(event);	
 
-	var event = {type:"page-view",data:{page:"blah",quantity:2}}
-	
-	jshub.Inspector.on_hub_event(event);	
+	event = {type:"page-view",data:{page:"blah",quantity:2}}	
+	jsHub.Inspector.on_hub_event(event);	
 
 }
 
-// security event
 function addDatasourceEvent(panelNumber, data) {
   var Dom = YAHOO.util.Dom;
   var newEvent = new YAHOO.widget.Module(Dom.generateId(), { visible: false});
@@ -228,25 +148,10 @@ function addDatasourceEvent(panelNumber, data) {
   console.log(count+' Events now in Panel'+panelNumber);
 }
 
-setState2('success');
-//updatePanelTitles(eventList);
-YAHOO.util.Event.addListener("setPanel1Title", "click", function(){setPanelCount(0,4)} );
-YAHOO.util.Event.addListener("setPanel2Title", "click", function(){setPanelCount(1,3)} );
-
 YAHOO.util.Event.addListener("addPageEvent", "click", function(){addPanelEvent("page")} );
 YAHOO.util.Event.addListener("addUserInteractionsEvent", "click", function(){addPanelEvent("user-interactions")} );
-
-YAHOO.util.Event.addListener("addCategoryToInspector", "click", function(){jshub.Inspector.addCategory("Test")} );
-YAHOO.util.Event.addListener("createInspector", "click", function(){jshub.Inspector.render("state1")});
-
-YAHOO.util.Event.addListener("setState2Sucess", "click", function(){jshub.Inspector.set_success_state("success")} );
-YAHOO.util.Event.addListener("setState2Error", "click", function(){jshub.Inspector.set_success_state("error")} );
-YAHOO.util.Event.addListener("setState2Warning", "click", function(){jshub.Inspector.set_success_state("warning")} );
-YAHOO.util.Event.addListener("setState2Info", "click", function(){jshub.Inspector.set_success_state("info")} );
-
-YAHOO.util.Event.addListener("setDisplayState1", "click", function(){jshub.Inspector.set_display_state("state1")} );
-YAHOO.util.Event.addListener("setDisplayState2", "click", function(){jshub.Inspector.set_display_state("state2")} );
-YAHOO.util.Event.addListener("setDisplayState3", "click", function(){jshub.Inspector.set_display_state("state3")} );
-
-
 </script>
+
+    <!-- The jsHub Tag Inspector -->
+    <%= stylesheet_link_tag :inspector, :cache => 'cached/inspector' %>
+    <%= javascript_include_tag :inspector, :cache => 'cached/inspector' %>

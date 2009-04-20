@@ -1,264 +1,63 @@
+<p>This page shows all the visible states of the inspector for CSS development</p>
 
-    <!-- common styleguide styles -->
-    <%= stylesheet_link_tag "styleguide/styleguide.css" %>
-    <%= stylesheet_link_tag "styleguide/examples.css" %>
-      
-    <!-- YUI -->
-    <%= stylesheet_link_tag :yui, :cache => 'cached/yui' %>
-    <%= javascript_include_tag :yui, :cache => 'cached/yui' %>
-        
-    <!-- jsHub Tag -->
-    <%= javascript_include_tag :jshub, :cache => 'cached/jshub' %>
-  
-    <!-- jsHub Inspector -->
-    <%= stylesheet_link_tag :inspector, :cache => 'cached/inspector' %>
-    <%= javascript_include_tag :inspector, :cache => 'cached/inspector' %>
+<ol>
+  <li><a href="#section1">State 1 - Floating</a></li>
+  <li><a href="#section2">State 2 - Minimised</a></li>
+  <li><a href="#section3">State 3 - Maximised with Events</a></li>
+</ol>
 
+<h2 id="section1">State 1 - Floating</h2>
 
-<script type="text/javascript">
-// This was the old way of initialising the Inspector, put it here until we refactor the code in this test page to 
-// use new Inspector, and modifiy new inspector to allow multiple instances on one page.
-	
-function setup_inspector(inspector_id){
-	
-	var DOM = YAHOO.util.Dom,
-	    the_inspector,
-		// Used by height calculation - the height of the fixed parts of the inspector, ie everything except the event list accordion
-		_static_height;
-  
-  // init the panel
-  the_inspector = new YAHOO.widget.Panel(inspector_id, {
-        width: "225px",
-        draggable: true, 
-        close: true,
-        autofillheight: "body",
-        constraintoviewport: true
-  });
-  the_inspector.render();
+<div id="example1a" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
 
-   var inspector_element = document.getElementById(inspector_id);
-   var ul = inspector_element.getElementsByTagName("ul");
-   if (ul.length==0){
-   		return;
-   }	
-   
-  // init the accordion inside the panel body
-  var eventList = new YAHOO.widget.AccordionView(ul[0], {
-        width: '100%', 
-        collapsible: true,
-        animate: false
-      });
-
-  // add contextual tooltips for event specific help using the title attribute
-  // TODO make this appear above the panel
-  var eventListHelp = new YAHOO.widget.Tooltip("eventListHelp", { 
-			  context: DOM.getElementsByClassName('help-text', 'div'),
-        	  constraintoviewport: true,
-			  width: "300px",
-			  zindex: 1000
-	});
-  
-  
-  // Make the panel resizable and handle events and repainting ref: http://developer.yahoo.com/yui/examples/container/panel-resize.html
-  // TODO account for open/closed accordion in recalculating the body height
-  var the_inspectorResize = new YAHOO.util.Resize('inspector-maximised', {
-    handles: ['br'],
-    autoRatio: false,
-    minWidth: 225,
-    minHeight: 290,
-    status: false
-  });
-  
-  
-  // initialize some fields needed by the height calculations
-  var inspector_height = the_inspector.innerElement.clientHeight;
-  _static_height = inspector_height - min_size_for_evtlist();
-
-  
-  the_inspectorResize.on("startResize", function(args) {
-  	
-	// set our minimum height
-	var min_height = minimum_inspector_height();
-    the_inspectorResize.set("minHeight", min_height);
-	
-    if (this.cfg.getProperty("constraintoviewport")) {
-        var clientRegion = DOM.getClientRegion();
-        var elRegion = DOM.getRegion(this.element);
-        the_inspectorResize.set("maxWidth", clientRegion.right - elRegion.left - YAHOO.widget.Overlay.VIEWPORT_OFFSET);
-        the_inspectorResize.set("maxHeight", clientRegion.bottom - elRegion.top - YAHOO.widget.Overlay.VIEWPORT_OFFSET);
-      } else {
-        the_inspectorResize.set("maxWidth", null);
-        the_inspectorResize.set("maxHeight", null);
-    }
-  }, the_inspector, true);
-  
-  
-  the_inspectorResize.on("resize", function(args) {
-    var panelHeight = args.height;
-    this.cfg.setProperty("height", panelHeight + "px");
-	
-	manage_height();
-	
-  }, the_inspector, true);
-  
-  
-  // lets try setting the initial height 
-  eventList.subscribe("afterPanelOpen",function(message){
-		manage_height(message.panel);
-  });
-  
-  function manage_height(selected_item){
-  	
-	if (!selected_item){
-		var panels = eventList.getPanels();
-		for (var i=0;i<panels.length;i++){
-			if (DOM.hasClass(panels[i].firstChild,eventList.CLASSES.ACTIVE)){
-				selected_item = panels[i];
-				break;
-			}
-		}
-	}
-	
-	if (!selected_item){
-		return;
-	}
-	
-	var chrome_height = 135;
-	var preferred_panel_height = 150;
-	var default_inspector_height = 450;
-	var min_panel_size = 100;
-
-	//TODO make this a bit more robust...
-	var content = selected_item.childNodes[1];
-
-	var auto_height = the_inspector.innerElement.style.height == "";
-	var inspector_height = the_inspector.innerElement.clientHeight;
-	
-	if (auto_height){
-		
-		var max_inspector_size = min_size_for_evtlist() + chrome_height + preferred_panel_height;
-		var preferred_height = Math.max(default_inspector_height,max_inspector_size);
-		
-		if (inspector_height > preferred_height){
-			var diff =  inspector_height - preferred_height;
-			var current_height = content.offsetHeight;
-			var new_height = current_height - diff;
-			content.style.height =new_height + "px";
-		}
-	}
-	else {
-		
-		var available_height = inspector_height - chrome_height - min_size_for_evtlist();
-		var content_height = content.offsetHeight;
-		var actual_content = content.getElementsByTagName("div");
-		if (actual_content.length){
-			var full_content_height = actual_content[0].offsetHeight;
-			if (content_height > available_height){
-				if (available_height < min_panel_size){
-					// we have to grow the inspector - this won't normally happen unless we really add a lot of categories
-					var new_inspector_height = inspector_height + (min_panel_size - available_height + 10);
-	    			the_inspector.cfg.setProperty("height", new_inspector_height + "px");
-				}
-				else {
-					content.style.height = available_height + "px";
-				}
-			} 
-			else if (full_content_height > content_height){
-				content.style.height = (available_height) + "px";
-			}
-		}
-	}		
-	
-  }
-  
-  function minimum_inspector_height(){
-  	
-		var preferred_panel_height = 150;
-		var event_list =   min_size_for_evtlist();
-		return _static_height + preferred_panel_height + event_list;
-			
-  }
-  
-  var _item_height;
-  
-  function min_size_for_evtlist(){
-
-	var items = eventList.getPanels();
- 	var count = items.length;
-	//TODO read item height from a collapsed item
-	return count * (_item_height || get_item_height());
-	
-  }
-
-  function get_item_height(){
-	var items = eventList.getPanels();
- 	var count = items.length;
-	var height = 0;
-	for (var i=0;i<count;i++){
-		if (DOM.hasClass(items[i].firstChild,eventList.CLASSES.ACTIVE)){
-			continue
-		}
-		else {
-			return _item_height = items[i].offsetHeight;
-		}
-	}
-	return 0;  	
-  } 	  
-
-	
-  // make this visible to outside page for testing...	
-  window.eventList = eventList;
-  window.manage_height = manage_height;
-
-	
-	
-	
-};
-	
-	
-</script>
-
-<h1>Inspector</h1>
-<p>Development of the Inspector for jsHub based on YUI 2 Library and accordion widget (<%= link_to 'docs', '../docs/' %>).</p>
-
-<h2>Floating</h2>
-
-<div id="example1" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
-  <div id="inspector-floating" class="state1" >
-    <div class="bd">
+  <div class="yui-panel state1" style="width: 95px;">
+    <div class="bd success">
 <%= render 'launcher' %>   
     </div>
   </div>
+
 </div>
 
-<script type="text/javascript">
-  var inspectorFloating = new YAHOO.widget.Panel("inspector-floating", {
-        draggable: false, 
-        close: false, 
-        constraintoviewport: true, 
-        context:['example1','br','br']
-      })
-  inspectorFloating.render();
-</script>
+<div id="example1b" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
 
+  <div class="yui-panel state1" style="width: 95px;">
+    <div class="bd warning">
+<%= render 'launcher' %>   
+    </div>
+  </div>
 
-<h2>Minimised</h2>
+</div>
 
-<p>
-<button id="setState2Sucess">Set State 2 Success</button>
-<button id="setState2Error">Set State 2 Error</button>
-<button id="setState2Warning">Set State 2 Warning</button>
-<button id="setState2Info">Set State 2 Info</button>
-</p>
+<div id="example1c" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
 
-<div id="example2" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
-  <div id="inspector-minimised" class="state2" >
+  <div class="yui-panel state1" style="width: 95px;">
+    <div class="bd error">
+<%= render 'launcher' %>   
+    </div>
+  </div>
+
+</div>
+
+<div id="example1d" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
+
+  <div class="yui-panel state1" style="width: 95px;">
+    <div class="bd info">
+<%= render 'launcher' %>   
+    </div>
+  </div>
+
+</div>
+
+<h2 id="section2">State 2 - Minimised</h2>
+
+<div id="example2a" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
+  <div class="yui-panel state2" style="position: relative; width: 265px;">
     <div class="hd header">
 <%= render 'container_header' %>   
     </div>
-    <div class="bd body">
-<%= render 'status_large' %>
-<%= render :partial => 'buttons', :locals => { :text => 'View Events' } %>
+    <div class="bd body success">
+<%= render :partial => 'status_large', :locals => { :text => 'Installed &amp; active' } %>
+<%= render :partial => 'buttons', :locals => { :text => 'View Events', :size => 'large', :cssClass => 'events' } %>
     </div>
     <div class="ft footer">
 <%= render 'container_footer' %>   
@@ -267,100 +66,92 @@ function setup_inspector(inspector_id){
   </div>
 </div>
 
-<script type="text/javascript">
-  var inspectorMinimised = new YAHOO.widget.Panel("inspector-minimised", {
-        width: "225px",
-        draggable: true, 
-        close: true, 
-        constraintoviewport: true
-      })
-  inspectorMinimised.render();
-</script>
+<div id="example2b" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
+  <div class="yui-panel state2" style="position: relative; width: 265px;">
+    <div class="hd header">
+<%= render 'container_header' %>   
+    </div>
+    <div class="bd body warning">
+<%= render :partial => 'status_large', :locals => { :text => 'Active with warnings' } %>
+<%= render :partial => 'buttons', :locals => { :text => 'View Events', :size => 'large', :cssClass => 'events' } %>
+    </div>
+    <div class="ft footer">
+<%= render 'container_footer' %>   
+    </div>
+<%= render 'container_icons' %>   
+  </div>
+</div>
 
-<script type="text/javascript">
-// example interaction API
-function setState2(state) {
-  var Dom = YAHOO.util.Dom;
-  
-  // update the minimised example
-  var statusArea = Dom.getElementsByClassName('status large', 'div', 'inspector-minimised');
-  var inspectorBody = Dom.getAncestorByClassName(statusArea[0], 'bd');
-  // clear the existing states
-  Dom.removeClass(inspectorBody, 'info');
-  Dom.removeClass(inspectorBody, 'warning');
-  Dom.removeClass(inspectorBody, 'error');
-  Dom.removeClass(inspectorBody, 'success');
-  // add the state class to the body of the inspector for contextual CSS switching
-  Dom.addClass(inspectorBody, state);
+<div id="example2c" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
+  <div class="yui-panel state2" style="position: relative; width: 265px;">
+    <div class="hd header">
+<%= render 'container_header' %>   
+    </div>
+    <div class="bd body error">
+<%= render :partial => 'status_large', :locals => { :text => 'Having problems' } %>
+<%= render :partial => 'buttons', :locals => { :text => 'View Events', :size => 'large', :cssClass => 'events' } %>
+    </div>
+    <div class="ft footer">
+<%= render 'container_footer' %>   
+    </div>
+<%= render 'container_icons' %>   
+  </div>
+</div>
 
-  // update the maximised example
-  var statusArea = Dom.getElementsByClassName('status small', 'div', 'inspector-maximised');
-  var inspectorBody = Dom.getAncestorByClassName(statusArea[0], 'bd');
-  // clear the existing states
-  Dom.removeClass(inspectorBody, 'info');
-  Dom.removeClass(inspectorBody, 'warning');
-  Dom.removeClass(inspectorBody, 'error');
-  Dom.removeClass(inspectorBody, 'success');
-  // add the state class to the body of the inspector for contextual CSS switching
-  Dom.addClass(inspectorBody, state);
+<div id="example2c" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
+  <div class="yui-panel state2" style="position: relative; width: 265px;">
+    <div class="hd header">
+<%= render 'container_header' %>   
+    </div>
+    <div class="bd body info">
+<%= render :partial => 'status_large', :locals => { :text => 'Not installed' } %>
+<%= render :partial => 'buttons', :locals => { :text => 'Get jsHub', :size => 'large', :cssClass => 'get' } %>
+    </div>
+    <div class="ft footer">
+<%= render 'container_footer' %>   
+    </div>
+<%= render 'container_icons' %>   
+  </div>
+</div>
 
-  // update the full example
-  var statusArea = Dom.getElementsByClassName('status large', 'div', 'inspector');
-  var inspectorBody = Dom.getAncestorByClassName(statusArea[0], 'bd');
-  // clear the existing states
-  Dom.removeClass(inspectorBody, 'info');
-  Dom.removeClass(inspectorBody, 'warning');
-  Dom.removeClass(inspectorBody, 'error');
-  Dom.removeClass(inspectorBody, 'success');
-  // add the state class to the body of the inspector for contextual CSS switching
-  Dom.addClass(inspectorBody, state);
-
-  // update the maximised example
-  var statusArea = Dom.getElementsByClassName('status small', 'div', 'inspector');
-  var inspectorBody = Dom.getAncestorByClassName(statusArea[0], 'bd');
-  // clear the existing states
-  Dom.removeClass(inspectorBody, 'info');
-  Dom.removeClass(inspectorBody, 'warning');
-  Dom.removeClass(inspectorBody, 'error');
-  Dom.removeClass(inspectorBody, 'success');
-  // add the state class to the body of the inspector for contextual CSS switching
-  Dom.addClass(inspectorBody, state);
-
-  return;
-}
-
-YAHOO.util.Event.addListener("setState2Sucess", "click", function(){setState2('success')} );
-YAHOO.util.Event.addListener("setState2Error", "click", function(){setState2('error')} );
-YAHOO.util.Event.addListener("setState2Warning", "click", function(){setState2('warning')} );
-YAHOO.util.Event.addListener("setState2Info", "click", function(){setState2('info')} );
-setState2('success');
-
-</script>
-
-<h2>Maximised</h2>
-
-<p>
-<button id="setPanel1Title">Set Panel 1 Title</button>
-<button id="setPanel2Title">Set Panel 2 Title</button>
-<button id="addPanel1Event">Add an Event to Panel 1</button>
-<button id="addPanel2Event">Add and Event to Panel 2</button>
-</p>
+<h2 id="section3">State 3 - Maximised with Events</h2>
 
 <div id="example3" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
 
-  <div id="inspector-maximised" class="state3" >
-    <div class="hd">
+  <div class="yui-panel yui-resize state3" style="position: relative; width: 265px;">
+    <div class="hd header">
 <%= render 'container_header' %>   
     </div>
-    <div class="bd">
-<%= render 'status_small' %>
-<%= render 'search' %>
-      <ul id="event-list">
-        <li>
-          <div>Page <span class="count">(0)</span></div>
-          <div>
-            <div id="event-section-0" class="event-section">
+    <div class="bd body success">
+<%= render :partial => 'status_small', :locals => { :text => 'Installed &amp; active' } %>
+<%= render :partial => 'search' %>
+      <ul id="event-list" class="yui-accordionview">
+
+        <li class="yui-accordion-panel">
+          <a class="yui-accordion-toggle">Inactive empty panel <span class="count">0</span></a>
+        </li>
+
+        <li class="yui-accordion-panel">
+          <a class="yui-accordion-toggle active">Active empty panel <span class="count">0</span></a>
+        </li>
+
+        <li class="yui-accordion-panel">
+          <a class="yui-accordion-toggle active">Tagging issues <span class="count">1</span></a>
+          <div class="yui-accordion-content">
+            <div class="event-section">
+              <div class="bd">          
+                <%= render :partial => 'event_tagstatus_item' %>
+              </div><!-- close module bd -->
+            </div><!-- close module -->
+          </div>
+        </li>
+
+        <li class="yui-accordion-panel">
+          <a class="yui-accordion-toggle active">Page events<span class="count">4</span></a>
+          <div class="yui-accordion-content">
+            <div class="event-section">
               <div class="bd">
+                            
 <%# Different type of event list items %>
 <%= render :partial => 'event_item', :locals => { 
       :id => 'event-1',
@@ -379,30 +170,98 @@ setState2('success');
           'MF - hPage' => 'Homepage1'
         }
     } %>
-<%= render :partial => 'event_item', :locals => { 
-      :id => 'event-3',
-      :variable => 'Page-category',
-      :value => 'Electrics',
-      :warning => true,
-      :warnings => {
-          'Google Analytics' => 'Electrics',
-          'Coremetrics' => 'Homeware'
-        }
-    } %>    
-<%= render :partial => 'event_item', :locals => { 
-      :id => 'event-4',
-      :variable => 'Page-ref',
-      :vendor => 'Coremetrics',
-      :value => '123'
-    } %>
+
+              <%# as implemented in Inspector %>
+              <div class="event-item">
+                <div class="bd">
+                  <div title="No help text available" class="yui-g help-text">
+                    <p class="variable">
+                      Page view
+                    </p>
+                  </div>
+                  <div class="yui-gd duplicate">
+                    <div class="yui-u first">
+                      <p class="vendor">
+                        Page name:
+                      </p>
+                    </div>
+                    <div class="yui-u">
+                      <p class="value">
+                        store/catalog
+                      </p>
+                    </div>
+                  </div>
+                  <div class="yui-gd">
+                    <p class="vendor source">
+                      (from google-analytics-markup)
+                    </p>
+                  </div>
+                  <div class="yui-gd duplicate">
+                    <div class="yui-u first">
+                      <p class="vendor">
+                        Category:
+                      </p>
+                    </div>
+                    <div class="yui-u">
+                      <p class="value">
+                        TV
+                      </p>
+                    </div>
+                  </div>
+                  <div class="yui-gd">
+                    <p class="vendor source">
+                      (from hPage-plugin)
+                    </p>
+                  </div>
+                  <div class="yui-gd duplicate">
+                    <div class="yui-u first">
+                      <p class="vendor">
+                        Title:
+                      </p>
+                    </div>
+                    <div class="yui-u">
+                      <p class="value">
+                        Example retail store
+                      </p>
+                    </div>
+                  </div>
+                  <div class="yui-gd">
+                    <p class="vendor source">
+                      (from document.title)
+                    </p>
+                  </div>
+                  <div class="yui-gd duplicate">
+                    <div class="yui-u first">
+                      <p class="vendor">
+                        Referrer:
+                      </p>
+                    </div>
+                    <div class="yui-u">
+                      <p class="value">
+                        http://liamc.local/retail/store/login
+                      </p>
+                    </div>
+                  </div>
+                  <div class="yui-gd">
+                    <p class="vendor source">
+                      (from document.referrer)
+                    </p>
+                  </div>
+                </div>
+                <div class="yui-g">
+                  <hr class="event-separator" />
+                </div>
+              </div>
+              
               </div><!-- close module bd -->
             </div><!-- close module -->
           </div>
         </li>
         <li>
-          <div>User Interactions <span class="count">(0)</span></div>
-          <div>
-            <div id="event-section-1" class="event-section">
+        <li class="yui-accordion-panel">
+          <a class="yui-accordion-toggle active">Ecommerce events <span class="count">3</span></a>
+          <div class="yui-accordion-content">
+            <div class="event-section">
               <div class="bd">
 
 <%= render :partial => 'event_item', :locals => { 
@@ -432,36 +291,22 @@ setState2('success');
           </div>
         </li>
 
-        <li>
-          <div><span class="count">0</span> Tagging issues detected</div>
-          <div>
-            <div id="event-section-2" class="event-section">
-              <div class="bd">
-              </div><!-- close module bd -->
-            </div><!-- close module -->
-          </div>          
-        </li>
-        <li>
-          <div>Data sources <span class="count">0</span></div>
-          <div>
+        <li class="yui-accordion-panel">
+          <a class="yui-accordion-toggle active">Data sources<span class="count">1</span></a>
+          <div class="yui-accordion-content">
             <div class="event-section">
               <div class="bd">
                 <%= render :partial => 'event_datasource_item' %>
               </div><!-- close module bd -->
             </div><!-- close module -->
-          </div>         
+          </div>
         </li>
-        <li>
-          <div><span class="count">0</span> Tagging issues detected (static)</div>
-          <div>
-            <div class="event-section">
-              <div class="bd">
-                <%= render :partial => 'event_tagstatus_item' %>
-              </div><!-- close module bd -->
-            </div><!-- close module -->
-          </div>         </li>  
+
+        <li class="yui-accordion-panel">
+          <a class="yui-accordion-toggle active">Inline content updates<span class="count">0</span></a>
+        </li>
       </ul>
-<%= render :partial => 'buttons', :locals => { :text => 'Hide Events' } %>
+<%= render :partial => 'buttons', :locals => { :text => 'Hide Events', :size => 'small'} %>
     </div>
     <div class="ft">
 <%= render 'container_footer' %>   
@@ -470,226 +315,6 @@ setState2('success');
   </div>
 </div>
 
-
-<script type="text/javascript">
-	setup_inspector("inspector-maximised");
-</script>
-
-<script type="text/javascript">
-// example interaction API for adding events to a panel
-function getNumberOfEventsByPanel(panelNumber) {
-  var Dom = YAHOO.util.Dom;
-  var allEvents = Dom.getElementsByClassName('event-item', 'div', 'event-section-'+panelNumber);
-  return allEvents.length;
-}
-
-function setPanelCount(panelNumber, count) {
-  var Dom = YAHOO.util.Dom;
-  // we have a ref to the accordion from when we init it = eventList
-  var panel = Dom.get(eventList.getPanel(panelNumber));
-  Dom.batch(Dom.getElementsByClassName('count', 'span', panel), function(el){el.innerHTML = count});
-}
-
-// set the title text for each panel based on the number of events inside
-function updatePanelTitles(accordion) {
-  var Dom = YAHOO.util.Dom;
-  var allPanels = accordion.getPanels();
-  for (var i = 0, j = allPanels.length; i < j; i++) {
-      var count = getNumberOfEventsByPanel(i);
-      console.log(count+' Events in Panel '+i);
-      setPanelCount(i, count);
-  }
-}
-
-// generic event
-function addPanelEvent(panelNumber) {
-  var Dom = YAHOO.util.Dom;
-  var newEvent = new YAHOO.widget.Module(Dom.generateId(), { visible: false});
-  newEvent.cfg.queueProperty("visible", true);
-  
-  <%# use a Ruby partial to create a template string -%>
-  templateString = '<%= render :partial => 'event_item.js.erb', :locals => { 
-      :id => "'+Dom.generateId()+'",
-      :variable => 'DynamicEvent',
-      :vendor => 'Causata',
-      :value => 'content112',
-      :help_text => "<p>Causata event.</p><p>DynamicEvent <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href=\"../docs/\">View documentation</a></p>"
-    } %>'
-  
-  newEvent.setBody(templateString);
-  // TODO this appends when really we want to prepend
-  newEvent.render('event-section-'+panelNumber);
-  console.log('New Event added to Panel'+panelNumber);
-  // TODO is an changeBodyEvent raised on the parent module when we add this one? This can trigger the Panel title count update
-  var count = getNumberOfEventsByPanel(panelNumber);
-  setPanelCount(panelNumber, count);
-  console.log(count+' Events now in Panel'+panelNumber);
-}
-
-setState2('success');
-updatePanelTitles(eventList);
-YAHOO.util.Event.addListener("setPanel1Title", "click", function(){setPanelCount(0,4)} );
-YAHOO.util.Event.addListener("setPanel2Title", "click", function(){setPanelCount(1,3)} );
-YAHOO.util.Event.addListener("addPanel1Event", "click", function(){addPanelEvent(0)} );
-YAHOO.util.Event.addListener("addPanel2Event", "click", function(){addPanelEvent(1)} );
-
-</script>
-
-<h2>Full states</h2>
-
-<p>
-<button id="setInspectorState1">Set Inspector State 1</button>
-<button id="setInspectorState2">Set Inspector State 2</button>
-<button id="setInspectorState3">Set Inspector State 3</button>
-</p>
-
-<div id="example4" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
-
-  <div id="inspector" class="state2" >
-    <div class="hd">
-<%= render 'container_header' %>   
-    </div>
-    <div class="bd">
-<%= render 'status_large' %>    
-<%= render 'status_small' %>
-<%= render 'search' %>
-      <ul id="event-list">
-        <li>
-          <div>Page <span class="count">(0)</span></div>
-          <div>
-            <div id="event-section-0" class="event-section">
-              <div class="bd">
-<%# Different type of event list items %>
-<%= render :partial => 'event_item', :locals => { 
-      :id => 'event-1',
-      :variable => 'Page-view-complete',
-      :vendor => 'Google Analytics',
-      :value => 'True'
-    } %>
-<%= render :partial => 'event_item', :locals => { 
-      :id => 'event-2',
-      :variable => 'Page-name',
-      :value => 'Homepage',
-      :warning => true,
-      :warnings => {
-          'Google Analytics' => 'Homepage',
-          'Coremetrics' => 'Home1',
-          'MF - hPage' => 'Homepage1'
-        }
-    } %>
-<%= render :partial => 'event_item', :locals => { 
-      :id => 'event-3',
-      :variable => 'Page-category',
-      :value => 'Electrics',
-      :warning => true,
-      :warnings => {
-          'Google Analytics' => 'Electrics',
-          'Coremetrics' => 'Homeware'
-        }
-    } %>    
-<%= render :partial => 'event_item', :locals => { 
-      :id => 'event-4',
-      :variable => 'Page-ref',
-      :vendor => 'Coremetrics',
-      :value => '123'
-    } %>
-              </div><!-- close module bd -->
-            </div><!-- close module -->
-          </div>
-        </li>
-        <li>
-          <div>User Interactions <span class="count">(0)</span></div>
-          <div>
-            <div id="event-section-1" class="event-section">
-              <div class="bd">
-
-<%= render :partial => 'event_item', :locals => { 
-      :id => 'event-5',
-      :variable => 'Rollover reveal',
-      :vendor => 'Coremetrics',
-      :value => 'Prod123',
-      :help_text => "<p>Coremetrics event.</p><p>Rollover reveal <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href='../docs/'>View documentation</a></p>"
-    } %>
-<%= render :partial => 'event_item', :locals => { 
-      :id => 'event-6',
-      :variable => 'DetailsClick',
-      :vendor => 'Google Analytics',
-      :value => '123',
-      :help_text => "<p>Google Analytics event.</p><p>DetailsClick <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href='../docs/'>View documentation</a></p>"
-    } %>
-<%= render :partial => 'event_item', :locals => { 
-      :id => 'event-7',
-      :variable => 'DetailsClicked',
-      :vendor => 'Coremetrics',
-      :value => 'Prod123',
-      :help_text => "<p>Coremetrics event.</p><p>DetailsClicked <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href='../docs/'>View documentation</a></p>"
-    } %>
-
-              </div><!-- close module bd -->
-            </div><!-- close module -->
-          </div>
-        </li>
-
-        <li>
-          <div><span class="count">0</span> Tagging issues detected</div>
-          <div>
-            <div id="event-section-2" class="event-section">
-              <div class="bd">
-              </div><!-- close module bd -->
-            </div><!-- close module -->
-          </div>          
-        </li>
-        <li>
-          <div>Data sources <span class="count">0</span></div>
-          <div>
-            <div class="event-section">
-              <div class="bd">
-                <%= render :partial => 'event_datasource_item' %>
-              </div><!-- close module bd -->
-            </div><!-- close module -->
-          </div>         
-        </li>
-        <li>
-          <div><span class="count">0</span> Tagging issues detected (static)</div>
-          <div>
-            <div class="event-section">
-              <div class="bd">
-                <%= render :partial => 'event_tagstatus_item' %>
-              </div><!-- close module bd -->
-            </div><!-- close module -->
-          </div>         </li>  
-      </ul>
-<%= render :partial => 'buttons', :locals => { :text => 'View Events', :size => 'large' } %>
-<%= render :partial => 'buttons', :locals => { :text => 'Hide Events', :size => 'small' } %>
-<%= render :partial => 'buttons', :locals => { :text => 'Get jsHub', :size => 'get' } %>
-<%= render 'launcher' %>   
-    </div>
-    <div class="ft">
-<%= render 'container_footer' %>   
-    </div>
-<%= render 'container_icons' %>       
-  </div>
-</div>
-
-<script type="text/javascript">
-	setup_inspector("inspector");
-	setState2('success');
-	
-// example interaction API
-function setInspectorState(state) {
-  var Dom = YAHOO.util.Dom;
-  
-  // update the minimised example
-  var inspectorBody = Dom.get('inspector');
-  // clear the existing states
-  Dom.removeClass(inspectorBody, 'state1');
-  Dom.removeClass(inspectorBody, 'state2');
-  Dom.removeClass(inspectorBody, 'state3');
-  // add the state class to the body of the inspector for contextual CSS switching
-  Dom.addClass(inspectorBody, state);	
-}
-
-YAHOO.util.Event.addListener("setInspectorState1", "click", function(){setInspectorState('state1')} );
-YAHOO.util.Event.addListener("setInspectorState2", "click", function(){setInspectorState('state2')} );
-YAHOO.util.Event.addListener("setInspectorState3", "click", function(){setInspectorState('state3')} );
-</script>
+    <!-- The jsHub Tag Inspector -->
+    <%= stylesheet_link_tag :inspector, :cache => 'cached/inspector' %>
+    <%# javascript_include_tag :inspector, :cache => 'cached/inspector' %>

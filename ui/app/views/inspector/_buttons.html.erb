@@ -2,7 +2,8 @@
       # set defaults ref: http://hackd.thrivesmarthq.com/how-to-make-a-rails-partial-with-optional-locals-parameters
         text = 'Unknown Action' if local_assigns[:text].nil? 
         size = '' if local_assigns[:size].nil? 
+        cssClass = '' if local_assigns[:cssClass].nil? 
       %>
       <div class="yui-g buttons <%= size %>">
-          <a class="button" href="#"><%= text %></a>
+          <a class="button <%= cssClass %>" href="#"><%= text %></a>
       </div>

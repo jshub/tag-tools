@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+  <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <%= stylesheet_link_tag "jshub.css" %>
+    <title>jsHub</title>
+
+    <!-- common styleguide styles -->
+    <%= stylesheet_link_tag "styleguide/styleguide.css" %>
+    <%= stylesheet_link_tag "styleguide/examples.css" %>    
+    
+    <!-- Data capture tags -->
+    <%= javascript_include_tag :jshub %>
+    <%= javascript_include_tag "jshub/jshub.js" %>
+
+    <!-- YUI -->
+    <%= stylesheet_link_tag :inspector_yui, :cache => 'cached/yui' %>
+    <%= javascript_include_tag :inspector_yui, :cache => 'cached/yui' %>          
+
+    <!-- this page -->
+    <!-- Google Analytics tracking -->
+    <script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+      var pageTracker = _gat._getTracker("UA-8152756-1");
+      pageTracker._trackPageview('Inspector dev');
+    </script>    
+    
+  </head>
+  <body class="jshub">
+    <h1>
+      <span class="one">jsHub</span>
+      <span class="two">The Last Javascript Tag 
+        <span class="scm">(<%= render 'shared/version' %>)</span>
+      </span>
+    </h1>
+
+    <% if flash[:notice] %>
+    <div id="flash" class="notice" style="display: block">
+      <strong><%= flash[:notice] %></strong>
+    <% flash[:notice] = nil %>
+    </div>
+    <script type="text/javascript">
+      setTimeout(function(){
+        document.getElementById('flash').style.display = 'none';
+      }, 1500);
+    </script>
+    <% end %>
+    
+    <%= render 'shared/contents_inspector' %>   
+
+    <%= yield :layout %>
+
+  </body>
+</html>

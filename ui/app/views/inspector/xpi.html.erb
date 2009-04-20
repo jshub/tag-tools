@@ -1,0 +1,26 @@
+<h1>Inspector</h1>
+<p>Development of the Inspector for jsHub based on YUI 2 Library and accordion widget (<%= link_to 'docs', '../docs/' %>).</p>
+
+<h2>Firefox Extension</h2>
+
+To help in development of the extension version use the following links:
+
+<ul>
+  <li><%= link_to 'Create XPI bundle', :action => 'bundle_xpi' %>.</li>
+  <li><%= link_to 'Download XPI', @inspector.xpi_download_path, :class => 'xpi' %></li>
+</ul>
+
+<script type="text/javascript">
+function doXPITrigger() {
+if (!document.getElementsByClassName || !InstallTrigger) return false;
+var els = document.getElementsByClassName("xpi");
+for (var i=0; i < els.length; i++) {
+  els[i].onclick = function() {
+      xpi = { 'jsHub Inspector': this.href };
+      InstallTrigger.install(xpi);
+      return false;
+    }
+  }
+}
+window.onload = doXPITrigger
+</script>
