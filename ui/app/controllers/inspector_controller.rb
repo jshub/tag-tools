@@ -1,11 +1,9 @@
 class InspectorController < ApplicationController
 
   def index
-    @inspector = Inspector.new    
   end
 
   def index2
-    @inspector = Inspector.new
   end
 
   def xpi
