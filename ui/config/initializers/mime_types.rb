@@ -3,3 +3,6 @@
 # Add new mime types for use in respond_to blocks:
 # Mime::Type.register "text/richtext", :rtf
 # Mime::Type.register_alias "text/html", :iphone
+
+# for serving Firefox Extension XPI files
+Mime::Type.register "application/x-xpinstall", :xpi
