@@ -198,7 +198,7 @@ this.jsHub = this.jsHub || {};
     var resizer = new YAHOO.util.Resize('jshub_inspector', {
       handles: ['br'],
       autoRatio: false,
-      minWidth: 225,
+      minWidth: 265,
       minHeight: 290,
       status: false
     });
@@ -475,7 +475,7 @@ this.jsHub = this.jsHub || {};
     console.log("selectEvent " + event_id);
   };
   
-  //TODO remove duplication between these nextb two
+  //TODO remove duplication between these next two
   Inspector.prototype.set_success_state = function(state) {
   
     // cache new state
@@ -751,7 +751,7 @@ this.jsHub = this.jsHub || {};
         // TODO this appends when really we want to prepend
         //event.render('event-section-' + panelNumber);
         yui_events["tagging-issues"].push(event);
-        //onsole.log('New Event added to Panel' + panelNumber);
+        //console.log('New Event added to Panel' + panelNumber);
       }
     }
     
@@ -948,9 +948,7 @@ this.jsHub = this.jsHub || {};
   }
   
   function _create_search() {
-    return '<div class="yui-g search">' +
-    '<p class="search"><label class="search">Find</label><input type="text" class="search" /></p>' +
-    '</div>';
+    return '<div class="yui-gf search"><div class="yui-u first"><label for="inspector_search" class="search">Find</label></div><div class="yui-u"><input id="inspector_search" type="text" class="search" disabled="disabled" /></div></div>';
   }
   
   
