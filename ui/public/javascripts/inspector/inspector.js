@@ -46,63 +46,7 @@ this.jsHub = this.jsHub || {};
     "plugin-initialization-start": "data-sources"
   };
   
-  var events = [{
-    category: "page",
-    id: "event-1",
-    variable: "Page-view-complete",
-    vendor: "Google Analytics",
-    value: "True"
-  }, {
-    category: "page",
-    id: "event-2",
-    variable: "Page-name",
-    value: "Homepage",
-    warning: true,
-    warnings: {
-      'Google Analytics': 'Homepage',
-      'Coremetrics': 'Home1',
-      'MF - hPage': 'Homepage1'
-    }
-  }, {
-    category: "page",
-    id: "event-3",
-    variable: "Page-category",
-    value: "Electrics",
-    warning: true,
-    warnings: {
-      'Google Analytics': 'Electrics',
-      'Coremetrics': 'Homeware'
-    }
-  }, {
-    category: "page",
-    id: "event-4",
-    variable: "Page-ref",
-    vendor: "Coremetrics",
-    value: "123"
-  }, {
-    category: "user-interactions",
-    id: "event-5",
-    variable: "Rollover reveal",
-    vendor: "Coremetrics",
-    value: "Prod123",
-    help_text: "<p>Coremetrics event.</p><p>Rollover reveal <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href='../docs/'>View documentation</a></p>"
-  }, {
-    category: "user-interactions",
-    id: "event-6",
-    variable: "DetailsClick",
-    vendor: "Google Analytics",
-    value: "123",
-    help_text: "<p>Google Analytics event.</p><p>DetailsClick <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href='../docs/'>View documentation</a></p>"
-  }, {
-    category: "user-interactions",
-    id: "event-7",
-    variable: "DetailsClicked",
-    vendor: "Coremetrics",
-    value: "Prod123",
-    help_text: "<p>Coremetrics event.</p><p>DetailsClicked <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href='../docs/'>View documentation</a></p>"
-  }];
-  
-  events = [];
+  var events = [];
   
   var yui_events = {
     "page": [],
@@ -243,7 +187,7 @@ this.jsHub = this.jsHub || {};
     // init the accordion inside the panel body
     this.event_list = new YAHOO.widget.AccordionView("event-list", {
       width: '100%',
-      collapsible: true,
+      collapsible: false,
       animate: false
     });
     
