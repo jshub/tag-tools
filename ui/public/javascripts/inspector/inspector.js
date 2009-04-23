@@ -41,7 +41,10 @@ this.jsHub = this.jsHub || {};
   var event_type_mappings = {
     "data-capture-start": "page",
     "page-view": "page",
+    "product-view": "user-interactions",
     "cart-add": "user-interactions",
+    "cart-remove": "user-interactions",
+    "cart-update": "user-interactions",
     "duplicate-value-warning": "tagging-issues",
     "plugin-initialization-start": "data-sources"
   };
