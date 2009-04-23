@@ -1,9 +1,11 @@
-<li>
+<li id="cart-product-<%= cart_item.product.id %>">
   <%= image_tag( image_for(cart_item.product) ) %>
+  <div class="product-name">
   <%= cart_item.name %>
   <br/>
-  <strong><%= number_to_currency( cart_item.price, :unit => '&pound;' ) %></strong>
+  <div class="price"><%= number_to_currency( cart_item.price, :unit => '&pound;' ) %></div>
   <br/>
+  </div>
   <!-- Remove from cart -->
   <% form_tag :remove_from_cart_store do %>
   <div>

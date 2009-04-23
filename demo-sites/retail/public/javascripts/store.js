@@ -1,48 +1,79 @@
 /*
  * Function for the sample store
  */
+
 /**
  * Add a product to the cart, bound to a 'add' button with jQuery
  */
-function add_product(event) {
-  var form = event.target.form;
+function add_product(event, animation) {
+  var form = event.target.form, product_id = form.product_id.value;
   if (window.ETL) {
     ETL.trigger("cart-add", {
-      "product-id": form.product_id.value,
+      "product-id": product_id,
       quantity: 1
     });
   }
-  $("#shopping-cart").load("add_to_cart", {
+  $.post("add_to_cart", {
     ajax: true,
     product_id: form.product_id.value,
     authenticity_token: form.authenticity_token.value
-  });
-  setTimeout(function () {
-  	$("#cart").load("cart_status")
-  }, 50);
+  }, function (data) {
+  	$("#cart").load("cart_status");
+  	animation(product_id, data);
+  }, "html");
   event.preventDefault();
+}
+
+/**
+ * Add a product to the cart, bound to a 'add' button with jQuery.
+ * Display the flash message in the sidebar on the product page.
+ */
+function add_product_sidebar(event) {
+  add_product(event, function (product_id, flash) {
+  	var div = $("#product-"+product_id+" .flash")
+	div.html(flash).css("background-color", "#ffc").show();
+	div.animate({ backgroundColor: "#ddd" }, 1000).slideUp(1000);
+  });
+}
+
+/**
+ * Add a product to the cart, bound to a 'add' button with jQuery.
+ * Display the flash message at the top of the cart on the checkout page.
+ */
+function add_product_cart(event) {
+  add_product(event, function(product_id, flash) {
+    $('#shopping-cart').load('cart_contents', function() {
+      var div = $("#cart-total, #cart-product-" + product_id + " .price");
+      div.css("background-color", "#ffc").animate({ opacity: 1.0 }, 1000);
+	  div.animate({ backgroundColor: "white" }, 1000);
+    });
+  });
 }
 
 /**
  * Update quantity of a product in the cart, bound to a quantity text field with jQuery
  */
 function update_quantity(event) {
-  var form = event.target.form;
+  var form = event.target.form, product_id = form.product_id.value;
   if (window.ETL) {
     ETL.trigger("cart-update", {
-      "product-id": form.product_id.value,
+      "product-id": product_id,
       quantity: form.quantity.value
     });
   }
-  $("#shopping-cart").load(ENV.APP_ROOT+"/update_quantity", {
+  $.post("update_quantity", {
     ajax: true,
     product_id: form.product_id.value,
     quantity: form.quantity.value,
     authenticity_token: form.authenticity_token.value
-  });
-  setTimeout(function () {
-  	$("#cart").load("cart_status")
-  }, 50);
+  }, function (data) {
+  	$("#cart").load("cart_status");
+    $('#shopping-cart').load('cart_contents', function() {
+      var div = $("#cart-total, #cart-product-" + product_id + " .price");
+      div.css("background-color", "#ffc").animate({ opacity: 1.0 }, 1000);
+	  div.animate({ backgroundColor: "white" }, 1000);
+    });
+  }, "html");
   event.preventDefault();
   
   // jquery preventDefault does not seem to prevent the form submitting
@@ -57,21 +88,25 @@ function update_quantity(event) {
  * Remove a product from the cart, bound to a 'remove' button with jQuery
  */
 function remove_product(event) {
-  var form = event.target.form;
+  var form = event.target.form, product_id = form.product_id.value;
   if (window.ETL) {
     ETL.trigger("cart-remove", {
-      "product-id": form.product_id.value,
+      "product-id": product_id,
       quantity: 1
     });
   }
-  $("#shopping-cart").load(ENV.APP_ROOT+"/remove_from_cart", {
+  $.post("remove_from_cart", {
     ajax: true,
-    product_id: form.product_id.value,
+    product_id: product_id,
     authenticity_token: form.authenticity_token.value
-  });
-  setTimeout(function () {
-  	$("#cart").load("cart_status")
-  }, 50);
+  }, function (data) {
+  	$("#cart").load("cart_status");
+    $('#shopping-cart').load('cart_contents', function() {
+      var div = $("#cart-total, #cart-product-" + product_id + " .price");
+      div.css("background-color", "#ffc").animate({ opacity: 1.0 }, 1000);
+	  div.animate({ backgroundColor: "white" }, 1000);
+    });
+  }, "html");
   event.preventDefault();
 }
 

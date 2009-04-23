@@ -12,6 +12,7 @@ ActionController::Routing::Routes.draw do |map|
       :remove_from_cart => :post, 
       :update_quantity => :post,
       :cart_status => :get,
+      :cart_contents => :get,
       :checkout => [:get, :post], 
       :confirm => :post, 
       :contact => :get, 
@@ -20,7 +21,7 @@ ActionController::Routing::Routes.draw do |map|
     }
     
   # Root of the site goes straight to the store
-#  map.root :redirect_to => 
+  map.root :controller => 'store', :action => 'redirect'
 
   # Sample of regular route:
   #   map.connect 'products/:id', :controller => 'catalog', :action => 'view'

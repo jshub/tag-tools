@@ -4,6 +4,11 @@
 
 class StoreController < ApplicationController
   
+  # GET /
+  def redirect
+    redirect_to :action => 'index'
+  end
+  
   # GET /store
   def index
     @hpage = { :pagename => '', :category => 'Store' }
@@ -44,6 +49,12 @@ class StoreController < ApplicationController
     render :partial => "cart_header"
   end
   
+  # GET /store/cart_contents
+  def cart_contents
+    @cart = find_cart
+    render :partial => "cart"
+  end
+  
   # POST /store/add_to_cart
   def add_to_cart
     @hpage = { :pagename => 'Add to cart', :category => 'Store' }
@@ -52,11 +63,12 @@ class StoreController < ApplicationController
     @cart = find_cart
     @cart.add(@product)
     session[:cart] = @cart
-    flash[:notice] = "\"#{@product.name}\" added to cart"
+    flash[:notice] = "1 x #{@product.name} added to cart"
     
     if params[:ajax] 
-      logger.info "Product added, rendering cart partial"
-      render :partial => "cart"
+      logger.info "Product added, rendering flash message"
+      render :text => flash[:notice]
+      flash[:notice] = nil
     else
       logger.info "Product added, redirecting to buy page"
       redirect_to( :action => :buy )
@@ -72,7 +84,8 @@ class StoreController < ApplicationController
     
     if params[:ajax] 
       logger.info "Product updated, rendering cart partial"
-      render :partial => "cart"
+      render :text => flash[:notice]
+      flash[:notice] = nil
     else
       logger.info "Product updated, redirecting to buy page"
       redirect_to( :action => :buy )
@@ -90,7 +103,8 @@ class StoreController < ApplicationController
     
     if params[:ajax] 
       logger.debug "Product removed, rendering cart partial"
-      render :partial => "cart"
+      render :text => flash[:notice]
+      flash[:notice] = nil
     else
       logger.debug "Product removed, redirecting to buy page"
       redirect_to( :action => :buy )
@@ -150,11 +164,10 @@ class StoreController < ApplicationController
     end
   end
   
-  # GET /store/confirm
+  # POST /store/confirm
   def confirm
     @page_title = "Checkout"
     @page_breadcrumb = "Buy Stuff > Checkout > Confirmation"
-    @ga_pagename = '"/store/thankyou"'
     @hpage = { :pagename => 'Thank you', :category => 'Store' }
 
     @cart = find_cart

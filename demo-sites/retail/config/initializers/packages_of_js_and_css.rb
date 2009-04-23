@@ -1,7 +1,7 @@
 # Store + dependencies
 ActionView::Helpers::AssetTagHelper.register_stylesheet_expansion :store_yui => ["inspector/yui3/reset-context", "inspector/yui3/fonts-context", "inspector/yui3/grids-context", "inspector/yui3/base-context"]
 ActionView::Helpers::AssetTagHelper.register_stylesheet_expansion :store => ["store", "hproduct", "microformats"]
-ActionView::Helpers::AssetTagHelper.register_javascript_expansion :store => ["jquery/jquery-1.3.2.min", "store"]  
+ActionView::Helpers::AssetTagHelper.register_javascript_expansion :store => ["jquery/jquery-1.3.2.min", "jquery/jquery.color.js", "store"]  
 
 # jsHUb core + dependencies
 ActionView::Helpers::AssetTagHelper.register_javascript_expansion :jshub => ["jquery/jquery-1.3.2.min", "json/json2"]

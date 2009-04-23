@@ -7,7 +7,7 @@
 <% for product in @products %>
   <% form_tag :add_to_cart_store do %>
   <%= hidden_field_tag "product_id", product.id, :id => nil %>
-  <div id="product-<%= product.id %>" class="yui-gb hproduct">
+  <div id="product-<%= product.id %>" class="hproduct yui-gb">
     <div class="yui-u first image-col">
       <%= link_to( image_tag( image_for(product) , :class => "thumb"), {}, :class => "uri", :rel => "product" ) %>
     </div>
@@ -45,6 +45,7 @@
     <br/>
     <%= hidden_field_tag :quantity, "1", :id => nil %>
     <button class="product_add">Add to basket</button>
+	<div class="flash"></div>
     </div>
   </div>
   <hr />
@@ -52,12 +53,6 @@
 <% end %>
 
   <script type="text/javascript">
-    // The [+] button triggers a basket add event
-    $(".product_add").bind("click", add_product);
-
-    // Pressing enter in the quantity form triggers an update event
-    $("input[name='quantity']").change(update_quantity);
-    
-    // The [-] button triggers a basket remove event
-    $(".product_remove").bind("click", remove_product);
+    // The [add] button triggers a basket add event
+    $(".product_add").bind("click", add_product_sidebar);
   </script>
