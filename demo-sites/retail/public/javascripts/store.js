@@ -13,6 +13,10 @@ function add_product(event, animation) {
       quantity: 1
     });
   }
+  if (window._gat) {
+    var pageTracker = _gat._getTracker("UA-8152756-1");
+    pageTracker._trackPageview('/basket/add/'+product_id);
+  }
   $.post("add_to_cart", {
     ajax: true,
     product_id: form.product_id.value,
@@ -94,6 +98,10 @@ function remove_product(event) {
       "product-id": product_id,
       quantity: 1
     });
+  }
+  if (window._gat) {
+    var pageTracker = _gat._getTracker("UA-8152756-1");
+    pageTracker._trackPageview('/basket/remove/'+product_id);
   }
   $.post("remove_from_cart", {
     ajax: true,
