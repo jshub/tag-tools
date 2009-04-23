@@ -1,6 +1,6 @@
 set :application, "retail"
 # The gateway server is accessed before anything else and all ssh commands sent via it
-set :gateway,     "www.etl2dot0.com"
+set :gateway,     "intra.causata.com"
 set :domain,      "gromit"
 set :rails_env,   "gromit"
 
