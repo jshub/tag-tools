@@ -27,6 +27,7 @@
         <%= product.description %>
       </p>
       <div class="rating">
+      	<%= image_tag "store/ratings/ratings_star_#{product.rating.to_s.gsub(/\./, '_')}.gif" %>
         <strong><%= product.rating %> of 5</strong>
       </div>      
     </div>
