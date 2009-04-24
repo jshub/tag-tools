@@ -45,8 +45,7 @@ this.jsHub = this.jsHub || {};
     "cart-add": "user-interactions",
     "cart-remove": "user-interactions",
     "cart-update": "user-interactions",
-    "duplicate-value-warning": "tagging-issues",
-    "plugin-initialization-start": "data-sources"
+    "duplicate-value-warning": "tagging-issues"
   };
   
   var events = [];
@@ -733,7 +732,6 @@ this.jsHub = this.jsHub || {};
           html += subheader("info", "Tag is up to date");
         }
         html += variable("Name", '<a href="' + data.info.url + '" title="Click to edit">' + data.info.name + '</a>');
-        html += variable("Site", data.info.site);
         html += variable("Revision", data.info.version);
         html += variable("Updated", data.info.updated + ' ago');
         event = createEvent(html);
@@ -834,7 +832,6 @@ this.jsHub = this.jsHub || {};
         
         for (var ii in yui_events[i]) {
           yui_events[i][ii].render(section_container[0]);
-          _increment_event_count(panel);
         }
       }
     }
