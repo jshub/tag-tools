@@ -773,8 +773,14 @@ this.jsHub = this.jsHub || {};
     
   };
   
+  /*
+   * Display a plug-in entry in the datasource panel.
+   * Microformat plug-ins are merged into a single entry with alt layout.
+   */
   Inspector.prototype.initDataSources = function() {
     var plugins = ETL.getPluginInfo(), plugin, event;
+    
+    console.info("Datasources: %o", plugins)
     
     var wrap = function(text, eventId) {
       return '<div id="' + eventId + '" class="tag-status-item"><div class="bd">' +
@@ -806,6 +812,7 @@ this.jsHub = this.jsHub || {};
       return '<div class="message ' + type + '"><ul><li>' + text + '</li></ul></div>';
     };
     var variable = function(name, value) {
+      // using 1/3rd - 2/3rd YUI grid    
       return '<div class="yui-gd">' +
       '  <div class="yui-u first">' +
       '    <p class="variable">' + name + ':</p>' +
@@ -815,17 +822,47 @@ this.jsHub = this.jsHub || {};
       '  </div>' +
       '</div>';
     };
+    var microformatEntry = function(type, url) {
+      // using 2/3rd - 1/3rd YUI grid
+      return '<div class="yui-gc microformat">' +
+      '  <div class="yui-u first">' +
+      '    <p class="type">' + type + '</p>' +
+      '  </div>' +
+      '  <div class="yui-u">' +
+      '    <p class="url"><a href="' + url + '" title="Hosted at Microformats.org">reference</a></p>' +
+      '  </div>' +
+      '</div>';
+    };
     
+    // merge microformats into a single entry (hack: based on their name)
+    var html = [];
+    html.push(header("Microformats Parser Plugin"));
+    html.push(subheader('info', "Data capture plugin"));
     for (var i = 0; i < plugins.length; i++) {
       plugin = plugins[i];
-      var html = [];
-      html.push(header(plugin.name));
-      html.push(subheader('info', humanize(plugin.type) + " plugin"));
-      html.push(variable("Vendor", plugin.vendor));
-      html.push(variable("Author", plugin.author));
-      html.push(variable("Version", plugin.version));
-      var event = createEvent(html.join(""));
-      yui_events["data-sources"].push(event);
+      if (plugin.name.match("Microformat")) {
+        // select the first word in the name as the type
+        type = plugin.name.match(/\w+/)
+        html.push(microformatEntry(type, plugin.vendor));
+      }
+    }
+    var event = createEvent(html.join(""));
+    yui_events["data-sources"].push(event);
+    html = [];
+    
+    // render non-microformat plug-ins (hack: based on their name)
+    for (var i = 0; i < plugins.length; i++) {
+      plugin = plugins[i];
+      if (!plugin.name.match("Microformat")) {
+        var html = [];
+        html.push(header(plugin.name));
+        html.push(subheader('info', humanize(plugin.type) + " plugin"));
+        html.push(variable("Vendor", plugin.vendor));
+        html.push(variable("Author", plugin.author));
+        html.push(variable("Version", plugin.version));
+        var event = createEvent(html.join(""));
+        yui_events["data-sources"].push(event);
+      }
     }
     
     if (this.rendered) {
