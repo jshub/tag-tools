@@ -606,7 +606,17 @@ this.jsHub = this.jsHub || {};
         this.resizer.lock();
       }
     }
-    
+
+    // set viewport constraints for each state
+    if (state === "state1"){
+      this.yuipanel.cfg.setProperty("constraintoviewport", true);
+    }
+    if (state === "state2"){
+      this.yuipanel.cfg.setProperty("constraintoviewport", true);
+    }
+    if (state === "state3"){
+      this.yuipanel.cfg.setProperty("constraintoviewport", false);
+    }
     
   };
   
@@ -899,7 +909,6 @@ this.jsHub = this.jsHub || {};
   Inspector.prototype.set_position = function(position) {
   
     var dimensions = _get_available_space(), left = 0, top = 0;
-    //alert("width: " + dimensions.width + "\nheight:" + dimensions.height);
     
     var element = this.yuipanel.innerElement;
     
@@ -908,7 +917,7 @@ this.jsHub = this.jsHub || {};
     
     if (position == "br") {
       left = dimensions.width - width - 20;
-      top = dimensions.height + dimensions.scrollTop + height - 10;
+      top = dimensions.height + dimensions.scrollTop - height - 10;
     } else if (position == "tr") {
       left = dimensions.width - width - 20;
       top = +dimensions.scrollTop;
