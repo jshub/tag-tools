@@ -301,6 +301,13 @@ div.jshub.inspector
           :margin 0
           :padding 0
           :border none
+
+        # separator between all event entries
+        hr.event-separator
+          :margin 0
+          :margin 5px 5px 0 0
+          :border none
+          :border-top = 1px solid !color_border_separator
           
         # single event entry
         div.event-item, div.datasource-item, div.tag-status-item
@@ -313,10 +320,7 @@ div.jshub.inspector
             :background
               :color transparent
             hr.event-separator
-              :margin 0
-              :margin-top 5px
-              :border none
-              :border-top = 1px solid !color_border_separator
+              :margin 5px 0
             p
               :margin 0
 
