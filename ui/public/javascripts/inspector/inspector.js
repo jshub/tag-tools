@@ -832,32 +832,43 @@ this.jsHub = this.jsHub || {};
       '  </div>' +
       '</div>';
     };
-    var microformatEntry = function(type, url) {
+    var microformatEntry = function(name, formats /* array */) {
+      // construct the string with all the formats in to use as a value
+      var value = "";
+      for (var i = 0; i < formats.length; i++) {
+        value += '<p class="url">' + formats[i] + ' (<a href="#" title="Hosted at Microformats.org">ref</a>)</p>'
+      }
       // using 2/3rd - 1/3rd YUI grid
-      return '<div class="yui-gc microformat">' +
+      return '<div class="yui-gd microformat">' +
       '  <div class="yui-u first">' +
-      '    <p class="type">' + type + '</p>' +
+      '    <p class="type">' + name +':</p>' +
       '  </div>' +
       '  <div class="yui-u">' +
-      '    <p class="url"><a href="' + url + '" title="Hosted at Microformats.org">reference</a></p>' +
+      '    ' + value +
       '  </div>' +
       '</div>';
     };
     
     // merge microformats into a single entry (hack: based on their name)
     var html = [];
+    var formats = [];
     html.push(header("Microformats Parser Plugin"));
     html.push(subheader('info', "Data capture plugin"));
     for (var i = 0; i < plugins.length; i++) {
       plugin = plugins[i];
-      if (plugin.name.match("Microformat")) {
+      if (plugin.name.match("Microformat")) {        
         // select the first word in the name as the type
         type = plugin.name.match(/\w+/)
-        html.push(microformatEntry(type, plugin.vendor));
+        formats.push(type);
       }
     }
+    html.push(microformatEntry("Formats", formats));
+    html.push(variable("Vendor", "jsHub.org"));
+    html.push(variable("Author", "Liam Clancy"));
+    html.push(variable("Version", "0.1"));
     var event = createEvent(html.join(""));
     yui_events["data-sources"].push(event);
+    formats = [];
     html = [];
     
     // render non-microformat plug-ins (hack: based on their name)
