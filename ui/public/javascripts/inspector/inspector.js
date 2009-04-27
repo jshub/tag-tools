@@ -836,7 +836,7 @@ this.jsHub = this.jsHub || {};
       // construct the string with all the formats in to use as a value
       var value = "";
       for (var i = 0; i < formats.length; i++) {
-        value += '<p class="url">' + formats[i] + ' (<a href="#" title="Hosted at Microformats.org">ref</a>)</p>'
+        value += '<p class="url">' + formats[i] + ' (<a href="http://www.microformats.org/" title="Hosted at Microformats.org">ref</a>)</p>'
       }
       // using 2/3rd - 1/3rd YUI grid
       return '<div class="yui-gd microformat">' +
@@ -852,8 +852,6 @@ this.jsHub = this.jsHub || {};
     // merge microformats into a single entry (hack: based on their name)
     var html = [];
     var formats = [];
-    html.push(header("Microformats Parser Plugin"));
-    html.push(subheader('info', "Data capture plugin"));
     for (var i = 0; i < plugins.length; i++) {
       plugin = plugins[i];
       if (plugin.name.match("Microformat")) {        
@@ -862,12 +860,16 @@ this.jsHub = this.jsHub || {};
         formats.push(type);
       }
     }
-    html.push(microformatEntry("Formats", formats));
-    html.push(variable("Vendor", "jsHub.org"));
-    html.push(variable("Author", "Liam Clancy"));
-    html.push(variable("Version", "0.1"));
-    var event = createEvent(html.join(""));
-    yui_events["data-sources"].push(event);
+    if (formats.length > 0) {
+      html.push(header("HTML Microformats Parser Plugin"));
+      html.push(subheader('info', "Data capture plugin"));
+      html.push(variable("Vendor", "jsHub.org"));
+      html.push(variable("Author", "Liam Clancy"));
+      html.push(variable("Version", "0.1"));
+      html.push(microformatEntry("Formats", formats));
+      var event = createEvent(html.join(""));
+      yui_events["data-sources"].push(event);
+    }
     formats = [];
     html = [];
     
