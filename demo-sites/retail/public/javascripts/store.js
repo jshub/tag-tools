@@ -125,7 +125,9 @@ function remove_product(event) {
     $('.hpage, .hauthentication, .hpurchase').each(function() {
       $(this).prepend('&lt;div class="' + $(this).attr('class') + '"&gt;<br/>').append('&lt;div&gt;');
       $(this).find('span').each(function() {
-	  	$(this).before('&nbsp;&nbsp;&lt;span class="' + $(this).attr('class') + '"&gt;')
+	  	var visibility = $(this).attr('data-visibility') ? 
+		  ' data-visibility="' + $(this).attr('data-visibility') + '"' : '';
+	  	$(this).before('&nbsp;&nbsp;&lt;span class="' + $(this).attr('class') + '"' + visibility + '&gt;')
 		  .after('&lt;/span&gt;')
 		  .filter(':not(.price, .money)').wrap("<b></b>");
       });

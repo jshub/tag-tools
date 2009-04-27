@@ -1,0 +1,6 @@
+Some issues to ticket:
+ * Inconsistency in 'name' fields - hPage has page-name, hProduct has n
+ * Page category visibility doesn't seem to work, need to check this captured properly
+ * Filtering on field level visibility doesn't work, the inspector is getting everything
+ * Added authentication to inspector
+ * Added data-visibility to the user-id field in the hauthentication partial in the store. This lets us illustrate the security story.

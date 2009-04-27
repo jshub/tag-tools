@@ -20,7 +20,7 @@ this.jsHub = this.jsHub || {};
   // use this list for now - allow it to be configured through options later
   var default_categories = {
     "tagging-issues": {
-      label: "Tagging issues ${count}"
+      label: "Tag status ${count}"
     },
     "page": {
       label: "Page events ${count}"
@@ -41,7 +41,9 @@ this.jsHub = this.jsHub || {};
   var event_type_mappings = {
     "data-capture-start": "page",
     "page-view": "page",
+    "authentication": "user-interactions",
     "product-view": "user-interactions",
+    "product-purchase": "user-interactions",
     "cart-add": "user-interactions",
     "cart-remove": "user-interactions",
     "cart-update": "user-interactions",
@@ -113,7 +115,7 @@ this.jsHub = this.jsHub || {};
      */
     var self = this;
     if (window.ETL) {
-      ETL.bind("*", null, function(a, b) {
+      ETL.bind("*", "inspector", function(a, b) {
         self.on_hub_event(a, b)
       });
       this.success_state = 'success';
@@ -793,6 +795,8 @@ this.jsHub = this.jsHub || {};
     };
     
     function humanize(name) {
+      // microformats use 'n' for name e.g. product name
+	  if (name === 'n') { name = 'name'; }
       return name.substring(0, 1).toUpperCase() + name.substring(1).replace(/-/g, " ");
     }
     var header = function(text) {
@@ -979,14 +983,16 @@ this.jsHub = this.jsHub || {};
     var html = [];
     
     function humanize(name) {
+	  // microformats use 'n' for name e.g. product name
+	  if (name === 'n') { name = 'name'; }
       return name.substring(0, 1).toUpperCase() +
-      name.substring(1).replace(/-/g, " ");
+        name.substring(1).replace(/-/g, " ");
     }
     
     function render_variable(html, name, value) {
       html.push('<div class="yui-gd duplicate">');
       html.push('<div class="yui-u first">');
-      html.push('<p class="vendor">' + humanize(name) + '</p>');
+      html.push('<p class="vendor">' + humanize(name) + ':</p>');
       html.push('</div>');
       html.push('<div class="yui-u">');
       html.push('<p class="value">' + value + '</p>');
@@ -1008,38 +1014,41 @@ this.jsHub = this.jsHub || {};
     }
     
     if (event.data) {
-      for (var i in event.data) {
+      for (var label in event.data) {
       
-        var w = event.data[i];
+        var w = event.data[label];
         
         // filter some fields
-        if (event.type === 'duplicate-value-warning' && i === 'fields') {
+        if (event.type === 'duplicate-value-warning' && label === 'fields') {
           for (var field_name in w) {
-            render_variable(html, "Duplicate field:", humanize(field_name));
+            render_variable(html, "Duplicate field", humanize(field_name));
             var value = w[field_name].found;
-            render_variable(html, "Value used:", value);
+            render_variable(html, "Value used", value);
             var previous = w[field_name].previous.value +
             " (found by " + w[field_name].previous.source + ")";
-            render_variable(html, "Other values:", previous);
+            render_variable(html, "Other values", previous);
           }
           continue;
         }
         if (typeof w !== 'string' && typeof w !== 'number') {
           continue;
         }
-        if (/-visibility$/.test(i) && (w === '*' || w === '')) {
+        if (/-visibility$/.test(label)) {
+          if (w === '*' || w === '') {
+            continue;
+          } else {
+            label = '<i>(visibility)</i>';
+          }
+        }
+        if (/-source$/.test(label)) {
           continue;
         }
-        if (/-source$/.test(i)) {
-          continue;
-        }
-		var label = i;
-        if (event.type === 'page-view' && /^page-([^name])/.test(i)) {
+        if (event.type === 'page-view' && /^page-([^name])/.test(label)) {
 		  // strip long variable names on the page view event
           label = label.substring(5);
         }
         
-        render_variable(html, label + ":", w);
+        render_variable(html, label, w);
         if (event.data[i + '-source']) {
           html.push('<div class="yui-gd"><p class="vendor source">(from ' +
             event.data[i + '-source'] +
