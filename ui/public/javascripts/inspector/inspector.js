@@ -47,6 +47,7 @@ this.jsHub = this.jsHub || {};
     "cart-add": "user-interactions",
     "cart-remove": "user-interactions",
     "cart-update": "user-interactions",
+    "checkout": "user-interactions",
     "duplicate-value-warning": "tagging-issues"
   };
   
