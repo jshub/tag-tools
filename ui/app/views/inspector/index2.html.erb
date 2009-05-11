@@ -25,7 +25,7 @@
       $.get(jshubURL, function(jshubSrc) {
         hashcode = SHA1(jshubSrc);
         // use a locally cached copy
-		// $.getJSON('http://gromit.etl.office/akita-on-rails/tag_configurations/find_by_sha1/' + hashcode + '.js?callback=?', function(data) {
+		// $.getJSON('http://www.jshub.org/tag_configurations/find_by_sha1/' + hashcode + '.js?callback=?', function(data) {
         $.getJSON('<%= javascript_path "jshub/e090e895a3193594e933b9e5782e72eb29f6a3c1.js" %>', function(data) {
           
           node.append("<code>" + data.toSource() + "</code>");

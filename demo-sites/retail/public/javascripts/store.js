@@ -7,9 +7,10 @@
  */
 function add_product(event, animation) {
   var form = event.target.form, product_id = form.product_id.value;
-  if (window.ETL) {
-    ETL.trigger("cart-add", {
-      "product-id": product_id,
+  if (window.jsHub) {
+    jsHub.trigger("cart-add", {
+      "sku": $('.sku', form).text(),
+	  "model": $('.model', form).text(),
       quantity: 1
     });
   }
@@ -59,8 +60,8 @@ function add_product_cart(event) {
  */
 function update_quantity(event) {
   var form = event.target.form, product_id = form.product_id.value;
-  if (window.ETL) {
-    ETL.trigger("cart-update", {
+  if (window.jsHub) {
+    jsHub.trigger("cart-update", {
       "product-id": product_id,
       quantity: form.quantity.value
     });
@@ -93,8 +94,8 @@ function update_quantity(event) {
  */
 function remove_product(event) {
   var form = event.target.form, product_id = form.product_id.value;
-  if (window.ETL) {
-    ETL.trigger("cart-remove", {
+  if (window.jsHub) {
+    jsHub.trigger("cart-remove", {
       "product-id": product_id,
       quantity: 1
     });

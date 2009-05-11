@@ -115,8 +115,8 @@ this.jsHub = this.jsHub || {};
      * listen out for Hub events
      */
     var self = this;
-    if (window.ETL) {
-      ETL.bind("*", "inspector", function(a, b) {
+    if (window.jsHub) {
+      jsHub.bind("*", "inspector", function(a, b) {
         self.on_hub_event(a, b)
       });
       this.success_state = 'success';
@@ -281,13 +281,13 @@ this.jsHub = this.jsHub || {};
     var self = this;
     
     // initialise jshub tag status 
-    if (window.ETL) {
+    if (window.jsHub) {
       self.initDataSources();
       var jshubURL = $("script[src*=jshub.js]").attr('src');
-      ETL.logger.log("Inspector: loading tag source from " + jshubURL);
+      jsHub.logger.log("Inspector: loading tag source from " + jshubURL);
       $.get(jshubURL, function(jshubTagSrc) {
         var hashcode = SHA1(jshubTagSrc);
-		var configuratorURL = (jsHub.GeneratedBy || 'http://gromit.etl.office/akita-on-rails/tag_configurations/') 
+		var configuratorURL = (jsHub.GeneratedBy || 'http://www.jshub.org/tag_configurations/') 
 		  + '/find_by_sha1/' + hashcode + '.js?callback=?';
         $.getJSON(configuratorURL, function(data) {
           console.log('Data from server', data);
@@ -789,7 +789,7 @@ this.jsHub = this.jsHub || {};
    * Microformat plug-ins are merged into a single entry with alt layout.
    */
   Inspector.prototype.initDataSources = function() {
-    var plugins = ETL.getPluginInfo(), plugin, event;
+    var plugins = jsHub.getPluginInfo(), plugin, event;
     
     console.info("Datasources: %o", plugins)
     
