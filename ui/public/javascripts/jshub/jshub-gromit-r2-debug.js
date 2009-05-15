@@ -3,7 +3,7 @@
  *
  *  jsHub is freely distributable under 
  *  the terms of an MIT-style license.
- *  For details, see the web site: http://www.etl2dot0.com/opensource/
+ *  For details, see the web site: http://www.causata.com/opensource/
  *
  *//*--------------------------------------------------------------------------*/
 
@@ -887,7 +887,7 @@ if (window.jQuery && window.ETL) {
         name: 'Technographic Plugin',
         version: 0.1,
         author: 'Liam Clancy',
-        email: 'liamc@etl2dot0.com',
+        email: 'liamc@causata.com',
         vendor: 'ETL 2.0'
       };
                
@@ -948,7 +948,7 @@ if (window.jQuery && window.ETL) {
     name: 'hAuthentication Microformat Parser Plugin',
     version: 0.1,
     author: 'Liam Clancy',
-    email: 'liamc@etl2dot0.com',
+    email: 'liamc@causata.com',
     vendor: 'ETL 2.0',
     type: 'data-capture'
   };
@@ -1106,7 +1106,7 @@ if (window.jQuery && window.ETL) {
     name: 'hPage Microformat Parser Plugin',
     version: 0.1,
     author: 'Liam Clancy',
-    email: 'liamc@etl2dot0.com',
+    email: 'liamc@causata.com',
     vendor: 'ETL 2.0',
     type: 'data-capture'
   };
@@ -1283,7 +1283,7 @@ if (window.jQuery && window.ETL) {
     name: 'hProduct Microformat Parser Plugin',
     version: 0.1,
     author: 'Liam Clancy',
-    email: 'liamc@etl2dot0.com',
+    email: 'liamc@causata.com',
     vendor: 'ETL 2.0',
     type: 'data-capture'
   };
@@ -1442,7 +1442,7 @@ if (window.jQuery && window.ETL) {
     name: 'hPurchase Microformat Parser Plugin',
     version: 0.1,
     author: 'Liam Clancy',
-    email: 'liamc@etl2dot0.com',
+    email: 'liamc@causata.com',
     vendor: 'ETL 2.0',
     type: 'data-capture'
   };
@@ -1606,7 +1606,7 @@ if (window.jQuery && window.ETL) {
     name: 'ETL Output Plugin',
     version: 0.1,
     author: "Fiann O'Hagan",
-    email: 'fianno@etl2dot0.com',
+    email: 'fianno@causata.com',
     vendor: 'ETL 2.0'
   },  
   
@@ -1653,7 +1653,7 @@ if (window.jQuery && window.ETL) {
     
     /*
      * Serialize data as expected format, see
-     * https://www.etl2dot0.com/code/etl2/wiki/JavascriptTag/WireFormat
+     * https://intra.causata.com/code/causata/wiki/JavascriptTag/WireFormat
      */
     var outputEvent = {
       timestamp: event.timestamp,

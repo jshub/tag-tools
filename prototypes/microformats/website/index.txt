@@ -52,5 +52,5 @@ h3. Additional links
 
 h3. Contact
 
-Comments are welcome. Send an email to "Liam Clancy":mailto:liamc@etl2dot0.com
+Comments are welcome. Send an email to "Liam Clancy":mailto:liamc@causata.com
 

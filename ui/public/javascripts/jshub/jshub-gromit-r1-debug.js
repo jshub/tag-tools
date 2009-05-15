@@ -3,7 +3,7 @@
  *
  *  jsHub is freely distributable under 
  *  the terms of an MIT-style license.
- *  For details, see the web site: http://www.etl2dot0.com/opensource/
+ *  For details, see the web site: http://www.causata.com/opensource/
  *
  *//*--------------------------------------------------------------------------*/
 
@@ -887,7 +887,7 @@ if (window.jQuery && window.ETL) {
         name: 'Technographic Plugin',
         version: 0.1,
         author: 'Liam Clancy',
-        email: 'liamc@etl2dot0.com',
+        email: 'liamc@causata.com',
         vendor: 'ETL 2.0'
       };
                

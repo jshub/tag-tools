@@ -12,9 +12,8 @@
   var tag_data = {
     Homepage: "http://www.jshub.org/",
     Version: "0.1beta",
-    GeneratedBy: "http://work.scribble.local/akita-on-rails/tag_configurations",
-    Configuration: "Tag Inspector (dev) (revision 2, debug)",
-    Site: "For tag inspector UI dev. Removed output plugin as it hangs" 
+    GeneratedBy: "http://gromit/akita-on-rails/tag_configurations",
+    Configuration: "Tag Inspector (dev) (revision 6, debug)"
   };
   this.jsHub = this.jsHub || {};
   for (var field in tag_data) {
@@ -934,6 +933,165 @@ if (window.jQuery && window.ETL) {
 
 
 /** 
+ * A plugin to parse the hAuthentication syntax microformat and pass it to the
+ * ETL event hub for delivery.
+ *
+ * @module data-capture
+ * @class hAuthentication-plugin
+ */
+/*--------------------------------------------------------------------------*/
+
+"use strict";
+
+(function () {
+
+  /*
+   * Metadata about this plug-in for use by UI tools and the Hub
+   */
+  var metadata = {
+    name: 'hAuthentication Microformat Parser Plugin',
+    version: 0.1,
+    author: 'Liam Clancy',
+    email: 'liamc@jshub.org',
+    vendor: 'jsHub.org',
+    type: 'data-capture'
+  };
+  
+  /*
+   * First trigger an event to show that the plugin is being registered
+   */
+  ETL.trigger("plugin-initialization-start", metadata);
+  
+  /**
+   * Event driven anonymous function bound to 'page-view'
+   * @method parse
+   * @param event {Object}    Config object for the plugin.  Currently it is expected to contain a optional "context" property
+   * @property metadata
+   * @property propertyNames
+   * @event  hauthentication-parse-start
+   * @event  hauthentication-data-found
+   * @event  hauthentication-parse-complete
+   */
+  var parse = function parse(event) {
+  
+    // Notify start lifecycle event
+    ETL.trigger("hauthentication-parse-start", event);
+    
+    /*
+     * All local vars set here so nothing is accidentally made global.
+     */
+    var $, console, context, sources, data;
+    
+    /*
+     * Reference to a 'safe' version of jQuery with restricted access to the DOM (like AdSafe).
+     * The plugin should only use this API and will be subject to static analysis
+     * to demonstrate this.
+     */
+    $ = ETL.safe('$');
+    
+    /*
+     * Pass logging messages via ETL Hub for remote error reporting, etc
+     */
+    console = ETL.logger;
+    
+    /*
+     * Where to start parsing for hAuthentication data
+     */
+    if (event && event.data && event.data.context) {
+      context = event.data.context;
+    }
+    
+    /*
+     * Extract the hAuthentication from HTML DOM (not source code), excluding nested hAuthentications
+     * If a context is provided this is used as a starting point, else the whole
+     * page is parsed as if there were a 'hauthentication' css class on the body element
+     */
+    sources = $('.hauthentication:visible', context);
+	sources = sources.not(sources.find('.hauthentication'));
+	console.debug("Found %s .hauthentication islands in context %s", sources.length, context);
+    
+    /*
+     * The parser will populate an object to represent the data according
+     * to the parsing rules.
+     * This may involve merging data from multiple sources.
+     */
+    data = {
+      authentication: []
+    };
+    
+    /*
+     * Most classes and their values can be resolved using the Value Excerpting design-pattern
+     */
+    var properties = ["user-id", "auth-method"];
+    
+    
+    sources.each(function (idx, elm) {
+    
+      /*
+       * Object for this hAuthentication
+       */
+      var hauthentication = {};
+      
+      // TODO resolve includes first
+      
+      // jQuery gives an empty string if the element / attribute is not present so cascade through values to defaults
+      // root visibility used for all elements unless set explicitly
+	  var root = $(elm);
+      var rootVisibility = root.getMicroformatVisibilityAttribute();
+      
+      /*
+       * get the property data and its visibility
+       */
+      // use the array of class names 
+      // TODO this can be refactored to the API
+      $.each(properties, function(count, name) {
+        var node, value, visibility, classname = '.' + name;
+        // exclude properties in nested microformats
+        node = root.find(classname);
+		node = node.not(node.find('.hauthentication'));
+		value = node.getMicroformatPropertyValue();
+        if (value !== null) {
+          hauthentication[name] = value;
+          visibility = node.getMicroformatVisibilityAttribute(rootVisibility);
+          hauthentication[name + "-visibility"] = visibility;
+        }
+      });
+            
+      ETL.trigger("hauthentication-data-found", {
+        count: idx + 1,
+        element: elm,
+        data: hauthentication
+      });
+
+      // issue an authentication event to be logged
+      ETL.trigger("authentication", hauthentication);
+      
+	  // append this event to the summary
+	  data.authentication.push(hauthentication);
+    });
+    
+    ETL.trigger("hauthentication-parse-complete", data);
+    
+    // don't merge into source event
+    return;
+  };
+  
+  /*
+   * Bind the plugin to the Hub to look for hAuthentication microformats and add the data
+   * to page view events
+   */
+  ETL.bind("page-view", "hAuthentication-plugin", parse);
+  ETL.bind("content-updated", "hAuthentication-plugin", parse);
+    
+  /*
+   * Last trigger an event to show that the plugin has bene registered
+   */
+  ETL.trigger("plugin-initialization-complete", metadata);
+  
+})();
+
+
+/** 
  * A plugin to parse the hPage syntax microformat and pass it to the
  * ETL event hub for delivery.
  *
@@ -1281,6 +1439,165 @@ if (window.jQuery && window.ETL) {
 })();
 
 
+/** 
+ * A plugin to parse the hPurchase syntax microformat and pass it to the
+ * ETL event hub for delivery.
+ *
+ * @module data-capture
+ * @class hPurchase-plugin
+ */
+/*--------------------------------------------------------------------------*/
+
+"use strict";
+
+(function() {
+
+  /*
+   * Metadata about this plug-in for use by UI tools and the Hub
+   */
+  var metadata = {
+    name: 'hPurchase Microformat Parser Plugin',
+    version: 0.1,
+    author: 'Liam Clancy',
+    email: 'liamc@jshub.org',
+    vendor: 'jsHub.org',
+    type: 'data-capture'
+  };
+  
+  /*
+   * First trigger an event to show that the plugin is being registered
+   */
+  ETL.trigger("plugin-initialization-start", metadata);
+  
+  /**
+   * Event driven anonymous function bound to 'page-view'
+   * @method parse
+   * @param event {Object}    Config object for the plugin.  Currently it is expected to contain a optional "context" property
+   * @property metadata
+   * @property propertyNames
+   * @event  hpurchase-parse-start
+   * @event  hpurchase-data-found
+   * @event  hpurchase-parse-complete
+   */
+  var parse = function parse(event) {
+  
+    // Notify start lifecycle event
+    ETL.trigger("hpurchase-parse-start", event);
+    
+    /*
+     * All local vars set here so nothing is accidentally made global.
+     */
+    var $, console, context, sources, data;
+    
+    /*
+     * Reference to a 'safe' version of jQuery with restricted access to the DOM (like AdSafe).
+     * The plugin should only use this API and will be subject to static analysis
+     * to demonstrate this.
+     */
+    $ = ETL.safe('$');
+    
+    /*
+     * Pass logging messages via ETL Hub for remote error reporting, etc
+     */
+    console = ETL.logger;
+    
+    /*
+     * Where to start parsing for hAuthentication data
+     */
+    if (event && event.data && event.data.context) {
+      context = event.data.context;
+    }
+    
+    /*
+     * Extract the hAuthentication from HTML DOM (not source code), excluding nested hAuthentications
+     * If a context is provided this is used as a starting point, else the whole
+     * page is parsed as if there were a 'hauthentication' css class on the body element
+     */
+    sources = $('.hpurchase:visible', context);
+    sources = sources.not(sources.find('.hpurchase'));
+    //console.debug("Found %s .hpurchase islands in context %s", sources.length, context);
+    
+    /*
+     * The parser will populate an object to represent the data according
+     * to the parsing rules.
+     * This may involve merging data from multiple sources.
+     */
+    data = {};
+    
+    /*
+     * Most classes and their values can be resolved using the Value Excerpting design-pattern
+     */
+    var properties = ["product-id", "cart-id", "cart-price", "discount", "shipping-price", "taxes", "net-price", "payment-method", "status"];
+    
+    
+    sources.each(function(idx, elm) {
+    
+      /*
+       * Object for this hPurchase
+       */
+      var hpurchase = {};
+      
+      // TODO resolve includes first
+      
+      // jQuery gives an empty string if the element / attribute is not present so cascade through values to defaults
+      // root visibility used for all elements unless set explicitly
+      var root = $(elm);
+      var rootVisibility = root.getMicroformatVisibilityAttribute();
+      
+      /*
+       * get the property data and its visibility
+       */
+      // use the array of class names 
+      // TODO this can be refactored to the API
+      $.each(properties, function(count, name) {
+        var value, visibility, classname = '.' + name;
+        // exclude properties in nested microformats
+        node = root.find(classname);
+		node = node.not(node.find('.hpurchase'));
+		value = node.getMicroformatPropertyValue();
+        if (value !== null) {
+          hpurchase[name] = value;
+          visibility = node.getMicroformatVisibilityAttribute(rootVisibility);
+          hpurchase[name + "-visibility"] = visibility;
+        }
+      });
+      
+      ETL.trigger("hpurchase-data-found", {
+        count: idx + 1,
+        element: elm,
+        hpurchase: hpurchase
+      });
+      
+      // issue an checkout event to be logged  
+      ETL.trigger("checkout", hpurchase);
+      
+      /*
+       * Merge this hAuthentication object into the data to return
+       */
+      // TODO: use data-indexes to override source order 
+      $.extend(true, data, hpurchase);
+    });
+    
+    ETL.trigger("hpurchase-parse-complete", data);
+    
+    // don't merge into source event
+    return;
+  };
+  
+  /*
+   * Bind the plugin to the Hub to look for hAuthentication microformats and add the data
+   * to page view events
+   */
+  ETL.bind("page-view", "hPurchase-plugin", parse);
+  
+  /*
+   * Last trigger an event to show that the plugin has bene registered
+   */
+  ETL.trigger("plugin-initialization-complete", metadata);
+  
+})();
+
+
 
 
 
@@ -1471,6 +1788,113 @@ if (window.jQuery && window.ETL) {
 /*
  * Data Transport Plug-ins
  *//*--------------------------------------------------------------------------*/
+
+
+
+/** 
+ * A plugin to create an analytics object from technographic data
+ *
+ * @module data-output
+ * @class etl-output-plugin
+ */
+/*--------------------------------------------------------------------------*/
+
+"use strict";
+
+(function() {
+
+  /**
+   * Metadata about this plug-in for use by UI tools and the Hub
+   */
+  var metadata = {
+    name: 'Causata Output Plugin',
+    version: 0.1,
+    author: "Fiann O'Hagan",
+    email: 'fiann.ohagan@causata.com',
+    vendor: 'Causata'
+  },  
+  
+  /**
+   * The events that will be captured and sent to the ETL servers
+   */
+  boundEvents = ['page-view', 'authentication', 'checkout'],  
+  
+  /**
+   * The authentication token for the plugin, which must exactly match the
+   * data-visibility configured in the html page.
+   */
+  token = "etl",  
+  
+  /**
+   * Event driven anonymous function bound to 'page-view'
+   * @method etl-output-transport
+   * @param event {Object} the event to serialize and send to the server
+   * @property metadata
+   * @event  output.StartTransport
+   * @event  output.CompleteTransport
+   */
+  transport = function(event) {
+  
+    ETL.logger.group("ETL output: sending '%s' event", event.type);
+    
+    /*
+     * All local vars set here so nothing is accidentally made global.
+     */
+    //    var $, url, outputData, outputEvent, field;
+    
+    /**
+     * URL to dispatch to the server
+     * TODO where should we configure this?
+     */
+    var url = "http://10.0.1.9/";
+    
+    /*
+     * Reference to a 'safe' version of jQuery with restricted access to the DOM (like AdSafe).
+     * The plugin should only use this API and will be subject to static analysis
+     * to demonstrate this.
+     */
+    var $ = ETL.safe('$');
+    
+    /*
+     * Serialize data as expected format, see
+     * https://intra.causata.com/code/causata/wiki/JavascriptTag/WireFormat
+     */
+    var outputEvent = {
+      timestamp: event.timestamp,
+      'eventType': event.type,
+      attributes: []
+    };
+	
+	for (field in event.data) {
+      if ("string" === typeof event.data[field] || "number" === typeof event.data[field]) {
+	  	outputEvent.attributes.push({
+			name : field,
+			value : event.data[field]
+		});
+      }
+    }
+	
+    var outputData = {
+      sender: metadata.name + " v" + metadata.version,
+      event: ETL.safe.toJSONString(outputEvent)
+    };
+    
+    // dispatch via API function
+    ETL.dispatchViaForm("POST", url, outputData);
+    ETL.logger.groupEnd();
+  };
+  
+  /*
+   * Bind the plugin to the Hub so as to run when events we are interested in occur
+   */
+  for (i = 0; i < boundEvents.length; i++) {
+    ETL.bind(boundEvents[i], "etl", transport);
+  }
+  
+  // lifecycle notification
+  ETL.trigger("plugin-initialization-complete", metadata);
+})();
+
 
 
 

@@ -1,5 +1,5 @@
 set :application, "microformats"
-set :repository,  "https://www.etl2dot0.com/svn/javascript/tag-tools/prototypes/microformats/"
+set :repository,  "https://www.causata.com/svn/javascript/tag-tools/prototypes/microformats/"
 
 # If you aren't deploying to /u/apps/#{application} on the target
 # servers (which is the default), you can specify the actual location

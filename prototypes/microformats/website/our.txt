@@ -40,5 +40,5 @@ These declarations will be merged when a Page Update event is received to captur
 
 h3. Additional links
 
-* "Primary research links":https://www.etl2dot0.com/code/etl2/wiki/JavascriptTag/Microformat#Research
+* "Primary research links":https://intra.causata.com/code/causata/wiki/JavascriptTag/Microformat#Research
 * "Selectors API":http://www.w3.org/TR/selectors-api/
