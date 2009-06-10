@@ -1,8 +1,10 @@
+# Enable multistage deploys
+set :stages, %w(staging production)
+set :default_stage, "staging"
+require 'capistrano/ext/multistage'
+
+# name of the application
 set :application, "retail"
-# The gateway server is accessed before anything else and all ssh commands sent via it
-set :gateway,     "intra.causata.com"
-set :domain,      "gromit"
-set :rails_env,   "gromit"
 
 # If you aren't deploying to /u/apps/#{application} on the target
 # servers (which is the default), you can specify the actual location
@@ -12,11 +14,6 @@ set :deploy_to,   "/var/capistrano/#{application}"
 # If you aren't using Subversion to manage your source code, specify
 # your SCM below:
 set :scm,         "subversion"
-
-#If you log into your server with a different user name than you are logged 
-#into your local machine with, youll need to tell Capistrano about that user 
-#name.
-set :user, "dev"
 
 #If you access your source repository with a different user name than you are 
 #logged into your local machine with, Capistrano needs to know. Note that not 
@@ -28,7 +25,7 @@ set :scm_username, "capistrano"
 set :scm_password, "tant0ine"
 
 # construct the path to the repository
-set :repository,  "http://#{domain}/svn/javascript/tag-tools/trunk/demo-sites/retail/"
+set :repository,  "https://#{scm_domain}/svn/javascript/tag-tools/trunk/demo-sites/retail/"
 
 # all services are on the same server for now
 role :app, domain
@@ -54,7 +51,7 @@ namespace :custom do
   desc 'Symlink the public directory into the web root. This is for use by Passenger via RailsBaseURI
         ref: http://www.modrails.com/documentation/Users%20guide.html#deploying_rails_to_sub_uri'
   task :symlink do
-    run "ln -nfs #{current_path}/public /var/www/html/#{application}"
+    run "ln -nfs #{current_path}/public #{webroot}"
   end
 
   desc 'Output the Subversion version number'
