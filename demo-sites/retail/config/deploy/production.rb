@@ -4,7 +4,7 @@
 # The gateway server is accessed before anything else and all ssh commands sent via it
 set :scm_domain,  "intra.causata.com"
 set :domain,      "jshub.org"
-set :rails_env,   "gromit"
+set :rails_env,   "jshub"
 
 # construct the path to the repository
 set :repository,   "https://#{scm_domain}/svn/javascript/tag-tools/trunk/demo-sites/retail/"
