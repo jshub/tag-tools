@@ -24,14 +24,6 @@ set :scm_username, "capistrano"
 # Liam: needed due to Basic Auth protecting the SVN server
 set :scm_password, "tant0ine"
 
-# construct the path to the repository
-set :repository,  "https://#{scm_domain}/svn/javascript/tag-tools/trunk/demo-sites/retail/"
-
-# all services are on the same server for now
-role :app, domain
-role :web, domain
-role :db,  domain, :primary => true
-
 #By default, Capistrano will try to use sudo to do certain operations (setting 
 #up your servers, restarting your application, etc.). If you are on a shared 
 #host, sudo might be unavailable to you, or maybe you just want to avoid using sudo.

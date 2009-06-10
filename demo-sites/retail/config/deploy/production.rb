@@ -2,10 +2,12 @@
 # please put general deployment config in config/deploy.rb
 
 # The gateway server is accessed before anything else and all ssh commands sent via it
-set :gateway,     "intra.causata.com"
-set :scm_domain,  "gromit"
+set :scm_domain,  "intra.causata.com"
 set :domain,      "jshub.org"
 set :rails_env,   "gromit"
+
+# construct the path to the repository
+set :repository,   "https://#{scm_domain}/svn/javascript/tag-tools/trunk/demo-sites/retail/"
 
 #If you log into your server with a different user name than you are logged 
 #into your local machine with, youll need to tell Capistrano about that user 
@@ -13,4 +15,9 @@ set :rails_env,   "gromit"
 set :user, "capistrano"
 
 # webserver root symlink path for passenger
-set: :webroot, "/var/jshub/htdocs/#{application}"
+set :webroot, "/var/jshub/htdocs/#{application}"
+
+# all services are on the same server for now
+role :app, domain
+role :web, domain
+role :db,  domain, :primary => true
