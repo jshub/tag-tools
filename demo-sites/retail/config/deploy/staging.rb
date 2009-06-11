@@ -1,6 +1,8 @@
 # STAGING-specific deployment configuration
 # please put general deployment config in config/deploy.rb
 
+puts "Deploying to STAGING"
+
 # The gateway server is accessed before anything else and all ssh commands sent via it
 set :gateway,     "intra.causata.com"
 set :scm_domain,  "gromit"

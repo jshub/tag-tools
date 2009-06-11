@@ -1,6 +1,8 @@
 # PRODUCTION-specific deployment configuration
 # please put general deployment config in config/deploy.rb
 
+puts "Deploying to PRODUCTION"
+
 # The gateway server is accessed before anything else and all ssh commands sent via it
 set :scm_domain,  "intra.causata.com"
 set :domain,      "jshub.org"

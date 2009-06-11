@@ -15,15 +15,6 @@ set :deploy_to,   "/var/capistrano/#{application}"
 # your SCM below:
 set :scm,         "subversion"
 
-#If you access your source repository with a different user name than you are 
-#logged into your local machine with, Capistrano needs to know. Note that not 
-#all SCMs support the scm_username variable; you might need to embed the 
-#scm_username into the repository, 
-#e.g. svn+ssh://#{scm_username}@foo.bar.com/path/to/repo.
-set :scm_username, "capistrano"
-# Liam: needed due to Basic Auth protecting the SVN server
-set :scm_password, "tant0ine"
-
 #By default, Capistrano will try to use sudo to do certain operations (setting 
 #up your servers, restarting your application, etc.). If you are on a shared 
 #host, sudo might be unavailable to you, or maybe you just want to avoid using sudo.
