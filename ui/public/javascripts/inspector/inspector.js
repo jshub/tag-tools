@@ -115,7 +115,7 @@ this.jsHub = this.jsHub || {};
      * listen out for Hub events
      */
     var self = this;
-    if (window.jsHub) {
+    if (window.jsHub.bind) {
       jsHub.bind("*", "inspector", function(a, b) {
         self.on_hub_event(a, b)
       });
@@ -281,7 +281,7 @@ this.jsHub = this.jsHub || {};
     var self = this;
     
     // initialise jshub tag status 
-    if (window.jsHub) {
+    if (window.jsHub.bind) {
       self.initDataSources();
       var jshubURL = $("script[src*=jshub.js]").attr('src');
       jsHub.logger.log("Inspector: loading tag source from " + jshubURL);
