@@ -1,0 +1,13 @@
+<div id="footer">
+  <div id="jshub">
+  	<p class="heading">Microformat markup</p>
+	<p>Microformat gubbins</p>
+  </div>
+  <p>
+    Ecommerce functionality by <a href="http://spreecommerce.com/">Spree</a>
+  </p>
+  <div class="right">
+    <%= render :partial => 'shared/language_bar' if Spree::Config[:allow_locale_switching] %>
+  </div>
+  <%= render :partial => 'shared/analytics_tags' %>
+</div>   
