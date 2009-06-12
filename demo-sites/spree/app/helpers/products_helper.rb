@@ -35,9 +35,9 @@ module ProductsHelper
   
   # generates nested url to product based on supplied taxon
   def seo_url(taxon, product = nil)
-    return '/t/' + taxon.permalink if product.nil?
+    return root_path + 't/' + taxon.permalink if product.nil?
     
-    '/t/' + taxon.permalink + "p/" + product.permalink
+    root_path + 't/' + taxon.permalink + "p/" + product.permalink
   end
   
 end
