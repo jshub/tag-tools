@@ -16,3 +16,12 @@ production:
 demo:
   adapter: sqlite3
   database: db/production.sqlite3
+
+passenger:
+  development
+  
+gromit:
+  development  
+  
+jshub:
+  development  
