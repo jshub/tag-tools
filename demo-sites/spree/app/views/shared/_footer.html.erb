@@ -1,7 +1,16 @@
 <div id="footer">
   <div id="jshub">
   	<p class="heading">Microformat markup</p>
-	<p>Microformat gubbins</p>
+    <div class="hpage">
+	  <p>hPage microformat data:</p>
+      <ul>
+        <li>Page name: <span class="name"><%= hpage[:name] %></span></li>
+	    <% for cat in hpage[:categories] %>
+		<li>Category: <a href="<%= cat[:url] %>" rel="tag"><%= cat[:name] %></a></li>
+		<% end %>
+      </ul>
+	  <pre><%= @hpage.inspect %></pre>
+	</div>
   </div>
   <p>
     Ecommerce functionality by <a href="http://spreecommerce.com/">Spree</a>

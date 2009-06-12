@@ -12,6 +12,10 @@ class TaxonsController < Spree::BaseController
 
     @product_cols = 3
     @products ||= @search.all
+    
+    @hpage = {
+      :name => "Browse product #{params[:id].first}"
+    }
   end
   
   def object

@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   before_filter :instantiate_controller_and_action_names
   filter_parameter_logging :password, :password_confirmation
   helper_method :current_user_session, :current_user
+  helper :microformats
 
   # Pick a unique cookie name to distinguish our session data from others'
   session_options['session_key'] = '_spree_session_id'
