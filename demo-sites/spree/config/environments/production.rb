@@ -18,7 +18,7 @@ config.action_controller.perform_caching             = true
 # config.action_mailer.raise_delivery_errors = false
 
 # Uncomment the line below if you want to use the gateway in test mode while deployed in production
-#ActiveMerchant::Billing::Base.gateway_mode = :test
+ActiveMerchant::Billing::Base.gateway_mode = :test
 
 # #315 - New in 2.2 use a prefix (matches Passenger RailsBaseURI)
 # ref: http://code.google.com/p/phusion-passenger/issues/detail?id=169
