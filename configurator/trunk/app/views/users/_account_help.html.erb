@@ -1,0 +1,26 @@
+<div class="help">
+
+  <% 
+    if controller.action_name == 'register'
+  %>
+
+  <h2>Have an account?</h2>
+  
+  <div class="button login">
+    <%= link_to 'Login', :login %>
+  </div>
+  <% end %>
+
+  <% 
+    if controller.action_name != 'register' && controller.action_name != 'show'
+  %>
+
+  <h2>Don't have an account?</h2>
+  
+  <div class="button register">
+    <%= link_to 'register now', :register %>
+  </div>
+
+  <% end %>
+
+</div>

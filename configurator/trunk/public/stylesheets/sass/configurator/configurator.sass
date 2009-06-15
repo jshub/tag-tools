@@ -1,0 +1,449 @@
+# for image urls use ../../images/configurator/
+
+# CONSTANTS
+!color_link = #035b9d
+
+!color_text_normal = #000
+!color_text_bold = #858689
+!color_text_large = #858689
+!color_text_small = #333
+!color_text_dark = #858689
+!color_text_mid = #b4b7be
+!color_text_light = #efefef
+
+!color_bg_dark = #858689
+!color_bg_mid = #b4b7be
+!color_bg_light = #efefef
+
+!color2_bg_dark = #153d89
+!color2_bg_mid = #03539d
+!color2_bg_light = #cbd4e4
+
+!color_border = #efefef
+!color2_border = #808080
+
+!radius_border = 1.0em
+
+!grid_icon_large = 50px
+!grid_icon_small = 25px
+
+!font_header = 'Trebuchet'
+!font_sub_header = 'Trebuchet'
+!font_normal = 'Tahoma'
+
+!font_header_size = 182%
+!font_sub_header_size = 138.5%
+!font_normal_size = 100%
+!font_small_size = 85%
+
+!content_padding = 15px
+
+# Mixins
+=debug-layout
+  :border 1px solid black
+
+=accessible-link-replacement
+  :display block
+  :height inherit
+  :overflow hidden
+  :text-indent -10000em
+  :text-decoration none
+  
+=sprite-background
+  :color transparent 
+  :image url('images/configurator-sprite.png') 
+  :repeat no-repeat 
+  :attachment scroll  
+
+=bg-box-shadow
+  :-moz-box-shadow = 0.2em 0.2em #000
+  :box-shadow = 0.2em 0.2em #000
+
+=bg-rounded-corners
+  :border = 1px solid !color_border
+  :border-radius = !radius_border
+  :-moz-border-radius = !radius_border
+  +bg-box-shadow
+    
+body.jshub.configurator
+  :margin 0 auto
+
+  .hide
+    :display none
+
+  div.page
+    /* customise the page width
+    /*
+    :width 960px
+    :min-width 960px    
+
+    hr
+      :margin-bottom 10px
+      :border none
+      :border-bottom 1px solid #fff      
+
+    a 
+      :color = !color_link
+      :text-decoration none
+      
+    h1
+      :margin 0
+      :margin-bottom 10px
+      :padding-bottom = !content_padding
+      :border-bottom 1px solid #fff
+      :font-size = !font_header_size
+    h2
+      :margin 0
+      :margin-bottom 5px
+      :color = !color_text_dark
+      :font-size = !font_sub_header_size
+        
+    &.homepage .content
+      :min-height 350px
+      :padding 15px
+      :background
+        :color = !color_bg_light
+      +bg-rounded-corners
+
+    &.users .content .account
+      :min-height 350px
+      :padding = !content_padding
+      :background
+        :color = !color_bg_light
+      +bg-rounded-corners
+
+    &.users .content .help
+      :min-height 350px
+      :padding = !content_padding
+      :background
+        :color = !color_bg_light
+      +bg-rounded-corners
+
+  div.header
+    :height 110px
+    :background
+      +sprite-background
+      :position = (0-!grid_icon_large) (0-!grid_icon_large)
+    a
+      +accessible-link-replacement
+
+  div.nav1  
+    :margin-bottom 5px  
+
+    .buttons
+      :height 35px
+      :background  
+        +sprite-background
+        :position = (0-!grid_icon_large) (4*(0-!grid_icon_large))
+      a
+        +accessible-link-replacement
+        :height 35px
+
+  div.tools
+    .login
+      :margin 5px
+      :text-align right
+      .login-state 
+        :color = !color_text_dark
+      .username 
+        :color = !color_text_bold
+        :font-weight bold
+      
+  div.nav3
+
+  /* messages and notices
+  /*
+  div#flash
+    :margin 5px 0
+    :padding 10px
+    :background-color #ffc
+    :border 1px solid #ccc
+    
+  div.errorExplanation
+    :padding 10px
+    :background-color #ffc
+    :border 1px solid #ccc
+    h2
+      :color black
+  
+  # text links in footer
+  div.links-header
+
+  div.links
+    :height 32px
+    :background
+      :color = !color_bg_light
+    +bg-rounded-corners
+    ul
+      :margin 0.3em 0
+      :padding = 6px !content_padding
+      :color = !color_text_mid
+      li
+        :float left
+        :padding 0 6px
+        :border-left = 1px solid !color_text_mid
+        :list-style-type none
+        :font-size = !font_small_size
+        &.first
+          :border-left none
+        a
+          :color inherit
+          :font-weight bold
+          :text-decoration none
+
+
+  div.footer
+    .legal
+      :padding = 6px !content_padding
+      :color = !color_text_mid
+      :font-size = !font_small_size
+      a
+        /* TODO dotted and grey
+        /*
+
+  div.nav2
+    .top
+      :padding = !content_padding
+      :min-height 150px
+      :background
+        :color = !color_bg_light
+      +bg-rounded-corners
+            
+    .bottom
+      :padding = !content_padding
+      :min-height 150px
+      
+    ul.tips
+          
+  div.content
+    :padding 0
+
+    .col1
+      :min-height 350px
+      :padding = !content_padding
+      :background
+        :color = !color_bg_light
+      +bg-rounded-corners
+
+    .actions
+      :width 22%
+      &.big
+        :width 50%
+          
+  div.icon
+    &.tick
+      :width 32px
+      :height 22px
+      :background
+        +sprite-background
+        :position = (0-!grid_icon_large) (24*(0-!grid_icon_large))
+      a
+        +accessible-link-replacement
+        
+    &.edit
+      :width 32px
+      :height 22px
+      :background
+        +sprite-background
+        :position = (0-!grid_icon_large) (23*(0-!grid_icon_large))
+      a
+        +accessible-link-replacement
+
+    &.delete
+      :width 32px
+      :height 22px
+      :background
+        +sprite-background
+        :position = (2*(0-!grid_icon_large) (23*(0-!grid_icon_large))
+      a
+        +accessible-link-replacement
+
+  div.button
+    &.download
+      :width 220px
+      :height 35px
+      :background
+        +sprite-background
+        :position = (0-!grid_icon_large) (7*(0-!grid_icon_large))
+      a
+        +accessible-link-replacement
+
+    &.create
+      :width 220px
+      :height 35px
+      :background
+        +sprite-background
+        :position = (0-!grid_icon_large) (8*(0-!grid_icon_large))
+      a
+        +accessible-link-replacement
+        
+    &.login
+      :width 70px
+      :height 25px
+      :background
+        +sprite-background
+        :position = (0-!grid_icon_large) (10*(0-!grid_icon_large))
+      a
+        +accessible-link-replacement
+
+    &.logout
+      :width 80px
+      :height 25px
+      :background
+        +sprite-background
+        :position = (0-!grid_icon_large) (11*(0-!grid_icon_large))
+      a
+        +accessible-link-replacement
+
+    &.new
+      :width 150px
+      :height 25px
+      :background
+        +sprite-background
+        :position = (0-!grid_icon_large) (12*(0-!grid_icon_large))
+      a
+        +accessible-link-replacement
+
+    &.edit
+      :width 55px
+      :height 25px
+      :background
+        +sprite-background
+        :position = (0-!grid_icon_large) (13*(0-!grid_icon_large))
+      a
+        +accessible-link-replacement
+
+    &.delete
+      :width 65px
+      :height 25px
+      :background
+        +sprite-background
+        :position = (0-!grid_icon_large) (14*(0-!grid_icon_large))
+      a
+        +accessible-link-replacement
+
+    &.register
+      :width 100px
+      :height 25px
+      :background
+        +sprite-background
+        :position = (0-!grid_icon_large) (15*(0-!grid_icon_large))
+      a
+        +accessible-link-replacement
+
+    &.cancel
+      :width 100px
+      :height 25px
+      :background
+        +sprite-background
+        :position = (0-!grid_icon_large) (19*(0-!grid_icon_large))
+      a
+        +accessible-link-replacement
+        
+    &.back
+      :width 100px
+      :height 25px
+      :background
+        +sprite-background
+        :position = (0-!grid_icon_large) (21*(0-!grid_icon_large))
+      a
+        +accessible-link-replacement
+
+  button
+    &.save_changes
+      +accessible-link-replacement
+      :border none
+      :padding 0
+      :margin-top -2px
+      :width 150px
+      :height 30px
+      :background
+        +sprite-background
+        :position = (0-!grid_icon_large) (20*(0-!grid_icon_large))
+        
+    &.save
+      +accessible-link-replacement
+      :border none
+      :padding 0
+      :margin-top -2px
+      :width 100px
+      :height 30px
+      :background
+        +sprite-background
+        :position = (0-!grid_icon_large) (16*(0-!grid_icon_large))
+
+    &.login
+      +accessible-link-replacement
+      :border none
+      :padding 0
+      :margin-top -2px
+      :width 100px
+      :height 30px
+      :background
+        +sprite-background
+        :position = (0-!grid_icon_large) (9*(0-!grid_icon_large))
+
+    &.create_account
+      +accessible-link-replacement
+      :border none
+      :padding 0
+      :margin-top -2px
+      :width 150px
+      :height 30px
+      :background
+        +sprite-background
+        :position = (0-!grid_icon_large) (22*(0-!grid_icon_large))
+
+body.jshub.configurator
+  table
+    :width 100%
+  td, th
+    :text-align left
+    :border 0px none
+    :border-bottom = 1px solid !color2_border
+
+  th
+    &:last-child
+      :width 65px
+  td
+    &:last-child
+    .yui-g
+      :width 100% !important
+
+  tbody
+    tr
+      &:first-child
+        :border-top = 1px solid !color2_border
+  
+  textarea
+    :width 100%
+    :height 100px
+  
+  label
+    :float left
+    :width 15em
+    :min-height 1em
+    :color = !color_text_dark
+    :font-weight bold
+    &.right
+      :float none
+
+  .label
+    :float left
+    :width 8em
+    :min-height 1em
+    :color = !color_text_dark
+    :font-weight bold
+
+  .plugin_name
+    :color = !color_text_normal
+    :font-weight bold
+    
+  small
+    :display none
+    
+  .details
+    div
+      :margin-bottom 1.0em
+    p
+      :margin 0.5em 0

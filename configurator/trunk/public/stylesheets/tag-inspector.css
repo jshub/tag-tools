@@ -1,0 +1,27 @@
+div.jshub-inspector {
+  font-family: Optima, Arial, Helvetica, sans-serif;
+  font-size: 0.8em;
+  display: none;
+  position: fixed;
+  background: #111;
+  top: 25px;
+  right: 25px;
+  width: 280px;
+  height: 400px;
+  /*padding: 3px;*/
+  -moz-border-radius: 6px;
+  z-index: 9999999;
+  color: white;
+}
+
+div.jshub-inspector h1 {
+  font-size: 1.1em;
+  margin-top: 3px;
+  font-size: 1.2em;
+}
+
+div.jshub-inspector div#tabs div {
+  height: 300px;
+  margin-right: 3px;
+  overflow-y: scroll;
+}

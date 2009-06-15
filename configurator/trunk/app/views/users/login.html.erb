@@ -1,0 +1,19 @@
+
+<h1>Log in</h1>
+
+<% form_tag do %>
+<fieldset>
+  <p>
+    <%= label_tag :email_address, 'Email address' %>
+    <%= text_field_tag :email_address, params[:email_address] %>
+  </p>
+  <p>
+    <%= label_tag :password, 'Password' %>
+    <%= password_field_tag :password, params[:password] %>
+  </p>
+  <p>
+    <%# submit_tag "Log in" %>
+    <button type="submit" name="commit" id="login_submit" class="login">Log in</button>
+  </p>
+</fieldset>
+<% end %>

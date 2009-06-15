@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Tag Configurations</title>
+
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <%= stylesheet_link_tag :yui3 %>
+
+    <%= javascript_include_tag :configurator %>
+    <%= stylesheet_link_tag :configurator %>
+
+
+  </head>
+  <body class="jshub configurator yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase">
+  
+  <div class="yui-d2f page <%= controller.action_name %>">
+
+    <%= render :partial => "skin/header" %>
+    <%= render :partial => "skin/nav1" %>
+
+    <div class="yui-t6">
+  
+      <%= render :partial => "skin/nav2" %>
+
+      <div class="yui-main content">
+        <div class="yui-b col1">
+        
+          <% if flash[:notice] %>
+          <div id="flash" class="notice" style="display: block">
+            <strong><%= flash[:notice] %></strong>
+          <% flash[:notice] = nil %>
+          </div>
+          <script type="text/javascript">
+            setTimeout(function(){
+              document.getElementById('flash').style.display = 'none';
+            }, 1500);
+          </script>
+          <% end %>
+        
+          <%= yield :layout %>
+        </div>
+      </div>
+    </div>
+
+    <%= render :partial => "skin/footer" %>
+
+    </div> <!-- yui-d1f -->
+        
+  </body>
+</html>

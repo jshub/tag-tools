@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+user1:
+  name: user1
+  email_address: user1@jshub.org
+  salt: seasalt
+  hashed_password: <%= User.encrypted_password('secret', 'seasalt') %>
+
+user2:
+  name: user2
+  email_address: user2@jshub.org
+  salt: seasalt
+  hashed_password: <%= User.encrypted_password('secret', 'seasalt') %>

@@ -1,0 +1,31 @@
+<h1>Create your account</h1>
+
+
+<% form_for @user, :url => { :action => :register } do |f| %>
+<fieldset>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :name, 'Choose a user name:' %>
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :email_address, 'Email address:' %>
+    <%= f.text_field :email_address %>
+  </p>
+  <p>
+    <%= f.label :user_password, 'Password:' %>
+    <%= f.password_field :password, :size => 40 %>
+  </p>
+  <p>
+    <%= f.label :user_password_confirmation, 'Confirm password:' %>
+    <%= f.password_field :password_confirmation, :size => 40 %>
+  </p>
+  <p>
+    <%# f.submit "Create account" %>
+    <button type="submit" name="commit" id="user_submit" class="create_account">Create account</button>    
+  </p>
+</fieldset>
+<% end %>
+<p>
+  Or <%= link_to 'log in now', :login %> if you already have an account
+</p>

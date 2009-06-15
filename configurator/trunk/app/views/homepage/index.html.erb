@@ -1,0 +1,30 @@
+  <p>Welcome to the jsHub development site.</p>
+	
+	<h1>Tag configurator</h1>
+	<p>
+	  Create, download and store a complete tag configuration. 
+	  <%= link_to 'Get started', tag_configurations_path %>.
+	</p>
+            
+	<hr style="width: 80%" />
+
+	<h1>Code and tests</h1>
+	
+    <p>
+      Download or <%= link_to 'view the jsHub source code', :controller => 'js', :action => 'show' %>. 
+	</p>
+
+    <p>
+      Javascript unit test pages:
+    </p>
+    <ul>      
+      <li>
+        <%= link_to 'Litmus server test runs', :controller => 'litmus_test_run' %>
+      </li>
+      <li>
+        <%= link_to 'Test Page list', :controller => 'javascript_test' %>
+      </li>
+      <li>
+        <%= link_to 'Test Page results', javascript_test_result_index_path %>
+      </li>
+    </ul>

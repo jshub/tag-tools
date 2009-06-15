@@ -1,0 +1,10 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+# Config 'one' has microformat and causata plugins
+# The causata plugin has 2 config parameters, the microformat plugin has no config
+one_causata:
+  tag_configuration: one
+  plugin: causata
+one_microformat:
+  tag_configuration: one
+  plugin: microformat

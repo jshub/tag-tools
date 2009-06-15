@@ -1,0 +1,65 @@
+/*
+ * CSS effects for the example store
+ */
+
+/* Homepage */
+a img { border: 0; }
+
+/* Microformat meta data */
+.microformats, .microformats h2, .microformats h3 {
+	color: #333 !important;
+}
+
+.microformats code {
+	font-size: x-small;
+}
+
+/* The microformat event log sidebar */
+#sidebar h1, #sidebar h2, #sidebar li {
+	font-family: Monaco, "Courier New", Courier, monospace;
+}
+
+#sidebar h2 {
+	font-size: 11pt;
+}
+
+#sidebar li li {
+	font-size: 9pt;
+	color: #2D2D2B;
+	background: inherit;
+	padding-left: 0;
+	list-style: disc;
+}
+
+/* Ecommerce stuff */
+.cart {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.cart li {
+	clear: both;
+	border-top: 1px dotted #F2EAB8;
+	padding-top: 2px;
+	margin-top: 2px;
+}
+
+.cart img {
+	float: left;
+	vertical-align: middle;
+	padding: 2px 10px 2px 0;
+}
+
+.cart form, .cart form div {
+	display: inline;
+}
+
+/* The Rails flash */
+#flash {
+	border: 1px solid darkred;
+	padding: 3px;
+	margin: 0px;
+	background-color: #F2EAB8;
+}
+

@@ -1,0 +1,57 @@
+<%= render :file => "#{src_folder}/HEADER" %>
+
+/*jslint strict: true */
+"use strict";
+
+(function() {
+  var jsHub = this.js
+  var tag_data = {
+    Homepage: "http://www.jshub.org/",
+    Version: "<%=j @tag_configuration.jshub_version %>",
+    GeneratedBy: "<%=j url_for(:controller => :tag_configurations, :only_path => false) %>",
+    Configuration: "<%=j @tag_configuration.name %> (<%= revision_string %>, debug)"
+  };
+  this.jsHub = this.jsHub || {};
+  for (var field in tag_data) {
+  	this.jsHub[field] = tag_data[field];
+  }
+})();
+
+<%= render :file => "#{src_folder}/hub.js" %>
+
+<%= render :file => "#{src_folder}/api.js" %>
+
+/*
+ * Data Capture Plug-ins
+ *//*--------------------------------------------------------------------------*/
+
+<%= render :file => "#{src_folder}/data-capture/technographic-plugin.js" %>
+
+<% if @tag_configuration.plugins.include? mf_plugin %>
+<%   for src_file in mf_plugin.js_files  %>
+<%= render :file => "#{src_folder}/#{src_file}" %>
+<%   end %>
+<% end %>
+
+<% if @tag_configuration.plugins.include? ga_markup_plugin %>
+<%   for src_file in ga_markup_plugin.js_files  %>
+<%= render :file => "#{src_folder}/#{src_file}" %>
+<%   end %>
+<% end %>
+
+
+/*
+ * Data Transport Plug-ins
+ *//*--------------------------------------------------------------------------*/
+
+<% if @tag_configuration.plugins.include? causata_plugin %>
+<%   for src_file in causata_plugin.js_files  %>
+<%= render :file => "#{src_folder}/#{src_file}" %>
+<%   end %>
+<% end %>
+
+<% if @tag_configuration.plugins.include? piwik_plugin %>
+<%   for src_file in piwik_plugin.js_files  %>
+<%= render :file => "#{src_folder}/#{src_file}" %>
+<%   end %>
+<% end %>
