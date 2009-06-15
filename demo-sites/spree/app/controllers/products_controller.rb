@@ -9,6 +9,14 @@ class ProductsController < Spree::BaseController
       @product_cols = 3
     end
   end
+  
+  show do
+    before do
+      @hpage = {
+        :name => "View product #{@product.name}"
+      }
+    end
+  end
 
   def change_image
     @product = Product.available.find_by_param(params[:id])

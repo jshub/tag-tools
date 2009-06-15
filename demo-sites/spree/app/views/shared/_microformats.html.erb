@@ -1,0 +1,19 @@
+<div id="jshub">
+  <div class="microformats">
+    <p class="heading">Microformat markup</p>
+    <p>hPage microformat data:</p>
+    <div class="hpage">
+      <ul>
+        <li>
+          Page name: <span class="name"><%= hpage[:name] %></span>
+        </li>
+        <% for cat in hpage[:categories] || [] %>
+        <li>
+          Category: <a href="<%= cat[:url] %>" rel="tag"><%= cat[:name] %></a>
+        </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+  <!-- <pre><%= @hpage.inspect %></pre> -->
+</div>

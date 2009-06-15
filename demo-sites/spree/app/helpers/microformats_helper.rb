@@ -3,7 +3,7 @@ module MicroformatsHelper
 
   # A default empty hpage object if there is not one already defined
   DEFAULT_HPAGE = {
-    :name => 'undefined',
+    :name => 'nothing defined',
     :categories => []
   }
   def hpage

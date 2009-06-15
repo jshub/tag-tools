@@ -1,18 +1,30 @@
 body 
+  :border-top 8px solid black 
+  :margin-top 0px
+  :margin-bottom 0px
+  :padding-top 10px
   :font-family Georgia
+
+#header a:hover
+  :color black
 
 #demo
   :position absolute
   :top 0px
   :left 0px
 
-#footer
-  #jshub
-    :background transparent url(../../images/footer_jshub.png) 0px -32px no-repeat
-    :padding 60px 40px
+#jshub
+  :background #e2e4e9 url(../../images/footer_bg.png) top left repeat-x 
+  :border-top 4px solid black 
+  .microformats
+    :background transparent url(../../images/footer_jshub.png) top left no-repeat
+    :padding 100px 115px 0px
     :color = !jshub_grey
     :font-size 14px
     .heading
       :font-size 18px
       :font-style italic
       :font-weight bold
+    .dp-highlighter
+      :margin-bottom 0px
+      :line-height 60% !important

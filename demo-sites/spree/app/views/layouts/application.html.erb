@@ -7,7 +7,13 @@
   <%= stylesheet_link_tag 'compiled/screen' %>
  
   <%= javascript_include_tag 'jquery-1.3.2.min', 'jquery.validate.pack.js', :cache => 'jquery-and-plugins' %>
-  <%= meta_data_tags %> 
+  <%= meta_data_tags %>
+  
+  <!-- For microformats -->
+  <%= stylesheet_link_tag 'dpSyntaxHighlighter' %>
+  <%= javascript_include_tag 'dpSyntaxHighlighter' %>
+  <%= javascript_include_tag 'microformats' %>
+   
   <%= yield :head %>
  
 </head>
@@ -54,5 +60,6 @@ end
     </div>
     <%= render :partial => 'shared/footer'%>    		
   </div>
+  <%= render :partial => 'shared/microformats'%>    		
 </body>
 </html>
