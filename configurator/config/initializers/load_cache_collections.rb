@@ -10,10 +10,10 @@ ActionView::Helpers::AssetTagHelper.register_stylesheet_expansion :configurator 
 
 # YUI is used by unit tests
 ActionView::Helpers::AssetTagHelper.register_stylesheet_expansion :yui3 => [
-  "yui-3.0.0pr2/reset-context", 
-  "yui-3.0.0pr2/fonts-context", 
-  "yui-3.0.0pr2/grids-context", 
-  "yui-3.0.0pr2/base-context"]
+  "yui3/reset-context", 
+  "yui3/fonts-context", 
+  "yui3/grids-context", 
+  "yui3/base-context"]
 ActionView::Helpers::AssetTagHelper.register_javascript_expansion :yui3 => [
   "yui-3.0.0pr2/build/yui/yui.js",
   "yui-3.0.0pr2/build/oop/oop.js", 
