@@ -918,7 +918,8 @@ body {
 #demo {
   position: absolute;
   top: 0px;
-  left: 0px; }
+  left: 0px;
+  z-index: 10; }
 
 #jshub {
   background: #e2e4e9 url(../../images/footer_bg.png) top left repeat-x;
