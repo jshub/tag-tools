@@ -9,36 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090511072958) do
-
-  create_table "javascript_test_results", :force => true do |t|
-    t.integer  "litmus_test_page_id"
-    t.integer  "user_agent_id",                      :null => false
-    t.string   "suite"
-    t.integer  "passed",              :default => 0
-    t.integer  "failed",              :default => 0
-    t.integer  "ignored",             :default => 0
-    t.text     "results_xml"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "litmus_test_pages", :force => true do |t|
-    t.integer  "litmus_test_run_id", :null => false
-    t.integer  "external_id"
-    t.string   "url"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "litmus_test_runs", :force => true do |t|
-    t.string   "label"
-    t.string   "external_vendor"
-    t.boolean  "use_defaults"
-    t.boolean  "not_external"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+ActiveRecord::Schema.define(:version => 20090601000001) do
 
   create_table "plugins", :force => true do |t|
     t.string   "type"
@@ -76,26 +47,19 @@ ActiveRecord::Schema.define(:version => 20090511072958) do
   create_table "tag_configuration_revisions", :force => true do |t|
     t.integer  "tag_configuration_id", :null => false
     t.integer  "revision_number"
-    t.integer  "user_id",              :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.text     "generated_code"
     t.string   "sha1_debug"
     t.string   "sha1_production"
+    t.integer  "user_id",              :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "tag_configurations", :force => true do |t|
-    t.string   "name"
-    t.string   "jshub_version"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string   "name",          :null => false
     t.integer  "user_id"
     t.string   "site_name"
-  end
-
-  create_table "user_agents", :force => true do |t|
-    t.string   "ua_string"
-    t.string   "family"
+    t.string   "jshub_version"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
