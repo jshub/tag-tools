@@ -33,7 +33,7 @@ end
 namespace :custom do
   desc 'Symlink the public directory into the web root. This is for use by Passenger via RailsBaseURI
         ref: http://www.modrails.com/documentation/Users%20guide.html#deploying_rails_to_sub_uri'
-  task :symlink do
+  task :webroot do
     run "ln -nfs #{current_path}/public #{webroot}"
   end
 
@@ -41,9 +41,14 @@ namespace :custom do
   task :version do
     run "echo \"r#{real_revision}\" > #{release_path}/app/views/shared/_version.html.erb"
   end
+  
+  desc 'Run db:bootstrap unattended to setup sample products'
+  task :bootstrap do
+    run "cd #{deploy_to}/current; rake db:bootstrap AUTO_ACCEPT='true'"
+  end
 end
 # use our custom tasks at the appropriate time
 # e.g. before :deploy, :my_custom_task
 #      after  "deploy:symlink", :do_this, :and_do_that
-after "deploy:update",   "deploy:migrate", "custom:version"
-after "deploy:symlink",   "custom:symlink"
+after "deploy:update",   "deploy:migrate", "custom:bootstrap", "custom:version"
+after "deploy:symlink",   "custom:webroot"
