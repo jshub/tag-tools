@@ -9,7 +9,7 @@
         </li>
         <% for cat in hpage[:categories] || [] %>
         <li>
-          Category: <a href="<%= cat[:url] %>" rel="tag"><%= cat[:name] %></a>
+          Category: <a class="category" href="<%= cat[:url] %>" rel="tag"><%= cat[:name] %></a>
         </li>
         <% end %>
       </ul>
