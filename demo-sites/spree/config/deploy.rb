@@ -33,7 +33,7 @@ end
 namespace :custom do
   desc 'Symlink the public directory into the web root. This is for use by Passenger via RailsBaseURI
         ref: http://www.modrails.com/documentation/Users%20guide.html#deploying_rails_to_sub_uri'
-  task :webroot do
+  task :link_webroot do
     run "ln -nfs #{current_path}/public #{webroot}"
   end
 
@@ -51,4 +51,4 @@ end
 # e.g. before :deploy, :my_custom_task
 #      after  "deploy:symlink", :do_this, :and_do_that
 after "deploy:update",   "deploy:migrate", "custom:bootstrap", "custom:version"
-after "deploy:symlink",   "custom:webroot"
+after "deploy:symlink",   "custom:link_webroot"
