@@ -36,9 +36,9 @@
 
 <% if @tag_configuration.plugins.include? causata_plugin %>
   <p class="plugin_name" id="<%= causata_plugin.name.downcase %>">
-    YourCompany.com data transport <br />
+    <%= causata_plugin.name %> data transport <br />
   </p>
-	<small>Sends information to the <%= "#{APP_CONFIG[:configurator][:plugin1][:name]}" %> service.</small>
+	<small>Sends information to the Causata server.</small>
 
   <div id="configure_plugin_<%= causata_plugin.id %>">
   	<% unless value_for_plugin_param(:causata, :server_url).nil? %>
@@ -58,9 +58,9 @@
   
 <% if @tag_configuration.plugins.include? piwik_plugin %>
   <p class="plugin_name" id="<%= piwik_plugin.name.downcase %>">
-    AnotherCompany.com web analytics <br />  	
+    Piwik web analytics <br />  	
   </p>
-	<small>Sends information to the <%= "#{APP_CONFIG[:configurator][:plugin2][:name]}" %> web analytics service.</small>
+	<small>Sends information to the Piwik web analytics service.</small>
 
   <div id="configure_plugin_<%= piwik_plugin.id %>">
     <% unless value_for_plugin_param(:piwik, :server_url).nil? %>

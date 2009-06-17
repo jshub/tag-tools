@@ -33,9 +33,9 @@
     <%= check_box_tag label_for_plugin_param(:causata, :include), true,
           @tag_configuration.plugins.include?(causata_plugin), 
           :class => 'configurable' %>
-    <%= label_tag label_for_plugin_param(:causata, :include), "#{APP_CONFIG[:configurator][:plugin1][:name]}",
+    <%= label_tag label_for_plugin_param(:causata, :include), "Causata",
           :class => 'right plugin_name' %> <br />
-	<small>Sends information to the <%= "#{APP_CONFIG[:configurator][:plugin1][:name]}" %> service.</small>
+	<small>Sends information to the Causata server.</small>
   </p>
   <div id="configure_plugin_<%= causata_plugin.id %>">
     <p>
@@ -58,9 +58,9 @@
     <%= check_box_tag label_for_plugin_param(:piwik, :include), true,
           @tag_configuration.plugins.include?(piwik_plugin), 
           :class => 'configurable' %>
-    <%= label_tag label_for_plugin_param(:piwik, :include), "#{APP_CONFIG[:configurator][:plugin2][:name]} web analytics",
+    <%= label_tag label_for_plugin_param(:piwik, :include), "Piwik web analytics",
           :class => 'right plugin_name' %> <br />  	
-	<small>Sends information to the <%= "#{APP_CONFIG[:configurator][:plugin2][:name]}" %> web analytics service.</small>
+	<small>Sends information to the Piwik web analytics service.</small>
   </p>
   
   <div id="configure_plugin_<%= piwik_plugin.id %>">

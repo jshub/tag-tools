@@ -27,11 +27,7 @@
       <tr class="<%= cycle('row-odd', 'row-even') %>">
         <td class="config_name"><%= link_to config.name, config %></td>
         <td>
-          <%
-            plugins = config.plugins.map(&:name).to_sentence.gsub("Causata", "#{APP_CONFIG[:configurator][:plugin1][:name]}") 
-            plugins.gsub!("Piwik", "#{APP_CONFIG[:configurator][:plugin2][:name]}") 
-          %>
-          <%= plugins %>
+          <%= config.plugins.map(&:name).to_sentence %>
         </td>
         <td class="site_name"><%= config.site_name %></td>
         <td>

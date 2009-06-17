@@ -22,10 +22,6 @@
 	</div>
 	<ul class="rev_messages">
 	  <% for message in rev.messages %>
-	  <%
-      message.gsub!("Causata", "#{APP_CONFIG[:configurator][:plugin1][:name]}") 
-      message.gsub!("Piwik", "#{APP_CONFIG[:configurator][:plugin2][:name]}") 
-	  %>
 	  <li><%= message %></li>
 	  <% end %>
 	</ul>
