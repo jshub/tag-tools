@@ -25,7 +25,6 @@ class User < ActiveRecord::Base
     if user 
       expected_password = encrypted_password(passwd, user.salt) 
       if user.hashed_password != expected_password 
-        print "hello"
         user = nil 
       end 
     end 

@@ -7,7 +7,7 @@ class PluginTest < ActiveSupport::TestCase
   end
   
   test "Causata plugin JS files" do
-    plugin = Plugin::CausataPlugin.new
+    plugin = Plugin::Causata.new
     assert_equal ['data-output/causata-output-plugin.js'], plugin.js_files
   end
   
@@ -18,9 +18,9 @@ class PluginTest < ActiveSupport::TestCase
     assert_equal 'Microformat', db_plugins[1].name
     
     # and check the singletons
-    causata_plugin = Plugin::CausataPlugin.instance
+    causata_plugin = Plugin::Causata.instance
     assert_equal causata_plugin, db_plugins[0]
-    mf_plugin = Plugin::MicroformatPlugin.instance
+    mf_plugin = Plugin::Microformat.instance
     assert_equal mf_plugin, db_plugins[1]
 
     # and the fixtures instances
@@ -29,7 +29,7 @@ class PluginTest < ActiveSupport::TestCase
   end
   
   test "retrieve name" do
-    plugin = Plugin::CausataPlugin.instance
+    plugin = Plugin::Causata.instance
     assert_equal 'Causata', plugin.name
   end
   

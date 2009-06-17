@@ -7,19 +7,19 @@ module TagConfigurationsHelper
   end
   
   def mf_plugin
-    Plugin::MicroformatPlugin.instance
+    Plugin::Microformat.instance
   end
   
   def ga_markup_plugin
-    Plugin::GoogleAnalyticsMarkupPlugin.instance
+    Plugin::GoogleAnalyticsMarkup.instance
   end
   
   def causata_plugin
-    Plugin::CausataPlugin.instance
+    Plugin::Causata.instance
   end
   
   def piwik_plugin
-    Plugin::PiwikPlugin.instance
+    Plugin::Piwik.instance
   end
   
   # used by _form.html.erb to render plugin configuration

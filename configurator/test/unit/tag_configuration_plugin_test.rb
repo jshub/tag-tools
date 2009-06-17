@@ -15,18 +15,18 @@ class TagConfigurationPluginTest < ActiveSupport::TestCase
     assert config.errors.on(:tag_configuration)
     assert_equal 2, config.errors.size
     # add a plugin that is not in the fixtures
-    config.plugin = Plugin::PiwikPlugin.instance
+    config.plugin = Plugin::Piwik.instance
     config.tag_configuration = tag_configurations(:one)
     assert_valid config
     # and one that is
-    config.plugin = Plugin::MicroformatPlugin.instance
+    config.plugin = Plugin::Microformat.instance
     assert ! config.valid?
   end
   
   test "fixtures correctly loaded" do
     config = tag_configuration_plugins(:one_microformat)
     assert_equal tag_configurations(:one), config.tag_configuration
-    assert_equal Plugin::MicroformatPlugin.instance, config.plugin
+    assert_equal Plugin::Microformat.instance, config.plugin
     assert config.parameters.empty?
   end
   

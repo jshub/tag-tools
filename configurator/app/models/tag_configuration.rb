@@ -23,8 +23,8 @@ class TagConfiguration < ActiveRecord::Base
   
   # a new empty instance should include the default plugins
   def add_default_plugins!
-    plugins << Plugin::MicroformatPlugin.instance
-    plugins << Plugin::CausataPlugin.instance
+    plugins << Plugin::Microformat.instance
+    plugins << Plugin::Causata.instance
   end
   
   # update the plugins included in the configuration from a map of ids and parameters
