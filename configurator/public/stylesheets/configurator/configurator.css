@@ -442,8 +442,6 @@ body.jshub.configurator .label {
 body.jshub.configurator .plugin_name {
   color: #000000;
   font-weight: bold; }
-body.jshub.configurator small {
-  display: none; }
 body.jshub.configurator .details div {
   margin-bottom: 1.0em; }
 body.jshub.configurator .details p {
