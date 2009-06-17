@@ -11,7 +11,7 @@ class Plugin < ActiveRecord::Base
   
   def self.instance(plugin_classname)
     # tip from http://infovore.org/archives/2006/08/02/getting-a-class-object-in-ruby-from-a-string-containing-that-classes-name/
-    plugin_class = self.const_get("Plugin::#{plugin_classname.to_s.camelize}")
+    plugin_class = Plugin.const_get("#{plugin_classname.to_s.camelize}")
     raise ArgumentError, "Cannot resolve to plugin type: #{plugin_classname}" if plugin_class == nil
     logger.debug "Found #{plugin_class}"
     plugin_class.send('instance')
