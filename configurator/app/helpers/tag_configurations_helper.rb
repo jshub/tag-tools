@@ -50,4 +50,19 @@ module TagConfigurationsHelper
       "revision #{@tag_configuration.current_revision_number}"
     end
   end
+  
+  # Used to generate the tag file
+  def generate_content_for_plugin(plugin)
+    return "" unless @tag_configuration.plugins.include? plugin
+    content = ""
+    for src_file in plugin.js_files
+      content += File.read("#{src_folder}/#{src_file}") + "\n"
+    end
+    params = @tag_configuration.tag_configuration_plugins.find_by_plugin_id(plugin.id).parameters
+    params.each do |key, value| 
+      content.gsub!("<%=\s#{key}\s%>", value)
+    end
+    content
+  end
+  
 end

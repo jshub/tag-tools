@@ -51,7 +51,8 @@
      * URL to dispatch to the server
      * TODO where should we configure this?
      */
-    var url = "http://10.0.1.9/";
+    var url = "<%= server_url %>";
+    var account = "<%= account_id %>";
     
     /*
      * Reference to a 'safe' version of jQuery with restricted access to the DOM (like AdSafe).

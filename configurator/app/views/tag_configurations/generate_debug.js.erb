@@ -27,31 +27,15 @@
 
 <%= render :file => "#{src_folder}/data-capture/technographic-plugin.js" %>
 
-<% if @tag_configuration.plugins.include? mf_plugin %>
-<%   for src_file in mf_plugin.js_files  %>
-<%= render :file => "#{src_folder}/#{src_file}" %>
-<%   end %>
-<% end %>
+<%= generate_content_for_plugin mf_plugin %>
 
-<% if @tag_configuration.plugins.include? ga_markup_plugin %>
-<%   for src_file in ga_markup_plugin.js_files  %>
-<%= render :file => "#{src_folder}/#{src_file}" %>
-<%   end %>
-<% end %>
+<%= generate_content_for_plugin ga_markup_plugin %>
 
 
 /*
  * Data Transport Plug-ins
  *//*--------------------------------------------------------------------------*/
 
-<% if @tag_configuration.plugins.include? causata_plugin %>
-<%   for src_file in causata_plugin.js_files  %>
-<%= render :file => "#{src_folder}/#{src_file}" %>
-<%   end %>
-<% end %>
+<%= generate_content_for_plugin causata_plugin %>
 
-<% if @tag_configuration.plugins.include? piwik_plugin %>
-<%   for src_file in piwik_plugin.js_files  %>
-<%= render :file => "#{src_folder}/#{src_file}" %>
-<%   end %>
-<% end %>
+<%= generate_content_for_plugin piwik_plugin %>
