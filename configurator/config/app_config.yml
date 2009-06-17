@@ -2,18 +2,6 @@
 # e.g. APP_CONFIG[:test_run][:vendor][:site]
 # ref: http://blog.innovativethought.net/2009/01/02/making-configuration-files-with-yaml-revised/
 development: &non_production_settings
-  :test_run:
-    :vendor:
-      :name: Litmus
-      :site: http://jshub.litmusapp.com/
-      :user: browser_tester
-      :password: J4r-J4r
-
-  :configurator:
-    :plugin1:
-      :name: YourCompany.com
-    :plugin2:
-      :name: AnotherCompany.com
       
 test:
   <<: *non_production_settings
