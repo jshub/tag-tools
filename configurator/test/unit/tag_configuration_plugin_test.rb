@@ -17,7 +17,7 @@ class TagConfigurationPluginTest < ActiveSupport::TestCase
     # add a plugin that is not in the fixtures
     config.plugin = Plugin::Piwik.instance
     config.tag_configuration = tag_configurations(:one)
-    assert_valid config
+    assert config.valid?
     # and one that is
     config.plugin = Plugin::Microformat.instance
     assert ! config.valid?
