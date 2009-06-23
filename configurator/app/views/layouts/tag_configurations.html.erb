@@ -24,7 +24,7 @@
 
     <div class="yui-t6">
   
-      <%= render :partial => "skin/nav2" %>
+      <%= render :partial => "skin/nav2" if controller.is_a? TagConfigurationsController %>
 
       <div class="yui-main content">
         <div class="yui-b col1">

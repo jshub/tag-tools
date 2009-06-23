@@ -32,19 +32,16 @@ Rails::Initializer.run do |config|
   
   # for JUnit XML reports
   config.gem "ci_reporter", :lib => "ci/reporter/core" unless RAILS_ENV == 'production'
-  # for diagrams
-  config.gem "railroad", :lib => "railroad/diagram_graph"
   # the database we use
   config.gem "sqlite3-ruby", :lib => "sqlite3"
   # for deployment
   config.gem "capistrano"
   # along with Apache
   config.gem "passenger" if RAILS_ENV == 'production' || RAILS_ENV == 'passenger'
-  # for YUI results capture
-#  config.gem "json"
-  # for writing XPI file
-#  config.gem "rubyzip"
+  # SASS for css generation
   config.gem "haml", :version => '2.0.9'
+  # user authentication
+  config.gem "authlogic"
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.

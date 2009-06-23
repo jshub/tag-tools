@@ -3,7 +3,6 @@ include ActionView::Helpers::DateHelper
 
   # GET /tag_configurations/1/revisions
   def index
-    @user = session[:user]
     @tag_configuration = TagConfiguration.find(params[:tag_configuration_id])
     @revisions = @tag_configuration.revisions.reverse
     render :layout => 'tag_configurations'

@@ -1,7 +1,25 @@
 class UsersController < ApplicationController
 
- layout "tag_configurations"
-
+  layout "tag_configurations"
+  before_filter :require_no_user, :only => [:new, :create]
+  before_filter :require_user, :only => [:show, :edit, :update]
+  
+  # GET /register  - show new user registration form
+  # POST /register - create a new user account, and implicitly log in
+  def register
+    @user = User.new(params[:user])
+    respond_to do |format|
+      if request.post? && @user.save
+        flash[:notice] = "Your account has been created."
+        format.html { redirect_back_or_default account_url }
+        format.xml  { render :xml => @user, :status => :created, :location => account_path }
+      else
+        format.html { render :layout => 'tag_configurations_users' } # register.html.erb
+        format.xml  { render :xml => @user }
+      end
+    end
+  end
+  
   # GET /users
   # GET /users.xml
 # this won't be implemented until we have an admin site
@@ -14,58 +32,12 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET /register  - show new user registration form
-  # POST /register - create a new user account, and implicitly log in
-  def register
-    @user = User.new(params[:user])
-    
-    respond_to do |format|
-      if request.post? and @user.save
-        flash[:notice] = "Your account has been created."
-        format.html { redirect_to(@user) }
-        format.xml  { render :xml => @user, :status => :created, :location => @user }
-      else
-        format.html { render :layout => 'tag_configurations_users' } # register.html.erb
-        format.xml  { render :xml => @user }
-      end
-    end
-  end
-
-  # GET /login   - show login form
-  # POST /login  - authenticate and redirect to requested page
-  def login
-    if request.post?
-      @user = User.authenticate(params[:email_address] || '', params[:password] || '')
-      if @user
-        session[:user] = @user
-        uri = session[:original_uri] || @user
-        session[:original_uri] = nil
-        redirect_to uri
-        return
-      else
-        flash[:notice] = "That email address or password was not recognized"
-      end
-    end
-
-    respond_to do |format|
-      format.html { render :layout => 'tag_configurations_users' } # login.html.erb
-      format.xml  { render :xml => @user }
-    end
-  end
-
-  # GET /logout  - clear authenticated session
-  def logout
-    session[:user] = nil
-    flash[:notice] = "You have been successfully logged out"
-    uri = session[:original_uri] || :login
-    session[:original_uri] = nil
-    redirect_to uri
-  end
-
-  # GET /users/username
-  # GET /users/username.xml
+  # GET /account
+  # GET /account.xml
+  #
+  # Show the current user's registration details
   def show
-    @user = User.find_by_name(params[:name])
+    @user = @current_user
 
     respond_to do |format|
       format.html { render :layout => 'tag_configurations_users' } # show.html.erb
@@ -76,7 +48,7 @@ class UsersController < ApplicationController
 
   # GET /users/username/edit
   def edit
-    @user = User.find_by_name(params[:name])
+    @user = @current_user
 
     respond_to do |format|
       format.html { render :layout => 'tag_configurations_users' } # show.html.erb
@@ -87,12 +59,12 @@ class UsersController < ApplicationController
   # PUT /users/1
   # PUT /users/1.xml
   def update
-    @user = User.find(params[:id])
+    @user = @current_user
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
-        flash[:notice] = 'User was successfully updated.'
-        format.html { redirect_to(@user) }
+        flash[:notice] = 'Account details updated.'
+        format.html { redirect_to account_url }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

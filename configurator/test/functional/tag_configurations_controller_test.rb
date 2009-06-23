@@ -1,26 +1,29 @@
 require 'test_helper'
 
 class TagConfigurationsControllerTest < ActionController::TestCase
+  setup :activate_authlogic
+    
   test "should get index page" do
     get :index
     assert_response :success
   end
   
   test "index should not list any configurations if not logged in" do
-    get :index, {}, { :user => nil }
+    get :index
     tag_configurations = assigns(:tag_configurations)
     assert_nil tag_configurations
   end
   
   test "index should list saved configurations if logged in" do
-    get :index, {}, { :user => users(:user1) }
+    login
+    get :index
     saved_configs = assigns(:saved_configurations)
     assert_not_nil saved_configs
     assert_equal 2, saved_configs.size, saved_configs.inspect
   end
 
   test "index should have link to log in" do
-    get :index, {}, { :user => nil }
+    get :index
     assert_select "a[href=#{login_path}]"
   end
 
@@ -31,18 +34,18 @@ class TagConfigurationsControllerTest < ActionController::TestCase
 
   test "should create and save tag configuration if logged in" do
     assert_difference('TagConfiguration.count') do
+      login
       post :create, 
-        { :tag_configuration => { :name => 'test new config', :jshub_version => '1.1' } },
-        { :user => users(:user1) }
+        { :tag_configuration => { :name => 'test new config', :jshub_version => '1.1' } }
       assert assigns(:tag_configuration).errors.empty?, assigns(:tag_configuration).errors.inspect
     end
     assert_redirected_to tag_configuration_path(assigns(:tag_configuration))
   end
 
   test "should create tag configuration in session if not logged in" do
-    post :create, 
-      { :tag_configuration => { :name => 'test new config', :jshub_version => '1.1' } },
-      { } # no user in session
+    post :create,
+      # do not log in
+      { :tag_configuration => { :name => 'test new config', :jshub_version => '1.1' } }
     assert assigns(:tag_configuration).errors_for_anonymous_session.empty?, 
       assigns(:tag_configuration).errors_for_anonymous_session.inspect
     assert_equal assigns(:tag_configuration), session[:tag_configuration]
@@ -107,7 +110,8 @@ class TagConfigurationsControllerTest < ActionController::TestCase
   end
   
   test "should show site name in index and show views" do
-    get :index, {}, { :user => users(:user1) }
+    login
+    get :index
     assert_select "fieldset#config_listing" do
       assert_select "td.config_name", "Config one"
       assert_select "td.site_name", "jshub.org"
@@ -117,4 +121,9 @@ class TagConfigurationsControllerTest < ActionController::TestCase
     assert_select "p#site_name", "jshub.org"
   end
   
+  private
+  
+  def login(user = :user1)
+    UserSession.create(users(user))
+  end
 end

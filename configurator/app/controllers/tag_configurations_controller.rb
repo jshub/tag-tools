@@ -8,10 +8,8 @@ class TagConfigurationsController < ApplicationController
   # GET /tag_configurations
   # GET /tag_configurations.xml
   def index
-    
-    @user = session[:user]
-    if @user
-      @saved_configurations = TagConfiguration.find_all_by_user_id @user.id
+    if current_user_session
+      @saved_configurations = TagConfiguration.find_all_by_user_id current_user.id
     end
 
     respond_to do |format|
@@ -24,9 +22,8 @@ class TagConfigurationsController < ApplicationController
   # GET /tag_configurations/1.xml
   def show
 
-    @user = session[:user]
-    if @user
-      @saved_configurations = TagConfiguration.find_all_by_user_id @user.id
+    if current_user
+      @saved_configurations = TagConfiguration.find_all_by_user_id current_user.id
     end
 
     if params[:id] == 'new'
@@ -50,9 +47,6 @@ class TagConfigurationsController < ApplicationController
   # GET /tag_configurations/new
   # GET /tag_configurations/new.xml
   def new
-
-    @user = session[:user]
-
     @tag_configuration = TagConfiguration.new
     @tag_configuration.add_default_plugins!
 
@@ -65,9 +59,6 @@ class TagConfigurationsController < ApplicationController
   # GET /tag_configurations/1/edit
   # GET /tag_configurations/new/edit
   def edit
-
-    @user = session[:user]
-
     if params[:id] == 'new'
       if session[:tag_configuration]
         @tag_configuration = session[:tag_configuration]
@@ -85,16 +76,13 @@ class TagConfigurationsController < ApplicationController
   # POST /tag_configurations
   # POST /tag_configurations.xml
   def create
-
-    @user = session[:user]
-
     params[:tag_configuration][:plugin_ids] ||= []
     @tag_configuration = TagConfiguration.new(params[:tag_configuration])
 
     respond_to do |format|
-      if session[:user]
+      if current_user_session
         # if the user is logged in, then save the config to the database
-        @tag_configuration.user = session[:user]
+        @tag_configuration.user = current_user
         if @tag_configuration.save
           @tag_configuration.reload
           render_and_save_tag
@@ -123,14 +111,12 @@ class TagConfigurationsController < ApplicationController
   # PUT /tag_configurations/1
   # PUT /tag_configurations/1.xml
   def update
-
-    @user = session[:user]
     @tag_configuration = TagConfiguration.find(params[:id])
 
     respond_to do |format|
-      if session[:user]
+      if current_user_session
         # if the user is logged in, then save the config to the database
-        @tag_configuration.user = session[:user]
+        @tag_configuration.user = current_user
         if @tag_configuration.update_attributes(params[:tag_configuration])
           render_and_save_tag
           flash[:notice] = 'Tag configuration was successfully updated.'
@@ -159,9 +145,6 @@ class TagConfigurationsController < ApplicationController
   # DELETE /tag_configurations/1
   # DELETE /tag_configurations/1.xml
   def destroy
-
-    @user = session[:user]
-
     @tag_configuration = TagConfiguration.find(params[:id])
     @tag_configuration.destroy
 

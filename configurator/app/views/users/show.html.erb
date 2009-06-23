@@ -2,12 +2,12 @@
 
 <fieldset>
   <p>
-    Name: <%=h @user.name %>
+    Username: <%=h @user.username %>
   </p>
   <p>
-    Email address: <%= h @user.email_address %>
+    Email address: <%= h @user.email %>
   </p>
-  <%= link_to 'Change email address or password', edit_user_path(@user) %>
+  <%= link_to 'Change email address or password', edit_account_path %>
 </fieldset>
 
 <br />

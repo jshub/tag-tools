@@ -27,13 +27,10 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   # User controls
+  map.login    '/login',    :controller => 'user_sessions', :action => 'login'
+  map.logout   '/logout',   :controller => 'user_sessions', :action => 'logout'
   map.register '/register', :controller => 'users', :action => 'register'
-  map.login    '/login',    :controller => 'users', :action => 'login'
-  map.logout   '/logout',   :controller => 'users', :action => 'logout'
-  map.user     '/users/:name', :controller => 'users', :action => 'show'
-  map.formatted_user  '/users/:name.:format', :controller => 'users'
-  map.edit_user       '/users/:name/edit', :controller => 'users', :action => 'edit'
-  map.resources :users, :only => :index
+  map.resource :account, :controller => "users", :only => [:show, :edit]
 
   # Homepage
   map.root :controller => 'tag_configurations', :action => 'index'

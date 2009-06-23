@@ -4,7 +4,7 @@
   <% @revisions.each do |rev| %> 
   <div id="r<%= rev.revision_number %>">
     <p class="rev_header"><strong>Revision <%= rev.revision_number %></strong>
-	  by <i><%= rev.user.name %></i>, 
+	  by <i><%= rev.user.username %></i>, 
 	  <%= rev.created_at.to_s(:long) %>.
 	  Get this version: 
 	  <a class="debug-link" href="#" title="show/hide debug hash code">debug</a>, 

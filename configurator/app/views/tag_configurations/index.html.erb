@@ -3,7 +3,7 @@
 
 <fieldset id="config_listing">
 
-<% if @user.nil? %>
+<% if current_user.nil? %>
 
   <div class="button create"><%= link_to 'Create a new configuration', new_tag_configuration_path %></div>
 
@@ -49,7 +49,7 @@
   <% end %>
   <div class="button new"><%= link_to 'Create a new configuration', new_tag_configuration_path %></div>
 
-<% end #if @user %>
+<% end #if current_user %>
 
 </fieldset>
 

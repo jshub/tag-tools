@@ -8,8 +8,8 @@
         <li><%= link_to("Tools", { :controller => 'tag_configurations', :action => "index" }) %></li>
         <li><%= link_to("Community", { :controller => 'tag_configurations', :action => "index" }) %></li>
         <li><%= link_to("Our blog", { :controller => 'tag_configurations', :action => "index" }) %></li>
-        <% if @user != nil %>
-          <li><%= link_to 'Your account', @user %></li>
+        <% if current_user_session %>
+          <li><%= link_to 'Your account', account_path %></li>
         <% end %>
       </ul>
     </div> 

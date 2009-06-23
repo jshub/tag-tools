@@ -98,7 +98,7 @@
 
 <% end %>
   
-<% if session[:user].nil? %>
+<% if current_user.nil? %>
 <p>
   Don't forget to <%= link_to 'register', :register %> or <%= link_to 'log in', :login %> to save the configuration.
 </p>
