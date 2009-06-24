@@ -8,23 +8,16 @@ class TagConfigurationsController < ApplicationController
   # GET /tag_configurations
   # GET /tag_configurations.xml
   def index
-    if current_user_session
-      @saved_configurations = TagConfiguration.find_all_by_user_id current_user.id
-    end
-
     respond_to do |format|
       format.html { render :layout => 'tag_configurations_home' } # index.html.erb
-      format.xml  { render :xml => @saved_configurations }
+      format.xml  { render :xml => saved_configurations }
     end
   end
 
   # GET /tag_configurations/1
   # GET /tag_configurations/1.xml
   def show
-
-    if current_user
-      @saved_configurations = TagConfiguration.find_all_by_user_id current_user.id
-    end
+    @col2 = "download_buttons"
 
     if params[:id] == 'new'
       if session[:tag_configuration]

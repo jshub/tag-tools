@@ -1,4 +1,4 @@
-<div class="login">
+<div class="yui-u login">
 <% if current_user_session == nil %>
   <% form_tag( login_path, :id => 'login_form' ) do %>
   <%= hidden_field_tag "return_to", request.request_uri %>

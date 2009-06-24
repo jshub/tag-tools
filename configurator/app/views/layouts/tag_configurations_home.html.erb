@@ -20,7 +20,10 @@
   <div class="yui-d2f page homepage <%= controller.action_name %>">
 
     <%= render :partial => "skin/header" %>
-    <%= render :partial => "skin/nav1" %>
+	<div class="yui-g nav1">
+      <%= render :partial => "skin/header_nav_buttons" %>
+      <%= render :partial => 'user_sessions/login_status' %>
+    </div>
 
     <div class="yui-g content">
           

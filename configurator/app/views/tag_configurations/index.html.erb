@@ -11,8 +11,7 @@
 
 <% else %>
 
-
-  <% unless @saved_configurations.empty? %>
+  <% unless saved_configurations.empty? %>
   <table>
     <thead>
       <tr>
@@ -23,7 +22,7 @@
       </tr>
     </thead>
     <tbody>
-    <% for config in @saved_configurations %>
+    <% for config in saved_configurations %>
       <tr class="<%= cycle('row-odd', 'row-even') %>">
         <td class="config_name"><%= link_to config.name, config %></td>
         <td>

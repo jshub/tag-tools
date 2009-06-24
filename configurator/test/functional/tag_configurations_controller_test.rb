@@ -17,9 +17,11 @@ class TagConfigurationsControllerTest < ActionController::TestCase
   test "index should list saved configurations if logged in" do
     login
     get :index
-    saved_configs = assigns(:saved_configurations)
-    assert_not_nil saved_configs
-    assert_equal 2, saved_configs.size, saved_configs.inspect
+    assert_select 'div.content table td.config_name' do |configs|
+      assert_equal 2, configs.size
+      assert_select 'a', "Config one"
+      assert_select 'a', "Config two"
+    end
   end
 
   test "index should have link to log in" do

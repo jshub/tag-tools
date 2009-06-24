@@ -86,14 +86,14 @@ body.jshub.configurator {
         text-indent: -10000em;
         text-decoration: none;
         height: 35px; }
-  body.jshub.configurator div.tools .login {
-    margin: 5px;
-    text-align: right; }
-    body.jshub.configurator div.tools .login .login-state {
-      color: #858689; }
-    body.jshub.configurator div.tools .login .username {
-      color: #858689;
-      font-weight: bold; }
+    body.jshub.configurator div.nav1 .login {
+      margin: 5px;
+      text-align: right; }
+      body.jshub.configurator div.nav1 .login .login-state {
+        color: #858689; }
+      body.jshub.configurator div.nav1 .login .username {
+        color: #858689;
+        font-weight: bold; }
   body.jshub.configurator div#flash {
     margin: 5px 0;
     padding: 10px;

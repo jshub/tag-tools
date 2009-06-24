@@ -23,8 +23,8 @@ class UsersControllerTest < ActionController::TestCase
     UserSession.create(users(:user1))
     get :show
     assert_response :success
-    assert_select 'div.account p', "Username: user1"
-    assert_select 'div.account p', "Email address: user1@jshub.org"
+    assert_select 'div.col1 p', "Username: user1"
+    assert_select 'div.col1 p', "Email address: user1@jshub.org"
   end
 
 end

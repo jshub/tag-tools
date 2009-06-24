@@ -30,7 +30,7 @@ ActionController::Routing::Routes.draw do |map|
   map.login    '/login',    :controller => 'user_sessions', :action => 'login'
   map.logout   '/logout',   :controller => 'user_sessions', :action => 'logout'
   map.register '/register', :controller => 'users', :action => 'register'
-  map.resource :account, :controller => "users", :only => [:show, :edit]
+  map.resource :account, :controller => "users", :only => [:show, :edit, :update]
 
   # Homepage
   map.root :controller => 'tag_configurations', :action => 'index'

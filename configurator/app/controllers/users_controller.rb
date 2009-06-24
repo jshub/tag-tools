@@ -14,24 +14,12 @@ class UsersController < ApplicationController
         format.html { redirect_back_or_default account_url }
         format.xml  { render :xml => @user, :status => :created, :location => account_path }
       else
-        format.html { render :layout => 'tag_configurations_users' } # register.html.erb
+        format.html { render } # register.html.erb
         format.xml  { render :xml => @user }
       end
     end
   end
   
-  # GET /users
-  # GET /users.xml
-# this won't be implemented until we have an admin site
-  def index
-    @users = User.find(:all)
-
-    respond_to do |format|
-      format.html { render :layout => 'tag_configurations_users' } # index.html.erb
-      format.xml  { render :xml => @users }
-    end
-  end
-
   # GET /account
   # GET /account.xml
   #
@@ -40,7 +28,7 @@ class UsersController < ApplicationController
     @user = @current_user
 
     respond_to do |format|
-      format.html { render :layout => 'tag_configurations_users' } # show.html.erb
+      format.html { render } # show.html.erb
       format.xml  { render :xml => @user }
     end
   end
@@ -51,7 +39,7 @@ class UsersController < ApplicationController
     @user = @current_user
 
     respond_to do |format|
-      format.html { render :layout => 'tag_configurations_users' } # show.html.erb
+      format.html { render } # show.html.erb
       format.xml  { render :xml => @user }
     end
   end
