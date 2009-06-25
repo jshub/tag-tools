@@ -1,13 +1,28 @@
-    <div class="yui-gb header">
-      <div id="logo" class="yui-u first">
-          <%= link_to("Homepage", { :controller => 'tag_configurations', :action => "index" }, :class => "homepage") %>
-      </div>
-      <div class="yui-u">
-        &nbsp;
-      </div>
-
-      <div class="yui-u">
-        &nbsp;
-      </div> 
-
-    </div>
+<div id="header">
+  <div id="logo">
+    <%= link_to image_tag("jshub/logo_jshub_with_mark.png"), root_url %>
+  </div>
+  <div id="sitenav" class="nav">
+    <ul>
+      <li class="first">
+        <%= link_to 'Home', '/', :title => 'Home' %>
+      </li>
+      <li>
+        <%= link_to 'About', '/project/wiki/StaticPages/AboutUs', :title => 'About' %>
+      </li>
+      <li>
+        <%= link_to 'Wiki', '/project/wiki', :title => 'Wiki start page' %>
+      </li>
+      <li class="active">
+        <%= link_to 'Configurator', root_url, :title => 'Tag configurator' %>
+      </li>
+      <li class="last disabled">
+        <%= link_to 'Blog', '#', :title => 'Blog (not available)' %>
+      </li>
+    </ul>
+  </div>
+  <div id="banner">
+  	<h1>Configurator</h1>
+    <%= render :partial => 'user_sessions/login_status' %>
+  </div>
+</div>

@@ -18,34 +18,31 @@
   <body class="jshub configurator yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase">
   
   <div class="yui-d2f page homepage <%= controller.action_name %>">
-
+  	
     <%= render :partial => "skin/header" %>
-	<div class="yui-g nav1">
-      <%= render :partial => "skin/header_nav_buttons" %>
-      <%= render :partial => 'user_sessions/login_status' %>
-    </div>
-
-    <div class="yui-g content">
-          
-      <% if flash[:notice] %>
-      <div id="flash" class="notice" style="display: block">
-        <strong><%= flash[:notice] %></strong>
-      <% flash[:notice] = nil %>
-      </div>
-      <script type="text/javascript">
-        setTimeout(function(){
-          document.getElementById('flash').style.display = 'none';
-        }, 1500);
-      </script>
-      <% end %>
     
+	<div class="yui-g content"><!-- Full width of container -->
+      <div class="col1">
+
+      <% if flash[:notice] %>
+        <div id="flash" class="notice" style="display: block">
+          <strong><%= flash[:notice] %></strong>
+          <% flash[:notice] = nil %>
+        </div>
+        <script type="text/javascript">
+          setTimeout(function() {
+            document.getElementById('flash').style.display = 'none';
+          }, 1500);
+        </script>
+      <% end %>
+
       <%= yield :layout %>
 
-    </div>
-
+      </div><!-- col1 -->
+	</div><!-- content -->
+	
     <%= render :partial => "skin/footer" %>
-
-    </div> <!-- yui-d1f -->
+  </div><!-- page -->
         
   </body>
 </html>

@@ -1,0 +1,480 @@
+
+
+
+
+
+
+/*  */
+/* Top banner */
+/*  */
+div#header {
+  line-height: 1;
+  margin-bottom: -60px;
+  /* Sitewide navigation bar */
+  /* Text banner with login links */ }
+  div#header #logo img {
+    margin-top: 8px;
+    margin-bottom: -3em; }
+  div#header #sitenav {
+    position: relative;
+    top: -78px; }
+    div#header #sitenav a:link, div#header #sitenav a:visited {
+      color: inherit;
+      padding: 0em 0.25px; }
+    div#header #sitenav ul {
+      text-align: center;
+      font: normal 20px 'Tahoma',verdana,'Bitstream Vera Sans',helvetica,arial,sans-serif;
+      font-weight: bold;
+      color: #000000; }
+    div#header #sitenav li {
+      display: inline;
+      white-space: nowrap;
+      padding: .25em 0.75em 0.5em; }
+      div#header #sitenav li.active {
+        background: #fff; }
+      div#header #sitenav li.disabled :link, div#header #sitenav li.disabled :visited {
+        color: #a0ca1f; }
+  div#header #banner {
+    position: relative;
+    top: -78px;
+    left: 150px; }
+    div#header #banner h1 {
+      display: inline;
+      font-family: Georgia, serif;
+      font-style: italic;
+      font-size: 255%;
+      border: none;
+      padding-right: 0.5em;
+      color: #858689; }
+    div#header #banner div.login, div#header #banner div.login * {
+      display: inline; }
+
+body.jshub.configurator {
+  background: #e2e4e9 url(../../images/jshub/bg_body.png) repeat-x;
+  margin: 0 auto;
+  padding: 0; }
+
+.hide {
+  display: none; }
+
+div.nav1 {
+  margin-bottom: 5px; }
+  div.nav1 .buttons {
+    height: 35px;
+    background-color: transparent;
+    background-image: url('images/configurator-sprite.png');
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: -50px -200px; }
+    div.nav1 .buttons a {
+      display: block;
+      height: inherit;
+      overflow: hidden;
+      text-indent: -10000em;
+      text-decoration: none;
+      height: 35px; }
+  div.nav1 .login {
+    margin: 5px;
+    text-align: right; }
+    div.nav1 .login .login-state {
+      color: #858689; }
+    div.nav1 .login .username {
+      color: #858689;
+      font-weight: bold; }
+
+div.page hr {
+  margin-bottom: 10px;
+  border: none;
+  border-bottom: 1px solid #fff; }
+div.page a {
+  color: #035b9d;
+  text-decoration: none; }
+div.page h1 {
+  margin: 0;
+  margin-bottom: 10px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #fff;
+  font-size: 182%; }
+div.page h2 {
+  margin: 0;
+  margin-bottom: 5px;
+  color: #858689;
+  font-size: 138.5%; }
+
+/* messages and notices */
+/*  */
+div#flash {
+  margin: 5px 0;
+  padding: 10px;
+  background-color: #ffc;
+  border: 1px solid #ccc; }
+
+div.errorExplanation {
+  padding: 10px;
+  background-color: #ffc;
+  border: 1px solid #ccc; }
+  div.errorExplanation h2 {
+    color: black; }
+
+
+
+div.links {
+  height: 32px;
+  background-color: #efefef;
+  border-radius: 1em;
+  -moz-border-radius: 1em; }
+  div.links ul {
+    margin: 0.3em 0;
+    padding: 6px 15px;
+    color: #b4b7be; }
+    div.links ul li {
+      float: left;
+      padding: 0 6px;
+      border-left: 1px solid #b4b7be;
+      list-style-type: none;
+      font-size: 85%; }
+      div.links ul li.first {
+        border-left: none; }
+      div.links ul li a {
+        color: inherit;
+        font-weight: bold;
+        text-decoration: none; }
+
+div.footer .legal {
+  padding: 6px 15px;
+  color: #b4b7be;
+  font-size: 85%; }
+  div.footer .legal a {
+    /* TODO dotted and grey */
+    /*  */ }
+
+div.col2 .top {
+  padding: 15px;
+  min-height: 150px;
+  background-color: #efefef;
+  border-radius: 1em;
+  -moz-border-radius: 1em;
+  -moz-border-radius-topleft: 0;
+  border-radius-topleft: 0;
+  border-top: 0;
+  border-left: 0;
+  border-bottom: 1px solid #a1a1a1;
+  border-right: 1px solid #a1a1a1; }
+div.col2 .bottom {
+  padding: 15px;
+  min-height: 150px; }
+
+div.content {
+  padding: 0; }
+  div.content .col1 {
+    min-height: 350px;
+    padding: 15px;
+    background-color: #efefef;
+    border-radius: 1em;
+    -moz-border-radius: 1em;
+    -moz-border-radius-topright: 0;
+    border-radius-topright: 0;
+    border-top: 0;
+    border-left: 0;
+    border-bottom: 1px solid #a1a1a1;
+    border-right: 1px solid #a1a1a1; }
+  div.content .actions {
+    width: 22%; }
+    div.content .actions.big {
+      width: 50%; }
+
+div.icon.tick {
+  width: 32px;
+  height: 22px;
+  background-color: transparent;
+  background-image: url('images/configurator-sprite.png');
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: -50px -1200px; }
+  div.icon.tick a {
+    display: block;
+    height: inherit;
+    overflow: hidden;
+    text-indent: -10000em;
+    text-decoration: none; }
+div.icon.edit {
+  width: 32px;
+  height: 22px;
+  background-color: transparent;
+  background-image: url('images/configurator-sprite.png');
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: -50px -1150px; }
+  div.icon.edit a {
+    display: block;
+    height: inherit;
+    overflow: hidden;
+    text-indent: -10000em;
+    text-decoration: none; }
+div.icon.delete {
+  width: 32px;
+  height: 22px;
+  background-color: transparent;
+  background-image: url('images/configurator-sprite.png');
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: -100px -1150px; }
+  div.icon.delete a {
+    display: block;
+    height: inherit;
+    overflow: hidden;
+    text-indent: -10000em;
+    text-decoration: none; }
+
+div.button.download {
+  width: 220px;
+  height: 35px;
+  background-color: transparent;
+  background-image: url('images/configurator-sprite.png');
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: -50px -350px; }
+  div.button.download a {
+    display: block;
+    height: inherit;
+    overflow: hidden;
+    text-indent: -10000em;
+    text-decoration: none; }
+div.button.create {
+  width: 220px;
+  height: 35px;
+  background-color: transparent;
+  background-image: url('images/configurator-sprite.png');
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: -50px -400px; }
+  div.button.create a {
+    display: block;
+    height: inherit;
+    overflow: hidden;
+    text-indent: -10000em;
+    text-decoration: none; }
+div.button.login {
+  width: 70px;
+  height: 25px;
+  background-color: transparent;
+  background-image: url('images/configurator-sprite.png');
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: -50px -500px; }
+  div.button.login a {
+    display: block;
+    height: inherit;
+    overflow: hidden;
+    text-indent: -10000em;
+    text-decoration: none; }
+div.button.logout {
+  width: 80px;
+  height: 25px;
+  background-color: transparent;
+  background-image: url('images/configurator-sprite.png');
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: -50px -550px; }
+  div.button.logout a {
+    display: block;
+    height: inherit;
+    overflow: hidden;
+    text-indent: -10000em;
+    text-decoration: none; }
+div.button.new {
+  width: 150px;
+  height: 25px;
+  background-color: transparent;
+  background-image: url('images/configurator-sprite.png');
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: -50px -600px; }
+  div.button.new a {
+    display: block;
+    height: inherit;
+    overflow: hidden;
+    text-indent: -10000em;
+    text-decoration: none; }
+div.button.edit {
+  width: 55px;
+  height: 25px;
+  background-color: transparent;
+  background-image: url('images/configurator-sprite.png');
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: -50px -650px; }
+  div.button.edit a {
+    display: block;
+    height: inherit;
+    overflow: hidden;
+    text-indent: -10000em;
+    text-decoration: none; }
+div.button.delete {
+  width: 65px;
+  height: 25px;
+  background-color: transparent;
+  background-image: url('images/configurator-sprite.png');
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: -50px -700px; }
+  div.button.delete a {
+    display: block;
+    height: inherit;
+    overflow: hidden;
+    text-indent: -10000em;
+    text-decoration: none; }
+div.button.register {
+  width: 100px;
+  height: 25px;
+  background-color: transparent;
+  background-image: url('images/configurator-sprite.png');
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: -50px -750px; }
+  div.button.register a {
+    display: block;
+    height: inherit;
+    overflow: hidden;
+    text-indent: -10000em;
+    text-decoration: none; }
+div.button.cancel {
+  width: 100px;
+  height: 25px;
+  background-color: transparent;
+  background-image: url('images/configurator-sprite.png');
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: -50px -950px; }
+  div.button.cancel a {
+    display: block;
+    height: inherit;
+    overflow: hidden;
+    text-indent: -10000em;
+    text-decoration: none; }
+div.button.back {
+  width: 100px;
+  height: 25px;
+  background-color: transparent;
+  background-image: url('images/configurator-sprite.png');
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: -50px -1050px; }
+  div.button.back a {
+    display: block;
+    height: inherit;
+    overflow: hidden;
+    text-indent: -10000em;
+    text-decoration: none; }
+
+button.save_changes {
+  display: block;
+  height: inherit;
+  overflow: hidden;
+  text-indent: -10000em;
+  text-decoration: none;
+  border: none;
+  padding: 0;
+  margin-top: -2px;
+  width: 150px;
+  height: 30px;
+  background-color: transparent;
+  background-image: url('images/configurator-sprite.png');
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: -50px -1000px; }
+button.save {
+  display: block;
+  height: inherit;
+  overflow: hidden;
+  text-indent: -10000em;
+  text-decoration: none;
+  border: none;
+  padding: 0;
+  margin-top: -2px;
+  width: 100px;
+  height: 30px;
+  background-color: transparent;
+  background-image: url('images/configurator-sprite.png');
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: -50px -800px; }
+button.login {
+  display: block;
+  height: inherit;
+  overflow: hidden;
+  text-indent: -10000em;
+  text-decoration: none;
+  border: none;
+  padding: 0;
+  margin-top: -2px;
+  width: 100px;
+  height: 30px;
+  background-color: transparent;
+  background-image: url('images/configurator-sprite.png');
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: -50px -450px; }
+button.create_account {
+  display: block;
+  height: inherit;
+  overflow: hidden;
+  text-indent: -10000em;
+  text-decoration: none;
+  border: none;
+  padding: 0;
+  margin-top: -2px;
+  width: 150px;
+  height: 30px;
+  background-color: transparent;
+  background-image: url('images/configurator-sprite.png');
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: -50px -1100px; }
+
+
+table {
+  width: 100%; }
+
+td, th {
+  text-align: left;
+  border: 0px none;
+  border-bottom: 1px solid #808080; }
+
+th:last-child {
+  width: 65px; }
+
+td .yui-g {
+  width: 100% !important; }
+
+tbody tr:first-child {
+  border-top: 1px solid #808080; }
+
+textarea {
+  width: 100%;
+  height: 100px; }
+
+label {
+  float: left;
+  width: 15em;
+  min-height: 1em;
+  color: #858689;
+  font-weight: bold; }
+  label.right {
+    float: none; }
+
+.label {
+  float: left;
+  width: 8em;
+  min-height: 1em;
+  color: #858689;
+  font-weight: bold; }
+
+.plugin_name {
+  color: #000000;
+  font-weight: bold; }
+
+.details div {
+  margin-bottom: 1.0em; }
+.details p {
+  margin: 0.5em 0; }

@@ -5,8 +5,11 @@ ActionView::Helpers::AssetTagHelper.register_stylesheet_expansion :jshub => [
   "jshub.css"] 
 
 # Configurator-specific assets
-ActionView::Helpers::AssetTagHelper.register_javascript_expansion :configurator => ["jquery/jquery", "configurator/skin"]
-ActionView::Helpers::AssetTagHelper.register_stylesheet_expansion :configurator => ["configurator/configurator"]
+ActionView::Helpers::AssetTagHelper.register_javascript_expansion :configurator => [
+  "jquery/jquery", 
+  "configurator/skin"]
+ActionView::Helpers::AssetTagHelper.register_stylesheet_expansion :configurator => [
+  "configurator/screen"]
 
 # YUI is used by unit tests
 ActionView::Helpers::AssetTagHelper.register_stylesheet_expansion :yui3 => [
