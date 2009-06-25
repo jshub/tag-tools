@@ -2,8 +2,8 @@
 <h1>Log in</h1>
 
 <% form_for @user_session, :url => login_path do |f| %>
-<%= hidden_field_tag :return_to, params[:return_to] %>
 <fieldset>
+  <%= hidden_field_tag :return_to, params[:return_to] %>
   <p>
     <%= f.label :email, "Email address" %>
     <%= f.text_field :email %>
