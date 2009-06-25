@@ -5,12 +5,12 @@ puts "Deploying to STAGING"
 
 # The gateway server is accessed before anything else and all ssh commands sent via it
 set :gateway,     "intra.causata.com"
-set :scm_domain,  "gromit"
+set :scm_domain,  "intra.causata.com"
 set :domain,      "gromit"
 set :rails_env,   "gromit"
 
 # construct the path to the repository
-set :repository,   "http://#{scm_domain}/svn/javascript/tag-tools/trunk/configurator/"
+set :repository,   "https://#{scm_domain}/svn/javascript/tag-tools/trunk/configurator/"
 
 #If you log into your server with a different user name than you are logged 
 #into your local machine with, youll need to tell Capistrano about that user 
