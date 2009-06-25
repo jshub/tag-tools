@@ -49,6 +49,19 @@ div#header {
     div#header #banner div.login, div#header #banner div.login * {
       display: inline; }
 
+table.saved_configs {
+  width: 100%; }
+  table.saved_configs td, table.saved_configs th {
+    text-align: left;
+    border: 0px none;
+    border-bottom: 1px solid #808080; }
+  table.saved_configs th:last-child {
+    width: 65px; }
+  table.saved_configs td .yui-g {
+    width: 100% !important; }
+  table.saved_configs tbody tr:first-child {
+    border-top: 1px solid #808080; }
+
 body.jshub.configurator {
   background: #e2e4e9 url(../../images/jshub/bg_body.png) repeat-x;
   margin: 0 auto;
@@ -431,24 +444,6 @@ button.create_account {
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-position: -50px -1100px; }
-
-
-table {
-  width: 100%; }
-
-td, th {
-  text-align: left;
-  border: 0px none;
-  border-bottom: 1px solid #808080; }
-
-th:last-child {
-  width: 65px; }
-
-td .yui-g {
-  width: 100% !important; }
-
-tbody tr:first-child {
-  border-top: 1px solid #808080; }
 
 textarea {
   width: 100%;

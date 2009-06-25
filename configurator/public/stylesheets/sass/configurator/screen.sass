@@ -4,6 +4,7 @@
 @import configurator/_fonts
 @import configurator/_mixins
 @import configurator/_header
+@import configurator/_saved_config_table
 
   
 body.jshub.configurator
@@ -306,26 +307,6 @@ button
       +sprite-background
       :position = (0-!grid_icon_large) (22*(0-!grid_icon_large))
 
-body.jshub.configurator
-table
-  :width 100%
-td, th
-  :text-align left
-  :border 0px none
-  :border-bottom = 1px solid !color_table_border
-
-th
-  &:last-child
-    :width 65px
-td
-  &:last-child
-  .yui-g
-    :width 100% !important
-
-tbody
-  tr
-    &:first-child
-      :border-top = 1px solid !color_table_border
 
 textarea
   :width 100%
