@@ -9,18 +9,18 @@
     <%= check_box_tag label_for_plugin_param(:microformat, :include), true,
           @tag_configuration.plugins.include?(mf_plugin) %>
     <%= label_tag label_for_plugin_param(:microformat, :include), 
-          'Page data html microformats', :class => 'right plugin_name' %> <br />
-	<small>Collects basic information about the page, from html microformat markup on the page.</small>
+          'Page data HTML microformats', :class => 'right plugin_name' %> <br />
+	<small>Collects basic information about the page, from HTML microformat markup on the page.</small>
   </p>
   <p>
     <%= check_box_tag label_for_plugin_param(:google_analytics_markup, :include), true,
           @tag_configuration.plugins.include?(ga_markup_plugin) %>
     <%= label_tag label_for_plugin_param(:google_analytics_markup, :include), 
-          'Google Analytics markup capture', :class => 'right plugin_name' %> <br />
+          'Google Analytics markup', :class => 'right plugin_name' %> <br />
 	<small>
-	  Collects basic basic page view information from existing Google Analytics tags on the
-	  page. This plugin does <em>not</em> replace the Google tag, and does not require any
-	  configuration.
+	  EXPERIMENTAL. Collects basic basic page view information from existing Google Analytics 
+	  tags on the page. This plugin does <em>not</em> replace the Google tag, and does not 
+	  require any configuration.
 	</small>
   </p>
   </fieldset>
