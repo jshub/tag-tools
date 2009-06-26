@@ -40,6 +40,32 @@ if(window.jsHub && jsHub.Inspector){
 };
 </script>
 
+<h2>Set display states</h2>
+<p>
+<button id="setDisplayState1">Set State 1</button>
+<button id="setDisplayState2">Set State 2</button>
+<button id="setDisplayState3">Set State 3</button>
+</p>
+<script type="text/javascript">
+YAHOO.util.Event.addListener("setDisplayState1", "click", function(){jsHub.Inspector._setCurrentState(1)} );
+YAHOO.util.Event.addListener("setDisplayState2", "click", function(){jsHub.Inspector._setCurrentState(2)} );
+YAHOO.util.Event.addListener("setDisplayState3", "click", function(){jsHub.Inspector._setCurrentState(3)} );
+</script>
+
+<h2>Set icon states</h2>
+<p>
+<button id="setState2Sucess">Set State 2 Success</button>
+<button id="setState2Error">Set State 2 Error</button>
+<button id="setState2Warning">Set State 2 Warning</button>
+<button id="setState2Info">Set State 2 Info</button>
+</p>
+<script type="text/javascript">
+YAHOO.util.Event.addListener("setState2Sucess", "click", function(){jsHub.Inspector._setCurrentStatus("success")} );
+YAHOO.util.Event.addListener("setState2Error", "click", function(){jsHub.Inspector._setCurrentStatus("error")} );
+YAHOO.util.Event.addListener("setState2Warning", "click", function(){jsHub.Inspector._setCurrentStatus("warning")} );
+YAHOO.util.Event.addListener("setState2Info", "click", function(){jsHub.Inspector._setCurrentStatus("info")} );
+</script>
+
 <h2>Simulate event types</h2>
 <p>
 <button id="addPageEvent">Add a Page Event</button>
@@ -52,11 +78,11 @@ function simulateJsHubEvent(type) {
 	// simple events
 	if(type === "page"){
     event = {type:"page-view",data:{page:"blah",quantity:2}}	
-    jsHub.Inspector.on_hub_event(event);	
+    jsHub.Inspector._addHubEvent(event);	
   }
 	if(type === "user-interactions"){
     event = {type:"cart-add",data:{product:123,quantity:2}}	
-    jsHub.Inspector.on_hub_event(event);	
+    jsHub.Inspector._addHubEvent(event);	
   }
 	if(type === "tagging-issues"){
   }
@@ -163,7 +189,49 @@ YAHOO.util.Event.addListener("addUserInteractionsEvent", "click", function(){sim
           Y.Assert.areEqual(jsHub.Inspector.getCurrentStatus(), "warning", "Expected result to be 'warning'");
         }, 10);     
       }
- 
-  }));  
+      
+  }));
+
+  /* 
+   * Check the Widget has the expected API
+   */
+  suite.add(new Y.Test.Case({
+    name: "Widget private API",
+    
+     "test private method - _setCurrentState validates parameters": function() {
+      // wait until test timeout
+      this.wait(function(){
+          // get original value to restore
+          var original = jsHub.Inspector.getCurrentState();
+          Y.Assert.isTrue(jsHub.Inspector._setCurrentState(1), "The private method only accepts a number parameter");
+          Y.Assert.isTrue(jsHub.Inspector._setCurrentState(2), "The private method only accepts a number parameter");
+          Y.Assert.isTrue(jsHub.Inspector._setCurrentState(3), "The private method only accepts a number parameter");
+          Y.Assert.isFalse(jsHub.Inspector._setCurrentState('string'), "The private method only accepts a number parameter");
+          Y.Assert.isFalse(jsHub.Inspector._setCurrentState({}), "The private method only accepts a number parameter");
+          Y.Assert.isFalse(jsHub.Inspector._setCurrentState([]), "The private method only accepts a number parameter");
+          // restore value
+          jsHub.Inspector._setCurrentState(original);
+        }, 10);     
+      },
+
+     "test private method - _setCurrentStatus validates parameters": function() {
+      // wait until test timeout
+      this.wait(function(){
+          // get original value to restore
+          var original = jsHub.Inspector.getCurrentStatus();
+          Y.Assert.isTrue(jsHub.Inspector._setCurrentStatus('info'), "The private method only accepts a string parameter");
+          Y.Assert.isTrue(jsHub.Inspector._setCurrentStatus('error'), "The private method only accepts a string parameter");
+          Y.Assert.isTrue(jsHub.Inspector._setCurrentStatus('warning'), "The private method only accepts a string parameter");
+          Y.Assert.isTrue(jsHub.Inspector._setCurrentStatus('success'), "The private method only accepts a string parameter");
+          Y.Assert.isFalse(jsHub.Inspector._setCurrentStatus(1), "The private method only accepts a string parameter");
+          Y.Assert.isFalse(jsHub.Inspector._setCurrentStatus({}), "The private method only accepts a string parameter");
+          Y.Assert.isFalse(jsHub.Inspector._setCurrentStatus([]), "The private method only accepts a string parameter");
+          // restore value
+          jsHub.Inspector._setCurrentStatus(original);          
+        }, 10);     
+      }
+
+  }));
+  
 </script>
   

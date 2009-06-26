@@ -533,6 +533,24 @@
     log("Content: mSampleEventModule2: %o", mSampleEventModule2);
   };
   
+  function setUIState(type, args, me) {
+      log('Config event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)
+      log(args[0]);
+      Dom.removeClass(this.innerElement, Inspector.CSS_STATE_PREFIX + 1);      
+      Dom.removeClass(this.innerElement, Inspector.CSS_STATE_PREFIX + 2);      
+      Dom.removeClass(this.innerElement, Inspector.CSS_STATE_PREFIX + 3);      
+      Dom.addClass(this.innerElement, Inspector.CSS_STATE_PREFIX + args[0]);      
+  }
+  function setUIStatus(type, args, me) {
+      log('Config event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)
+      log(args[0]);
+      Dom.removeClass(this.body, "info");      
+      Dom.removeClass(this.body, "success");      
+      Dom.removeClass(this.body, "warning");      
+      Dom.removeClass(this.body, "error");      
+      Dom.addClass(this.body, args[0]);      
+  }
+  
   // End Private methods for Event handlers
   
   // We declare the Inspector constructor to inherit from Panel and override existing or add additional methods
@@ -561,8 +579,8 @@
       this.cfg.subscribe('configChanged', function(type, args, me) {log('Config event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)});
       this.cfg.subscribe('autoFillHeight', function(type, args, me) {log('Config event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)});
       this.cfg.subscribeToConfigEvent('height', function(type, args, me) {log('Config event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)}, this, this);
-      this.cfg.subscribeToConfigEvent('state', function(type, args, me) {log('Config event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)}, this, this);
-      this.cfg.subscribeToConfigEvent('status', function(type, args, me) {log('Config event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)}, this, this);
+      this.cfg.subscribeToConfigEvent('state', setUIState);
+      this.cfg.subscribeToConfigEvent('status', setUIStatus);
 
       // now apply the users config
       if (userConfig) {
@@ -747,6 +765,40 @@
       return status;
     },
 
+    /**
+    * Sets the Inspectors current state (for UI dev only).
+    * @method _setCurrentState
+    * @private
+    * @return {Integer} 
+    */  
+    _setCurrentState : function(state) {
+      var state = this.cfg.setProperty(DEFAULT_CONFIG.STATE.key, state);
+      log('jsHub.org Inspector state: %o', state);
+      return state;
+    },
+
+    /**
+    * Gets the Inspectors current status (for UI dev only).
+    * @method _setCurrentStatus
+    * @private    
+    * @return {String} the string identifier (used for CSS classes, etc)
+    */  
+    _setCurrentStatus : function(status) {
+      var status = this.cfg.setProperty(DEFAULT_CONFIG.STATUS.key, status);
+      log('jsHub.org Inspector status: %o', status);
+      return status;
+    },
+    
+    /**
+    * Adds an event to a Panel (for UI dev only).
+    * @method _addHubEvent
+    * @private    
+    * @return {Object} the event object submitted
+    */  
+    _addHubEvent : function(event) {
+      log('jsHub.org Inspector new event: %o', event);
+      return event;      
+    },    
     
     /**
     * Provides a readable name for the Inspector instance.
