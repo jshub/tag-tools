@@ -42,6 +42,7 @@ class TagConfigurationsController < ApplicationController
   def new
     @tag_configuration = TagConfiguration.new
     @tag_configuration.add_default_plugins!
+    @col2 = "form_tips"
 
     respond_to do |format|
       format.html # new.html.erb
@@ -52,6 +53,7 @@ class TagConfigurationsController < ApplicationController
   # GET /tag_configurations/1/edit
   # GET /tag_configurations/new/edit
   def edit
+    @col2 = "form_tips"
     if params[:id] == 'new'
       if session[:tag_configuration]
         @tag_configuration = session[:tag_configuration]
@@ -71,6 +73,7 @@ class TagConfigurationsController < ApplicationController
   def create
     params[:tag_configuration][:plugin_ids] ||= []
     @tag_configuration = TagConfiguration.new(params[:tag_configuration])
+    @col2 = "form_tips"
 
     respond_to do |format|
       if current_user_session
@@ -105,6 +108,7 @@ class TagConfigurationsController < ApplicationController
   # PUT /tag_configurations/1.xml
   def update
     @tag_configuration = TagConfiguration.find(params[:id])
+    @col2 = "form_tips"
 
     respond_to do |format|
       if current_user_session

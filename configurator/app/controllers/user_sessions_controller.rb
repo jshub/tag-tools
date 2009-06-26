@@ -8,6 +8,8 @@ class UserSessionsController < ApplicationController
   # POST /login  - authenticate and redirect to requested page  
   def login
     @user_session = UserSession.new(params[:user_session])
+    @col2 = "register"
+
     if request.post? && params[:user_session]
       if @user_session.save
         flash[:notice] = "<p>Login successful</p>"

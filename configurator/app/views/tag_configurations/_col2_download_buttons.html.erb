@@ -6,8 +6,17 @@
 
       <% if @tag_configuration.new_record? %>
       <p>
-        View history | <%= link_to "Download debug version", generate_debug_tag_configuration_path %>
+        <%= link_to "Download debug version", generate_debug_tag_configuration_path %>
       </p>
+	  <p>&nbsp;</p>
+	  <p>
+	  	If you <%= link_to "log in", login_path %> or <%= link_to "register", register_path %>,
+		then you can save this configuration for future changes. 
+	  </p>
+	  <p>
+	  	Saved configurations have a full revision history, so you can see what has been 
+		changed with each version that was saved.
+	  </p>
       <% else %>
       <p>
         <span class="label">Current version:</span>
