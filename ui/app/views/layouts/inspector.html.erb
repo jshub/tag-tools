@@ -11,7 +11,6 @@
     
     <!-- Data capture tags -->
     <%= javascript_include_tag :jshub %>
-    <%= javascript_include_tag "jshub/jshub.js" %>
 
     <!-- YUI -->
     <%= stylesheet_link_tag :inspector_yui, :cache => 'cached/yui' %>
@@ -27,6 +26,12 @@
       var pageTracker = _gat._getTracker("UA-8152756-1");
       pageTracker._trackPageview('Inspector dev');
     </script>    
+
+    <% # If you need to include a reference to specific Javascript files, either for
+       # plugin libraries or for inline test harness code, create a
+       # "content_for :javascripts" block in the page %>
+    <!-- Javascripts specific to this test case -->
+    <%= yield :javascripts %>
     
   </head>
   <body class="jshub">
@@ -36,20 +41,12 @@
         <span class="scm">(<%= render 'shared/version' %>)</span>
       </span>
     </h1>
-
-    <% if flash[:notice] %>
-    <div id="flash" class="notice" style="display: block">
-      <strong><%= flash[:notice] %></strong>
-    <% flash[:notice] = nil %>
-    </div>
-    <script type="text/javascript">
-      setTimeout(function(){
-        document.getElementById('flash').style.display = 'none';
-      }, 1500);
-    </script>
-    <% end %>
     
     <%= render 'shared/contents_inspector' %>   
+
+    <% # This is an html description of the purpose of the code, which will appear
+       # above the test results output. %>
+    <%= yield :intro %>
 
     <%= yield :layout %>
 

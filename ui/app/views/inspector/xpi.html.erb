@@ -1,5 +1,4 @@
-<h1>Inspector</h1>
-<p>Development of the Inspector for jsHub based on YUI 2 Library and accordion widget (<%= link_to 'docs', '../docs/' %>).</p>
+<% content_for :intro do %>  
 
 <h2>Firefox Extension</h2>
 
@@ -24,3 +23,5 @@ for (var i=0; i < els.length; i++) {
 }
 window.onload = doXPITrigger
 </script>
+
+<% end %>

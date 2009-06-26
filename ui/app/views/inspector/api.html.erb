@@ -4,6 +4,11 @@
 
 <p>Security checking of the javascript file occurs on Inspector load.</p>
 
+<!-- generated jsHub tag -->
+<script type="text/javascript" src="/akita-on-rails/tag_configurations/1/generate_debug">
+/* Unique checksum for tag */
+</script>
+
 <button id="checkJsFileHash">Check jshub JS file</button>
 
 <div id="jshub-outdated">
@@ -24,9 +29,9 @@
           
       $.get(jshubURL, function(jshubSrc) {
         hashcode = SHA1(jshubSrc);
+		    $.getJSON('/akita-on-rails/tag_configurations/find_by_sha1/' + hashcode + '.js?callback=?', function(data) {
         // use a locally cached copy
-		// $.getJSON('http://www.jshub.org/tag_configurations/find_by_sha1/' + hashcode + '.js?callback=?', function(data) {
-        $.getJSON('<%= javascript_path "jshub/e090e895a3193594e933b9e5782e72eb29f6a3c1.js" %>', function(data) {
+        // $.getJSON('<%= javascript_path "jshub/e090e895a3193594e933b9e5782e72eb29f6a3c1.js" %>', function(data) {
           
           node.append("<code>" + data.toSource() + "</code>");
           var list = $('ul', node), icon = $('span.icon', node);

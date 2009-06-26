@@ -1,0 +1,12 @@
+<% content_for :intro do %>  
+
+<h2>Download</h2>
+
+To download a zip archive of the Inspector use the following links:
+
+<ul>
+  <li><%= link_to 'Create Zip', :action => 'bundle_zip' %></li>
+  <li><%= link_to 'Download Zip', @inspector.zip_download_path, :class => 'zip' %></li>
+</ul>
+
+<% end %>

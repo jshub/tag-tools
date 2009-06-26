@@ -1,0 +1,169 @@
+<% set_title 'jsHub Inspector' %>
+
+<% content_for :javascripts do %>  
+  <!-- jsHub tag files -->
+  <%= javascript_include_tag "jquery/jquery-1.3.2.min" %>
+  <%= javascript_include_tag "jshub/jshub-gromit-r1-debug" %>
+
+
+  <!-- YUI Loader, Global, DOM, Event, etc -->
+  <%= javascript_include_tag "inspector/widget/utilities/utilities.js" %>
+  
+  <!-- The jsHub Tag Inspector YUI Widget -->
+  <%= javascript_include_tag "inspector/widget/jshubinspector/jshubinspector-loader.js" %>
+<% end %>
+
+<% content_for :intro do %>  
+  <p>This page has both the Inspector as a YUI Widget on it and a YUI Loader to load all dependent files</p>
+  
+  <h2>Inspector YUI Widget</h2>
+  
+  <p>The Inspector can be loaded as a YUI Widget (<%= link_to 'docs', '../javascripts/inspector/widget/docs/yuidoc/generator/YAHOO.JSHUB_ORG.Inspector.html' %>).</p>
+<% end %>
+  
+<h2>Setup Inspector</h2>
+<p>
+<button id="showInspector">Show Inspector</button>
+<button id="hideInspector">Hide Inspector</button>
+</p>
+<script type="text/javascript">
+YAHOO.util.Event.addListener("showInspector", "click", function(){
+  jsHub.Inspector.render(); jsHub.Inspector.show();
+});
+YAHOO.util.Event.addListener("hideInspector", "click", function(){
+  jsHub.Inspector.hide();
+});
+// automatically launch
+if(window.jsHub && jsHub.Inspector){
+  jsHub.Inspector.render(); 
+  jsHub.Inspector.show();
+};
+</script>
+
+<h2>Simulate event types</h2>
+<p>
+<button id="addPageEvent">Add a Page Event</button>
+<button id="addUserInteractionsEvent">Add a User Interactions Event</button>
+</p>
+<script type="text/javascript">
+// generic event
+function simulateJsHubEvent(type) {
+		
+	// simple events
+	if(type === "page"){
+    event = {type:"page-view",data:{page:"blah",quantity:2}}	
+    jsHub.Inspector.on_hub_event(event);	
+  }
+	if(type === "user-interactions"){
+    event = {type:"cart-add",data:{product:123,quantity:2}}	
+    jsHub.Inspector.on_hub_event(event);	
+  }
+	if(type === "tagging-issues"){
+  }
+	if(type === "data-sources"){
+  }
+	if(type === "inline-content-updates"){
+  }
+
+}
+YAHOO.util.Event.addListener("addPageEvent", "click", function(){simulateJsHubEvent("page")} );
+YAHOO.util.Event.addListener("addUserInteractionsEvent", "click", function(){simulateJsHubEvent("user-interactions")} );
+</script>
+
+
+<script language="javascript" type="text/javascript">
+
+  // TODO: MockObject for Configurator SHA checking
+
+  /* 
+   * Check the browser environment for required JS libraries and other
+   * supporting functionality to avoid false test failure results due to
+   * mis-configuration, etc
+   */
+  suite.add(new Y.Test.Case({
+    name: "Environment check",
+    
+    "test required test dependencies": function() {
+      Y.Assert.isNotUndefined(window.YAHOO, "The YUI2 library is required");
+      Y.Assert.isNotUndefined(window.YUI, "The YUI3 library is required");
+      Y.Assert.isNotUndefined(window.Y, "The YUI3 library is required");
+      Y.Assert.isNotUndefined(window.Y.Test, "The YUI3 Test library is required");
+      Y.Assert.isNotUndefined(window.Y.Test, "The jsHub library is required");
+    },
+    
+    "test jsHub API dependencies": function() {
+      Y.Assert.isFunction(jsHub.bind, "jsHub.bind() is not a Function");
+      Y.Assert.isFunction(jsHub.trigger, "jsHub.trigger() is not a Function");
+      Y.Assert.isFunction(jsHub.safe, "jsHub.safe() is not a Function");
+    } 
+  }));
+
+  /* 
+   * Check the Widget Class is present and can be instantiated with various configurations
+   */
+  suite.add(new Y.Test.Case({
+    name: "Widget class",
+
+    "test Widget instance has been created from Class": function() {    
+
+      /*
+       * As the Widget is created in a sanbbox by the YUI Loader we can only observe 
+       * its effect once exposed
+       */
+
+      //Wait until pageload event fires
+      //var test = this;
+      //Y.on("window.onload", function(){
+        //tell the TestRunner to resume
+      //  test.resume(function(){
+      //    Y.Assert.isNotUndefined(window.jsHub, "The jsHub instance is required");
+      //    Y.Assert.isNotUndefined(window.jsHub.Inspector, "The jsHub Inspector instance is required");
+      //  });
+      //});
+      
+      // wait until test timeout
+      this.wait(function(){
+          Y.Assert.isNotUndefined(window.jsHub, "The jsHub instance is required");
+          Y.Assert.isNotUndefined(window.jsHub.Inspector, "The jsHub Inspector instance is required");
+        }, 3000);   
+    }
+ 
+  }));
+  
+  /* 
+   * Check the Widget has the expected API
+   */
+  suite.add(new Y.Test.Case({
+    name: "Widget public API",
+
+    "test API methods are present": function() {
+      // wait until test timeout
+      this.wait(function(){
+          Y.Assert.isFunction(jsHub.Inspector.render, "The Widget is missing an API Method");
+          Y.Assert.isFunction(jsHub.Inspector.show, "The Widget is missing an API Method");
+          Y.Assert.isFunction(jsHub.Inspector.hide, "The Widget is missing an API Method");
+          Y.Assert.isFunction(jsHub.Inspector.destroy, "The Widget is missing an API Method");
+        }, 10);     
+      },
+ 
+     "test API method - getCurrentState": function() {
+      // wait until test timeout
+      this.wait(function(){
+          Y.Assert.isFunction(jsHub.Inspector.getCurrentState, "The Widget is missing an API method");
+          Y.Assert.isNumber(jsHub.Inspector.getCurrentState(), "Expected API method to return a Number");
+          Y.Assert.areEqual(jsHub.Inspector.getCurrentState(), 3, "Expected result to be '3'");
+        }, 10);     
+      },
+
+     "test API method - getCurrentStatus": function() {
+      // wait until test timeout
+      this.wait(function(){
+          Y.Assert.isFunction(jsHub.Inspector.getCurrentStatus, "The Widget is missing an API method");
+          Y.Assert.isString(jsHub.Inspector.getCurrentStatus(), "Expected API method to return a String");
+          Y.Assert.areEqual(jsHub.Inspector.getCurrentStatus(), "warning", "Expected result to be 'warning'");
+        }, 10);     
+      }
+ 
+  }));  
+</script>
+  

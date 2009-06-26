@@ -1,0 +1,728 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: jshubinspector  YAHOO.JSHUB_ORG.Inspector   (YUI Library)</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css" />
+
+    <script type="text/javascript" src="assets/api-js"></script>
+    <script type="text/javascript" src="assets/ac-js"></script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	<div id="hd">
+        <h1><a href="http://developer.yahoo.com/yui/" title="Yahoo! UI Library">Yahoo! UI Library</a></h1>
+        <h3>jshubinspector&nbsp; <span class="subtitle">2.0.0</span></h3>
+        <a href="./index.html" title="Yahoo! UI Library">Yahoo! UI Library</a> 
+            &gt; <a href="./module_jshubinspector.html" title="jshubinspector">jshubinspector</a>
+                 &gt; YAHOO.JSHUB_ORG.Inspector 
+                
+        <form onsubmit="return false">
+            <div id="propertysearch">
+                Search: <input autocomplete="off" id="searchinput" />
+                <div id="searchresults">
+                    &nbsp;
+                </div>
+            </div>
+        </form>
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+			<div class="yui-b">
+            <form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+                <fieldset>
+                    <legend>Filters</legend>
+                <span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+                <span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+                <span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+                </fieldset>
+            </form>
+
+                    <h2>
+                        
+
+                        
+                        
+                            Class <b property="yui:name">YAHOO.JSHUB_ORG.Inspector</b>
+                        <span class="extends">
+                           - extends <a href="YAHOO.widget.Panel.html" title="YAHOO.widget.Panel">YAHOO.widget.Panel</a>
+                        </span>
+
+                    </h2>
+                    <!-- class tree goes here -->
+                    
+                
+  
+
+                    <div class="summary description" property="yui:description">
+                        Inspector is an implementation of Panel with custom rendering of data added 
+to an Accordion from events fired by the jsHub.org core tag (and more).
+                    </div>
+
+                        <div class="section constructor details" rel="yui:constructor" resource="#constructor">
+                        <h3 id="constructor">Constructor</h3>
+                        <div class="content">
+                            <div class="detail">
+                                <strong property="yui:name">YAHOO.JSHUB_ORG.Inspector</strong>
+                                <code>
+                                    (
+  
+                                        
+                                                
+                                                el
+
+
+                                                , 
+                                                userConfig
+                                    )
+                                </code>
+                                <div class="description">
+                                        <dl rel="yui:parameters">
+                                            <dt>Parameters:</dt>
+                                                <dd rel="yui:parameter">
+                                                    <code><span property="yui:name">el</span>
+                                                    &lt;<span property="yui:type">String</span>&gt;
+                                                    </code>
+                                                    <span property="yui:description"> The element ID representing the Inspector <em>OR</em></span>
+                                                </dd>
+                                                <dd rel="yui:parameter">
+                                                    <code><span property="yui:name">el</span>
+                                                    &lt;<span property="yui:type">HTMLElement</span>&gt;
+                                                    </code>
+                                                    <span property="yui:description"> The element representing the Inspector</span>
+                                                </dd>
+                                                <dd rel="yui:parameter">
+                                                    <code><span property="yui:name">userConfig</span>
+                                                    &lt;<span property="yui:type">Object</span>&gt;
+                                                    </code>
+                                                    <span property="yui:description"> The configuration object literal containing 
+the configuration that should be set for this Inspector. See configuration 
+documentation for more details.</span>
+                                                </dd>
+                                        </dl>
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div rel="yui:properties" resource="#properties">
+                        <div class="section field details">
+                            <h3 id="properties">Properties</h3>
+                            <div class="content">
+                                    <div class="" rel="yui:property" resource="#property_Inspector.CSS_STATE_PREFIX">
+                                    <h4><a name="property_Inspector.CSS_STATE_PREFIX" property="yui:name">Inspector.CSS_STATE_PREFIX</a>
+                                        - <code>static final <span property="yui:type">String</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Constant representing the prefix used for an Inspector's state CSS class
+in combination with the DEFAULT_CONFIG.STATE property
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:property" resource="#property_Inspector.ID_ACCORDION">
+                                    <h4><a name="property_Inspector.ID_ACCORDION" property="yui:name">Inspector.ID_ACCORDION</a>
+                                        - <code>static final <span property="yui:type">String</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Constant representing the default ID used for an Inspector's nested 
+AccordionView instance
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:property" resource="#property_YAHOO.JSHUB_ORG.Inspector.ID_CONTAINER">
+                                    <h4><a name="property_YAHOO.JSHUB_ORG.Inspector.ID_CONTAINER" property="yui:name">YAHOO.JSHUB_ORG.Inspector.ID_CONTAINER</a>
+                                        - <code>static final <span property="yui:type">String</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Constant representing the default ID used for an Inspector's 
+wrapping container
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div rel="yui:methods" resource="#methods">
+                        <div class="section method details">
+                            <h3 id="methods">Methods</h3>
+                            <div class="content">
+                                    <div class="" rel="yui:method" resource="#method_getCurrentState">
+                                    <h4>
+                                        <a name="method_getCurrentState">getCurrentState</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        Integer
+                                            <strong property="yui:name">getCurrentState</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Gets the Inspectors current state.
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        Integer
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_getCurrentStatus">
+                                    <h4>
+                                        <a name="method_getCurrentStatus">getCurrentStatus</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        String
+                                            <strong property="yui:name">getCurrentStatus</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Gets the Inspectors current status.
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        String
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">the string identifier (used for CSS classes, etc)</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_init">
+                                    <h4>
+                                        <a name="method_init">init</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">init</strong>
+                                           (
+                                                
+                                                        
+                                                         el
+                                                    
+                                                
+
+                                                
+                                                        , 
+                                                         userConfig
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            The Inspector initialization method is automatically called by the 
+constructor, and  sets up all custom events and event handlers.
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">el</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The element ID representing the Inspector <em>OR</em></span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">el</span>
+                                                        &lt;<span property="yui:type">HTMLElement</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The element representing the Inspector</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">userConfig</span>
+                                                        &lt;<span property="yui:type">Object</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The configuration object literal 
+containing the configuration that should be set for this Inspector. 
+See configuration documentation for more details.</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_initDefaultConfig">
+                                    <h4>
+                                        <a name="method_initDefaultConfig">initDefaultConfig</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">initDefaultConfig</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Initializes the class's configurable properties which can be changed 
+using the Inspector's Config object (cfg).
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_initEvents">
+                                    <h4>
+                                        <a name="method_initEvents">initEvents</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">initEvents</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Initializes the custom events for the Inspector which are fired 
+automatically at appropriate times.
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_render">
+                                    <h4>
+                                        <a name="method_render">render</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        boolean
+                                            <strong property="yui:name">render</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            The Inspector can only be rendered inside its correct CSS context which is created on beforeRenderEvent.
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        boolean
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">Success or failure of the render</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_toString">
+                                    <h4>
+                                        <a name="method_toString">toString</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        String
+                                            <strong property="yui:name">toString</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Provides a readable name for the Inspector instance.
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        String
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">String representation of the object</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div rel="yui:events" resource="#events">
+                        <div class="section method details">
+                            <h3 id="events">Events</h3>
+                            <div class="content">
+                                    <div class="" rel="yui:event" resource="#event_changeStatusEvent">
+                                    <h4>
+                                        <a name="event_changeStatusEvent">changeStatusEvent</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">changeStatusEvent</strong>
+
+                                            (
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            CustomEvent fired after changing the state of the UI
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:event" resource="#event_checksumCodeEvent">
+                                    <h4>
+                                        <a name="event_checksumCodeEvent">checksumCodeEvent</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">checksumCodeEvent</strong>
+
+                                            (
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            CustomEvent fired after SHA1 checksumming a src JS file
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:event" resource="#event_foundCodeEvent">
+                                    <h4>
+                                        <a name="event_foundCodeEvent">foundCodeEvent</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">foundCodeEvent</strong>
+
+                                            (
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            CustomEvent fired after detecting the jsHub core lib
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div rel="yui:attributes" resource="#configattributes">
+                        <div class="section field details">
+                            <h3 id="configattributes">Configuration Attributes</h3>
+                            <div class="content">
+                                    <div class="" rel="yui:attribute" resource="#config_STATE">
+                                    <h4><a name="config_STATE">STATE</a>
+                                        <code>- <span property="yui:type">Number</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Sets the intial state of the Inspector.
+'1' = Floating
+'2' = Minimised
+'3' = Maximised with event viewer
+                                        </div>
+                                    </div>
+ 
+     
+                                    <div class="default">
+                                        Default Value: 1
+                                    </div>        
+
+                                    <hr />
+                                    </div>        
+                                    <div class="" rel="yui:attribute" resource="#config_STATUS">
+                                    <h4><a name="config_STATUS">STATUS</a>
+                                        <code>- <span property="yui:type">string</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Sets the intial status of the Inspector.
+'info' = No jsHub core lib on page or other
+'warning' = Either the checksum of the jsHub core lib failed or there are duplicate metadata entries on the page
+'error' = Something went wrong
+'success' = Evething is working fine
+                                        </div>
+                                    </div>
+ 
+     
+                                    <div class="default">
+                                        Default Value: info
+                                    </div>        
+
+                                    <hr />
+                                    </div>        
+                                    <div class="" rel="yui:attribute" resource="#config_strings">
+                                    <h4><a name="config_strings">strings</a>
+                                        <code>- <span property="yui:type">Object</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            UI Strings used by the Panel
+                                        </div>
+                                    </div>
+ 
+     
+                                    <div class="default">
+                                        Default Value: An object literal with the properties shown below:
+<dl>
+<dt>close</dt><dd><em>String</em> : The string to use for the close icon. Defaults to "Close".</dd>
+</dl>
+                                    </div>        
+
+                                    <hr />
+                                    </div>        
+
+                            </div>
+                        </div>
+
+                    </div>
+
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class="selected"><a href="module_jshubinspector.html" title="jshubinspector">jshubinspector</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class="selected"><a href="YAHOO.JSHUB_ORG.Inspector.html" title="YAHOO.JSHUB_ORG.Inspector">YAHOO.JSHUB_ORG.Inspector</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class=""><a href="container-min.js.html" title="container-min.js">container-min.js</a></li>
+                                <li class=""><a href="container-min.js.html" title="container-min.js">container-min.js</a></li>
+                                <li class=""><a href="jshubinspector-loader.js.html" title="jshubinspector-loader.js">jshubinspector-loader.js</a></li>
+                                <li class=""><a href="jshubinspector.js.html" title="jshubinspector.js">jshubinspector.js</a></li>
+                                <li class=""><a href="json2.js.html" title="json2.js">json2.js</a></li>
+                                <li class=""><a href="resize-min.js.html" title="resize-min.js">resize-min.js</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="propertyList" class="module">
+                        <h4>Properties</h4>
+                        <ul class="content">        
+                                <li class=""><a href="#property_Inspector.CSS_STATE_PREFIX" title="Inspector.CSS_STATE_PREFIX">Inspector.CSS_STATE_PREFIX</a></li>
+                                <li class=""><a href="#property_Inspector.ID_ACCORDION" title="Inspector.ID_ACCORDION">Inspector.ID_ACCORDION</a></li>
+                                <li class=""><a href="#property_YAHOO.JSHUB_ORG.Inspector.ID_CONTAINER" title="YAHOO.JSHUB_ORG.Inspector.ID_CONTAINER">YAHOO.JSHUB_ORG.Inspector.ID_CONTAINER</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="methodsList" class="module">
+                        <h4>Methods</h4>
+                        <ul class="content">        
+                                <li class=""><a href="#method_getCurrentState" title="getCurrentState">getCurrentState</a></li>
+                                <li class=""><a href="#method_getCurrentStatus" title="getCurrentStatus">getCurrentStatus</a></li>
+                                <li class=""><a href="#method_init" title="init">init</a></li>
+                                <li class=""><a href="#method_initDefaultConfig" title="initDefaultConfig">initDefaultConfig</a></li>
+                                <li class=""><a href="#method_initEvents" title="initEvents">initEvents</a></li>
+                                <li class=""><a href="#method_render" title="render">render</a></li>
+                                <li class=""><a href="#method_toString" title="toString">toString</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="eventsList" class="module">
+                        <h4>Events</h4>
+                        <ul class="content">        
+                                <li class=""><a href="#event_changeStatusEvent" title="changeStatusEvent">changeStatusEvent</a></li>
+                                <li class=""><a href="#event_checksumCodeEvent" title="checksumCodeEvent">checksumCodeEvent</a></li>
+                                <li class=""><a href="#event_foundCodeEvent" title="foundCodeEvent">foundCodeEvent</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="configList" class="module">
+                        <h4>Configuration Attributes</h4>
+                        <ul class="content">        
+                                <li class=""><a href="#config_STATE" title="STATE">STATE</a></li>
+                                <li class=""><a href="#config_STATUS" title="STATUS">STATUS</a></li>
+                                <li class=""><a href="#config_strings" title="strings">strings</a></li>
+                        </ul>
+                    </div>
+
+            </div>
+		</div>
+	</div>
+	<div id="ft">
+        <hr />
+        Copyright &copy; 2009 Yahoo! Inc. All rights reserved.
+	</div>
+</div>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [{"url": "YAHOO.JSHUB_ORG.Inspector.html#event_changeStatusEvent", "access": "", "host": "YAHOO.JSHUB_ORG.Inspector", "type": "event", "name": "changeStatusEvent"}, {"url": "YAHOO.JSHUB_ORG.Inspector.html#event_checksumCodeEvent", "access": "", "host": "YAHOO.JSHUB_ORG.Inspector", "type": "event", "name": "checksumCodeEvent"}, {"url": "YAHOO.JSHUB_ORG.Inspector.html#event_foundCodeEvent", "access": "", "host": "YAHOO.JSHUB_ORG.Inspector", "type": "event", "name": "foundCodeEvent"}, {"url": "YAHOO.JSHUB_ORG.Inspector.html#method_getCurrentState", "access": "", "host": "YAHOO.JSHUB_ORG.Inspector", "type": "method", "name": "getCurrentState"}, {"url": "YAHOO.JSHUB_ORG.Inspector.html#method_getCurrentStatus", "access": "", "host": "YAHOO.JSHUB_ORG.Inspector", "type": "method", "name": "getCurrentStatus"}, {"url": "YAHOO.JSHUB_ORG.Inspector.html#method_init", "access": "", "host": "YAHOO.JSHUB_ORG.Inspector", "type": "method", "name": "init"}, {"url": "YAHOO.JSHUB_ORG.Inspector.html#method_initDefaultConfig", "access": "", "host": "YAHOO.JSHUB_ORG.Inspector", "type": "method", "name": "initDefaultConfig"}, {"url": "YAHOO.JSHUB_ORG.Inspector.html#method_initEvents", "access": "", "host": "YAHOO.JSHUB_ORG.Inspector", "type": "method", "name": "initEvents"}, {"url": "YAHOO.JSHUB_ORG.Inspector.html#property_Inspector.CSS_STATE_PREFIX", "access": "", "host": "YAHOO.JSHUB_ORG.Inspector", "type": "property", "name": "Inspector.CSS_STATE_PREFIX"}, {"url": "YAHOO.JSHUB_ORG.Inspector.html#property_Inspector.ID_ACCORDION", "access": "", "host": "YAHOO.JSHUB_ORG.Inspector", "type": "property", "name": "Inspector.ID_ACCORDION"}, {"url": "YAHOO.JSHUB_ORG.Inspector.html#method_render", "access": "", "host": "YAHOO.JSHUB_ORG.Inspector", "type": "method", "name": "render"}, {"url": "YAHOO.JSHUB_ORG.Inspector.html#config_STATE", "access": "", "host": "YAHOO.JSHUB_ORG.Inspector", "type": "config", "name": "STATE"}, {"url": "YAHOO.JSHUB_ORG.Inspector.html#config_STATUS", "access": "", "host": "YAHOO.JSHUB_ORG.Inspector", "type": "config", "name": "STATUS"}, {"url": "YAHOO.JSHUB_ORG.Inspector.html#config_strings", "access": "", "host": "YAHOO.JSHUB_ORG.Inspector", "type": "config", "name": "strings"}, {"url": "YAHOO.JSHUB_ORG.Inspector.html#method_toString", "access": "", "host": "YAHOO.JSHUB_ORG.Inspector", "type": "method", "name": "toString"}, {"url": "YAHOO.JSHUB_ORG.Inspector.html#property_YAHOO.JSHUB_ORG.Inspector.ID_CONTAINER", "access": "", "host": "YAHOO.JSHUB_ORG.Inspector", "type": "property", "name": "YAHOO.JSHUB_ORG.Inspector.ID_CONTAINER"}];
+</script>
+</body>
+</html>

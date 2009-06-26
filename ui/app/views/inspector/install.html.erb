@@ -1,0 +1,103 @@
+<p>This page has both the Inspector and a valid Tag and Microformat markup on it</p>
+
+<h2>Tag Installation</h2>
+
+<p>The Tag must be generated from an accessible Configurator and is dependent on jQuery already being installed.</p>
+
+<!-- generated jsHub tag -->
+<script type="text/javascript" src="/akita-on-rails/tag_configurations/1/generate_debug">
+/* Unique checksum for tag */
+</script>
+
+<h2>Inspector Installation</h2>
+
+<p>The Inspector must be included on the page after the Tag has loaded so that it may subscribe to events.</p>
+
+<!-- The jsHub Tag Inspector -->
+<%= stylesheet_link_tag :inspector, :cache => 'cached/inspector' %>
+<%= javascript_include_tag :inspector, :cache => 'cached/inspector' %>
+
+<button id="showInspector">Show Inspector</button>
+<button id="hideInspector">Hide Inspector</button>
+</p>
+<script type="text/javascript">
+YAHOO.util.Event.addListener("showInspector", "click", function(){jsHub.Inspector.show()});
+YAHOO.util.Event.addListener("hideInspector", "click", function(){jsHub.Inspector.hide()});
+</script>
+
+<h2>Microformat markup</h2>
+
+<p>Some example markup data for the Inspector to detect.</p>
+
+<div id="example2a" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
+
+  <!-- Page view markup -->
+  <h3>hPage view event:</h3>
+  <div class="hpage">
+      <span class="name">View catalog</span><br/>
+      <span class="category">TV</span><br />
+  </div>
+
+</div>
+
+<div id="example2b" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
+
+  <div class="hproduct">
+      <h3 class="n">Dynex &copy; - 32" Class 720p Flat-Panel LCD HDTV - Matte Black</h3>
+      <h5>
+        <strong>Model:</strong>
+        <span class="model">DX-LCD32-09</span> | 
+        <strong>SKU:</strong> 
+        <span class="sku">8632553</span>
+      </h5>
+      <p class="description">
+        
+          <strong>ENERGY STAR Qualified</strong>
+          <br/>
+        
+        2 HDMI inputs; PC input; matte black finish; 16:9 aspect ratio
+      </p>
+      <div class="rating">
+        <strong>4.3 of 5</strong>
+      </div>      
+      <h4 class="price sale">
+        &pound;397.97
+      </h4>
+      <ul class="p-v offers">
+        <li class="value">Save 10% on Accessories: Find Out How</li>
+        <li class="value">Delivery, Hook-Up and Recycling Included</li>
+        <li class="value">Free Shipping</li>
+      </ul>
+  </div>
+  
+  <div class="hproduct">
+      <h3 class="n">Sony - BRAVIA / 46" Class / 1080p / 60Hz / LCD HDTV</h3>
+      <h5>
+        <strong>Model:</strong>
+        <span class="model">KDL-46V4100</span> | 
+        <strong>SKU:</strong> 
+        <span class="sku">8828637</span>
+      </h5>
+      <p class="description">
+        
+          <strong>ENERGY STAR Qualified</strong>
+          <br/>
+        
+        4 HDMI inputs; PC input; black cabinet; 16:9 widescreen aspect ratio
+      </p>
+      <div class="rating">
+        <strong>4.8 of 5</strong>
+      </div>      
+      <h4 class="price sale">
+        &pound;1,599.99
+      </h4>
+      
+      <ul class="p-v offers">
+        <li class="value">Save 10% on Accessories: Find Out How</li>
+        <li class="value">Delivery, Hook-Up and Recycling Included</li>
+        <li class="value">Free Shipping</li>
+      </ul>
+  </div>
+
+</div>
+  
