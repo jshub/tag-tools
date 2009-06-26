@@ -43,7 +43,7 @@ Rails::Initializer.run do |config|
   # user authentication
   config.gem "authlogic"
   # integration testing
-  config.gem "webrat"
+  config.gem "webrat" if RAILS_ENV == 'test'
   
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.
