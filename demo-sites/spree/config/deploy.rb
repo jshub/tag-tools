@@ -50,5 +50,5 @@ end
 # use our custom tasks at the appropriate time
 # e.g. before :deploy, :my_custom_task
 #      after  "deploy:symlink", :do_this, :and_do_that
-after "deploy:update",   "deploy:migrate", "custom:bootstrap", "custom:version"
+after "deploy:update",   "deploy:migrate", "custom:version"
 after "deploy:symlink",   "custom:link_webroot"
