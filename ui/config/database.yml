@@ -31,3 +31,6 @@ gromit:
   # The db:migrate version is kept in the database itself
   database: /var/capistrano/ui/shared/db/production.sqlite3
   timeout: 5000
+  
+jshub:
+  development  
