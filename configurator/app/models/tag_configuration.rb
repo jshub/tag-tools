@@ -11,7 +11,7 @@ class TagConfiguration < ActiveRecord::Base
   has_many :tag_configuration_revisions, :dependent => :destroy
   
   validates_presence_of :name
-  validates_uniqueness_of :name, :scope => 'user_id'
+  validates_uniqueness_of :name, :scope => 'user_id', :case_sensitive => false
   
   # TODO move this to the database when there are more available
   VERSIONS = %w{ 0.1beta }
@@ -20,6 +20,11 @@ class TagConfiguration < ActiveRecord::Base
   after_create :add_revision_message_for_create
   before_update :cache_changes_before_update
   after_update :add_revision_message_for_update
+  
+  # plugins are only set through the tag_configuration_plugins association
+#  before_validation_on_create do 
+#    plugins.clear
+#  end
   
   # a new empty instance should include the default plugins
   def add_default_plugins!
@@ -49,7 +54,9 @@ class TagConfiguration < ActiveRecord::Base
       tag_config_plugin = tag_configuration_plugins.reject{ |p| p.plugin_id != plugin_id.to_i }
       
       if tag_config_plugin.empty?
-        tag_config_plugin = TagConfigurationPlugin.new(:plugin => Plugin.find_by_id(plugin_id.to_i)) 
+        plugin = Plugin.find_by_id(plugin_id.to_i)
+        raise "Invalid plugin id #{plugin_id}" if plugin.nil?
+        tag_config_plugin = TagConfigurationPlugin.new(:plugin => plugin) 
         tag_configuration_plugins << tag_config_plugin
         revision_cache << "Added #{tag_config_plugin.plugin.name} plugin"
       else
@@ -60,6 +67,10 @@ class TagConfiguration < ActiveRecord::Base
       tag_config_plugin.tag_configuration = self
       tag_config_plugin.parameters = plugin_params.delete_if {|key, value| key == 'include' || value.empty?}
     end
+    
+    # this happens automatically when we save, but if the user is not logged in then
+    # the configuration is not saved
+#    self.plugins = tag_configuration_plugins.collect { |p| p.plugin }
 
     logger.debug "TagConfiguration.plugin_config= finished"
   end
@@ -83,12 +94,30 @@ class TagConfiguration < ActiveRecord::Base
     filtered_errors.each { |attr, msg| errors.add(attr, msg) }
   end
   
+  def has_plugin?(plugin)
+    if changed?
+      tag_configuration_plugins.each { |p| return true if p.plugin.id == plugin.id }
+      false
+    else
+      plugins.include? plugin 
+    end
+  end
+  
+  def parameters_for_plugin(plugin)
+    tag_configuration_plugins.each{|p| return p.parameters if p.plugin.id == plugin.id}
+    {}
+  end
+  
   def has_markup_plugins?
-    plugins.collect {|p| p.plugin_type}.include? :data_capture
+    types = (changed?) ? tag_configuration_plugins.collect {|p| p.plugin.plugin_type} : 
+      plugins.collect {|p| p.plugin_type}
+    types.include? :data_capture
   end
   
   def has_transport_plugins?
-    plugins.collect {|p| p.plugin_type}.include? :data_transport
+    types = (changed?) ? tag_configuration_plugins.collect {|p| p.plugin.plugin_type} : 
+      plugins.collect {|p| p.plugin_type}
+    types.include? :data_transport
   end
   
   def current_revision_number

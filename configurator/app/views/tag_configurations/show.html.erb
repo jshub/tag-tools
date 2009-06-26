@@ -4,14 +4,14 @@
 
 <h2>Data capture plugins</h2>
 
-<% if @tag_configuration.plugins.include? mf_plugin %>
+<% if @tag_configuration.has_plugin? mf_plugin %>
   <p class="plugin_name" id="<%= mf_plugin.name.downcase %>">
-  	Page data html microformats
+  	Page data HTML microformats
   </p>
-	<small>Collects basic information about the page, from html microformat markup on the page.</small>
+	<small>Collects basic information about the page, from HTML microformat markup on the page.</small>
 <% end %>
 
-<% if @tag_configuration.plugins.include? ga_markup_plugin %>
+<% if @tag_configuration.has_plugin? ga_markup_plugin %>
   <p class="plugin_name" id="<%= ga_markup_plugin.name.downcase %>">
     Google Analytics markup capture
   </p>
@@ -34,7 +34,7 @@
 
 <h2>Data transport plugins</h2>
 
-<% if @tag_configuration.plugins.include? causata_plugin %>
+<% if @tag_configuration.has_plugin? causata_plugin %>
   <p class="plugin_name" id="<%= causata_plugin.name.downcase %>">
     <%= causata_plugin.name %> data transport <br />
   </p>
@@ -56,7 +56,7 @@
   </div>
 <% end %>  
   
-<% if @tag_configuration.plugins.include? piwik_plugin %>
+<% if @tag_configuration.has_plugin? piwik_plugin %>
   <p class="plugin_name" id="<%= piwik_plugin.name.downcase %>">
     Piwik web analytics <br />  	
   </p>

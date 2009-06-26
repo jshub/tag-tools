@@ -30,7 +30,10 @@ class TagConfigurationTest < ActiveSupport::TestCase
     assert_nil config.errors_for_anonymous_session.on(:user), "User should not be required in anonymous session"
     assert config.errors.on(:name), "Name must be present to save configuration in database"
     assert config.errors_for_anonymous_session.on(:name), "Name should be required in anonymous session"
-    
+  end
+  
+  test "configuration name is unique for a user" do
+    config = TagConfiguration.new
     config.name = tag_configurations(:one).name
     config.valid?
     assert config.valid_for_anonymous_session?, "Name can be anything for anonymous session"
@@ -38,6 +41,10 @@ class TagConfigurationTest < ActiveSupport::TestCase
     config.user = tag_configurations(:one).user
     config.valid?
     assert config.errors.on(:name), "Name is unique for this user"
+
+    config.name = tag_configurations(:one).name.upcase
+    config.valid?
+    assert config.errors.on(:name), "Name is unique for this user, ignoring case"
 
     config.user = users(:user2)
     config.valid?

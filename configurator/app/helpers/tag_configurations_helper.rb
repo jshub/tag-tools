@@ -31,12 +31,7 @@ module TagConfigurationsHelper
   # used by _form.html.erb to render plugin configuration
   def value_for_plugin_param(plugin, param_name)
     plugin = Plugin.instance(plugin)
-    plugin_config = @tag_configuration.tag_configuration_plugins.find_by_plugin_id(plugin.id)
-    if plugin_config
-      return plugin_config.parameters[param_name.to_s]
-    else
-      nil
-    end
+    @tag_configuration.parameters_for_plugin(plugin) [param_name.to_s]
   end
   
   def src_folder

@@ -7,14 +7,14 @@
 
   <p>
     <%= check_box_tag label_for_plugin_param(:microformat, :include), true,
-          @tag_configuration.plugins.include?(mf_plugin) %>
+          @tag_configuration.has_plugin?(mf_plugin) %>
     <%= label_tag label_for_plugin_param(:microformat, :include), 
           'Page data HTML microformats', :class => 'right plugin_name' %> <br />
 	<small>Collects basic information about the page, from HTML microformat markup on the page.</small>
   </p>
   <p>
     <%= check_box_tag label_for_plugin_param(:google_analytics_markup, :include), true,
-          @tag_configuration.plugins.include?(ga_markup_plugin) %>
+          @tag_configuration.has_plugin?(ga_markup_plugin) %>
     <%= label_tag label_for_plugin_param(:google_analytics_markup, :include), 
           'Google Analytics markup', :class => 'right plugin_name' %> <br />
 	<small>
@@ -31,7 +31,7 @@
 
   <p>
     <%= check_box_tag label_for_plugin_param(:causata, :include), true,
-          @tag_configuration.plugins.include?(causata_plugin), 
+          @tag_configuration.has_plugin?(causata_plugin), 
           :class => 'configurable' %>
     <%= label_tag label_for_plugin_param(:causata, :include), "Causata",
           :class => 'right plugin_name' %> <br />
@@ -56,7 +56,7 @@
   
   <p>
     <%= check_box_tag label_for_plugin_param(:piwik, :include), true,
-          @tag_configuration.plugins.include?(piwik_plugin), 
+          @tag_configuration.has_plugin?(piwik_plugin), 
           :class => 'configurable' %>
     <%= label_tag label_for_plugin_param(:piwik, :include), "Piwik web analytics",
           :class => 'right plugin_name' %> <br />  	
