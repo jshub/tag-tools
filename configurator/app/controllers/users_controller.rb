@@ -8,6 +8,7 @@ class UsersController < ApplicationController
   # POST /register - create a new user account, and implicitly log in
   def register
     @user = User.new(params[:user])
+    @col2 = "login"
     respond_to do |format|
       if request.post? && @user.save
         flash[:notice] = "Your account has been created."
