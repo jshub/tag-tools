@@ -394,40 +394,18 @@ div.errorExplanation {
     color: black; }
 
 
-
-div.links {
-  height: 32px;
-  background-color: #efefef;
-  border-radius: 1em;
-  -moz-border-radius: 1em; }
-  div.links ul {
-    margin: 0.3em 0;
-    padding: 6px 15px;
-    color: #b4b7be; }
-    div.links ul li {
-      float: left;
-      padding: 0 6px;
-      border-left: 1px solid #b4b7be;
-      list-style-type: none;
-      font-size: 85%; }
-      div.links ul li.first {
-        border-left: none; }
-      div.links ul li a {
-        color: inherit;
-        font-weight: bold;
-        text-decoration: none; }
-
 div.footer {
   margin-top: 2em;
   border-top: 1px solid #e2e4e9; }
-  div.footer .legal {
+  div.footer p.legal {
     padding: 6px 15px;
     color: #b4b7be;
-    font-size: 85%; }
-    div.footer .legal a:link, div.footer .legal a:visited {
+    font-size: 85%;
+    text-align: center; }
+    div.footer p.legal a:link, div.footer p.legal a:visited {
       color: #b4b7be;
       border-bottom: 1px dotted #b4b7be; }
-    div.footer .legal a:hover {
+    div.footer p.legal a:hover {
       color: #821818; }
 
 div.col2 .top {

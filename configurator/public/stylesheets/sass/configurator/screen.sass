@@ -76,40 +76,16 @@ div.errorExplanation
   h2
     :color black
 
-# text links in footer
-div.links-header
-
-div.links
-  :height 32px
-  :background
-    :color = !color_panel_bg
-  +panel-rounded-corners
-  ul
-    :margin 0.3em 0
-    :padding = 6px !content_padding
-    :color = !color_text_mid
-    li
-      :float left
-      :padding 0 6px
-      :border-left = 1px solid !color_text_mid
-      :list-style-type none
-      :font-size = !font_small_size
-      &.first
-        :border-left none
-      a
-        :color inherit
-        :font-weight bold
-        :text-decoration none
-
-
+# copyright notice in footer
 div.footer
   :margin-top 2em
   :border-top = 1px solid !color_footer_border
 
-  .legal
+  p.legal
     :padding = 6px !content_padding
     :color = !color_text_mid
     :font-size = !font_small_size
+    :text-align center
     a:link, a:visited
       :color = !color_text_mid
       :border-bottom = 1px "dotted" !color_text_mid
