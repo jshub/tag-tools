@@ -15,6 +15,13 @@ this.jsHub = this.jsHub || {};
  */
 (function() {
 
+  // Wrap logging during development
+  function log(){ 
+    if (window.console && META.DEBUG === true) {
+      console.log.apply(console, arguments); 
+    }
+  };
+
   var DOM = YAHOO.util.Dom, jsHub = this.jsHub;
   
   // use this list for now - allow it to be configured through options later
@@ -287,10 +294,11 @@ this.jsHub = this.jsHub || {};
       jsHub.logger.log("Inspector: loading tag source from " + jshubURL);
       $.get(jshubURL, function(jshubTagSrc) {
         var hashcode = SHA1(jshubTagSrc);
-		var configuratorURL = (jsHub.GeneratedBy || 'http://www.jshub.org/tag_configurations/') 
+    // TODO: GeneratedBy is masked during the Configurator built files load order
+		var configuratorURL = (jsHub.GeneratedBy || '/akita-on-rails/tag_configurations') 
 		  + '/find_by_sha1/' + hashcode + '.js?callback=?';
         $.getJSON(configuratorURL, function(data) {
-          console.log('Data from server', data);
+          log('Data from server', data);
           self.initRevisionStatus(data);
         });
       });
@@ -469,7 +477,7 @@ this.jsHub = this.jsHub || {};
    * @param {Object} category_name
    */
   Inspector.prototype.expandCategory = function(category_name) {
-    console.log("expand Category " + category_name);
+    log("expand Category " + category_name);
   };
   
   /**
@@ -477,7 +485,7 @@ this.jsHub = this.jsHub || {};
    * @param {Object} event_id
    */
   Inspector.prototype.selectEvent = function(event_id) {
-    console.log("selectEvent " + event_id);
+    log("selectEvent " + event_id);
   };
   
   //TODO remove duplication between these next two
@@ -765,7 +773,7 @@ this.jsHub = this.jsHub || {};
         // TODO this appends when really we want to prepend
         //event.render('event-section-' + panelNumber);
         yui_events["tagging-issues"].push(event);
-        //console.log('New Event added to Panel' + panelNumber);
+        //log('New Event added to Panel' + panelNumber);
       }
     }
     
@@ -791,7 +799,7 @@ this.jsHub = this.jsHub || {};
   Inspector.prototype.initDataSources = function() {
     var plugins = jsHub.getPluginInfo(), plugin, event;
     
-    console.info("Datasources: %o", plugins)
+    log("Datasources: %o", plugins)
     
     var wrap = function(text, eventId) {
       return '<div id="' + eventId + '" class="tag-status-item"><div class="bd">' +
@@ -813,6 +821,7 @@ this.jsHub = this.jsHub || {};
     
     function humanize(name) {
       // microformats use 'n' for name e.g. product name
+      log("name: %o", name)
 	  if (name === 'n') { name = 'name'; }
       return name.substring(0, 1).toUpperCase() + name.substring(1).replace(/-/g, " ");
     }
@@ -1200,7 +1209,7 @@ this.jsHub = this.jsHub || {};
       var maxH = 600;
     }
     
-    //		console.log("scrollTop: " + document.body.scrollTop);
+    //		log("scrollTop: " + document.body.scrollTop);
     
     if (document.documentElement) {
       var scrollTop = document.documentElement.scrollTop;
