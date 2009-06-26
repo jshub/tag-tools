@@ -1,8 +1,10 @@
+# Enable multistage deploys
+set :stages, %w(staging production)
+set :default_stage, "staging"
+require 'capistrano/ext/multistage'
+
+# name of the application
 set :application, "ui"
-# The gateway server is accessed before anything else and all ssh commands sent via it
-set :gateway,     "intra.causata.com"
-set :domain,      "gromit"
-set :rails_env,   "gromit"
 
 # If you aren't deploying to /u/apps/#{application} on the target
 # servers (which is the default), you can specify the actual location
@@ -12,28 +14,6 @@ set :deploy_to,   "/var/capistrano/#{application}"
 # If you aren't using Subversion to manage your source code, specify
 # your SCM below:
 set :scm,         "subversion"
-
-#If you log into your server with a different user name than you are logged 
-#into your local machine with, youÕll need to tell Capistrano about that user 
-#name.
-set :user, "dev"
-
-#If you access your source repository with a different user name than you are 
-#logged into your local machine with, Capistrano needs to know. Note that not 
-#all SCMÕs support the scm_username variable; you might need to embed the 
-#scm_username into the repository, 
-#e.g. Òsvn+ssh://#{scm_username}@foo.bar.com/path/to/repoÓ.
-set :scm_username, "capistrano"
-# Liam: needed due to Basic Auth protecting the SVN server
-set :scm_password, "tant0ine"
-
-# construct the path to the repository
-set :repository,  "http://#{domain}/svn/javascript/tag-tools/trunk/ui/"
-
-# all services are on the same server for now
-role :app, domain
-role :web, domain
-role :db,  domain, :primary => true
 
 #By default, Capistrano will try to use sudo to do certain operations (setting 
 #up your servers, restarting your application, etc.). If you are on a shared 
@@ -53,8 +33,8 @@ end
 namespace :custom do
   desc 'Symlink the public directory into the web root. This is for use by Passenger via RailsBaseURI
         ref: http://www.modrails.com/documentation/Users%20guide.html#deploying_rails_to_sub_uri'
-  task :symlink do
-    run "ln -nfs #{current_path}/public /var/www/html/#{application}"
+  task :link_webroot do
+    run "ln -nfs #{current_path}/public #{webroot}"
   end
 
   desc 'Output the Subversion version number'
@@ -66,4 +46,4 @@ end
 # e.g. before :deploy, :my_custom_task
 #      after  "deploy:symlink", :do_this, :and_do_that
 after "deploy:update",   "deploy:migrate", "custom:version"
-after "deploy:symlink",   "custom:symlink"
+after "deploy:symlink",   "custom:link_webroot"
