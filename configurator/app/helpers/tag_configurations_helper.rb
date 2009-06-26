@@ -58,9 +58,11 @@ module TagConfigurationsHelper
     for src_file in plugin.js_files
       content += File.read("#{src_folder}/#{src_file}") + "\n"
     end
-    params = @tag_configuration.tag_configuration_plugins.find_by_plugin_id(plugin.id).parameters
-    params.each do |key, value| 
-      content.gsub!("<%=\s#{key}\s%>", value)
+    @tag_configuration.tag_configuration_plugins.each do |p|
+      next unless p.plugin.id == plugin.id
+      p.parameters.each do |key, value| 
+        content.gsub!("<%=\s#{key}\s%>", value)
+      end
     end
     content
   end
