@@ -17,7 +17,7 @@ this.jsHub = this.jsHub || {};
 
   // Wrap logging during development
   function log(){ 
-    if (window.console && META.DEBUG === true) {
+    if (window.console) {
       console.log.apply(console, arguments); 
     }
   };
