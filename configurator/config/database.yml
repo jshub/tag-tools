@@ -28,3 +28,11 @@ gromit:
   # The db:migrate version is kept in the database itself
   database: /var/capistrano/configurator/shared/db/production.sqlite3
   timeout: 5000
+  
+# paths specific for the jshub.org server
+jshub:
+  adapter: sqlite3
+  # Keep data between capistrano deployments by putting the database in shared/db
+  # The db:migrate version is kept in the database itself
+  database: /var/capistrano/configurator/shared/db/production.sqlite3
+  timeout: 5000  
