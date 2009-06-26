@@ -98,12 +98,6 @@
 
 <% end %>
   
-<% if current_user.nil? %>
-<p>
-  Don't forget to <%= link_to 'register', :register %> or <%= link_to 'log in', :login %> to save the configuration.
-</p>
-<% end %>
-
 <% if @tag_configuration.new_record? %>
     <div class="button edit"><%= link_to 'Edit configuration', edit_new_tag_configuration_path %></div>
 <% else %>

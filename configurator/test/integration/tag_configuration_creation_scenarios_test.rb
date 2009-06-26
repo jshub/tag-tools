@@ -84,6 +84,31 @@ class TagConfigurationCreationScenariosTest < ActionController::IntegrationTest
     end
   end
   
+  test "anonymous configuration is saved when user registers" do
+    get new_tag_configuration_path
+    fill_in "tag_configuration_name", :with => "test one"
+    click_button "Save"
+    
+    # Check the details are shown
+    assert_select "h1#config_name", "test one"
+    
+    # there are no saved configurations unless you log in
+    assert_select "table.saved_configs", :count => 0
+    
+    # so let's register
+    get register_path
+    fill_in "Choose a user name", :with => "new user"
+    fill_in "Email", :with => "user@test.com"
+    fill_in "Password", :with => "password"
+    fill_in "Confirm password", :with => "password"
+    click_button "Register"
+    
+    assert_select "table.saved_configs" do
+      assert_select "td.config_name", :count => 1
+      assert_select "td.config_name", "test one"
+    end
+  end
+  
   test "anonymous configuration conflicts when user logs in" do
     get new_tag_configuration_path
     fill_in "tag_configuration_name", :with => "config one"
