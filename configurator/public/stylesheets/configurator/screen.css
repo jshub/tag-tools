@@ -31,7 +31,7 @@ div#header {
       white-space: nowrap;
       padding: .25em 0.75em 0.5em; }
       div#header #sitenav li.active {
-        background: #fff; }
+        background: #f9fafb; }
       div#header #sitenav li.disabled :link, div#header #sitenav li.disabled :visited {
         color: #a0ca1f; }
   div#header #banner {
@@ -48,153 +48,6 @@ div#header {
       color: #858689; }
     div#header #banner div.login, div#header #banner div.login * {
       display: inline; }
-
-table.saved_configs {
-  width: 100%; }
-  table.saved_configs td, table.saved_configs th {
-    text-align: left;
-    border: 0px none;
-    border-bottom: 1px solid #808080; }
-  table.saved_configs th:last-child {
-    width: 65px; }
-  table.saved_configs td .yui-g {
-    width: 100% !important; }
-  table.saved_configs tbody tr:first-child {
-    border-top: 1px solid #808080; }
-
-body.jshub.configurator {
-  background: #e2e4e9 url(../../images/jshub/bg_body.png) repeat-x;
-  margin: 0 auto;
-  padding: 0; }
-
-.hide {
-  display: none; }
-
-div.nav1 {
-  margin-bottom: 5px; }
-  div.nav1 .buttons {
-    height: 35px;
-    background-color: transparent;
-    background-image: url('images/configurator-sprite.png');
-    background-repeat: no-repeat;
-    background-attachment: scroll;
-    background-position: -50px -200px; }
-    div.nav1 .buttons a {
-      display: block;
-      height: inherit;
-      overflow: hidden;
-      text-indent: -10000em;
-      text-decoration: none;
-      height: 35px; }
-  div.nav1 .login {
-    margin: 5px;
-    text-align: right; }
-    div.nav1 .login .login-state {
-      color: #858689; }
-    div.nav1 .login .username {
-      color: #858689;
-      font-weight: bold; }
-
-div.page hr {
-  margin-bottom: 10px;
-  border: none;
-  border-bottom: 1px solid #fff; }
-div.page a {
-  color: #035b9d;
-  text-decoration: none; }
-div.page h1 {
-  margin: 0;
-  margin-bottom: 10px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #fff;
-  font-size: 182%; }
-div.page h2 {
-  margin: 0;
-  margin-bottom: 5px;
-  color: #858689;
-  font-size: 138.5%; }
-
-/* messages and notices */
-/*  */
-div#flash {
-  margin: 5px 0;
-  padding: 10px;
-  background-color: #ffc;
-  border: 1px solid #ccc; }
-
-div.errorExplanation {
-  padding: 10px;
-  background-color: #ffc;
-  border: 1px solid #ccc; }
-  div.errorExplanation h2 {
-    color: black; }
-
-
-
-div.links {
-  height: 32px;
-  background-color: #efefef;
-  border-radius: 1em;
-  -moz-border-radius: 1em; }
-  div.links ul {
-    margin: 0.3em 0;
-    padding: 6px 15px;
-    color: #b4b7be; }
-    div.links ul li {
-      float: left;
-      padding: 0 6px;
-      border-left: 1px solid #b4b7be;
-      list-style-type: none;
-      font-size: 85%; }
-      div.links ul li.first {
-        border-left: none; }
-      div.links ul li a {
-        color: inherit;
-        font-weight: bold;
-        text-decoration: none; }
-
-div.footer .legal {
-  padding: 6px 15px;
-  color: #b4b7be;
-  font-size: 85%; }
-  div.footer .legal a {
-    /* TODO dotted and grey */
-    /*  */ }
-
-div.col2 .top {
-  padding: 15px;
-  min-height: 150px;
-  background-color: #efefef;
-  border-radius: 1em;
-  -moz-border-radius: 1em;
-  -moz-border-radius-topleft: 0;
-  border-radius-topleft: 0;
-  border-top: 0;
-  border-left: 0;
-  border-bottom: 1px solid #a1a1a1;
-  border-right: 1px solid #a1a1a1; }
-div.col2 .bottom {
-  padding: 15px;
-  min-height: 150px; }
-
-div.content {
-  padding: 0; }
-  div.content .col1 {
-    min-height: 350px;
-    padding: 15px;
-    background-color: #efefef;
-    border-radius: 1em;
-    -moz-border-radius: 1em;
-    -moz-border-radius-topright: 0;
-    border-radius-topright: 0;
-    border-top: 0;
-    border-left: 0;
-    border-bottom: 1px solid #a1a1a1;
-    border-right: 1px solid #a1a1a1; }
-  div.content .actions {
-    width: 22%; }
-    div.content .actions.big {
-      width: 50%; }
 
 div.icon.tick {
   width: 32px;
@@ -365,6 +218,21 @@ div.button.cancel {
     overflow: hidden;
     text-indent: -10000em;
     text-decoration: none; }
+div.button.cancel-large {
+  margin-top: -2px;
+  width: 100px;
+  height: 30px;
+  background-color: transparent;
+  background-image: url('images/configurator-sprite.png');
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: -50px -900px; }
+  div.button.cancel-large a {
+    display: block;
+    height: inherit;
+    overflow: hidden;
+    text-indent: -10000em;
+    text-decoration: none; }
 div.button.back {
   width: 100px;
   height: 25px;
@@ -445,8 +313,160 @@ button.create_account {
   background-attachment: scroll;
   background-position: -50px -1100px; }
 
+table.saved_configs {
+  width: 100%; }
+  table.saved_configs td, table.saved_configs th {
+    text-align: left;
+    border: 0px none;
+    border-bottom: 1px solid #808080; }
+  table.saved_configs th:last-child {
+    width: 65px; }
+  table.saved_configs td .yui-g {
+    width: 100% !important; }
+  table.saved_configs tbody tr:first-child {
+    border-top: 1px solid #808080; }
+
+body.jshub.configurator {
+  background: #ffffff url(../../images/jshub/bg_body.png) repeat-x;
+  margin: 0 auto;
+  padding: 0; }
+
+.hide {
+  display: none; }
+
+div.nav1 {
+  margin-bottom: 5px; }
+  div.nav1 .buttons {
+    height: 35px;
+    background-color: transparent;
+    background-image: url('images/configurator-sprite.png');
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: -50px -200px; }
+    div.nav1 .buttons a {
+      display: block;
+      height: inherit;
+      overflow: hidden;
+      text-indent: -10000em;
+      text-decoration: none;
+      height: 35px; }
+  div.nav1 .login {
+    margin: 5px;
+    text-align: right; }
+    div.nav1 .login .login-state {
+      color: #858689; }
+    div.nav1 .login .username {
+      color: #858689;
+      font-weight: bold; }
+
+div.page hr {
+  margin-bottom: 10px;
+  border: none;
+  border-bottom: 1px solid #fff; }
+div.page a {
+  color: #821818;
+  text-decoration: none; }
+div.page h1 {
+  margin: 0;
+  margin-bottom: 10px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #fff;
+  font-size: 182%; }
+div.page h2 {
+  margin: 0;
+  margin-bottom: 5px;
+  color: #858689;
+  font-size: 138.5%; }
+
+/* messages and notices */
+/*  */
+div#flash {
+  margin: 5px 0;
+  padding: 10px;
+  background-color: #ffc;
+  border: 1px solid #ccc; }
+
+div.errorExplanation {
+  padding: 10px;
+  background-color: #ffc;
+  border: 1px solid #ccc; }
+  div.errorExplanation h2 {
+    color: black; }
+
+
+
+div.links {
+  height: 32px;
+  background-color: #efefef;
+  border-radius: 1em;
+  -moz-border-radius: 1em; }
+  div.links ul {
+    margin: 0.3em 0;
+    padding: 6px 15px;
+    color: #b4b7be; }
+    div.links ul li {
+      float: left;
+      padding: 0 6px;
+      border-left: 1px solid #b4b7be;
+      list-style-type: none;
+      font-size: 85%; }
+      div.links ul li.first {
+        border-left: none; }
+      div.links ul li a {
+        color: inherit;
+        font-weight: bold;
+        text-decoration: none; }
+
+div.footer {
+  margin-top: 2em;
+  border-top: 1px solid #e2e4e9; }
+  div.footer .legal {
+    padding: 6px 15px;
+    color: #b4b7be;
+    font-size: 85%; }
+    div.footer .legal a:link, div.footer .legal a:visited {
+      color: #b4b7be;
+      border-bottom: 1px dotted #b4b7be; }
+    div.footer .legal a:hover {
+      color: #821818; }
+
+div.col2 .top {
+  padding: 15px;
+  min-height: 150px;
+  background-color: #efefef;
+  border-radius: 1em;
+  -moz-border-radius: 1em;
+  -moz-border-radius-topleft: 0;
+  border-radius-topleft: 0;
+  border-top: 0;
+  border-left: 0;
+  border-bottom: 1px solid #a1a1a1;
+  border-right: 1px solid #a1a1a1; }
+div.col2 .bottom {
+  padding: 15px;
+  min-height: 150px; }
+
+div.content {
+  padding: 0; }
+  div.content .col1 {
+    min-height: 350px;
+    padding: 15px;
+    background-color: #efefef;
+    border-radius: 1em;
+    -moz-border-radius: 1em;
+    -moz-border-radius-topright: 0;
+    border-radius-topright: 0;
+    border-top: 0;
+    border-left: 0;
+    border-bottom: 1px solid #a1a1a1;
+    border-right: 1px solid #a1a1a1; }
+  div.content .actions {
+    width: 22%; }
+    div.content .actions.big {
+      width: 50%; }
+
 textarea {
-  width: 100%;
+  width: 100% !important;
   height: 100px; }
 
 label {
@@ -468,6 +488,9 @@ label {
 .plugin_name {
   color: #000000;
   font-weight: bold; }
+  .plugin_name small {
+    font-weight: normal;
+    font-size: 85%; }
 
 .details div {
   margin-bottom: 1.0em; }

@@ -6,20 +6,20 @@
 
 <% if @tag_configuration.has_plugin? mf_plugin %>
   <p class="plugin_name" id="<%= mf_plugin.name.downcase %>">
-  	Page data HTML microformats
-  </p>
+  	Page data HTML microformats <br />
 	<small>Collects basic information about the page, from HTML microformat markup on the page.</small>
+  </p>
 <% end %>
 
 <% if @tag_configuration.has_plugin? ga_markup_plugin %>
   <p class="plugin_name" id="<%= ga_markup_plugin.name.downcase %>">
-    Google Analytics markup capture
-  </p>
+    Google Analytics markup capture <br />
 	<small>
 	  Collects basic basic page view information from existing Google Analytics tags on the
 	  page. This plugin does <em>not</em> replace the Google tag, and does not require any
 	  configuration.
 	</small>
+  </p>
 <% end %>
 
 <% unless @tag_configuration.has_markup_plugins? %>
@@ -37,8 +37,8 @@
 <% if @tag_configuration.has_plugin? causata_plugin %>
   <p class="plugin_name" id="<%= causata_plugin.name.downcase %>">
     <%= causata_plugin.name %> data transport <br />
-  </p>
 	<small>Sends information to the Causata server.</small>
+  </p>
 
   <div id="configure_plugin_<%= causata_plugin.id %>">
   	<% unless value_for_plugin_param(:causata, :server_url).nil? %>
@@ -59,8 +59,8 @@
 <% if @tag_configuration.has_plugin? piwik_plugin %>
   <p class="plugin_name" id="<%= piwik_plugin.name.downcase %>">
     Piwik web analytics <br />  	
-  </p>
 	<small>Sends information to the Piwik web analytics service.</small>
+  </p>
 
   <div id="configure_plugin_<%= piwik_plugin.id %>">
     <% unless value_for_plugin_param(:piwik, :server_url).nil? %>
