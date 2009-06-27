@@ -65,9 +65,9 @@ class TagConfigurationsControllerTest < ActionController::TestCase
     # check data transport plugins
     assert_select "fieldset#data_transport_plugins" do
       assert_select "p.plugin_name", :count => 1
-      assert_select "p.plugin_name#causata"
-      assert_select "p.plugin_name#causata ~ div p.plugin_param#server_url span.value", "http://www.jshub.org/"
-      assert_select "p.plugin_name#causata ~ div p.plugin_param#account_id span.value", "123456"
+      assert_select "p.plugin_name#sampleget"
+      assert_select "p.plugin_name#sampleget ~ div p.plugin_param#server_url span.value", "http://www.jshub.org"
+      assert_select "p.plugin_name#sampleget ~ div p.plugin_param#account_id span.value", "123456"
     end
   end
   

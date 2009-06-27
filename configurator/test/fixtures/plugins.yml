@@ -3,6 +3,6 @@
 microformat:
   type: Plugin::Microformat
   
-causata:
-  type: Plugin::Causata
+sample_get:
+  type: Plugin::SampleGet
   

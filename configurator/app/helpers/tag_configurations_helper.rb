@@ -14,12 +14,12 @@ module TagConfigurationsHelper
     Plugin::GoogleAnalyticsMarkup.instance
   end
   
-  def causata_plugin
-    Plugin::Causata.instance
+  def sample_get_plugin
+    Plugin::SampleGet.instance
   end
   
-  def piwik_plugin
-    Plugin::Piwik.instance
+  def sample_post_plugin
+    Plugin::SamplePost.instance
   end
   
   # used by _form.html.erb to render plugin configuration

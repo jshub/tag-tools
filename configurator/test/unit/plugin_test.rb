@@ -6,31 +6,31 @@ class PluginTest < ActiveSupport::TestCase
     assert true
   end
   
-  test "Causata plugin JS files" do
-    plugin = Plugin::Causata.new
-    assert_equal ['data-output/causata-output-plugin.js'], plugin.js_files
+  test "Sample GET plugin JS files" do
+    plugin = Plugin::SampleGet.new
+    assert_equal ['data-transport/sample-get-plugin.js'], plugin.js_files
   end
   
   test "database is populated with singleton instances" do
     db_plugins = Plugin.find :all, :order => :type
     assert_equal 2, db_plugins.length 
-    assert_equal 'Causata', db_plugins[0].name
-    assert_equal 'Microformat', db_plugins[1].name
+    assert_equal 'Microformat', db_plugins[0].name
+    assert_equal 'SampleGet', db_plugins[1].name
     
     # and check the singletons
-    causata_plugin = Plugin::Causata.instance
-    assert_equal causata_plugin, db_plugins[0]
     mf_plugin = Plugin::Microformat.instance
-    assert_equal mf_plugin, db_plugins[1]
+    assert_equal mf_plugin, db_plugins[0]
+    sample_get_plugin = Plugin::SampleGet.instance
+    assert_equal sample_get_plugin, db_plugins[1]
 
     # and the fixtures instances
-    assert_equal causata_plugin, plugins(:causata)
+    assert_equal sample_get_plugin, plugins(:sample_get)
     assert_equal mf_plugin, plugins(:microformat)
   end
   
   test "retrieve name" do
-    plugin = Plugin::Causata.instance
-    assert_equal 'Causata', plugin.name
+    plugin = Plugin::SampleGet.instance
+    assert_equal 'SampleGet', plugin.name
   end
   
 end

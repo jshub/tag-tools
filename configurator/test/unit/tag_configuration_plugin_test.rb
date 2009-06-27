@@ -15,7 +15,7 @@ class TagConfigurationPluginTest < ActiveSupport::TestCase
     assert config.errors.on(:tag_configuration)
     assert_equal 2, config.errors.size
     # add a plugin that is not in the fixtures
-    config.plugin = Plugin::Piwik.instance
+    config.plugin = Plugin::SamplePost.instance
     config.tag_configuration = tag_configurations(:one)
     assert config.valid?
     # and one that is
@@ -34,17 +34,17 @@ class TagConfigurationPluginTest < ActiveSupport::TestCase
     config = tag_configuration_plugins(:one_microformat)
     assert_not_nil config
     assert config.parameters.empty?
-    config = tag_configuration_plugins(:one_causata)
+    config = tag_configuration_plugins(:one_sample_get)
     assert_not_nil config
     assert_equal 2, config.parameters.size
     assert config.parameters.has_key?('server_url')
-    assert_equal 'http://www.jshub.org/', config.parameters['server_url'] 
+    assert_equal 'http://www.jshub.org', config.parameters['server_url'] 
     assert config.parameters.has_key?('account_id')
     assert_equal '123456', config.parameters['account_id'] 
   end
   
   test "update plugin parameters from a simple hash" do
-    config = tag_configuration_plugins(:one_causata)
+    config = tag_configuration_plugins(:one_sample_get)
     new_params = {
       'server_url' => 'http://www.company.com/',
       # 'account_id' => not present in the hash

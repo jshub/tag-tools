@@ -30,50 +30,50 @@
   <fieldset><h2>Data transport plugins</h2>
 
   <p>
-    <%= check_box_tag label_for_plugin_param(:causata, :include), true,
-          @tag_configuration.has_plugin?(causata_plugin), 
+    <%= check_box_tag label_for_plugin_param(:sample_get, :include), true,
+          @tag_configuration.has_plugin?(sample_get_plugin), 
           :class => 'configurable' %>
-    <%= label_tag label_for_plugin_param(:causata, :include), "Causata",
-          :class => 'right plugin_name' %> <br />
-	<small>Sends information to the Causata server.</small>
+    <%= label_tag label_for_plugin_param(:sample_get, :include), 
+		"Sample HTTP GET data transport plugin", :class => 'right plugin_name' %> <br />
+	<small>Sends information to a server using a single pixel image request URL.</small>
   </p>
-  <div id="configure_plugin_<%= causata_plugin.id %>">
+  <div id="configure_plugin_<%= sample_get_plugin.id %>">
     <p>
-      <%= label_tag label_for_plugin_param(:causata, :server_url), 
+      <%= label_tag label_for_plugin_param(:sample_get, :server_url), 
             'Server URL' %>
-      <%= text_field_tag label_for_plugin_param(:causata, :server_url), 
-            value_for_plugin_param(:causata, :server_url) %>
+      <%= text_field_tag label_for_plugin_param(:sample_get, :server_url), 
+            value_for_plugin_param(:sample_get, :server_url) %>
       
     </p>
     <p>
-      <%= label_tag label_for_plugin_param(:causata, :account_id), 
+      <%= label_tag label_for_plugin_param(:sample_get, :account_id), 
             'Account ID' %>
-      <%= text_field_tag label_for_plugin_param(:causata, :account_id), 
-            value_for_plugin_param(:causata, :account_id) %>
+      <%= text_field_tag label_for_plugin_param(:sample_get, :account_id), 
+            value_for_plugin_param(:sample_get, :account_id) %>
       
     </p>
   </div>
   
   <p>
-    <%= check_box_tag label_for_plugin_param(:piwik, :include), true,
-          @tag_configuration.has_plugin?(piwik_plugin), 
+    <%= check_box_tag label_for_plugin_param(:sample_post, :include), true,
+          @tag_configuration.has_plugin?(sample_post_plugin), 
           :class => 'configurable' %>
-    <%= label_tag label_for_plugin_param(:piwik, :include), "Piwik web analytics",
+    <%= label_tag label_for_plugin_param(:sample_post, :include), "Sample HTTP POST plugin",
           :class => 'right plugin_name' %> <br />  	
-	<small>Sends information to the Piwik web analytics service.</small>
+	<small>Sends information to a server by posting a form into a hidden iframe.</small>
   </p>
   
-  <div id="configure_plugin_<%= piwik_plugin.id %>">
+  <div id="configure_plugin_<%= sample_post_plugin.id %>">
     <p>
-      <%= label_tag label_for_plugin_param(:piwik, :server_url), 'Server URL' %>
-      <%= text_field_tag label_for_plugin_param(:piwik, :server_url), 
-            value_for_plugin_param(:piwik, :server_url) %>
+      <%= label_tag label_for_plugin_param(:sample_post, :server_url), 'Server URL' %>
+      <%= text_field_tag label_for_plugin_param(:sample_post, :server_url), 
+            value_for_plugin_param(:sample_post, :server_url) %>
       
     </p>
     <p>
-      <%= label_tag label_for_plugin_param(:piwik, :account), 'Account ID' %>
-      <%= text_field_tag label_for_plugin_param(:piwik, :account), 
-            value_for_plugin_param(:piwik, :account) %>
+      <%= label_tag label_for_plugin_param(:sample_post, :account), 'Account ID' %>
+      <%= text_field_tag label_for_plugin_param(:sample_post, :account), 
+            value_for_plugin_param(:sample_post, :account) %>
       
     </p>
   </div>

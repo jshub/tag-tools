@@ -14,8 +14,8 @@ class TagConfigurationDownloadTest < ActionController::IntegrationTest
     assert_response :success
     assert_equal "text/javascript", @response.content_type 
     assert_match "@class hPage-plugin", @response.body, "Microformat plugin specified in configuration but not included" 
-    assert_match "@class causata-output-plugin", @response.body, "Causata plugin specified in configuration but not included" 
-    assert_no_match /@class piwik-output-plugin/, @response.body, "Piwik plugin included in generated file but not specified in configuration" 
+    assert_match "@class sample-get-plugin", @response.body, "Sample GET plugin specified in configuration but not included" 
+    assert_no_match /@class sample-post-plugin/, @response.body, "Sample POST plugin included in generated file but not specified in configuration" 
   end
   
   test "should generate debug tag release with parameters" do
@@ -23,9 +23,9 @@ class TagConfigurationDownloadTest < ActionController::IntegrationTest
     get generate_debug_tag_configuration_url(:id => config.id)
     assert_response :success
     assert_equal "text/javascript", @response.content_type 
-    assert_match '@class causata-output-plugin', @response.body, "Causata plugin specified in configuration but not included" 
-    assert_match 'var url = "http://www.jshub.org/";', @response.body, "Parameter server_url not included" 
-    assert_match 'var account = "123456";', @response.body, "Parameter server_url not included" 
+    assert_match '@class sample-get-plugin', @response.body, "Sample GET plugin specified in configuration but not included" 
+    assert_match 'var url = "http://www.jshub.org/account/" + account;', @response.body, "Parameter server_url not included" 
+    assert_match 'var account = "123456";', @response.body, "Parameter account not included" 
     assert_no_match /<%=/, @response.body, "Unmatched parameters in output" 
   end
   
