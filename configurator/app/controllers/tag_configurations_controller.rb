@@ -9,7 +9,15 @@ class TagConfigurationsController < ApplicationController
   # GET /tag_configurations.xml
   def index
     respond_to do |format|
-      format.html { render :layout => 'tag_configurations_home' } # index.html.erb
+      format.html do 
+        if current_user_session
+          render :layout => 'tag_configurations_home', 
+            :template => 'tag_configurations/index_authenticated'
+        else
+          render :layout => 'tag_configurations_home', 
+            :template => 'tag_configurations/index_anonymous'
+        end
+      end        
       format.xml  { render :xml => saved_configurations }
     end
   end

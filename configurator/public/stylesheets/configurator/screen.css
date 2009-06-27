@@ -377,6 +377,8 @@ div.page h2 {
   margin-bottom: 5px;
   color: #858689;
   font-size: 138.5%; }
+div.page p.homepage {
+  font-size: 138.5%; }
 
 /* messages and notices */
 /*  */

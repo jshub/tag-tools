@@ -1,17 +1,14 @@
+<h1>jsHub Tag Configurator</h1>
 
-<h1>Your Tag Configurations</h1>
+<p class="homepage">
+  You can use the configurator to create a customized tag for your site.
+</p>
 
 <fieldset id="config_listing">
 
-<% if current_user.nil? %>
-
-  <div class="button create"><%= link_to 'Create a new configuration', new_tag_configuration_path %></div>
-
-  <p>You can save any configuration when you are logged in.</p>
-
-<% else %>
-
   <% unless saved_configurations.empty? %>
+
+  <h2>Your saved configurations</h2>
   <table class="saved_configs">
     <thead>
       <tr>
@@ -45,10 +42,12 @@
     <% end %>
     </tbody>
     </table>
+  <% else %>
+  <p class="homepage">
+    You have not saved any configurations. If you create a configuration,
+    you will see it listed here.
+  </p>
   <% end %>
-  <div class="button new"><%= link_to 'Create a new configuration', new_tag_configuration_path %></div>
-
-<% end #if current_user %>
-
+<div class="button create"><%= link_to 'Create a new configuration', new_tag_configuration_path %></div>
 </fieldset>
 
