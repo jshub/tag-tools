@@ -1,7 +1,8 @@
   <div class="yui-g top">
     <div class="details">
       <div class="button download">
-        <%= link_to "Download Production Tag", generate_production_tag_configuration_path %>
+        <%= link_to "Download Production Tag", generate_production_tag_configuration_path,
+              :title => 'Download production (compressed) version of tag' %>
       </div>
 
       <% if @tag_configuration.new_record? %>
