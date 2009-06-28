@@ -21,11 +21,6 @@ class TagConfiguration < ActiveRecord::Base
   before_update :cache_changes_before_update
   after_update :add_revision_message_for_update
   
-  # plugins are only set through the tag_configuration_plugins association
-#  before_validation_on_create do 
-#    plugins.clear
-#  end
-  
   # a new empty instance should include the default plugins
   def add_default_plugins!
     plugins << Plugin::Microformat.instance
@@ -68,10 +63,6 @@ class TagConfiguration < ActiveRecord::Base
       tag_config_plugin.parameters = plugin_params.delete_if {|key, value| key == 'include' || value.empty?}
     end
     
-    # this happens automatically when we save, but if the user is not logged in then
-    # the configuration is not saved
-#    self.plugins = tag_configuration_plugins.collect { |p| p.plugin }
-
     logger.debug "TagConfiguration.plugin_config= finished"
   end
   
