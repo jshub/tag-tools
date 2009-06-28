@@ -112,7 +112,7 @@
         constraintoviewport: true,
         underlay: "none", //default none
         state: 3, // set state on creation (default 1)
-        status: "warning" // set status on creation (default info)
+        status: "info" // set status on creation (default info)
       });
 
       // Enhancements to Inspector Events for this instance
@@ -128,8 +128,10 @@
       */
       
       // Public API
-      window.jsHub = window.jsHub || {};
-      window.jsHub.Inspector = oInspector;
+      if (META.DEBUG === true) {
+        window.jsHub = window.jsHub || {};
+        window.jsHub.Inspector = oInspector;
+      }
       
       // Enable inspection of the instance
       log("Public instance: %o", window.jsHub.Inspector);

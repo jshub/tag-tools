@@ -3,7 +3,7 @@
 <% content_for :javascripts do %>  
   <!-- jsHub tag files -->
   <%= javascript_include_tag "jquery/jquery-1.3.2.min" %>
-  <%= javascript_include_tag "jshub/jshub-gromit-r1-debug" %>
+  <%= javascript_include_tag "jshub/jshub-gromit-r7-debug" %>
 
 
   <!-- YUI Loader, Global, DOM, Event, etc -->
@@ -33,11 +33,6 @@ YAHOO.util.Event.addListener("showInspector", "click", function(){
 YAHOO.util.Event.addListener("hideInspector", "click", function(){
   jsHub.Inspector.hide();
 });
-// automatically launch
-if(window.jsHub && jsHub.Inspector){
-  jsHub.Inspector.render(); 
-  jsHub.Inspector.show();
-};
 </script>
 
 <h2>Set display states</h2>
@@ -54,16 +49,16 @@ YAHOO.util.Event.addListener("setDisplayState3", "click", function(){jsHub.Inspe
 
 <h2>Set icon states</h2>
 <p>
-<button id="setState2Sucess">Set State 2 Success</button>
-<button id="setState2Error">Set State 2 Error</button>
-<button id="setState2Warning">Set State 2 Warning</button>
-<button id="setState2Info">Set State 2 Info</button>
+<button id="setStatusSucess">Set Status Success</button>
+<button id="setStatusError">Set Status Error</button>
+<button id="setStatusWarning">Set Status Warning</button>
+<button id="setStatusInfo">Set Status Info</button>
 </p>
 <script type="text/javascript">
-YAHOO.util.Event.addListener("setState2Sucess", "click", function(){jsHub.Inspector._setCurrentStatus("success")} );
-YAHOO.util.Event.addListener("setState2Error", "click", function(){jsHub.Inspector._setCurrentStatus("error")} );
-YAHOO.util.Event.addListener("setState2Warning", "click", function(){jsHub.Inspector._setCurrentStatus("warning")} );
-YAHOO.util.Event.addListener("setState2Info", "click", function(){jsHub.Inspector._setCurrentStatus("info")} );
+YAHOO.util.Event.addListener("setStatusSucess", "click", function(){jsHub.Inspector._setCurrentStatus("success")} );
+YAHOO.util.Event.addListener("setStatusError", "click", function(){jsHub.Inspector._setCurrentStatus("error")} );
+YAHOO.util.Event.addListener("setStatusWarning", "click", function(){jsHub.Inspector._setCurrentStatus("warning")} );
+YAHOO.util.Event.addListener("setStatusInfo", "click", function(){jsHub.Inspector._setCurrentStatus("info")} );
 </script>
 
 <h2>Simulate event types</h2>
@@ -77,12 +72,12 @@ function simulateJsHubEvent(type) {
 		
 	// simple events
 	if(type === "page"){
-    event = {type:"page-view",data:{page:"blah",quantity:2}}	
-    jsHub.Inspector._addHubEvent(event);	
+    event = {pageName:"test page",referrer:"previous page"};
+    jsHub.trigger("page-view", event);	
   }
 	if(type === "user-interactions"){
-    event = {type:"cart-add",data:{product:123,quantity:2}}	
-    jsHub.Inspector._addHubEvent(event);	
+    event = {product:123,quantity:2};
+    jsHub.trigger("cart-add", event);	
   }
 	if(type === "tagging-issues"){
   }
@@ -177,7 +172,7 @@ YAHOO.util.Event.addListener("addUserInteractionsEvent", "click", function(){sim
       this.wait(function(){
           Y.Assert.isFunction(jsHub.Inspector.getCurrentState, "The Widget is missing an API method");
           Y.Assert.isNumber(jsHub.Inspector.getCurrentState(), "Expected API method to return a Number");
-          Y.Assert.areEqual(jsHub.Inspector.getCurrentState(), 3, "Expected result to be '3'");
+          Y.Assert.areEqual(3, jsHub.Inspector.getCurrentState(), "Expected result to be '3'");
         }, 10);     
       },
 
@@ -186,7 +181,7 @@ YAHOO.util.Event.addListener("addUserInteractionsEvent", "click", function(){sim
       this.wait(function(){
           Y.Assert.isFunction(jsHub.Inspector.getCurrentStatus, "The Widget is missing an API method");
           Y.Assert.isString(jsHub.Inspector.getCurrentStatus(), "Expected API method to return a String");
-          Y.Assert.areEqual(jsHub.Inspector.getCurrentStatus(), "warning", "Expected result to be 'warning'");
+          Y.Assert.areEqual("success", jsHub.Inspector.getCurrentStatus(), "Expected result to be 'success'");
         }, 10);     
       }
       
@@ -219,6 +214,7 @@ YAHOO.util.Event.addListener("addUserInteractionsEvent", "click", function(){sim
       this.wait(function(){
           // get original value to restore
           var original = jsHub.Inspector.getCurrentStatus();
+          console.log("Test: Original status: %o", original);
           Y.Assert.isTrue(jsHub.Inspector._setCurrentStatus('info'), "The private method only accepts a string parameter");
           Y.Assert.isTrue(jsHub.Inspector._setCurrentStatus('error'), "The private method only accepts a string parameter");
           Y.Assert.isTrue(jsHub.Inspector._setCurrentStatus('warning'), "The private method only accepts a string parameter");

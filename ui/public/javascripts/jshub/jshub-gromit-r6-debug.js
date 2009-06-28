@@ -12,14 +12,16 @@
   var tag_data = {
     Homepage: "http://www.jshub.org/",
     Version: "0.1beta",
-    GeneratedBy: "http://gromit/configurator/tag_configurations",
-    Configuration: "Test (revision 1, debug)"
+    GeneratedBy: "http://localhost:10081/configurator/tag_configurations",
+    Configuration: "Test r4927 (revision 1, debug)"
   };
   this.jsHub = this.jsHub || {};
   for (var field in tag_data) {
   	this.jsHub[field] = tag_data[field];
   }
 })();
+
+
 
 /**
  * Core hub functionality for jsHub tag
@@ -1705,10 +1707,14 @@
  *//*--------------------------------------------------------------------------*/
 
 /** 
- * A plugin to create an analytics object from technographic data
+ * A sample plugin to capture jsHub events and send them to a server via a 
+ * single pixel gif image.
+ * 
+ * You can use this as a starting point to customize the data to generate a
+ * URL in the format expected by your server.
  *
- * @module data-output
- * @class causata-output-plugin
+ * @module data-transport
+ * @class sample-get-plugin
  */
 /*--------------------------------------------------------------------------*/
 
@@ -1720,88 +1726,64 @@
    * Metadata about this plug-in for use by UI tools and the Hub
    */
   var metadata = {
-    name: 'Causata Output Plugin',
+  	id: 'sample-get-plugin',
+    name: 'Sample HTTP GET transport plugin',
     version: 0.1,
     author: "Fiann O'Hagan",
-    email: 'fiann.ohagan@causata.com',
-    vendor: 'Causata'
+    email: 'fiann.ohagan@jshub.org',
+    vendor: 'jsHub'
   },  
   
   /**
-   * The events that will be captured and sent to the Causata servers
+   * The events that will be captured and sent to the server
    */
   boundEvents = ['page-view', 'authentication', 'checkout'],  
   
   /**
-   * The authentication token for the plugin, which must exactly match the
-   * data-visibility configured in the html page.
-   */
-  token = "causata",  
-  
-  /**
    * Event driven anonymous function bound to 'page-view'
-   * @method transport
+   * @method send
    * @param event {Object} the event to serialize and send to the server
    * @property metadata
    */
-  transport = function(event) {
+  send = function(event) {
   
-    jsHub.logger.group("Causata output: sending '%s' event", event.type);
+    jsHub.logger.group("Sample get transport: sending '%s' event", event.type);
     
-    /*
-     * All local vars set here so nothing is accidentally made global.
+    /**
+     * Account ID for the client
+     * Note that the field <code>account_id</code> in the string is replaced
+     * when the tag is generated.
      */
-    //    var $, url, outputData, outputEvent, field;
+    var account = "1234";
     
     /**
      * URL to dispatch to the server
-     * TODO where should we configure this?
+     * Note that the field <code>server_url</code> in the string is replaced
+     * when the tag is generated.
      */
-    var url = "jshub.org";
-    var account = "1234";
+    var url = "http://localhost//account/" + account;
     
-    /*
-     * Reference to a 'safe' version of jQuery with restricted access to the DOM (like AdSafe).
-     * The plugin should only use this API and will be subject to static analysis
-     * to demonstrate this.
-     */
-    var $ = jsHub.safe('$');
-    
-    /*
-     * Serialize data as expected format, see
-     * https://intra.causata.com/code/causata/wiki/JavascriptTag/WireFormat
-     */
-    var outputEvent = {
-      timestamp: event.timestamp,
-      'eventType': event.type,
-      attributes: []
-    };
-	
-	for (field in event.data) {
-      if ("string" === typeof event.data[field] || "number" === typeof event.data[field]) {
-	  	outputEvent.attributes.push({
-			name : field,
-			value : event.data[field]
-		});
-      }
-    }
-	
-    var outputData = {
+	/**
+	 * Each field in this object is serialized as a name=value pair in the query
+	 * string of the URL that is created for the image request.
+	 * You can put any data in this object. If the value of a field is an array,
+	 * then it will be used to generate multiple name=value pairs in the resulting
+	 * query string.
+	 */
+    var data = {
       sender: metadata.name + " v" + metadata.version,
-      event: jsHub.safe.toJSONString(outputEvent)
+      pagename: event.data.name
     };
     
     // dispatch via API function
-    jsHub.dispatchViaForm("POST", url, outputData);
+    jsHub.dispatchViaImage(url, data);
     jsHub.logger.groupEnd();
   };
   
   /*
    * Bind the plugin to the Hub so as to run when events we are interested in occur
    */
-  for (i = 0; i < boundEvents.length; i++) {
-    jsHub.bind(boundEvents[i], "causata", transport);
-  }
+  jsHub.bind("page-view", metadata.id, send);
   
   // lifecycle notification
   jsHub.trigger("plugin-initialization-complete", metadata);

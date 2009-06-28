@@ -1,16 +1,38 @@
 /*!
  *  jsHub open source tag
  *  Copyright (c) 2009 jsHub.org
- *  Authors: Liam Clancy, Fiann O'Hagan, Steve Heron
+ *  Authors: Liam Clancy
+ *  Prototype: Liam Clancy, Fiann O'Hagan, Steve Heron
  */
 
 (function(){
 
+  /**
+  * Utility functions
+  */ 
   // Wrap logging during development
   function log(){ 
     if (window.console && META.DEBUG === true) {
       console.log.apply(console, arguments); 
     }
+  };
+  
+  // Simple string formatter
+  // Usage: format('Some string: {0} {1}', 'foo', 'bar') returns: “Some string: foo bar”
+  function format(){
+    // coerce arguments to a proper Array
+    var args =  Array.prototype.slice.call(arguments, 0);
+    log('Formatting: %o', args);
+    // Get the string to format leaving only the tokens in the array
+    var string = args.shift();
+    var pattern = /\{\d+\}/g;
+    var result = string.replace(pattern, function(token){
+        var text = args[token.match(/\d+/)]; 
+        log('Formatting token: %o, text: %o', token, text);    
+        return text;
+      });
+    log('Formatting result: %o', result);    
+    return result;
   };
 
   /**
@@ -26,6 +48,7 @@
       Event = YAHOO.util.Event,
       CustomEvent = YAHOO.util.CustomEvent,
       Element = YAHOO.util.Element,
+      Module = YAHOO.widget.Module,
       Panel = YAHOO.widget.Panel,
       AccordionView = YAHOO.widget.AccordionView,
       Resize = YAHOO.util.Resize,
@@ -90,7 +113,9 @@
         "FOUND_CODE": "foundCode",
         "CHECKSUM_CODE": "checksumCode",
         "CHANGE_STATE": "changeState",
-        "CHANGE_STATUS": "changeStatus"
+        "CHANGE_STATUS": "changeStatus",
+        "NEW_HUB_EVENT": "newHubEvent",
+        "RENDER_HUB_EVENT": "renderHubEvent"
       };
         
   /**
@@ -115,9 +140,10 @@
           key: "strings",
           validator: Lang.isObject,
           value: {
-            header_text: "Activity Inspector",
-            footer_text: "Inspector v"+ META.VERSION +" r"+ META.BUILD,
-            close: "Close"
+            "header_text": 'Activity Inspector',
+            "footer_text": 'Inspector v' + META.VERSION + ' r' + META.BUILD,
+            "close": 'Close',
+            "success_message": 'Installed &amp; active'
           }
         }        
       };
@@ -133,40 +159,66 @@
   * @type Object  
   */
   var COMPONENTS = {}
-  
+
+  /**
+  * Constant holder for template HTML 
+  * TODO: Move more of these into STRINGS for use with format()
+  * @property TEMPLATES
+  * @private
+  * @final
+  * @type Object  
+  */
+  var TEMPLATES = {
+          'LAUNCHER': '<ul class="launcher"><li class="status">&nbsp;</li></ul>',
+          'PANEL_HEADER': '<span class="title">{0}</span>',
+          'PANEL_FOOTER': '<div class="version">{0}</div><div class="logo"></div>',
+          'STATUS_PREFIX': '<p class="self">jsHub is</p>',
+          'STATUS_MESSAGE': '<p class="message">{0}</p>',
+          'SEARCH': '<div class="yui-u first"><label class="search" for="inspector_search">Find</label></div><div class="yui-u"><input type="text" disabled="disabled" class="search" id="inspector_search"/></div>',
+          'LARGE_BUTTON': '<a href="#" class="jshub-button events">View Events</a><a href="http://www.jshub.org/" class="jshub-button get">Get jsHub</a>',
+          'SMALL_BUTTON': '<a href="#" class="jshub-button">Hide Events</a>',
+          'HUB_EVENT_SEPARATOR': '<hr class="event-separator"/>'
+        }  
 
   /**
   * Constant representing the Inspector's AccordionView Panels
   * @property PANELS
   * @private
   * @final
-  * @type Object
+  * @type Array
   */ 
   var PANELS = {
         "tagging-issues": {
-          label: "Tag status",
-          content: "<!-- ready to recieve data -->"
+          label: 'Tag status',
+          content: '<!-- ready to recieve data -->',
+          template: ''
         },
         "page": {
-          label: "Page events",
-          content: "<!-- ready to recieve data -->"
+          label: 'Page events',
+          content: '<!-- ready to recieve data -->',
+          template: '<div title="No help text available" class="yui-g help-text"><p class="variable">{0}</p></div><div class="yui-gd duplicate"><div class="yui-u first"><p class="vendor">{1}:</p></div><div class="yui-u"><p class="value">{2}</p></div></div>'
         },
         "user-interactions": {
-          label: "Ecommerce events",
-          content: "<!-- ready to recieve data -->"
+          label: 'Ecommerce events',
+          content: '<!-- ready to recieve data -->',
+          template: '<div title="No help text available" class="yui-g help-text"><p class="variable">{0}</p></div><div class="yui-gd duplicate"><div class="yui-u first"><p class="vendor">{1}:</p></div><div class="yui-u"><p class="value">{2}</p></div></div>'
         },
         "data-sources": {
-          label: "Data sources",
-          content: "<!-- ready to recieve data -->"
+          label: 'Data sources',
+          content: '<!-- ready to recieve data -->',
+          template: ''
         },
         "inline-content-updates": {
-          label: "Inline content updates",
-          content: "<!-- ready to recieve data -->"
+          label: 'Inline content updates',
+          content: '<!-- ready to recieve data -->',
+          template: ''
         }
       };  
 
   /**
   * Constant representing the mapping of jsHub events to AccordionView Panels for display
+  * "jsHub event string Id": "Inspector panel string Id in PANELS"
+  * TODO: use these in receivedHubEvent
   * @property PANEL_MAPPINGS
   * @private
   * @final
@@ -220,7 +272,7 @@
   /** 
   * find all the Accordion panel(s) content areas
   * This is dependent on the DOM structure of the Accordion staying as UL>LI>A+DIV
-  * TODO: use CSS selectors and COMPONENTS.event_list.CLASSES.CONTENT
+  * TODO: use CSS selectors with COMPONENTS.event_list.CLASSES.CONTENT, rather than DOM methods
   * @method getAllAccordionPanelContent
   * @private
   */
@@ -238,7 +290,7 @@
   /** 
   * find the Accordion open/active panel(s) content area
   * This is dependent on the DOM structure of the Accordion staying as UL>LI>A+DIV
-  * TODO: use CSS selectors and COMPONENTS.event_list.CLASSES.TOGGLE && CONTENT
+  * TODO: use CSS selectors and COMPONENTS.event_list.CLASSES.TOGGLE && CONTENT, rather than DOM methods
   * @method getActiveAccordionPanelContent
   * @private
   */
@@ -256,30 +308,84 @@
     return aPanelContent;
   };  
 
+  /** 
+  * "init" method. Creates the Accordion in an element in the the body of a hidden Module 
+  * so that we can add Hub Events whilst the Inspector is hidden
+  */  
+  function createEventList(me) {
+    // Check we haven't already added this
+    if (COMPONENTS.event_list) {
+      log('AccordionView already created: %o', COMPONENTS.event_list);
+      return false;
+    }
+
+    // Create a hidden Module for the AccordionView to be added to (state3)
+    var mEventlistModule = new Module("mEventlistModule");
+    mEventlistModule.setBody('<div id="'+ Inspector.ID_ACCORDION +'"></div>');
+    COMPONENTS.mEventlistModule = mEventlistModule;
+    log("Content: mEventlistModule: %o", mEventlistModule);
+    
+    // Create the AccordionView and manipulate before rendering/appending
+    // TODO: subclass AccordionView to add our own methods for convenience
+    var oEventList = new YAHOO.widget.AccordionView('memory', {
+      width: '100%',
+      collapsible: true,
+      expandable: false,
+      animate: false
+    });
+    
+    // generate AccordionView panels from PANELS config
+    var panelIndex = -1;
+    for (var panelId in PANELS) {
+      oEventList.addPanel(PANELS[panelId]);
+      panelIndex ++;
+      log('AccordionView Panel: %o, index: %o', PANELS[panelId], panelIndex);
+      // add a CSS class to the panel for use to render Hub Events
+      // This is found by panelIndex since the AccordionView API addPanel() returns void
+      var newPanel = oEventList.getPanel(panelIndex);
+      Dom.addClass(newPanel, "event-section " + panelId);
+      log('Accordion Panel: %o, CSS: %o', panelIndex, panelId);
+    };
+    // Uncomment to start with a panel open
+    //oEventList.openPanel(0);
+    
+    // subscribe to events to get info for resizing
+    oEventList.subscribe('stateChanged', function() {log('Accordion Custom event: type: stateChanged, arguments: %o, this: %o', arguments, this)});
+    oEventList.subscribe('afterPanelClose', function() {log('Accordion Custom event: type: afterPanelClose, arguments: %o, this: %o', arguments, this)});
+    oEventList.subscribe('afterPanelOpen', function() {log('Accordion Custom event: type: afterPanelOpen, arguments: %o, this: %o', arguments, this)});
+    
+    // expose for later access, e.g. resizing
+    COMPONENTS.event_list = oEventList;
+    log('Created an AccordionView: %o', COMPONENTS.event_list);
+  };
+  
   /**
-  * See if a jsHub core lib is present, bind to it and add a class to indicate the jsHub core state in the UI
+  * "init" method. See if a jsHub core lib is present, bind to it and add a class to indicate the jsHub core state in the UI
   * @method jsHubIsPresent
   * @private
   */
   function jsHubIsPresent(me) {
+    var isPresent = false;
     if (window.jsHub && window.jsHub.bind) {
-      // jHub core lib is present
-      Dom.addClass(me.body, 'success');
+      isPresent = true;
+      log("jsHubIsPresent: %o, jsHub: %o, me: %o", isPresent, window.jsHub, me);
       // listen out for Hub events
       jsHub.bind("*", "inspector", function(a, b) {
-        recievedJsHubEvent(a, b);
+        log("jsHub.bind callback function: a: %o, b: %o, me: %o, this: %o", a, b, me, this);
+        me.newHubEvent.fire(a, b);
       });
+      // jHub core lib is present
+      // Note: actual CSS change made by cfg.status event handler
+      me.cfg.queueProperty('status', 'success');
       // notify that the jsHub core lib is available
       me.foundCodeEvent.fire(window.jsHub);
     } else {
-      // jHub core lib is not present
-      Dom.addClass(me.body, me.cfg.getProperty(DEFAULT_CONFIG.STATUS.key));
+      log("jsHubIsPresent: %o, jsHub: %o, me: %o", isPresent, window.jsHub, me);
+      // jHub core lib is not present so change status
+      // Note: actual CSS change made by cfg.status event handler
+      me.cfg.resetProperty('status');
     }
-  };
-
-  function recievedJsHubEvent(a, b) {
-    log('TODO: recievedJsHubEvent - Do something with an event, e.g. raise a CustomEvent');
-    log("recievedJsHubEvent:  a: %o, b: %o, this: %o", a, b, this);    
+    return isPresent;
   };
   
   // Private CustomEvent listeners, usage depends a bit on how subscribed:
@@ -292,9 +398,20 @@
   * @private
   */
   function srcChecksum(type, args, me) {
-    log('TODO: srcChecksum - Check the jsHub core src SHA1, using metadata properties in the CONFIG');
+    log('TODO: srcChecksum - Check the jsHub core src SHA1, using metadata properties in the CONFIG and pass result in CustomEvent');
     log("srcChecksum:  type: %o, args: %o, me: %o, this: %o", type, args, me, this);
-    this.checksumCodeEvent.fire(Inspector);
+    
+    // TODO: actual logic
+    var result = true;
+    var status = false;
+    // update UI status
+    if(result){
+      status = this.cfg.setProperty(DEFAULT_CONFIG.STATUS.key, "success");
+    } else {
+      status = this.cfg.setProperty(DEFAULT_CONFIG.STATUS.key, "warning");
+    };
+    log("srcChecksum: result: %o, status updated: %o", result, status);
+    this.checksumCodeEvent.fire(result);
   };
   
   /**
@@ -318,61 +435,26 @@
   */  
   function templateTitle(type, args, me) {
     var oStrings = this.cfg.getProperty("strings")
-    this.setHeader('<span class="title">'+ oStrings.header_text +'</span>');
+    this.setHeader(format(TEMPLATES.PANEL_HEADER, oStrings['header_text']));
   }    
   /** 
   * "beforeRender" event handler that creates the version for an Inspector in the footer
   */ 
   function templateVersion(type, args, me) {
     var oStrings = this.cfg.getProperty("strings")
-    this.setFooter('<div class="version">'+ oStrings.footer_text +'</div><div class="logo"></div>');
+    this.setFooter(format(TEMPLATES.PANEL_FOOTER, oStrings['footer_text']));
   }
-
+  
   /** 
-  * "render" event handler that creates the Accordion in an element in the the body of the Inspector 
+  * "render" event handler that adds the in memory Module and AccordionView to the the body of the Inspector 
   */  
-  function createEventList(type, args, me) {
-    // Check we haven't already added this
-    if (COMPONENTS.event_list) {
-      log('Accordion already created: %o', COMPONENTS.event_list);
-      return false;
-    }
-
-    // Create placeholder for the AccordionView to be added to (state3)
-    //this.setBody('<div id="'+ Inspector.ID_ACCORDION +'"></div>');
-    var mEventlistModule = new YAHOO.widget.Module("mEventlistModule");
-    mEventlistModule.setBody('<div id="'+ Inspector.ID_ACCORDION +'"></div>');
-    mEventlistModule.render(this.body);
-    mEventlistModule.show();
-    COMPONENTS.mEventlistModule = mEventlistModule;
-    log("Content: mEventlistModule: %o", mEventlistModule);
-    
-    // Create the Accordion and manipulate before rendering/appending
-    var oEventList = new YAHOO.widget.AccordionView('memory', {
-      width: '100%',
-      collapsible: true,
-      expandable: false,
-      animate: false
-    });
-    
-    // generate panels from config
-    for (var panelId in PANELS) {
-      oEventList.addPanel(PANELS[panelId]);
-    }
-    // start with a panel open
-    //oEventList.openPanel(0);
-    // add the Accordion into the placeholder in the Panel body
-    oEventList.appendTo(Inspector.ID_ACCORDION);
-
-    // subscribe to events to get info for resizing
-    oEventList.subscribe('stateChanged', function() {log('Accordion Custom event: type: stateChanged, arguments: %o, this: %o', arguments, this)});
-    oEventList.subscribe('afterPanelClose', function() {log('Accordion Custom event: type: afterPanelClose, arguments: %o, this: %o', arguments, this)});
-    oEventList.subscribe('afterPanelOpen', function() {log('Accordion Custom event: type: afterPanelOpen, arguments: %o, this: %o', arguments, this)});
-    
-    // expose for later access, e.g. resizing
-    COMPONENTS.event_list = oEventList;
-    log('Created an Accordion: %o', COMPONENTS.event_list);
-  };
+  function renderEventList (type, args, me) {
+    log('Rendering: mEventlistModule: %o, event_list: %o into Inspector: %o', COMPONENTS.mEventlistModule, COMPONENTS.event_list, this);
+    COMPONENTS.mEventlistModule.render(this.body);
+    COMPONENTS.mEventlistModule.show();
+    // add the Accordion DIV in the Module
+    COMPONENTS.event_list.appendTo(Inspector.ID_ACCORDION);    
+  }
   
   /** 
   * "render" event handler that makes the Inspector Panel resizable 
@@ -406,14 +488,14 @@
 
 
   /** 
-  * "resize" and "endResize" event handler that suppresses the Inspector resize, and so
-  * keeping automatic resizing of the body based on content height.
-  * The visible size change is done by resizing the Accordion
+  * "resize" and "endResize" event handler that suppresses the Inspector resize via 'height' changes, and so
+  * keeping automatic resizing of the body based on content height (CSS height = 'auto').
+  * The visible size change is done by resizing the AccordionView Panels heights
   * NOTE: event 'args' and 'this' are different due to using 'on' vs. 'subscribe'
   */  
   function resizeInspectorBody(args) {
+    // use set rather than queue for immediate re-paint
     this.cfg.setProperty("height", '');
-    //this.cfg.setProperty("height", args.height+'px');
     log('resizeInspectorBody args: %o, args.height: %o, this: %o, cfg.height: %o, Inspector.height: %o', args, args.height, this, this.cfg.getProperty("height"), this.element.offsetHeight);
   };
 
@@ -425,7 +507,7 @@
   function resizeAccordionPanel(args) { 
     // set a new height on the Accordion Panel Content
     // use CSS min-/max-height to enforce a max height
-    // TODO: split change by number of open Panels
+    // TODO: split height change by number of open Panels since AccordionView can be configured for this
     var aPanelContent = getActiveAccordionPanelContent();
     var ePanel = aPanelContent[0];
     var delta = args.height - this.element.offsetHeight;
@@ -436,24 +518,46 @@
     log('resizeAccordionPanel args: %o, args.height: %o, this: %o, panel: %o, panel.offsetHeight: %o, Inspector.height: %o', args, args.height, this, ePanel, ePanel.offsetHeight, this.element.offsetHeight);
   };
   
+  /**
+  * "state" config event handler to enable/disable resizing when the UI state changes
+  */
+  function toggleResizer(type, args, me){
+    log('toggleResizer: type: %o, args: %o, me: %o, this: %o, resizer: %o', type, args, me, this, COMPONENTS.resizer)
+    // Only state3 should be resizable
+    if (args[0] !== 3) {
+      COMPONENTS.resizer.lock();
+    };
+    if (args[0] === 3) {
+      COMPONENTS.resizer.unlock();
+    };
+    log('Locked or unlocked the resizer: %o', COMPONENTS.resizer);
+  };
+  
   /** 
   * "render" event handler that makes the Modules for content before the Event List
+  * TODO: Container does not have a this.body.insertAt method which would make this easier
   */  
-  function createContentModules1(type, args, me) {
+  function createDefaultContentModules1(type, args, me) {
+    // get current strings for use
+    var oStrings = this.cfg.getProperty("strings")
+  
     // Small status text with background icon (state3)
-    var mStatusModuleSmall = new YAHOO.widget.Module("mStatusModuleSmall");      
-    mStatusModuleSmall.setBody('<p class="message">Inspector small message</p>');
+    var mStatusModuleSmall = new Module("mStatusModuleSmall");
+    // TODO: get message text based on STATUS
+    mStatusModuleSmall.setBody(format(TEMPLATES.STATUS_MESSAGE, oStrings['success_message']));
     mStatusModuleSmall.render(this.body);
+    // annotate div.yui-module
     Dom.addClass(mStatusModuleSmall.element, 'yui-g status small');
+    // annotate div.bd
     Dom.addClass(mStatusModuleSmall.body, 'yui-u text');
     mStatusModuleSmall.show();
     COMPONENTS.mStatusModuleSmall = mStatusModuleSmall;
     log("Added Content: mStatusModuleSmall: %o", mStatusModuleSmall);
 
     // Large status text with background icon (state2)
-    var mStatusModuleLarge = new YAHOO.widget.Module("mStatusModuleLarge");
-    // TODO: review 2 column setup
-    mStatusModuleLarge.setBody('<p class="self">jsHub is</p><p class="message">Inspector large message</p>');
+    var mStatusModuleLarge = new Module("mStatusModuleLarge");
+    // TODO: review HTML for 2 column setup
+    mStatusModuleLarge.setBody(format(TEMPLATES.STATUS_PREFIX + TEMPLATES.STATUS_MESSAGE,  oStrings['success_message']));
     mStatusModuleLarge.render(this.body);
     Dom.addClass(mStatusModuleLarge.element, 'yui-g status large');
     Dom.addClass(mStatusModuleLarge.body, 'yui-u text');
@@ -462,10 +566,11 @@
     log("Added Content: mStatusModuleLarge: %o", mStatusModuleLarge);
 
     // Search section (state3)
-    var mSearchModule = new YAHOO.widget.Module("mSearchModule");      
-    mSearchModule.setBody('<div class="yui-u first"><label class="search" for="inspector_search">Find</label></div><div class="yui-u"><input type="text" disabled="disabled" class="search" id="inspector_search"/></div>');
+    var mSearchModule = new Module("mSearchModule");      
+    mSearchModule.setBody(TEMPLATES.SEARCH);
     mSearchModule.render(this.body);
-    Dom.addClass(mSearchModule.body, 'yui-gf search');
+    Dom.addClass(mSearchModule.element, 'search');
+    Dom.addClass(mSearchModule.body, 'yui-gf');
     mSearchModule.show();
     COMPONENTS.mSearchModule = mSearchModule;
     log("Added Content: mSearchModule: %o", mSearchModule);
@@ -473,82 +578,185 @@
 
   /** 
   * "render" event handler that makes the Modules for content after the Event List
+  * TODO: Container does not have a this.body.insertAt method which would make this easier
   */    
-  function createContentModules2(type, args, me) {
+  function createDefaultContentModules2(type, args, me) {
+    // get current strings for use
+    var oStrings = this.cfg.getProperty("strings")
+
     // Large buttons (state2)
-    var mButtonsModuleLarge = new YAHOO.widget.Module("mButtonsModuleLarge");      
-    mButtonsModuleLarge.setBody('<a href="#" class="button events">View Events</a><a href="http://www.jshub.org/" class="button get">Get jsHub</a>');
+    var mButtonsModuleLarge = new Module("mButtonsModuleLarge");      
+    mButtonsModuleLarge.setBody(TEMPLATES.LARGE_BUTTON);
     mButtonsModuleLarge.render(this.body);
-    Dom.addClass(mButtonsModuleLarge.element, 'buttons large');
+    Dom.addClass(mButtonsModuleLarge.element, 'jshub-buttons large');
     mButtonsModuleLarge.show();
+    Event.addListener(mButtonsModuleLarge.body, 'click', clickLargeButton, this, true);
     COMPONENTS.mButtonsModuleLarge = mButtonsModuleLarge;
     log("Added Content: mButtonsModuleLarge: %o", mButtonsModuleLarge);
 
     // Small buttons (state3)
-    var mButtonsModuleSmall = new YAHOO.widget.Module("mButtonsModuleSmall");      
-    mButtonsModuleSmall.setBody('<a href="#" class="button">Hide Events</a>');
+    var mButtonsModuleSmall = new Module("mButtonsModuleSmall");      
+    mButtonsModuleSmall.setBody(TEMPLATES.SMALL_BUTTON);
     mButtonsModuleSmall.render(this.body);
-    Dom.addClass(mButtonsModuleSmall.element, 'buttons small');
+    Dom.addClass(mButtonsModuleSmall.element, 'jshub-buttons small');
     mButtonsModuleSmall.show();
+    Event.addListener(mButtonsModuleSmall.body, 'click', clickSmallButton, this, true);
     COMPONENTS.mButtonsModuleSmall = mButtonsModuleSmall;
     log("Added Content: mButtonsModuleSmall: %o", mButtonsModuleSmall);
 
     // Floating launcher (state1)
-    var mLauncherModule = new YAHOO.widget.Module("mLauncherModule");      
-    mLauncherModule.setBody('<ul class="launcher"><li class="status">&nbsp;</li></ul>');
+    var mLauncherModule = new Module("mLauncherModule");      
+    mLauncherModule.setBody(TEMPLATES.LAUNCHER);
     mLauncherModule.render(this.body);
     mLauncherModule.show();
+    Event.addListener(mLauncherModule.body, 'click', clickLauncher, this, true);
+    
     COMPONENTS.mLauncherModule = mLauncherModule;
     log("Added Content: mLauncherModule: %o", mLauncherModule);
   };
 
   /**
-  * "render" event handler that adds a Module to an Accordion Panel depending on Data type
+  * "newHubEvent" event handler that processes the Hub Event and hands off for rendering.
+  * @method recievedHubEvent
+  * @private
   */
-  function addEventToEventList(type, args, me) {
-    log("addEventToEventList:  type: %o, args: %o, me: %o, this: %o", type, args, me, this);
- 
-    // TODO: look this up based on jsHub event.type
-    var aPanelContent = getAllAccordionPanelContent();
-    var ePanel = aPanelContent[0];
-    log("Adding event to: %o", ePanel);
-    
-    // Sample event (state3)
-    var mSampleEventModule1 = new YAHOO.widget.Module(Dom.generateId());
-    // TODO: there are multiple templates for layout
-    mSampleEventModule1.setBody('<p>Sample Event</p>');
-    mSampleEventModule1.render(ePanel);
-    Dom.addClass(mSampleEventModule1.element, 'event-item');
-    mSampleEventModule1.show();
-    COMPONENTS.mSampleEventModule1 = mSampleEventModule1;
-    log("Content: mSampleEventModule1: %o", mSampleEventModule1);
+  function recievedHubEvent(type, args, me) {
+    log("recievedHubEvent:  type: %o, args: %o, me: %o, this: %o", type, args, me, this);
 
-    var mSampleEventModule2 = new YAHOO.widget.Module(Dom.generateId());
-    // TODO: there are multiple templates for layout
-    mSampleEventModule2.setBody('<p>Sample Event</p>');
-    mSampleEventModule2.render(ePanel);
-    Dom.addClass(mSampleEventModule2.element, 'event-item');
-    mSampleEventModule2.show();
-    COMPONENTS.mSampleEventModule2 = mSampleEventModule2;
-    log("Content: mSampleEventModule2: %o", mSampleEventModule2);
+    // get data from event args
+    var oHubEvent = args[0];
+    
+    // TODO: look this up based on jsHub oHubEvent.type from PANEL_MAPPINGS 
+    var ePanel;
+    var aPanelContent = getAllAccordionPanelContent();
+    if (oHubEvent['type'] === 'duplicate-value-warning') {    
+      ePanel = aPanelContent[0]; // "tagging-issues"
+    };
+    if (oHubEvent['type'] === 'data-capture-start'
+        || oHubEvent['type'] === 'page-view') {    
+      ePanel = aPanelContent[1]; // "page"
+    };
+    if (oHubEvent['type'] === 'authentication'
+        || oHubEvent['type'] === 'product-view'
+        || oHubEvent['type'] === 'product-purchase'
+        || oHubEvent['type'] === 'cart-add'
+        || oHubEvent['type'] === 'cart-remove'
+        || oHubEvent['type'] === 'cart-update'
+        || oHubEvent['type'] === 'checkout') {    
+      ePanel = aPanelContent[2]; // "user-interactions"
+    };
+    
+    if (!ePanel) {
+      log('recievedHubEvent: ignoring event: %o', oHubEvent);
+      return false;
+    }
+    
+    // fire event with required data to action
+    log("Adding hubEvent: %o to: %o", oHubEvent, ePanel);
+    this.renderHubEvent.fire(oHubEvent, ePanel);
   };
   
+  /**
+  * "renderHubEvent" event handler that adds a Module to an Accordion Panel depending on Hub Event type
+  * @method addEventToPanel
+  * @private
+  */
+  function addEventToPanel(type, args, me) {
+    log("addEventToPanel:  type: %o, args: %o, me: %o, this: %o", type, args, me, this);
+
+    // get data from event args
+    var oHubEvent = args[0];
+    var ePanel = args[1];
+    
+    // Hub event (state3)
+    var mHubEventModule = new Module(Dom.generateId());
+    mHubEventModule.setBody(format(PANELS["page"].template, oHubEvent['type'], "Value Label", oHubEvent['data'].toSource() ));
+    mHubEventModule.setFooter(TEMPLATES.HUB_EVENT_SEPARATOR);    
+    mHubEventModule.render(ePanel);
+    Dom.addClass(mHubEventModule.element, 'event-item');
+    mHubEventModule.show();
+    COMPONENTS.mHubEventModule = mHubEventModule;
+    log("Content: mSampleEventModule1: %o", mHubEventModule);
+  };
+  
+  /**
+  * "state" config change handler
+  * @method setUIState
+  * @private
+  */
   function setUIState(type, args, me) {
-      log('Config event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)
-      log(args[0]);
-      Dom.removeClass(this.innerElement, Inspector.CSS_STATE_PREFIX + 1);      
-      Dom.removeClass(this.innerElement, Inspector.CSS_STATE_PREFIX + 2);      
-      Dom.removeClass(this.innerElement, Inspector.CSS_STATE_PREFIX + 3);      
-      Dom.addClass(this.innerElement, Inspector.CSS_STATE_PREFIX + args[0]);      
+    log('setUIState: type: %o, args: %o, me: %o, this: %o', type, args, me, this)
+    // TODO: iterate over a CONFIG list of CSS classes
+    Dom.removeClass(this.innerElement, Inspector.CSS_STATE_PREFIX + 1);      
+    Dom.removeClass(this.innerElement, Inspector.CSS_STATE_PREFIX + 2);      
+    Dom.removeClass(this.innerElement, Inspector.CSS_STATE_PREFIX + 3);      
+    Dom.addClass(this.innerElement, Inspector.CSS_STATE_PREFIX + args[0]);      
   }
+
+  /**
+  * "status" config change handler
+  * @method setUIStatus
+  * @private
+  */  
   function setUIStatus(type, args, me) {
-      log('Config event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)
-      log(args[0]);
-      Dom.removeClass(this.body, "info");      
-      Dom.removeClass(this.body, "success");      
-      Dom.removeClass(this.body, "warning");      
-      Dom.removeClass(this.body, "error");      
-      Dom.addClass(this.body, args[0]);      
+    log('setUIStatus: type: %o, args: %o, me: %o, this: %o', type, args, me, this)
+    // TODO: iterate over a CONFIG list of CSS classes
+    Dom.removeClass(this.body, "info");      
+    Dom.removeClass(this.body, "success");      
+    Dom.removeClass(this.body, "warning");      
+    Dom.removeClass(this.body, "error");      
+    Dom.addClass(this.body, args[0]);      
+  }
+
+  /**
+  * "click" event handler for Large Button Module that changes UI state
+  * @method clickLargeButton
+  * @private
+  */  
+  function clickLargeButton (e) {
+    log('clickLargeButton: e: %o, this: %o', e, this)
+    Event.preventDefault(e);
+    var state = this.cfg.setProperty(DEFAULT_CONFIG.STATE.key, 3);
+    log('jsHub.org Inspector Large Button clicked: %o', state);
+    return state;
+  };
+    
+  /**
+  * "click" event handler for Small Button Module that changes UI state
+  * @method clickSmallButton
+  * @private
+  */  
+  function clickSmallButton (e) {
+    log('clickSmallButton: e: %o, this: %o', e, this)
+    Event.preventDefault(e);
+    var state = this.cfg.setProperty(DEFAULT_CONFIG.STATE.key, 2);
+    log('jsHub.org Inspector Small Button clicked: %o', state);
+    return state;
+  };
+  
+  /**
+  * "click" event handler for Launcher Module that changes UI state
+  * @method clickLauncher
+  * @private
+  */  
+  function clickLauncher (e) {
+    log('clickLauncher: e: %o, this: %o', e, this)
+    Event.preventDefault(e);
+    var state = this.cfg.setProperty(DEFAULT_CONFIG.STATE.key, 2);
+    log('jsHub.org Inspector Launcher clicked: %o', state);
+    return state;
+  };
+  
+  /**
+  * "codeFound" event handler to get the Hub Plugins
+  * @method getHubPluginInfo
+  * @private
+  */
+  function getHubPluginInfo(type, args, me) {
+      log('TODO: Add Hub plugin info to Data Sources panel');
+      log('getHubPluginInfo: type: %o, args: %o, me: %o, this: %o', type, args, me, this)
+      var plugins = window.jsHub.getPluginInfo();
+      log('getHubPluginInfo: %o', plugins);
   }
   
   // End Private methods for Event handlers
@@ -569,6 +777,13 @@
     init : function(el, userConfig) {
       log("jsHub.org Inspector init start");
 
+      // Check dependencies
+      // TODO: this could probably be better to stop any execution
+      if(!(YAHOO && Module && Panel && Event && CustomEvent && Element && Resize && AccordionView)){
+        log('The jsHub Inspector is missing some required libraries.');
+        return false;
+      }
+
       // First calls the superclass Panel init so our Panel has its predefined configuration attributes
       // Note that we don't pass the user config in here yet because we only want it executed once
       Inspector.superclass.init.call(this, el/*, userConfig*/);
@@ -580,9 +795,10 @@
       this.cfg.subscribe('autoFillHeight', function(type, args, me) {log('Config event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)});
       this.cfg.subscribeToConfigEvent('height', function(type, args, me) {log('Config event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)}, this, this);
       this.cfg.subscribeToConfigEvent('state', setUIState);
+      this.cfg.subscribeToConfigEvent('state', toggleResizer);
       this.cfg.subscribeToConfigEvent('status', setUIStatus);
 
-      // now apply the users config
+      // now apply the users config - which will also cause subscribed config events to fire (set above)
       if (userConfig) {
         this.cfg.applyConfig(userConfig, true);
       } 
@@ -593,32 +809,35 @@
       this.subscribe('beforeRender', templateVersion);
 
       this.subscribe('render', makeResizable);
-      this.subscribe('render', createContentModules1);
-      this.subscribe('render', createEventList);
-      this.subscribe('render', createContentModules2);
-      this.subscribe('render', addEventToEventList);
+      // create all visible content - hidden by CSS depending on states
+      this.subscribe('render', createDefaultContentModules1);
+      this.subscribe('render', renderEventList);
+      this.subscribe('render', createDefaultContentModules2);
       
       this.subscribe('changeContent', function(type, args, me) {log('Custom event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)});
       this.subscribe('show', function(type, args, me) {log('Custom event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)});
       this.subscribe('hide', function(type, args, me) {log('Custom event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)});
 
       // custom functionality events
+      this.subscribe('foundCode', getHubPluginInfo);
       this.subscribe('foundCode', srcChecksum);
       this.subscribe('checksumCode', function(type, args, me) {log('Custom event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)});
+      this.subscribe('newHubEvent', recievedHubEvent);
+      this.subscribe('renderHubEvent', addEventToPanel);
 
       // Setup UI
-
-      // References to generated HTMLElements
+      // Useful references to generated HTMLElements
       // jshub_inspector_c = this.element
       // jshub_inspector = this.innerElement
       // jshub_inspector_h = this.header
       
-      // add the current state as a CSS class
-      Dom.addClass(this.innerElement, Inspector.CSS_STATE_PREFIX + this.cfg.getProperty(DEFAULT_CONFIG.STATE.key));      
-      // make sure we have a Body as early as possible
+      // add CSS to target browser/platform specific problems
+      Dom.addClass(this.element, this.browser +" "+ this.platform)
+      // make sure we have a Body as early as possible to add things to
       this.setBody('<!-- Create a body element in Init to add Modules to -->');
       
-      // Do custom functionality
+      // Do init functionality
+      createEventList(this);
       jsHubIsPresent(this);
       
       // Last
@@ -665,6 +884,21 @@
       */
       this.changeStatusEvent = this.createEvent(EVENT_TYPES.CHANGE_STATUS);
       this.changeStatusEvent.signature = SIGNATURE;
+
+      /**
+      * CustomEvent fired after receiving a Hub Event via a jsHub.bind callback
+      * @event newHubEvent
+      */
+      this.newHubEvent = this.createEvent(EVENT_TYPES.NEW_HUB_EVENT);
+      this.newHubEvent.signature = SIGNATURE;
+
+      /**
+      * CustomEvent fired after processing a Hub Event via a jsHub.bind callback
+      * @event renderHubEvent
+      */
+      this.renderHubEvent = this.createEvent(EVENT_TYPES.RENDER_HUB_EVENT);
+      this.renderHubEvent.signature = SIGNATURE;
+
 
       log("jsHub.org Inspector initEvents complete");
     },
@@ -738,7 +972,6 @@
     render : function() {  
       log('jsHub.org Inspector render start');
       return Inspector.superclass.render.call(this, Inspector.ID_CONTAINER);
-      log('jsHub.org Inspector render complete');
     },
 
     // Custom public methods
@@ -769,11 +1002,11 @@
     * Sets the Inspectors current state (for UI dev only).
     * @method _setCurrentState
     * @private
-    * @return {Integer} 
+    * @return {Boolean}
     */  
     _setCurrentState : function(state) {
       var state = this.cfg.setProperty(DEFAULT_CONFIG.STATE.key, state);
-      log('jsHub.org Inspector state: %o', state);
+      log('jsHub.org Inspector state changed: %o', state);
       return state;
     },
 
@@ -781,23 +1014,39 @@
     * Gets the Inspectors current status (for UI dev only).
     * @method _setCurrentStatus
     * @private    
-    * @return {String} the string identifier (used for CSS classes, etc)
+    * @return {Boolean}
     */  
     _setCurrentStatus : function(status) {
       var status = this.cfg.setProperty(DEFAULT_CONFIG.STATUS.key, status);
-      log('jsHub.org Inspector status: %o', status);
+      log('jsHub.org Inspector status changed: %o', status);
       return status;
+    },
+
+    /**
+    * Event handler overrides the default close method, instead switching to state1
+    * @method _doClose
+    * @private
+    * @param {DOMEvent} e
+    * @return {Boolean}
+    */  
+    _doClose : function (e) {
+      Event.preventDefault(e);
+      var state = this.cfg.setProperty(DEFAULT_CONFIG.STATE.key, 1);
+      log('jsHub.org Inspector close clicked: %o', state);
+      return state;
     },
     
     /**
     * Adds an event to a Panel (for UI dev only).
     * @method _addHubEvent
     * @private    
-    * @return {Object} the event object submitted
+    * @return {Boolean}
     */  
     _addHubEvent : function(event) {
       log('jsHub.org Inspector new event: %o', event);
-      return event;      
+      // fire CustomEvent with Hub event payload
+      var result = this.newHubEvent.fire(event);
+      return result;      
     },    
     
     /**

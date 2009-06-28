@@ -1,6 +1,10 @@
 # for image urls use ../../images/inspector/
 
 # CONSTANTS
+!panel_font_size = 12px
+!panel_width_state1 = 95px
+!panel_width_state2 = 265px
+
 !color_bg = #000
 !color_text_message = #fff
 !color_text_title = #858689
@@ -27,9 +31,9 @@
 
 !radius_border = 0.6em
 
-# button constants
-!color_border_button = #000
-!color_bg_button = #808080
+# jshub-button constants
+!color_border_buttonbutton = #000
+!color_bg_buttonbutton = #808080
 
 # accordion constants
 !color_events_bg_light = #fff
@@ -50,12 +54,13 @@
   :attachment scroll
 
 =thick-rounded-border
-  :border = 2px solid !color_border_button
+  :border = 2px solid !color_border_buttonbutton
   :border-radius = !radius_border
   :-moz-border-radius = !radius_border
 
   
 div.jshub.inspector
+
   .underlay.jshub-shadow
     :left 10px
     :top 10px
@@ -99,17 +104,14 @@ div.jshub.inspector
   .title 
     :color = !color_text_title
     :font-weight bold
-    :font-size 110%
+    :font-size 110% !important
   .state1, .state2, .state3
     :font-size 85%
     :border-top-color  #171717
     :border-bottom-color = !color_border
     :background
       :color  = !color_bg
-    
-    .yui-resize-handle
-      :visibility hidden
-      
+          
     a.container-close
       +accessible-link-replacement    
       :width 16px
@@ -212,9 +214,9 @@ div.jshub.inspector
             :repeat no-repeat
             :position -45px -397px
       
-      div.buttons
+      div.jshub-buttons
         :padding 10px 10px
-        a.button
+        a.jshub-button
           :margin 0
           :padding 3px 10px
           +thick-rounded-border
@@ -407,7 +409,11 @@ div.jshub.inspector
   
   # Closed - small floating icon
   .state1
+    :width = !panel_width_state1 !important
 
+    .yui-resize-handle
+      :visibility hidden
+    
     # TODO the panel should be position: fixed to keep place when the viewport is scrolled ref: http://stackoverflow.com/questions/624414/yui-panel-and-scrolling
     # position: fixed;   
     .hd
@@ -454,8 +460,12 @@ div.jshub.inspector
     .ft
       :display none
   
-  # Minimised - panel has large icon and buttons
+  # Minimised - panel has large icon and jshub-buttons
   .state2
+    :width = !panel_width_state2 !important
+
+    .yui-resize-handle
+      :visibility hidden
 
     .status.large
       :height 50px
@@ -484,7 +494,7 @@ div.jshub.inspector
           :weight bold  
         :line-height 20px
 
-    .buttons.large
+    .jshub-buttons.large
       :text-align center
       :padding 3px 0
 
@@ -510,7 +520,6 @@ div.jshub.inspector
   # Maximised - with accordion data and live updating
   .state3
     .yui-resize-handle
-      :visibility visible
       :width 15px
       :height 15px 
       :background
@@ -550,7 +559,7 @@ div.jshub.inspector
           :weight bold  
         :line-height 22px 
 
-    .buttons.small
+    .jshub-buttons.small
       :text-align center
  
     # Icon states          
@@ -569,18 +578,18 @@ div.jshub.inspector
 
   # hide panels not needed in states
   .state1
-    a.container-minimise, a.container-info, a.container-close, div.status.small, div.search, div#event_list, div.buttons.small, div.status.large, div.buttons.large
+    a.container-minimise, a.container-info, a.container-close, div.status.small, div.search, div#mEventlistModule, div#event_list, div.jshub-buttons.small, div.status.large, div.jshub-buttons.large
       :display none !important
   .state2
-    ul.launcher, div.status.small, div.search, div#event_list, div.buttons.small
+    ul.launcher, div.status.small, div.search, div#mEventlistModule, div#event_list, div.jshub-buttons.small
       :display none !important
   .state2 .info
-    div.buttons.large a.button.events
+    div.jshub-buttons.large a.jshub-button.events
       :display none !important
   .state2 
     .success, .warning, .error
-      div.buttons.large a.button.get
+      div.jshub-buttons.large a.jshub-button.get
         :display none !important
   .state3
-    ul.launcher, div.status.large, div.buttons.large
+    ul.launcher, div.status.large, div.jshub-buttons.large
       :display none !important
