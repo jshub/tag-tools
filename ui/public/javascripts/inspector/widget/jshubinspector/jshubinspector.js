@@ -344,10 +344,18 @@
       // This is found by panelIndex since the AccordionView API addPanel() returns void
       var newPanel = oEventList.getPanel(panelIndex);
       Dom.addClass(newPanel, "event-section " + panelId);
-      log('Accordion Panel: %o, CSS: %o', panelIndex, panelId);
+      log('AccordionView Panel: %o, CSS: %o', panelIndex, panelId);
     };
     // Uncomment to start with a panel open
     //oEventList.openPanel(0);
+
+    // replace default indicator with a count of child elements and initialise with 0
+    var indicators = Dom.getElementsByClassName('indicator', 'span', oEventList._configs.element.value, function (el){
+          Dom.replaceClass(el, 'indicator', 'count');
+          el.innerHTML = '0';
+        });
+    log('AccordionView Panel: Converted all indicators to counts: %o', indicators);
+
     
     // subscribe to events to get info for resizing
     oEventList.subscribe('stateChanged', function() {log('Accordion Custom event: type: stateChanged, arguments: %o, this: %o', arguments, this)});
@@ -647,7 +655,7 @@
     };
     
     if (!ePanel) {
-      log('recievedHubEvent: ignoring event: %o', oHubEvent);
+      log('receivedHubEvent: ignoring event: %o', oHubEvent);
       return false;
     }
     
@@ -676,7 +684,17 @@
     Dom.addClass(mHubEventModule.element, 'event-item');
     mHubEventModule.show();
     COMPONENTS.mHubEventModule = mHubEventModule;
-    log("Content: mSampleEventModule1: %o", mHubEventModule);
+    
+    // update count of child elements
+    // Note: CSS selection seemed a bit overkill but this ties it to the HTML structure DIV>A>SPAN
+    var eCount = ePanel.previousSibling.lastChild;
+    // using parseInt we can wrap the number if desired, e.g. as (0) or [0]
+    var iCount = parseInt(eCount.innerHTML, 10);
+    iCount++;
+    eCount.innerHTML = iCount ;
+    log('addEventToPanel: new count: %o, for panel: %o', iCount, eCount);
+   
+    log("addEventToPanel: mHubEventModule: %o", mHubEventModule);
   };
   
   /**
