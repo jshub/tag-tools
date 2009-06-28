@@ -42,41 +42,6 @@
     jsHub,
 
     /**
-     * Wrap Firebug console for logging
-     * @class Logger
-     * @for jsHub
-     */
-    // TODO: Enable sending of logging data to remote servers
-    Logger = function () {
-      if (window.console) {
-        this.log = console.log;
-        this.warn = console.warn;
-        this.error = console.error;
-        // Safari's console does not support some functions
-        if (console.group && console.groupEnd) {
-          this.debug = console.debug;
-		      this.group = console.group;
-          this.groupEnd = console.groupEnd;
-		    } else {
-          this.debug = function () {};
-          this.group = function () {};
-          this.groupEnd = function () {};
-        }
-      } else {
-        this.debug = function () {};
-        this.log = function () {};
-        this.warn = function (msg) {
-          alert("WARN: " + msg);
-        };
-        this.error = function (msg) {
-          alert("ERROR: " + msg);
-        };      
-        this.group = function () {};
-        this.groupEnd = function () {};
-      }
-    },
-
-    /**
      * Core event dispatcher functionality of the hub
      * @class Hub
      * @property listeners
@@ -190,13 +155,13 @@
   	        // remove private fields from the data for each listener
       			filteredData = filter(listener.token, data);
       			// send to the listener
-  	        jsHub.logger.debug("Sending event %s to listener %s with data", name, listener.token, filteredData);
+
   	        evt = new Event(name, filteredData);
   	        extraData = listener.callback(evt);
       			// merge any additional data found by the listener into the data
       			if (extraData) {
     		      $.extend(true, data, extraData);
-    		      jsHub.logger.debug("Listener %s added data, event is now ", listener.token, data);
+
       			}
   	      }
         };
@@ -248,7 +213,7 @@
        * @param data {object}
        */
       this.trigger = function (eventName, data) {
-        jsHub.logger.group("Event %s triggered with data", eventName, (data || "'none'"));
+
         // empty object if not defined
         data = data || {};
         // find all registered listeners for the specific event, and for "*"
@@ -256,7 +221,7 @@
         for (var i = 0; i < registered.length; i++) {
           firewall.dispatch(eventName, registered[i], data);
         }
-        jsHub.logger.groupEnd();
+
 		// additional special behavior for particular event types
         if (eventName === "plugin-initialization-start") {
           plugins.push(data);
@@ -314,7 +279,7 @@
        * @return the ID of the iframe that has been created
        */
       this.dispatch = function (method, url, data) {
-        jsHub.logger.group("FormTransport: dispatch(" + url + ") entered");
+
         var form, 
     			appendField,
           iframe, 
@@ -328,8 +293,8 @@
          * TODO: validate url for security reasons, reject javascript: protocol etc
          */
         if (! (/^POST|GET$/i.test(method)) || ! url) {
-          jsHub.logger.error("Method (" + method + ") or url (" + url + ") was not defined correctly");
-    		  jsHub.logger.groupEnd();
+
+
           return;
         }
         data = data || {};
@@ -365,7 +330,7 @@
     		  }
         }
         $('body').append(form);
-        jsHub.logger.log("Created form:", form[0]);
+
 
         // Create the iframe from as string via jQuery
         iframeID = "jshub-iframe-" + jsHub.safe.getTimestamp();
@@ -373,18 +338,18 @@
           + 'style="display: none !important; width: 0px; height: 0px;" class="jshub-iframe"></iframe>');
       
         $('body').append(iframe);
-        jsHub.logger.log("Created iframe:", iframe[0]);
+
     
         // Set the iframe as the submission target of the form, tied together by a timestamp
         form.attr("target", iframeID);
 
     		// And send it ...
         form.submit();
-        jsHub.logger.log("Form submitted");
+
         jsHub.trigger("form-transport-sent", {
         	node : iframeID
         });
-        jsHub.logger.groupEnd();
+
         return iframeID;
       };
     };
@@ -393,7 +358,7 @@
   jsHub = global.jsHub = new Hub();
 
   // Initialise a logger instance  
-  jsHub.logger = new Logger();
+  // Liam: Removed as broken in Safari
   
   // Create an object to return safe instances of important variables
   jsHub.safe = function (obj) {
@@ -440,7 +405,7 @@
   };
 
   // Initialise lifecycle triggers
-  jsHub.logger.log("Hub initialized, triggering page lifecycle events");
+
   $(document).ready(function () {
   	// Can be used to pre-configure data at page level if necessary
   	jsHub.trigger("data-capture-start");
@@ -1096,7 +1061,7 @@
     /*
      * Pass logging messages via jsHub Hub for remote error reporting, etc
      */
-    console = jsHub.logger;
+
     
     /*
      * Where to start parsing for hAuthentication data
@@ -1112,7 +1077,6 @@
      */
     sources = $('.hauthentication', context);
 	sources = sources.not(sources.find('.hauthentication'));
-	console.debug("Found %s .hauthentication islands in context %s", sources.length, context);
     
     /*
      * The parser will populate an object to represent the data according
@@ -1246,7 +1210,7 @@
     /*
      * Pass logging messages via jsHub Hub for remote error reporting, etc
      */
-    console = jsHub.logger;
+
     
     /*
      * Where to start parsing for hPage data
@@ -1460,7 +1424,7 @@
     /*
      * Pass logging messages via jsHub Hub for remote error reporting, etc
      */
-    console = jsHub.logger;
+
     
     /*
      * Where to start parsing for hAuthentication data
@@ -1476,7 +1440,6 @@
      */
     sources = $('.hproduct', context);
 	sources = sources.not(sources.find('.hproduct'));
-    //console.debug("Found %s .hproduct islands in context %s", sources.length, context);
     
     /*
      * The parser will populate an object to represent the data according
@@ -1610,7 +1573,7 @@
     /*
      * Pass logging messages via jsHub Hub for remote error reporting, etc
      */
-    console = jsHub.logger;
+
     
     /*
      * Where to start parsing for hAuthentication data
