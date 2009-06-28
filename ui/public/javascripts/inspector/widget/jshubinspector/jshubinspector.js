@@ -529,8 +529,15 @@
   /**
   * "state" config event handler to enable/disable resizing when the UI state changes
   */
-  function toggleResizer(type, args, me){
+  function toggleResizer(type, args, me){    
+    // only do this if the Inspector has been rendered and the resizer attached.
+    if (!COMPONENTS.resizer){
+      log('toggleResizer: Inspector not rendered yet');
+      return false;
+    };
+    log('toggleResizer: Inspector has been rendered');
     log('toggleResizer: type: %o, args: %o, me: %o, this: %o, resizer: %o', type, args, me, this, COMPONENTS.resizer)
+    
     // Only state3 should be resizable
     if (args[0] !== 3) {
       COMPONENTS.resizer.lock();
@@ -538,7 +545,7 @@
     if (args[0] === 3) {
       COMPONENTS.resizer.unlock();
     };
-    log('Locked or unlocked the resizer: %o', COMPONENTS.resizer);
+    log('toggleResizer: Locked or unlocked the resizer: %o', COMPONENTS.resizer);
   };
   
   /** 
