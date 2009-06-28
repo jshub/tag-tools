@@ -144,7 +144,7 @@ class TagConfiguration < ActiveRecord::Base
     changes.each do | attr_name, values |
       message = case attr_name
         when 'name' then "Configuration name changed"
-        when 'site_name' then "Site name changed"
+        when 'comments' then "Comment updated"
         when 'jshub_version' then "jsHub tag version updated"
       end
       if message

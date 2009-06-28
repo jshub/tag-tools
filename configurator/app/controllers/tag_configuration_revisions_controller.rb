@@ -50,7 +50,7 @@ include ActionView::Helpers::DateHelper
       @data[:info][:version] = revision.revision_number
       @data[:info][:url] = url_for(revision.tag_configuration)
       @data[:info][:name] = revision.tag_configuration.name
-      @data[:info][:site] = revision.tag_configuration.site_name
+      @data[:info][:site] = revision.tag_configuration.comments
     end
     text = @data.to_json
     if params[:callback]

@@ -86,11 +86,11 @@
 
   <hr />
 
-<% if !@tag_configuration.site_name.empty? %>
-<fieldset id="comments">
+<% if !@tag_configuration.comments.empty? %>
+<fieldset id="extra">
 
   <h2>Comments</h2>
-  <p id="site_name"><%= @tag_configuration.site_name %></p>
+  <pre id="comments"><%= @tag_configuration.comments %></pre>
 
 </fieldset>
 

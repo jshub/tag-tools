@@ -111,16 +111,16 @@ class TagConfigurationsControllerTest < ActionController::TestCase
   test "should generate production tag release" do
   end
   
-  test "should show site name in index and show views" do
+  test "should show comments in index and show views" do
     login
     get :index
     assert_select "fieldset#config_listing" do
       assert_select "td.config_name", "Config one"
-      assert_select "td.site_name", "jshub.org"
+      assert_select "td.comments", "jshub.org"
     end
     get :show, :id => tag_configurations(:one).id
     assert_select "h1#config_name", "Config one"
-    assert_select "p#site_name", "jshub.org"
+    assert_select "pre#comments", "jshub.org"
   end
   
   private
