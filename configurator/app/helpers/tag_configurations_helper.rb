@@ -6,6 +6,10 @@ module TagConfigurationsHelper
     TagConfiguration::VERSIONS
   end
   
+  def jquery_plugin
+    Plugin::Jquery.instance
+  end
+  
   def mf_plugin
     Plugin::Microformat.instance
   end

@@ -1,5 +1,25 @@
   <%= f.error_messages %>
   
+  <fieldset><h2>Third party libraries</h2>
+
+  <% # Required to capture when no plugins are selected %>
+  <!-- <%= hidden_field_tag "tag_configuration[plugin_config][]", "" %> -->
+
+  <p>
+    <%= check_box_tag label_for_plugin_param(:jquery, :include), true,
+          @tag_configuration.has_plugin?(jquery_plugin) %>
+    <%= label_tag label_for_plugin_param(:jquery, :include), 
+          'jQuery library', :class => 'right plugin_name' %> <br />
+	<small>
+      <%= link_to 'jQuery', 'http://jquery.com/' %> is a required dependency for the
+	  jsHub code. If you are not using jQuery on the pages that will be tagged with
+	  jsHub, then you should include the library in your configuration. <br />
+	  The minimum supported version of jQuery is 1.2, we currently include v1.3.2 in
+	  the jsHub tag. jQuery adds 19Kb to the file when it is served gzipped.
+	</small>
+  </p>
+  </fieldset>
+
   <fieldset><h2>Data capture plugins</h2>
 
   <% # Required to capture when no plugins are selected %>

@@ -13,15 +13,18 @@ class PluginTest < ActiveSupport::TestCase
   
   test "database is populated with singleton instances" do
     db_plugins = Plugin.find :all, :order => :type
-    assert_equal 2, db_plugins.length 
-    assert_equal 'Microformat', db_plugins[0].name
-    assert_equal 'SampleGet', db_plugins[1].name
+    assert_equal 3, db_plugins.length 
+    assert_equal 'Jquery', db_plugins[0].name
+    assert_equal 'Microformat', db_plugins[1].name
+    assert_equal 'SampleGet', db_plugins[2].name
     
     # and check the singletons
+    jquery_plugin = Plugin::Jquery.instance
+    assert_equal jquery_plugin, db_plugins[0]
     mf_plugin = Plugin::Microformat.instance
-    assert_equal mf_plugin, db_plugins[0]
+    assert_equal mf_plugin, db_plugins[1]
     sample_get_plugin = Plugin::SampleGet.instance
-    assert_equal sample_get_plugin, db_plugins[1]
+    assert_equal sample_get_plugin, db_plugins[2]
 
     # and the fixtures instances
     assert_equal sample_get_plugin, plugins(:sample_get)

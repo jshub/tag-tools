@@ -13,6 +13,7 @@ class TagConfigurationDownloadTest < ActionController::IntegrationTest
     get generate_debug_tag_configuration_url(:id => config.id)
     assert_response :success
     assert_equal "text/javascript", @response.content_type 
+    assert_match "jQuery JavaScript Library v1.3", @response.body, "jQuery library specified in configuration but not included" 
     assert_match "@class hPage-plugin", @response.body, "Microformat plugin specified in configuration but not included" 
     assert_match "@class sample-get-plugin", @response.body, "Sample GET plugin specified in configuration but not included" 
     assert_no_match /@class sample-post-plugin/, @response.body, "Sample POST plugin included in generated file but not specified in configuration" 

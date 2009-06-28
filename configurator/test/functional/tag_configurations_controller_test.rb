@@ -57,6 +57,11 @@ class TagConfigurationsControllerTest < ActionController::TestCase
   test "should show tag_configuration" do
     get :show, :id => tag_configurations(:one).id
     assert_response :success
+    # check libraries
+    assert_select "fieldset#libraries" do
+      assert_select "p.plugin_name", :count => 1
+      assert_select "p.plugin_name#jquery"
+    end
     # check data capture plugins
     assert_select "fieldset#data_capture_plugins" do
       assert_select "p.plugin_name", :count => 1

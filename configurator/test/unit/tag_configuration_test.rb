@@ -17,7 +17,7 @@ class TagConfigurationTest < ActiveSupport::TestCase
   test "plugins are present in fixture data" do
     config = tag_configurations(:one)
     assert_not_nil config
-    assert_equal 2, config.plugins.length
+    assert_equal 3, config.plugins.length
     config = tag_configurations(:two)
     assert_not_nil config
     assert_equal 0, config.plugins.length

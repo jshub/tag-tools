@@ -1,5 +1,28 @@
 <h1 id="config_name"><%= @tag_configuration.name %></h1>
 
+<fieldset id="libraries">
+
+<h2>Third party libraries</h2>
+
+<% if @tag_configuration.has_plugin? jquery_plugin %>
+  <p class="plugin_name" id="<%= jquery_plugin.name.downcase %>">
+  	jQuery library<br />
+	<small>
+      <%= link_to 'jQuery', 'http://jquery.com/' %> is a required dependency for the
+	  jsHub code. The minimum supported version of jQuery is 1.2, we currently include v1.3.2 in
+	  the jsHub tag. jQuery adds 19Kb to the file when it is served gzipped.
+	</small>
+  </p>
+<% end %>
+
+<% unless @tag_configuration.has_plugin? jquery_plugin %>
+  <p>None</p>
+<% end %>
+
+</fieldset>
+
+  <hr />
+  
 <fieldset id="data_capture_plugins">
 
 <h2>Data capture plugins</h2>

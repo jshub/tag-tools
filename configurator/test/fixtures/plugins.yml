@@ -6,3 +6,6 @@ microformat:
 sample_get:
   type: Plugin::SampleGet
   
+jquery:
+  type: Plugin::Jquery
+  
