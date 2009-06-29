@@ -16,7 +16,10 @@
 <% end %>
 
 <% unless @tag_configuration.has_plugin? jquery_plugin %>
-  <p>None</p>
+  <p>
+  	None required. Please note that you must have <%= link_to 'jQuery', 'http://jquery.com/' %>
+	on the page for the jsHub tag to function.
+   </p>
 <% end %>
 
 </fieldset>
