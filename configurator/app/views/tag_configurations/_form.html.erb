@@ -1,5 +1,20 @@
   <%= f.error_messages %>
   
+  <fieldset><h2>Configuration name</h2>
+  <p>
+    <%= label_tag :name, nil, :class => 'configuration_name' %>
+    <%= f.text_field :name, :class => 'configuration_name' %><br />
+	<small>
+      (required) Every configuration has a name so that you can 
+      retrieve it in the future.
+    </small>
+  </p>
+
+  
+  </fieldset>
+
+  <hr />
+
   <fieldset><h2>Third party libraries</h2>
 
   <% # Required to capture when no plugins are selected %>
@@ -19,6 +34,8 @@
 	</small>
   </p>
   </fieldset>
+
+  <hr />
 
   <fieldset><h2>Data capture plugins</h2>
 

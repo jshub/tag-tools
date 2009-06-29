@@ -134,12 +134,16 @@ textarea
 
 label
   :float left
-  :width 15em
+  :width 15em 
   :min-height 1em
   :color = !color_text_dark
   :font-weight bold
   &.right
     :float none
+  &.configuration_name
+    :color = !color_text_normal
+    :font-size = !font_sub_header_size
+    :width = 10.83em 
 
 .label
   :float left
@@ -154,7 +158,10 @@ label
   small
     :font-weight normal
     :font-size = !font_small_size
-  
+
+input.configuration_name
+  :font-size = !font_sub_header_size
+
 .details
   div
     :margin-bottom 1.0em

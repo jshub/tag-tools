@@ -457,6 +457,10 @@ label {
   font-weight: bold; }
   label.right {
     float: none; }
+  label.configuration_name {
+    color: #000000;
+    font-size: 138.5%;
+    width: 10.83em; }
 
 .label {
   float: left;
@@ -471,6 +475,9 @@ label {
   .plugin_name small {
     font-weight: normal;
     font-size: 85%; }
+
+input.configuration_name {
+  font-size: 138.5%; }
 
 .details div {
   margin-bottom: 1.0em; }
