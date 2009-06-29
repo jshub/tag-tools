@@ -1,7 +1,7 @@
 class StatesController < Spree::BaseController
   resource_controller
 
-  ssl_allowed :index
+  #ssl_allowed :index
   
   index.response do |wants|
     wants.html

@@ -2,6 +2,12 @@ class Spree::BaseController < ApplicationController
 
   filter_parameter_logging :password, :number, :verification_value
 
+  def ssl_required
+  end
+
+  def ssl_allowed
+  end
+
   # retrieve the order_id from the session and then load from the database (or return a new order if no 
   # such id exists in the session)
   def find_order      
