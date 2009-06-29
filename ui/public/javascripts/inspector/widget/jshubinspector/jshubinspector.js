@@ -37,12 +37,12 @@
 
   // humanize a string
   function humanize(text) {
-  log("text: %o", text)
-  // some microformats use 'n' for name e.g. product name
-  if (text === 'n') { 
-    text = 'name'; 
-  }
-  return text.substring(0, 1).toUpperCase() + text.substring(1).replace(/-/g, " ");
+    log("Humanize text: %o", text)
+    // some microformats use 'n' for name e.g. product name
+    if (text === 'n') { 
+      text = 'name'; 
+    }
+    return text.substring(0, 1).toUpperCase() + text.substring(1).replace(/-/g, " ");
   };
 
   /**
@@ -201,11 +201,13 @@
   * @type Array
   */ 
   var PANELS = {
-        "tagging-issues": {
+        /* 
+          "tagging-issues": {
           label: 'Tag status',
           content: '<!-- ready to recieve data -->',
           template: '<div title="Tag status report" class="yui-g help-text event-header">{0}</div><div class="message {1}"><ul><li>{2}</li></ul></div><div class="message">{3}</div>'
         },
+        */
         "page": {
           label: 'Page events',
           content: '<!-- ready to recieve data -->',
@@ -396,13 +398,14 @@
       log("jsHubIsPresent: %o, jsHub: %o, me: %o", isPresent, window.jsHub, me);
       // listen out for Hub events
       jsHub.bind("*", "inspector", function(a, b) {
-        log("jsHub.bind callback function: a: %o, b: %o, me: %o, this: %o", a, b, me, this);
+        log("jsHub.bind callback function: firing newHubEvent: a: %o, b: %o, me: %o, this: %o", a, b, me, this);
         me.newHubEvent.fire(a, b);
       });
       // jHub core lib is present
       // Note: actual CSS change made by cfg.status event handler
       me.cfg.queueProperty('status', 'success');
       // notify that the jsHub core lib is available
+      log("jsHubIsPresent: firing foundCodeEvent: jsHub: %o", window.jsHub);
       me.foundCodeEvent.fire(window.jsHub);
     } else {
       log("jsHubIsPresent: %o, jsHub: %o, me: %o", isPresent, window.jsHub, me);
@@ -426,6 +429,11 @@
     log('TODO: srcChecksum - Check the jsHub core src SHA1, using metadata properties in the CONFIG and pass result in CustomEvent');
     log("srcChecksum:  type: %o, args: %o, me: %o, this: %o", type, args, me, this);
     
+    /*
+    * Example response from server URL http://gromit/configurator/tag_configurations/find_by_sha1/dd2635dce1602116cd281a4f8687f7ccd7508586.js :
+    * {"warnings": {"tag_type": "debug"}, "errors": [], "info": {"url": "http://gromit/configurator/tag_configurations/12", "name": "Test r4948 - with Google capture plugin", "status": "up to date", "version": 1, "timestamp": "2009-06-29T13:07:48Z", "updated": "3 minutes", "site": ""}}
+    */
+    
     // TODO: actual logic
     var result = true;
     var status = false;
@@ -435,7 +443,7 @@
     } else {
       status = this.cfg.setProperty(DEFAULT_CONFIG.STATUS.key, "warning");
     };
-    log("srcChecksum: result: %o, status updated: %o", result, status);
+    log("srcChecksum: firing checksumCodeEvent: result: %o, status updated: %o", result, status);
     this.checksumCodeEvent.fire(result);
   };
   
@@ -664,12 +672,12 @@
     var sPanelType;
     var aPanelContent = getAllAccordionPanelContent();
     if (oHubEvent['type'] === 'duplicate-value-warning') {    
-      ePanel = aPanelContent[0]; // "tagging-issues"
+      ePanel = aPanelContent[-1]; // "tagging-issues" DISABLED
       sPanelType = "tagging-issues";
     };
     if (oHubEvent['type'] === 'data-capture-start'
         || oHubEvent['type'] === 'page-view') {    
-      ePanel = aPanelContent[1]; // "page"
+      ePanel = aPanelContent[0]; // "page"
       sPanelType = "page";
     };
     if (oHubEvent['type'] === 'authentication'
@@ -679,77 +687,67 @@
         || oHubEvent['type'] === 'cart-remove'
         || oHubEvent['type'] === 'cart-update'
         || oHubEvent['type'] === 'checkout') {    
-      ePanel = aPanelContent[2]; // "user-interactions"
+      ePanel = aPanelContent[1]; // "user-interactions"
       sPanelType = "user-interactions";
     };
     
+    // we got an unknown event.type
     if (!ePanel) {
       log('receivedHubEvent: ignoring event: %o', oHubEvent);
       return false;
     }
-    
-    // fire event with required data to action
-    log("Adding hubEvent: %o to: %o", oHubEvent, ePanel);
-    this.renderHubEvent.fire(oHubEvent, ePanel, sPanelType);
-  };
-  
-  /**
-  * "renderHubEvent" event handler that adds a Module to an Accordion Panel depending on Hub Event type
-  * @method addEventToPanel
-  * @private
-  */
-  function addEventToPanel(type, args, me) {
-    log("addEventToPanel:  type: %o, args: %o, me: %o, this: %o", type, args, me, this);
 
-    // get data from event args
-    var oHubEvent = args[0];
-    var ePanel = args[1];
-    var sPanelType = args[2];
-    
     // generate content from PANELS template strings
     var html = [];
+    // create header
     html.push( format(PANELS[sPanelType].template_variable, 
                humanize(oHubEvent['type']) 
              ));
-    for (var label in oHubEvent['data']) {
-      log("Found label: %o, with value: %o, in: %o", label, oHubEvent['data'][label], oHubEvent['data']);
+    // create body of name = value pairs, etc
+    for (var key in oHubEvent['data']) {      
+      var label = key;
+      var value = oHubEvent['data'][label];
+    
+      // skip member functions, nested objects and empty elements
+      if ( (typeof label !== 'string' && typeof label !== 'number') 
+           || (/-source$/.test(label) || /-visibility$/.test(label)) ){
+        log("Skipped label: %o, with value: %o, and typeof: %o in: %o", label, value, typeof value, oHubEvent['data']);
+        continue;
+      };
+      if ( (value == "") 
+           || (typeof value === 'object' && value.constructor !== Array) ){
+        log("Skipped value: %o, with typeof: %o in: %o", value, typeof value, oHubEvent['data']);
+        continue;
+      };      
+      
+      // serialize value data if an Array, e.g. for categories
+      if (value.constructor === Array){
+        value = value.join(", ");
+        log("Serialized label: %o, with value: %o, and typeof: %o in: %o", label, value, typeof value, oHubEvent['data']);
+      };
+
+      // create html string from data
+      log("Found label: %o, with value: %o, and typeof: %o in: %o", label, value, typeof value, oHubEvent['data']);
       html.push( format(PANELS[sPanelType].template_value, 
                  humanize(label), 
-                 oHubEvent['data'][label] 
+                 value 
                ));
     };
     html.push(TEMPLATES.HUB_EVENT_SEPARATOR);
     html = html.join("");
+
     
-    // Module to render a Hub event
-    var mHubEventModule = new Module(Dom.generateId());
-    mHubEventModule.setBody(html);
-    // TODO: logically the separator should be in the Module footer
-    //mHubEventModule.setFooter(TEMPLATES.HUB_EVENT_SEPARATOR);    
-    mHubEventModule.render(ePanel);
-    Dom.addClass(mHubEventModule.element, 'event-item');
-    mHubEventModule.show();
-    COMPONENTS.mHubEventModule = mHubEventModule;
-    
-    // update count of child elements
-    // Note: CSS selection seemed a bit overkill but this ties it to the HTML structure DIV>A>SPAN
-    var eCount = ePanel.previousSibling.lastChild;
-    // using parseInt we can wrap the number if desired, e.g. as (0) or [0]
-    var iCount = parseInt(eCount.innerHTML, 10);
-    iCount++;
-    eCount.innerHTML = iCount ;
-    log('addEventToPanel: new count: %o, for panel: %o', iCount, eCount);
-   
-    log("addEventToPanel: mHubEventModule: %o", mHubEventModule);
+    // fire event with required data to action
+    log("recievedHubEvent: firing renderHubEvent: %o html: %o", ePanel, html);
+    this.renderHubEvent.fire(ePanel, html);
   };
-    
+
   /**
   * "codeFound" event handler to get the Hub Plugins
   * @method getHubPluginInfo
   * @private
   */
   function getHubPluginInfo(type, args, me) {
-    log('TODO: Cleanup duplication with addEventToPanel');
     log('getHubPluginInfo: type: %o, args: %o, me: %o, this: %o', type, args, me, this)
 
     // Use API on detected lib passed in event.args rather Global reference
@@ -757,8 +755,9 @@
     var plugins = lib.getPluginInfo();
     log('getHubPluginInfo: plugins: %o', plugins);
 
+    // TODO: determine panel index by CSS class not creation order
     var aPanelContent = getAllAccordionPanelContent();
-    var ePanel = aPanelContent[3];
+    var ePanel = aPanelContent[2]; // 'data-sources'
     var sPanelType = "data-sources";
 
     // create an entry for each plugin
@@ -776,32 +775,49 @@
                ));
       html.push(TEMPLATES.HUB_EVENT_SEPARATOR);
       html = html.join("");
-      
-      // Module to render a Hub event
-      var mHubPluginModule = new Module(Dom.generateId());
-      mHubPluginModule.setBody(html);
-      // TODO: logically the separator should be in the Module footer
-      //mHubPluginModule.setFooter(TEMPLATES.HUB_EVENT_SEPARATOR);    
-      mHubPluginModule.render(ePanel);
-      Dom.addClass(mHubPluginModule.element, 'event-item tag-status-item');
-      mHubPluginModule.show();
-      COMPONENTS.mHubPluginModule = mHubPluginModule;
-      
-      // update count of child elements
-      // Note: CSS selection seemed a bit overkill but this ties it to the HTML structure DIV>A>SPAN
-      var eCount = ePanel.previousSibling.lastChild;
-      // using parseInt we can wrap the number if desired, e.g. as (0) or [0]
-      var iCount = parseInt(eCount.innerHTML, 10);
-      iCount++;
-      eCount.innerHTML = iCount ;
-      log('addPluginToPanel: new count: %o, for panel: %o', iCount, eCount);
-     
-      log("addPluginToPanel: mHubPluginModule: %o", mHubPluginModule);
+ 
+     log("getHubPluginInfo: firing renderHubEvent: %o html: %o", ePanel, html);
+     this.renderHubEvent.fire(ePanel, html);
     };
   };
   
   /**
+  * "renderHubEvent" event handler that adds a Module to an Accordion Panel
+  * @method templateEventToPanel
+  * @private
+  */
+  function templateEventToPanel(type, args, me) {
+    log("templateEventToPanel:  type: %o, args: %o, me: %o, this: %o", type, args, me, this);
+
+    // get data from event args
+    var ePanel = args[0];
+    var html = args[1];
+        
+    // Module to render a Hub event
+    var mHubEventModule = new Module(Dom.generateId());
+    mHubEventModule.setBody(html);
+    // TODO: logically the separator should be in the Module footer
+    //mHubEventModule.setFooter(TEMPLATES.HUB_EVENT_SEPARATOR);    
+    mHubEventModule.render(ePanel);
+    Dom.addClass(mHubEventModule.element, 'event-item tag-status-item');
+    mHubEventModule.show();
+    COMPONENTS.mHubEventModule = mHubEventModule;
+    
+    // update count of child elements
+    // Note: CSS selection seemed a bit overkill but this ties it to the HTML structure DIV>A>SPAN
+    var eCount = ePanel.previousSibling.lastChild;
+    // using parseInt we can wrap the number if desired, e.g. as (0) or [0]
+    var iCount = parseInt(eCount.innerHTML, 10);
+    iCount++;
+    eCount.innerHTML = iCount ;
+    log('templateEventToPanel: new count: %o, for panel: %o', iCount, eCount);
+   
+    log("templateEventToPanel: mHubEventModule: %o", mHubEventModule);
+  };
+  
+  /**
   * "state" config change handler
+  * TODO: useful to have a previousState property for transistions
   * @method setUIState
   * @private
   */
@@ -813,11 +829,17 @@
     Dom.removeClass(this.innerElement, Inspector.CSS_STATE_PREFIX + 1);      
     Dom.removeClass(this.innerElement, Inspector.CSS_STATE_PREFIX + 2);      
     Dom.removeClass(this.innerElement, Inspector.CSS_STATE_PREFIX + 3);      
-    Dom.addClass(this.innerElement, Inspector.CSS_STATE_PREFIX + state);      
+    Dom.addClass(this.innerElement, Inspector.CSS_STATE_PREFIX + state);
+    
+    // positioning calculations
+    if (state === 1){
+      //this.cfg.setProperty('x', BROWSER['viewport'][0] - this. )
+    }
   };
 
   /**
   * "status" config change handler
+  * TODO: useful to have a previousStatus property for transistions
   * @method setUIStatus
   * @private
   */  
@@ -931,6 +953,7 @@
       // Note that we don't pass the user config in here yet because we only want it executed once
       Inspector.superclass.init.call(this, el/*, userConfig*/);
 
+      log("init: firing beforeInitEvent");
       this.beforeInitEvent.fire(Inspector);
 
       // subscribe to monitor Inspector config changes
@@ -966,7 +989,7 @@
       this.subscribe('foundCode', srcChecksum);
       this.subscribe('checksumCode', function(type, args, me) {log('Custom event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)});
       this.subscribe('newHubEvent', recievedHubEvent);
-      this.subscribe('renderHubEvent', addEventToPanel);
+      this.subscribe('renderHubEvent', templateEventToPanel);
 
       // Setup UI
       // Useful references to generated HTMLElements

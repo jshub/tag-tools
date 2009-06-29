@@ -111,7 +111,7 @@
         autofillheight: "body", // default body
         constraintoviewport: true,
         underlay: "none", //default none
-        state: 3, // set state on creation (default 1)
+        state: 1, // set state on creation (default 1)
         status: "info" // set status on creation (default info)
       });
 

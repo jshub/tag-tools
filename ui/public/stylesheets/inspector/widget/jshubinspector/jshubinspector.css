@@ -300,7 +300,8 @@ div.jshub.inspector .state1, div.jshub.inspector .state2, div.jshub.inspector .s
 div.jshub.inspector .state2 .hd, div.jshub.inspector .state3 .hd {
   background-color: #000000; }
 div.jshub.inspector .state1 {
-  width: 95px !important; }
+  width: 95px !important;
+  position: fixed; }
   div.jshub.inspector .state1 .yui-resize-handle {
     visibility: hidden; }
   div.jshub.inspector .state1 .hd {

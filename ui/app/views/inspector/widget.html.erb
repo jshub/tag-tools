@@ -3,7 +3,7 @@
 <% content_for :javascripts do %>  
   <!-- jsHub tag files -->
   <%= javascript_include_tag "jquery/jquery-1.3.2.min" %>
-  <%= javascript_include_tag "jshub/jshub-gromit-r7-debug" %>
+  <%= javascript_include_tag "jshub/jshub-gromit-r12-debug" %>
 
 
   <!-- YUI Loader, Global, DOM, Event, etc -->
@@ -203,7 +203,7 @@ YAHOO.util.Event.addListener("addUserInteractionsEvent", "click", function(){sim
       this.wait(function(){
           Y.Assert.isFunction(jsHub.Inspector.getCurrentState, "The Widget is missing an API method");
           Y.Assert.isNumber(jsHub.Inspector.getCurrentState(), "Expected API method to return a Number");
-          Y.Assert.areEqual(3, jsHub.Inspector.getCurrentState(), "Expected result to be '3'");
+          Y.Assert.areEqual(1, jsHub.Inspector.getCurrentState(), "Expected result to be '1'");
         }, 10);     
       },
 
@@ -233,6 +233,7 @@ YAHOO.util.Event.addListener("addUserInteractionsEvent", "click", function(){sim
           Y.Assert.isTrue(jsHub.Inspector._setCurrentState(2), "The private method only accepts a number parameter");
           Y.Assert.isTrue(jsHub.Inspector._setCurrentState(3), "The private method only accepts a number parameter");
           Y.Assert.isFalse(jsHub.Inspector._setCurrentState('string'), "The private method only accepts a number parameter");
+          Y.Assert.isFalse(jsHub.Inspector._setCurrentState('3'), "The private method only accepts a number parameter");
           Y.Assert.isFalse(jsHub.Inspector._setCurrentState({}), "The private method only accepts a number parameter");
           Y.Assert.isFalse(jsHub.Inspector._setCurrentState([]), "The private method only accepts a number parameter");
           // restore value
