@@ -1,4 +1,48 @@
-<p>This page demonstrates the javascript API of the Inspector</p>
+<% set_title 'jsHub Inspector < API' %>
+
+<% content_for :javascripts do %>  
+    <!-- Data capture tags -->
+    <%= javascript_include_tag :jshub %>
+    <!-- jsHub tag files -->
+    <%= javascript_include_tag "jshub/jshub-gromit-r7-debug" %> 
+
+    <!-- YUI -->
+    <%= stylesheet_link_tag :inspector_yui, :cache => 'cached/yui' %>
+    <%= javascript_include_tag :inspector_yui, :cache => 'cached/yui' %>          
+
+
+<% end %>
+
+<% content_for :intro do %>  
+
+  <p>This page demonstrates the javascript API of the Inspector used in the Demo</p>
+
+<% end %>
+
+<h2>Microformat markup</h2>
+<p>hPage microformat data:</p>
+<div class="hpage">
+  <ul>
+    <li>
+      Page name: <span class="name">Browse products</span>
+    </li>
+  </ul>
+</div>
+
+<p>Duplicate hPage microformat data:</p>
+<div class="hpage">
+  <ul>
+    <li>
+      Page name: <span class="name">Browse product category</span>
+    </li>
+    <li>
+      Category: <a class="category" href="/retail2/t/category/laptops/" rel="tag">Laptop Computers</a>
+    </li>
+    <li>
+      Category: <a class="category" href="/retail2/t/category/laptops/fifteen-inch/" rel="tag">15-inch</a>
+    </li>
+  </ul>
+</div>
 
 <h2>Security</h2>
 
@@ -109,6 +153,11 @@ YAHOO.util.Event.addListener("setState2Info", "click", function(){jsHub.Inspecto
 <p>
 <button id="addPageEvent">Add a Page Event</button>
 <button id="addUserInteractionsEvent">Add a User Interactions Event</button>
+
+<button id="addPageEventTrigger">Add a Page Event via trigger</button>
+<button id="addUserInteractionsEventTrigger">Add a User Interactions Event via trigger</button>
+
+
 </p>
 <script type="text/javascript">
 // generic event
@@ -155,6 +204,11 @@ function addDatasourceEvent(panelNumber, data) {
 
 YAHOO.util.Event.addListener("addPageEvent", "click", function(){addPanelEvent("page")} );
 YAHOO.util.Event.addListener("addUserInteractionsEvent", "click", function(){addPanelEvent("user-interactions")} );
+
+// Use jsHub.trigger directly
+YAHOO.util.Event.addListener("addPageEventTrigger", "click", function(){jsHub.trigger("page-view", {pageName:"test page",referrer:"previous page"});} );
+YAHOO.util.Event.addListener("addUserInteractionsEventTrigger", "click", function(){jsHub.trigger("cart-add", {product:123,quantity:2});} );
+
 </script>
 
     <!-- The jsHub Tag Inspector -->

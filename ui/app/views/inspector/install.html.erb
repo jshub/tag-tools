@@ -1,27 +1,35 @@
-<p>This page has both the Inspector and a valid Tag and Microformat markup on it</p>
+<% set_title 'jsHub Inspector < Installation' %>
+
+<% content_for :intro do %>  
+  <p>This page has both the Inspector and a valid Tag and Microformat markup on it</p>
+<% end %>
 
 <h2>Tag Installation</h2>
 
 <p>The Tag must be generated from an accessible Configurator and is dependent on jQuery already being installed.</p>
 
 <!-- generated jsHub tag -->
-<script type="text/javascript" src="/akita-on-rails/tag_configurations/1/generate_debug">
-/* Unique checksum for tag */
-</script>
+<%= javascript_include_tag "jquery/jquery-1.3.2.min" %>
+<%= javascript_include_tag "jshub/jshub-gromit-r7-debug" %>
 
 <h2>Inspector Installation</h2>
 
 <p>The Inspector must be included on the page after the Tag has loaded so that it may subscribe to events.</p>
 
 <!-- The jsHub Tag Inspector -->
-<%= stylesheet_link_tag :inspector, :cache => 'cached/inspector' %>
-<%= javascript_include_tag :inspector, :cache => 'cached/inspector' %>
+  <!-- YUI Loader, Global, DOM, Event, etc -->
+  <%= javascript_include_tag "inspector/widget/utilities/utilities.js" %>
+  
+  <!-- The jsHub Tag Inspector YUI Widget -->
+  <%= javascript_include_tag "inspector/widget/jshubinspector/jshubinspector-loader.js" %>
+  <%- stylesheet_link_tag :inspector_widget %>  
+  <%- javascript_include_tag :inspector_widget %>  
 
 <button id="showInspector">Show Inspector</button>
 <button id="hideInspector">Hide Inspector</button>
 </p>
 <script type="text/javascript">
-YAHOO.util.Event.addListener("showInspector", "click", function(){jsHub.Inspector.show()});
+YAHOO.util.Event.addListener("showInspector", "click", function(){jsHub.Inspector.render(); jsHub.Inspector.show()});
 YAHOO.util.Event.addListener("hideInspector", "click", function(){jsHub.Inspector.hide()});
 </script>
 

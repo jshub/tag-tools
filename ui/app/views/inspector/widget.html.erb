@@ -1,4 +1,4 @@
-<% set_title 'jsHub Inspector' %>
+<% set_title 'jsHub Inspector < YUI Widget' %>
 
 <% content_for :javascripts do %>  
   <!-- jsHub tag files -->
@@ -7,10 +7,13 @@
 
 
   <!-- YUI Loader, Global, DOM, Event, etc -->
-  <%= javascript_include_tag "inspector/widget/utilities/utilities.js" %>
-  
+  <%= javascript_include_tag "inspector/widget/utilities/utilities.js" %>  
   <!-- The jsHub Tag Inspector YUI Widget -->
   <%= javascript_include_tag "inspector/widget/jshubinspector/jshubinspector-loader.js" %>
+
+  <!-- Merged files -->
+  <%- stylesheet_link_tag :inspector_widget %>  
+  <%- javascript_include_tag :inspector_widget %>  
 <% end %>
 
 <% content_for :intro do %>  
@@ -20,6 +23,34 @@
   
   <p>The Inspector can be loaded as a YUI Widget (<%= link_to 'docs', '../javascripts/inspector/widget/docs/yuidoc/generator/YAHOO.JSHUB_ORG.Inspector.html' %>).</p>
 <% end %>
+
+<h2>Microformat markup</h2>
+<div id="example2a" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
+  
+  <p>hPage microformat data:</p>
+  <div class="hpage">
+    <ul>
+      <li>
+        Page name: <span class="name">Browse products</span>
+      </li>
+    </ul>
+  </div>
+  
+  <p>Duplicate hPage microformat data:</p>
+  <div class="hpage">
+    <ul>
+      <li>
+        Page name: <span class="name">Browse product category</span>
+      </li>
+      <li>
+        Category: <a class="category" href="/retail2/t/category/laptops/" rel="tag">Laptop Computers</a>
+      </li>
+      <li>
+        Category: <a class="category" href="/retail2/t/category/laptops/fifteen-inch/" rel="tag">15-inch</a>
+      </li>
+    </ul>
+  </div>
+</div>
   
 <h2>Setup Inspector</h2>
 <p>

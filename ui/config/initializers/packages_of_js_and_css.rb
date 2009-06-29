@@ -30,3 +30,19 @@ ActionView::Helpers::AssetTagHelper.register_javascript_expansion :inspector_yui
 ActionView::Helpers::AssetTagHelper.register_stylesheet_expansion :inspector => ["inspector/inspector"]
 ActionView::Helpers::AssetTagHelper.register_javascript_expansion :inspector => ["json/json2", "inspector/sha1", "inspector/inspector"]
 
+# jsHub Inspector YUI Widget and dependencies
+ActionView::Helpers::AssetTagHelper.register_stylesheet_expansion :inspector_widget => ["../javascripts/inspector/widget/yui3-cssreset/reset-context-min",
+"../javascripts/inspector/widget/yui3-cssbase/base-context-min",
+"../javascripts/inspector/widget/yui3-cssfonts/fonts-context-min",
+"../javascripts/inspector/widget/yui3-cssgrids/grids-context-min",
+"../javascripts/inspector/widget/accordionview/accordionview-min",
+"inspector/widget/jshubinspector/jshubinspector"]
+ActionView::Helpers::AssetTagHelper.register_javascript_expansion :inspector_widget => ["inspector/widget/utilities/utilities", 
+"inspector/widget/container/container-min", 
+"inspector/widget/resize/resize-min",
+"inspector/widget/accordionview/accordionview-min",
+"inspector/widget/json2/json2",
+"inspector/widget/sha1/sha1", 
+"inspector/widget/jshubinspector/jshubinspector",
+"inspector/widget/jshubinspector/jshubinspector-init"]
+
