@@ -25,7 +25,7 @@ class TagConfigurationDownloadTest < ActionController::IntegrationTest
     assert_response :success
     assert_equal "text/javascript", @response.content_type 
     assert_match '@class sample-get-plugin', @response.body, "Sample GET plugin specified in configuration but not included" 
-    assert_match 'var url = "http://www.jshub.org/account/" + account;', @response.body, "Parameter server_url not included" 
+    assert_match 'var url = "http://www.jshub.org";', @response.body, "Parameter server_url not included" 
     assert_match 'var account = "123456";', @response.body, "Parameter account not included" 
     assert_no_match /<%=/, @response.body, "Unmatched parameters in output" 
   end
