@@ -218,8 +218,8 @@
         "data-sources": {
           label: 'Data sources',
           content: '<!-- ready to recieve data -->',
-          template_variable: '',
-          template_value: ''
+          template: '<div title="Data source" class="yui-g help-text event-header">{0}</div><div class="message info"><ul><li>{1} plugin</li></ul></div><div class="yui-gd"><div class="yui-u first"><p class="variable">Vendor:</p></div><div class="yui-u"><p class="value">{2}</p></div></div><div class="yui-gd"><div class="yui-u first"><p class="variable">Author:</p></div><div class="yui-u"><p class="value">{3}</p></div></div><div class="yui-gd"><div class="yui-u first"><p class="variable">Version:</p></div><div class="yui-u"><p class="value">{4}</p></div></div>',
+          template_microformat: ''
         },
         "inline-content-updates": {
           label: 'Inline content updates',
@@ -739,6 +739,60 @@
    
     log("addEventToPanel: mHubEventModule: %o", mHubEventModule);
   };
+    
+  /**
+  * "codeFound" event handler to get the Hub Plugins
+  * @method getHubPluginInfo
+  * @private
+  */
+  function getHubPluginInfo(type, args, me) {
+    log('TODO: Cleanup duplication with addEventToPanel');
+    log('getHubPluginInfo: type: %o, args: %o, me: %o, this: %o', type, args, me, this)
+    var plugins = window.jsHub.getPluginInfo();
+    log('getHubPluginInfo: %o', plugins);
+
+    var aPanelContent = getAllAccordionPanelContent();
+    var ePanel = aPanelContent[3];
+    var sPanelType = "data-sources";
+
+    // create an entry for each plugin
+    for (var i = 0; i < plugins.length; i++) {
+      plugin = plugins[i];
+    
+      // generate content from PANELS template strings
+      var html = [];
+      html.push( format(PANELS[sPanelType].template, 
+                 plugin['name'],
+                 humanize(plugin['type']),
+                 plugin['vendor'], 
+                 plugin['author'], 
+                 plugin['version']
+               ));
+      html.push(TEMPLATES.HUB_EVENT_SEPARATOR);
+      html = html.join("");
+      
+      // Module to render a Hub event
+      var mHubPluginModule = new Module(Dom.generateId());
+      mHubPluginModule.setBody(html);
+      // TODO: logically the separator should be in the Module footer
+      //mHubPluginModule.setFooter(TEMPLATES.HUB_EVENT_SEPARATOR);    
+      mHubPluginModule.render(ePanel);
+      Dom.addClass(mHubPluginModule.element, 'event-item tag-status-item');
+      mHubPluginModule.show();
+      COMPONENTS.mHubPluginModule = mHubPluginModule;
+      
+      // update count of child elements
+      // Note: CSS selection seemed a bit overkill but this ties it to the HTML structure DIV>A>SPAN
+      var eCount = ePanel.previousSibling.lastChild;
+      // using parseInt we can wrap the number if desired, e.g. as (0) or [0]
+      var iCount = parseInt(eCount.innerHTML, 10);
+      iCount++;
+      eCount.innerHTML = iCount ;
+      log('addPluginToPanel: new count: %o, for panel: %o', iCount, eCount);
+     
+      log("addPluginToPanel: mHubPluginModule: %o", mHubPluginModule);
+    };
+  };
   
   /**
   * "state" config change handler
@@ -752,7 +806,7 @@
     Dom.removeClass(this.innerElement, Inspector.CSS_STATE_PREFIX + 2);      
     Dom.removeClass(this.innerElement, Inspector.CSS_STATE_PREFIX + 3);      
     Dom.addClass(this.innerElement, Inspector.CSS_STATE_PREFIX + args[0]);      
-  }
+  };
 
   /**
   * "status" config change handler
@@ -767,7 +821,7 @@
     Dom.removeClass(this.body, "warning");      
     Dom.removeClass(this.body, "error");      
     Dom.addClass(this.body, args[0]);      
-  }
+  };
 
   /**
   * "click" event handler for Large Button Module that changes UI state
@@ -808,17 +862,6 @@
     return state;
   };
   
-  /**
-  * "codeFound" event handler to get the Hub Plugins
-  * @method getHubPluginInfo
-  * @private
-  */
-  function getHubPluginInfo(type, args, me) {
-      log('TODO: Add Hub plugin info to Data Sources panel');
-      log('getHubPluginInfo: type: %o, args: %o, me: %o, this: %o', type, args, me, this)
-      var plugins = window.jsHub.getPluginInfo();
-      log('getHubPluginInfo: %o', plugins);
-  }
   
   // End Private methods for Event handlers
   
