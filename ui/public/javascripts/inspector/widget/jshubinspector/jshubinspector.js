@@ -204,7 +204,7 @@
         "tagging-issues": {
           label: 'Tag status',
           content: '<!-- ready to recieve data -->',
-          template: ''
+          template: '<div title="Tag status report" class="yui-g help-text event-header">{0}</div><div class="message {1}"><ul><li>{2}</li></ul></div><div class="message">{3}</div>'
         },
         "page": {
           label: 'Page events',
@@ -807,11 +807,13 @@
   */
   function setUIState(type, args, me) {
     log('setUIState: type: %o, args: %o, me: %o, this: %o', type, args, me, this)
+
+    var state = args[0];
     // TODO: iterate over a CONFIG list of CSS classes
     Dom.removeClass(this.innerElement, Inspector.CSS_STATE_PREFIX + 1);      
     Dom.removeClass(this.innerElement, Inspector.CSS_STATE_PREFIX + 2);      
     Dom.removeClass(this.innerElement, Inspector.CSS_STATE_PREFIX + 3);      
-    Dom.addClass(this.innerElement, Inspector.CSS_STATE_PREFIX + args[0]);      
+    Dom.addClass(this.innerElement, Inspector.CSS_STATE_PREFIX + state);      
   };
 
   /**
@@ -821,12 +823,36 @@
   */  
   function setUIStatus(type, args, me) {
     log('setUIStatus: type: %o, args: %o, me: %o, this: %o', type, args, me, this)
+    
+    var status = args[0];
     // TODO: iterate over a CONFIG list of CSS classes
     Dom.removeClass(this.body, "info");      
     Dom.removeClass(this.body, "success");      
     Dom.removeClass(this.body, "warning");      
     Dom.removeClass(this.body, "error");      
-    Dom.addClass(this.body, args[0]);      
+    Dom.addClass(this.body, status);
+    
+    // Change UI strings
+    var message
+    var oStrings = this.cfg.getProperty("strings")
+    switch (status) {
+      case 'success':
+        message = oStrings['success_message'];
+        break;
+      case 'info':
+        message = oStrings['info_message'];
+        break;
+      case 'warning':
+        message = oStrings['warning_message'];
+        break;
+      case 'error':
+        message = oStrings['error_message'];
+        break;
+    }
+    COMPONENTS.mStatusModuleSmall.setBody(format(TEMPLATES.STATUS_MESSAGE, message));
+    COMPONENTS.mStatusModuleLarge.setBody(format(TEMPLATES.STATUS_PREFIX + TEMPLATES.STATUS_MESSAGE, message));
+    log('setUIStatus: status: %o, message: %o', status, message)    
+    
   };
 
   /**
