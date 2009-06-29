@@ -32,7 +32,7 @@ div#header {
       padding: .25em 0.75em 0.5em; }
       div#header #sitenav li.active {
         background: #f9fafb; }
-      div#header #sitenav li.disabled :link, div#header #sitenav li.disabled :visited {
+      div#header #sitenav li.disabled, div#header #sitenav li.disabled :link, div#header #sitenav li.disabled :visited {
         color: #a0ca1f; }
   div#header #banner {
     position: relative;
