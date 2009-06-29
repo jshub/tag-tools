@@ -35,6 +35,16 @@
     return result;
   };
 
+  // humanize a string
+  function humanize(text) {
+  log("text: %o", text)
+  // some microformats use 'n' for name e.g. product name
+  if (text === 'n') { 
+    text = 'name'; 
+  }
+  return text.substring(0, 1).toUpperCase() + text.substring(1).replace(/-/g, " ");
+  };
+
   /**
    * The jsHub Inspector provides a visible UI for the inspection of data and events 
    * collected by the jsHub core tag. See http://jshub.org/ for more details.
@@ -196,22 +206,26 @@
         "page": {
           label: 'Page events',
           content: '<!-- ready to recieve data -->',
-          template: '<div title="No help text available" class="yui-g help-text"><p class="variable">{0}</p></div><div class="yui-gd duplicate"><div class="yui-u first"><p class="vendor">{1}:</p></div><div class="yui-u"><p class="value">{2}</p></div></div>'
+          template_variable: '<div title="No help text available" class="yui-g help-text"><p class="variable">{0}</p></div>',
+          template_value: '<div class="yui-gd duplicate"><div class="yui-u first"><p class="vendor">{0}:</p></div><div class="yui-u"><p class="value">{1}</p></div></div>'
         },
         "user-interactions": {
           label: 'Ecommerce events',
           content: '<!-- ready to recieve data -->',
-          template: '<div title="No help text available" class="yui-g help-text"><p class="variable">{0}</p></div><div class="yui-gd duplicate"><div class="yui-u first"><p class="vendor">{1}:</p></div><div class="yui-u"><p class="value">{2}</p></div></div>'
+          template_variable: '<div title="No help text available" class="yui-g help-text"><p class="variable">{0}</p></div>',
+          template_value: '<div class="yui-gd duplicate"><div class="yui-u first"><p class="vendor">{0}:</p></div><div class="yui-u"><p class="value">{1}</p></div></div>'
         },
         "data-sources": {
           label: 'Data sources',
           content: '<!-- ready to recieve data -->',
-          template: ''
+          template_variable: '',
+          template_value: ''
         },
         "inline-content-updates": {
           label: 'Inline content updates',
           content: '<!-- ready to recieve data -->',
-          template: ''
+          template_variable: '',
+          template_value: ''
         }
       };  
 
@@ -641,15 +655,19 @@
     // get data from event args
     var oHubEvent = args[0];
     
-    // TODO: look this up based on jsHub oHubEvent.type from PANEL_MAPPINGS 
+    // TODO: look this up based on jsHub oHubEvent.type from PANEL_MAPPINGS
+    // TODO: determine panel index by CSS class not creation order
     var ePanel;
+    var sPanelType;
     var aPanelContent = getAllAccordionPanelContent();
     if (oHubEvent['type'] === 'duplicate-value-warning') {    
       ePanel = aPanelContent[0]; // "tagging-issues"
+      sPanelType = "tagging-issues";
     };
     if (oHubEvent['type'] === 'data-capture-start'
         || oHubEvent['type'] === 'page-view') {    
       ePanel = aPanelContent[1]; // "page"
+      sPanelType = "page";
     };
     if (oHubEvent['type'] === 'authentication'
         || oHubEvent['type'] === 'product-view'
@@ -659,6 +677,7 @@
         || oHubEvent['type'] === 'cart-update'
         || oHubEvent['type'] === 'checkout') {    
       ePanel = aPanelContent[2]; // "user-interactions"
+      sPanelType = "user-interactions";
     };
     
     if (!ePanel) {
@@ -668,7 +687,7 @@
     
     // fire event with required data to action
     log("Adding hubEvent: %o to: %o", oHubEvent, ePanel);
-    this.renderHubEvent.fire(oHubEvent, ePanel);
+    this.renderHubEvent.fire(oHubEvent, ePanel, sPanelType);
   };
   
   /**
@@ -682,11 +701,28 @@
     // get data from event args
     var oHubEvent = args[0];
     var ePanel = args[1];
+    var sPanelType = args[2];
     
-    // Hub event (state3)
+    // generate content from PANELS template strings
+    var html = [];
+    html.push( format(PANELS[sPanelType].template_variable, 
+               humanize(oHubEvent['type']) 
+             ));
+    for (var label in oHubEvent['data']) {
+      log("Found label: %o, with value: %o, in: %o", label, oHubEvent['data'][label], oHubEvent['data']);
+      html.push( format(PANELS[sPanelType].template_value, 
+                 humanize(label), 
+                 oHubEvent['data'][label] 
+               ));
+    };
+    html.push(TEMPLATES.HUB_EVENT_SEPARATOR);
+    html = html.join("");
+    
+    // Module to render a Hub event
     var mHubEventModule = new Module(Dom.generateId());
-    mHubEventModule.setBody(format(PANELS["page"].template, oHubEvent['type'], "Value Label", oHubEvent['data'].toSource() ));
-    mHubEventModule.setFooter(TEMPLATES.HUB_EVENT_SEPARATOR);    
+    mHubEventModule.setBody(html);
+    // TODO: logically the separator should be in the Module footer
+    //mHubEventModule.setFooter(TEMPLATES.HUB_EVENT_SEPARATOR);    
     mHubEventModule.render(ePanel);
     Dom.addClass(mHubEventModule.element, 'event-item');
     mHubEventModule.show();
