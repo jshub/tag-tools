@@ -153,7 +153,10 @@
             "header_text": 'Activity Inspector',
             "footer_text": 'Inspector v' + META.VERSION + ' r' + META.BUILD,
             "close": 'Close',
-            "success_message": 'Installed &amp; active'
+            "success_message": 'Installed &amp; active',
+            "warning_message": 'Active with warnings',
+            "info_message": 'Not installed',
+            "error_message": 'Having problems'
           }
         }        
       };
@@ -748,8 +751,11 @@
   function getHubPluginInfo(type, args, me) {
     log('TODO: Cleanup duplication with addEventToPanel');
     log('getHubPluginInfo: type: %o, args: %o, me: %o, this: %o', type, args, me, this)
-    var plugins = window.jsHub.getPluginInfo();
-    log('getHubPluginInfo: %o', plugins);
+
+    // Use API on detected lib passed in event.args rather Global reference
+    var lib = args[0];
+    var plugins = lib.getPluginInfo();
+    log('getHubPluginInfo: plugins: %o', plugins);
 
     var aPanelContent = getAllAccordionPanelContent();
     var ePanel = aPanelContent[3];
@@ -1066,6 +1072,9 @@
       *         <dt>header_text</dt><dd><em>String</em> : The string to use for the header text.</dd>
       *         <dt>footer_text</dt><dd><em>String</em> : The string to use for the footer text.</dd>
       *         <dt>success_message</dt><dd><em>String</em> : The string to use for the success message.</dd>
+      *         <dt>warning_message</dt><dd><em>String</em> : The string to use for the warning message.</dd>
+      *         <dt>info_message</dt><dd><em>String</em> : The string to use for the info message.</dd>
+      *         <dt>error_message</dt><dd><em>String</em> : The string to use for the error message.</dd>
       *     </dl>
       */      
       this.cfg.addProperty(DEFAULT_CONFIG.STRINGS.key, { 
