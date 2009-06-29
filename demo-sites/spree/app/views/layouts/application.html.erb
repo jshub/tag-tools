@@ -8,6 +8,12 @@
  
   <%= javascript_include_tag 'jquery-1.3.2.min', 'jquery.validate.pack.js', :cache => 'jquery-and-plugins' %>
   <%= meta_data_tags %>
+
+  <!-- The jsHub Tag Inspector YUI Widget -->
+  <script src="/ui/javascripts/firebug-lite.js?1246303619" type="text/javascript"></script>  
+  <script type="text/javascript" src="/ui/javascripts/jshub/jshub-gromit-r12-debug?1246303619">/* Generated tag */</script>
+  <%= render :partial => 'shared/jshubinspector'%>    		
+
   
   <!-- For microformats -->
   <%= stylesheet_link_tag 'dpSyntaxHighlighter' %>
