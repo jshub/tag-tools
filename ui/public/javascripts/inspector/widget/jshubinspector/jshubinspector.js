@@ -631,7 +631,7 @@
     mButtonsModuleSmall.setBody(TEMPLATES.SMALL_BUTTON);
     mButtonsModuleSmall.render(this.body);
     Dom.addClass(mButtonsModuleSmall.element, 'jshub-buttons small');
-    mButtonsModuleSmall.show();
+    mButtonsModuleSmall.show();    
     Event.addListener(mButtonsModuleSmall.body, 'click', clickSmallButton, this, true);
     COMPONENTS.mButtonsModuleSmall = mButtonsModuleSmall;
     log("Added Content: mButtonsModuleSmall: %o", mButtonsModuleSmall);
@@ -856,27 +856,34 @@
   };
 
   /**
-  * "click" event handler for Large Button Module that changes UI state
+  * "click" event handler for Large Button Module in state3 that changes UI state
   * @method clickLargeButton
   * @private
   */  
   function clickLargeButton (e) {
     log('clickLargeButton: e: %o, this: %o', e, this)
-    Event.preventDefault(e);
-    var state = this.cfg.setProperty(DEFAULT_CONFIG.STATE.key, 3);
+
+    // No state3 for 'info' status - button is a link to jsHub.org website
+    if (this.cfg.getProperty(DEFAULT_CONFIG.STATUS.key) !== 'info'){    
+      Event.preventDefault(e);
+      var state = this.cfg.setProperty(DEFAULT_CONFIG.STATE.key, 3);
+    }
+    
     log('jsHub.org Inspector Large Button clicked: %o', state);
     return state;
   };
     
   /**
-  * "click" event handler for Small Button Module that changes UI state
+  * "click" event handler for Small Button Module in state2 that changes UI state
   * @method clickSmallButton
   * @private
   */  
   function clickSmallButton (e) {
     log('clickSmallButton: e: %o, this: %o', e, this)
+
     Event.preventDefault(e);
     var state = this.cfg.setProperty(DEFAULT_CONFIG.STATE.key, 2);
+
     log('jsHub.org Inspector Small Button clicked: %o', state);
     return state;
   };
