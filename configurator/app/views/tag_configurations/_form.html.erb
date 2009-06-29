@@ -47,7 +47,10 @@
           @tag_configuration.has_plugin?(mf_plugin) %>
     <%= label_tag label_for_plugin_param(:microformat, :include), 
           'Page data HTML microformats', :class => 'right plugin_name' %> <br />
-	<small>Collects basic information about the page, from HTML microformat markup on the page.</small>
+	<small>
+      Collects basic information about the page, from <%= link_to 'hPage', 'http://jshub.org/project/wiki/hPage' %>
+	  and other HTML microformat markup on the page.
+	</small>
   </p>
   <p>
     <%= check_box_tag label_for_plugin_param(:google_analytics_markup, :include), true,
@@ -56,8 +59,9 @@
           'Google Analytics markup', :class => 'right plugin_name' %> <br />
 	<small>
 	  EXPERIMENTAL. Collects basic basic page view information from existing Google Analytics 
-	  tags on the page. This plugin does <em>not</em> replace the Google tag, and does not 
-	  require any configuration.
+	  tags on the page.<br />
+	  <em>This plugin is purely illustrative, it does not replace the Google tag, 
+	  and it is not supported by Google</em>.
 	</small>
   </p>
   </fieldset>

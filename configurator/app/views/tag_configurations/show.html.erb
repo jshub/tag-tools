@@ -30,7 +30,10 @@
 <% if @tag_configuration.has_plugin? mf_plugin %>
   <p class="plugin_name" id="<%= mf_plugin.name.downcase %>">
   	Page data HTML microformats <br />
-	<small>Collects basic information about the page, from HTML microformat markup on the page.</small>
+	<small>
+      Collects basic information about the page, from <%= link_to 'hPage', 'http://jshub.org/project/wiki/hPage' %>
+	  and other HTML microformat markup on the page.
+	</small>
   </p>
 <% end %>
 
@@ -38,9 +41,10 @@
   <p class="plugin_name" id="<%= ga_markup_plugin.name.downcase %>">
     Google Analytics markup capture <br />
 	<small>
-	  Collects basic basic page view information from existing Google Analytics tags on the
-	  page. This plugin does <em>not</em> replace the Google tag, and does not require any
-	  configuration.
+	  EXPERIMENTAL. Collects basic basic page view information from existing Google Analytics 
+	  tags on the page.<br />
+	  <em>This plugin is purely illustrative, it does not replace the Google tag, 
+	  and it is not supported by Google</em>.
 	</small>
   </p>
 <% end %>
