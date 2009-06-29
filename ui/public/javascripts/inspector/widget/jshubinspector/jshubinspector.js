@@ -82,21 +82,6 @@
     // Widget constructor
     Inspector.superclass.constructor.call(this, id || Dom.generateId(), oConfigs);
   } 
-
-  // Browser environment data
-  /**
-  * Constant representing the browser environment
-  * @property BROWSER
-  * @private
-  * @final
-  * @type Object
-  */
-  var BROWSER = {
-        "viewport": [
-           Dom.getViewportWidth(),
-           Dom.getViewportHeight()
-        ]
-      }; 
   
   /**
   * Constant representing the Inspector's metadata properties
@@ -109,7 +94,7 @@
         "NAME": 'jsHub.org Inspector',
         "VERSION": '2.0',
         "BUILD": '001',
-        "DEBUG": true // enable debugging and logging
+        "DEBUG": false // enable debugging and logging
       };
  
   /**
@@ -514,6 +499,9 @@
     oResizer.on('endResize', resizeInspectorBody, this, true);      
     oResizer.on('resize', resizeAccordionPanel, this, true);      
 
+    // fix IE background color bug by hasLayout trick
+    this.cfg.setProperty("height", '');
+
     // expose for later access, e.g. resizing
     COMPONENTS.resizer = oResizer;
     log('Made Inspector resizable: %o', COMPONENTS.resizer);
@@ -605,6 +593,7 @@
     COMPONENTS.mStatusModuleLarge = mStatusModuleLarge;
     log("Added Content: mStatusModuleLarge: %o", mStatusModuleLarge);
 
+    /* TODO: use a DataSource to store the Events
     // Search section (state3)
     var mSearchModule = new Module("mSearchModule");      
     mSearchModule.setBody(TEMPLATES.SEARCH);
@@ -614,6 +603,7 @@
     mSearchModule.show();
     COMPONENTS.mSearchModule = mSearchModule;
     log("Added Content: mSearchModule: %o", mSearchModule);
+    */
   }; 
 
   /** 
@@ -824,17 +814,31 @@
   function setUIState(type, args, me) {
     log('setUIState: type: %o, args: %o, me: %o, this: %o', type, args, me, this)
 
-    var state = args[0];
+    var state = args[0] || this.cfg.getProperty(DEFAULT_CONFIG.STATE.key);
     // TODO: iterate over a CONFIG list of CSS classes
     Dom.removeClass(this.innerElement, Inspector.CSS_STATE_PREFIX + 1);      
     Dom.removeClass(this.innerElement, Inspector.CSS_STATE_PREFIX + 2);      
     Dom.removeClass(this.innerElement, Inspector.CSS_STATE_PREFIX + 3);      
     Dom.addClass(this.innerElement, Inspector.CSS_STATE_PREFIX + state);
     
-    // positioning calculations
+    // TODO: positioning calculations
     if (state === 1){
-      //this.cfg.setProperty('x', BROWSER['viewport'][0] - this. )
-    }
+      log("Position: bottom right fixed? scroll: %o, viewport: %o, x: %o, y: %o", [Dom.getDocumentScrollLeft(), Dom.getDocumentScrollTop()], [Dom.getViewportWidth(), Dom.getViewportHeight()], this.body.offsetWidth, this.body.offsetHeight);
+      //this.cfg.setProperty('x', Dom.getDocumentScrollLeft() + Dom.getViewportWidth() - this.body.offsetWidth );
+      //this.cfg.setProperty('y', Dom.getDocumentScrollTop() + Dom.getViewportHeight() - this.body.offsetHeight );
+      //Dom.setStyle(this.element, 'position', 'fixed');
+    };
+    // positioning calculations
+    if (state === 2){
+      log("Position: top right fixed? scroll: %o, viewport: %o, x: %o, y: %o", [Dom.getDocumentScrollLeft(), Dom.getDocumentScrollTop()], [Dom.getViewportWidth(), Dom.getViewportHeight()], this.body.offsetWidth, this.body.offsetHeight);      
+      //this.cfg.setProperty('x', Dom.getDocumentScrollLeft() + Dom.getViewportWidth() - this.body.offsetWidth );
+      //this.cfg.setProperty('y', Dom.getDocumentScrollTop() );
+      //Dom.setStyle(this.element, 'position', '');
+    };
+    if (state === 3){
+      log("Position: clear fixed? scroll: %o, viewport: %o, x: %o, y: %o", [Dom.getDocumentScrollLeft(), Dom.getDocumentScrollTop()], [Dom.getViewportWidth(), Dom.getViewportHeight()], this.body.offsetWidth, this.body.offsetHeight);      
+      //Dom.setStyle(this.element, 'position', '');
+    };
   };
 
   /**
@@ -846,7 +850,7 @@
   function setUIStatus(type, args, me) {
     log('setUIStatus: type: %o, args: %o, me: %o, this: %o', type, args, me, this)
     
-    var status = args[0];
+    var status = args[0] || this.cfg.getProperty(DEFAULT_CONFIG.STATUS.key);
     // TODO: iterate over a CONFIG list of CSS classes
     Dom.removeClass(this.body, "info");      
     Dom.removeClass(this.body, "success");      
@@ -957,9 +961,9 @@
       this.beforeInitEvent.fire(Inspector);
 
       // subscribe to monitor Inspector config changes
-      this.cfg.subscribe('configChanged', function(type, args, me) {log('Config event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)});
-      this.cfg.subscribe('autoFillHeight', function(type, args, me) {log('Config event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)});
-      this.cfg.subscribeToConfigEvent('height', function(type, args, me) {log('Config event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)}, this, this);
+      this.cfg.subscribe('configChanged', function(type, args, me){log('Config event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)});
+      this.cfg.subscribe('autoFillHeight', function(type, args, me){log('Config event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)});
+      this.cfg.subscribeToConfigEvent('height', function(type, args, me){log('Config event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)}, this, this);
       this.cfg.subscribeToConfigEvent('state', setUIState);
       this.cfg.subscribeToConfigEvent('state', toggleResizer);
       this.cfg.subscribeToConfigEvent('status', setUIStatus);
@@ -980,14 +984,15 @@
       this.subscribe('render', renderEventList);
       this.subscribe('render', createDefaultContentModules2);
       
-      this.subscribe('changeContent', function(type, args, me) {log('Custom event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)});
-      this.subscribe('show', function(type, args, me) {log('Custom event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)});
-      this.subscribe('hide', function(type, args, me) {log('Custom event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)});
+      this.subscribe('changeContent', function(type, args, me){log('Custom event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)});
+      this.subscribe('beforeShow', function(type, args, me){log('Custom event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)});
+      this.subscribe('show', function(type, args, me){log('Custom event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)});
+      this.subscribe('hide', function(type, args, me){log('Custom event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)});
 
       // custom functionality events
       this.subscribe('foundCode', getHubPluginInfo);
       this.subscribe('foundCode', srcChecksum);
-      this.subscribe('checksumCode', function(type, args, me) {log('Custom event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)});
+      this.subscribe('checksumCode', function(type, args, me){log('Custom event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)});
       this.subscribe('newHubEvent', recievedHubEvent);
       this.subscribe('renderHubEvent', templateEventToPanel);
 
@@ -1136,7 +1141,7 @@
       this.cfg.addProperty(DEFAULT_CONFIG.STRINGS.key, { 
         value:DEFAULT_CONFIG.STRINGS.value,
         handler:this.configStrings,
-        validator:DEFAULT_CONFIG.STRINGS.validator,
+        validator:DEFAULT_CONFIG.STRINGS.validator
       });			
 
       log("jsHub.org Inspector initDefaultConfig complete");

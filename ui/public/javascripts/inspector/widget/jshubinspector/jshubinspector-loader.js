@@ -7,7 +7,7 @@
 (function(){
   // Wrap logging during development
   function log(){ 
-    if (window.console && META.DEBUG === true) {
+    if (window.console  && META.DEBUG === true) {
       console.log.apply(console, arguments); 
     }
   };
@@ -114,7 +114,7 @@
         state: 1, // set state on creation (default 1)
         status: "info" // set status on creation (default info)
       });
-
+      
       // Enhancements to Inspector Events for this instance
       /*
       Inspector.beforeRenderEvent.subscribe(function() {
@@ -128,15 +128,14 @@
       */
       
       // Public API
-      if (META.DEBUG === true) {
-        window.jsHub = window.jsHub || {};
-        window.jsHub.Inspector = oInspector;
-      }
-      
+      window.jsHub = window.jsHub || {};
+      window.jsHub.Inspector = oInspector;
       // Enable inspection of the instance
       log("Public instance: %o", window.jsHub.Inspector);
       
     },
-    onFailure: function(msg){ YAHOO.log('onFailure: '+ msg); }
+    onFailure: function(msg){ 
+      log('onFailure: '+ msg); 
+    }
 	});
 })();

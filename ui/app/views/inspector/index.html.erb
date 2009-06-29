@@ -1,10 +1,22 @@
-<p>This page shows all the visible states of the inspector for CSS development</p>
+<% set_title 'jsHub Inspector < CSS' %>
 
-<ol>
-  <li><a href="#section1">State 1 - Floating</a></li>
-  <li><a href="#section2">State 2 - Minimised</a></li>
-  <li><a href="#section3">State 3 - Maximised with Events</a></li>
-</ol>
+<% content_for :javascripts do %>  
+  <!-- YUI -->
+  <%= stylesheet_link_tag :inspector_yui, :cache => 'cached/yui' %>
+<% end %>
+
+<% content_for :intro do %>  
+
+  <p>This page shows all the visible states of the inspector for CSS development</p>
+  
+  <ol>
+    <li><a href="#section1">State 1 - Floating</a></li>
+    <li><a href="#section2">State 2 - Minimised</a></li>
+    <li><a href="#section3">State 3 - Maximised with Events</a></li>
+  </ol>
+  
+<% end %>
+
 
 <h2 id="section1">State 1 - Floating</h2>
 

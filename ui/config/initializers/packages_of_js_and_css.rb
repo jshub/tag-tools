@@ -31,7 +31,10 @@ ActionView::Helpers::AssetTagHelper.register_stylesheet_expansion :inspector => 
 ActionView::Helpers::AssetTagHelper.register_javascript_expansion :inspector => ["json/json2", "inspector/sha1", "inspector/inspector"]
 
 # jsHub Inspector YUI Widget and dependencies
-ActionView::Helpers::AssetTagHelper.register_stylesheet_expansion :inspector_widget => ["../javascripts/inspector/widget/yui3-cssreset/reset-context-min",
+ActionView::Helpers::AssetTagHelper.register_stylesheet_expansion :inspector_widget => [
+"../javascripts/inspector/widget/container/assets/skins/sam/container", 
+"../javascripts/inspector/widget/resize/assets/skins/sam/resize", 
+"../javascripts/inspector/widget/yui3-cssreset/reset-context-min",
 "../javascripts/inspector/widget/yui3-cssbase/base-context-min",
 "../javascripts/inspector/widget/yui3-cssfonts/fonts-context-min",
 "../javascripts/inspector/widget/yui3-cssgrids/grids-context-min",

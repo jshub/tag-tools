@@ -4,39 +4,6 @@
 
 
 
-div.jshub.inspector .underlay.jshub-shadow {
-  left: 10px;
-  top: 10px;
-  right: -13px;
-  bottom: -17px;
-  background-color: transparent; }
-  div.jshub.inspector .underlay.jshub-shadow .shadow-right {
-    position: absolute;
-    width: 13px;
-    height: 100%;
-    right: 0;
-    bottom: 17px;
-    background-image: url('assets/images/inspector_shadow.png');
-    background-repeat: no-repeat;
-    background-position: -1150px top; }
-  div.jshub.inspector .underlay.jshub-shadow .shadow-bottom {
-    position: absolute;
-    width: 100%;
-    height: 17px;
-    bottom: 0;
-    right: 13px;
-    background-image: url('assets/images/inspector_shadow.png');
-    background-repeat: no-repeat;
-    background-position: left -900px; }
-  div.jshub.inspector .underlay.jshub-shadow .shadow-corner {
-    position: absolute;
-    width: 13px;
-    height: 17px;
-    bottom: 0;
-    right: 0;
-    background-image: url('assets/images/inspector_shadow.png');
-    background-repeat: no-repeat;
-    background-position: -1150px -900px; }
 div.jshub.inspector .title {
   color: #858689;
   font-weight: bold;
@@ -90,7 +57,7 @@ div.jshub.inspector .state1, div.jshub.inspector .state2, div.jshub.inspector .s
     background-attachment: scroll;
     background-position: -17px -367px; }
   div.jshub.inspector .state1 .hd, div.jshub.inspector .state1 .ft, div.jshub.inspector .state1 .bd,   div.jshub.inspector .state2 .hd, div.jshub.inspector .state2 .ft, div.jshub.inspector .state2 .bd,   div.jshub.inspector .state3 .hd, div.jshub.inspector .state3 .ft, div.jshub.inspector .state3 .bd {
-    background-color: inherit; }
+    background-color: #000000; }
   div.jshub.inspector .state1 .hd,   div.jshub.inspector .state2 .hd,   div.jshub.inspector .state3 .hd {
     height: 24px;
     line-height: 24px;
@@ -300,8 +267,7 @@ div.jshub.inspector .state1, div.jshub.inspector .state2, div.jshub.inspector .s
 div.jshub.inspector .state2 .hd, div.jshub.inspector .state3 .hd {
   background-color: #000000; }
 div.jshub.inspector .state1 {
-  width: 95px !important;
-  position: fixed; }
+  width: 95px !important; }
   div.jshub.inspector .state1 .yui-resize-handle {
     visibility: hidden; }
   div.jshub.inspector .state1 .hd {

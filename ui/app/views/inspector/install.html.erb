@@ -1,5 +1,9 @@
 <% set_title 'jsHub Inspector < Installation' %>
 
+<% content_for :javascripts do %>  
+  <%= javascript_include_tag "firebug-lite" %>
+<% end %>
+  
 <% content_for :intro do %>  
   <p>This page has both the Inspector and a valid Tag and Microformat markup on it</p>
 <% end %>
@@ -10,11 +14,11 @@
 
 <!-- generated jsHub tag -->
 <%= javascript_include_tag "jquery/jquery-1.3.2.min" %>
-<%= javascript_include_tag "jshub/jshub-gromit-r12-debug" %>
+<%- javascript_include_tag "jshub/jshub-gromit-r12-debug" %>
 
 <h2>Inspector Installation</h2>
 
-<p>The Inspector must be included on the page after the Tag has loaded so that it may subscribe to events.</p>
+<p>The Inspector must be included on the page after the Tag has loaded so that it may subscribe to events. This example uses the YUILoader</p>
 
 <!-- The jsHub Tag Inspector -->
   <!-- YUI Loader, Global, DOM, Event, etc -->

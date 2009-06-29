@@ -1,23 +1,20 @@
 <% set_title 'jsHub Inspector < YUI Widget' %>
 
 <% content_for :javascripts do %>  
+  <%= javascript_include_tag "firebug-lite" %>
+
+
   <!-- jsHub tag files -->
   <%= javascript_include_tag "jquery/jquery-1.3.2.min" %>
   <%= javascript_include_tag "jshub/jshub-gromit-r12-debug" %>
 
-
-  <!-- YUI Loader, Global, DOM, Event, etc -->
-  <%= javascript_include_tag "inspector/widget/utilities/utilities.js" %>  
-  <!-- The jsHub Tag Inspector YUI Widget -->
-  <%= javascript_include_tag "inspector/widget/jshubinspector/jshubinspector-loader.js" %>
-
   <!-- Merged files -->
-  <%- stylesheet_link_tag :inspector_widget %>  
-  <%- javascript_include_tag :inspector_widget %>  
+  <%= stylesheet_link_tag :inspector_widget %>  
+  <%= javascript_include_tag :inspector_widget %>  
 <% end %>
 
 <% content_for :intro do %>  
-  <p>This page has both the Inspector as a YUI Widget on it and a YUI Loader to load all dependent files</p>
+  <p>This page has the Inspector as a YUI Widget on it with all dependent files.</p>
   
   <h2>Inspector YUI Widget</h2>
   
@@ -98,28 +95,8 @@ YAHOO.util.Event.addListener("setStatusInfo", "click", function(){jsHub.Inspecto
 <button id="addUserInteractionsEvent">Add a User Interactions Event</button>
 </p>
 <script type="text/javascript">
-// generic event
-function simulateJsHubEvent(type) {
-		
-	// simple events
-	if(type === "page"){
-    event = {pageName:"test page",referrer:"previous page"};
-    jsHub.trigger("page-view", event);	
-  }
-	if(type === "user-interactions"){
-    event = {product:123,quantity:2};
-    jsHub.trigger("cart-add", event);	
-  }
-	if(type === "tagging-issues"){
-  }
-	if(type === "data-sources"){
-  }
-	if(type === "inline-content-updates"){
-  }
-
-}
-YAHOO.util.Event.addListener("addPageEvent", "click", function(){simulateJsHubEvent("page")} );
-YAHOO.util.Event.addListener("addUserInteractionsEvent", "click", function(){simulateJsHubEvent("user-interactions")} );
+YAHOO.util.Event.addListener("addPageEvent", "click", function(){jsHub.trigger("page-view", {pageName:"test page",referrer:"previous page"})} );
+YAHOO.util.Event.addListener("addUserInteractionsEvent", "click", function(){jsHub.trigger("cart-add", {product:123,quantity:2})} );
 </script>
 
 
