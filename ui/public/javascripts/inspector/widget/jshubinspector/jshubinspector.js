@@ -824,12 +824,14 @@
     // Positoning behaviour
     // Positions the Panel parent element and resets top and left to 0 to get original 
     // position relative to container after drag/resize
+    // TODO: handle IE6 and other browsers that don't support position:fixed in CSS
     if (state === 1){
       log("Position: bottom right fixed? scroll: %o, viewport: %o, x: %o, y: %o", [Dom.getDocumentScrollLeft(), Dom.getDocumentScrollTop()], [Dom.getViewportWidth(), Dom.getViewportHeight()], this.body.offsetWidth, this.body.offsetHeight);
       Dom.removeClass(Inspector.ID_CONTAINER, 'position-tr');
       Dom.addClass(Inspector.ID_CONTAINER, 'position-br');
       Dom.setStyle(this.element, 'top', '0');
       Dom.setStyle(this.element, 'left', '0');
+      this.cfg.setProperty('constraintoviewport', true);
     };
     if (state === 2){
       log("Position: top right fixed? scroll: %o, viewport: %o, x: %o, y: %o", [Dom.getDocumentScrollLeft(), Dom.getDocumentScrollTop()], [Dom.getViewportWidth(), Dom.getViewportHeight()], this.body.offsetWidth, this.body.offsetHeight);      
@@ -838,11 +840,11 @@
       Dom.addClass(Inspector.ID_CONTAINER, 'position-tr');
       Dom.setStyle(this.element, 'top', '0');
       Dom.setStyle(this.element, 'left', '0');
+      this.cfg.setProperty('constraintoviewport', true);
     };
     if (state === 3){
-      log("Position: clear fixed? scroll: %o, viewport: %o, x: %o, y: %o", [Dom.getDocumentScrollLeft(), Dom.getDocumentScrollTop()], [Dom.getViewportWidth(), Dom.getViewportHeight()], this.body.offsetWidth, this.body.offsetHeight);      
-      //Dom.removeClass(Inspector.ID_CONTAINER, 'position-tr');
-      //Dom.removeClass(Inspector.ID_CONTAINER, 'position-br');
+      log("Position: clear fixed? scroll: %o, viewport: %o, x: %o, y: %o", [Dom.getDocumentScrollLeft(), Dom.getDocumentScrollTop()], [Dom.getViewportWidth(), Dom.getViewportHeight()], this.body.offsetWidth, this.body.offsetHeight);
+      this.cfg.setProperty('constraintoviewport', false);
     };
   };
 

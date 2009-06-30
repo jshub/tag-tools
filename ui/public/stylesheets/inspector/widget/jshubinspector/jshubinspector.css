@@ -4,6 +4,21 @@
 
 
 
+div#jshub_inspector_container.position-br {
+  position: fixed;
+  right: 125px;
+  bottom: 68px;
+  z-index: 1000;
+  width: auto;
+  height: auto; }
+div#jshub_inspector_container.position-tr {
+  position: fixed;
+  right: 295px;
+  top: 30px;
+  z-index: 1000;
+  width: auto;
+  height: auto; }
+
 div.jshub.inspector .title {
   color: #858689;
   font-weight: bold;
@@ -73,14 +88,14 @@ div.jshub.inspector .state1, div.jshub.inspector .state2, div.jshub.inspector .s
     div.jshub.inspector .state1 .ft div.version,     div.jshub.inspector .state2 .ft div.version,     div.jshub.inspector .state3 .ft div.version {
       width: 60%;
       height: 100%;
-      padding-left: 40px;
+      padding-left: 50px;
       color: #fff;
       font-size: 120%; }
     div.jshub.inspector .state1 .ft div.logo,     div.jshub.inspector .state2 .ft div.logo,     div.jshub.inspector .state3 .ft div.logo {
       position: absolute;
       left: 0;
       top: 0;
-      width: 60px;
+      width: 50px;
       height: 100%;
       background-image: url('assets/images/inspector_icons_small.png');
       background-position: -50px -50px; }
