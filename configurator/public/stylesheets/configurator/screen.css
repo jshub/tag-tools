@@ -36,18 +36,9 @@ div#header {
         color: #a0ca1f; }
   div#header #banner {
     position: relative;
-    top: -78px;
-    left: 150px; }
-    div#header #banner h1 {
-      display: inline;
-      font-family: Georgia, serif;
-      font-style: italic;
-      font-size: 255%;
-      border: none;
-      padding-right: 0.5em;
-      color: #858689; }
-    div#header #banner div.login, div#header #banner div.login * {
-      display: inline; }
+    top: -78px; }
+    div#header #banner div.login {
+      margin-left: 40.6em; }
 
 div.icon.tick {
   width: 32px;
@@ -321,8 +312,11 @@ table.saved_configs {
     border-bottom: 1px solid #808080; }
   table.saved_configs th:last-child {
     width: 65px; }
-  table.saved_configs td .yui-g {
-    width: 100% !important; }
+  table.saved_configs td.buttons {
+    width: 55px;
+    padding-right: 0; }
+    table.saved_configs td.buttons .yui-g {
+      width: 100% !important; }
   table.saved_configs tbody tr:first-child {
     border-top: 1px solid #808080; }
 
