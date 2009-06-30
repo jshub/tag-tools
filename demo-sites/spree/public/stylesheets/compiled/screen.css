@@ -915,10 +915,12 @@ body {
 #header a:hover {
   color: black; }
 
-#demo {
+#fob {
   position: absolute;
   top: 0px;
-  left: 0px;
+  left: 50%;
+  width: 100px;
+  margin-left: -50px;
   z-index: 10; }
 
 #jshub {
