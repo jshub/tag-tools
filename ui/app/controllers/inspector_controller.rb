@@ -3,6 +3,9 @@ class InspectorController < ApplicationController
   def index
   end
 
+  def css
+  end
+
   def api
   end
 

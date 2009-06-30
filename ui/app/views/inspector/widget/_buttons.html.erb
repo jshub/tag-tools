@@ -1,0 +1,17 @@
+<% 
+# set defaults ref: http://hackd.thrivesmarthq.com/how-to-make-a-rails-partial-with-optional-locals-parameters
+  text = 'Unknown Action' if local_assigns[:text].nil? 
+  size = '' if local_assigns[:size].nil? 
+  cssClass = '' if local_assigns[:cssClass].nil? 
+%>
+				<div id="mButtonsModuleLarge" class="yui-module jshub-buttons large" style="display: block;">
+					<div class="bd">
+						<a class="jshub-button events" href="#">View Events</a>
+						<a class="jshub-button get" href="http://www.jshub.org/">Get jsHub</a>
+					</div>
+				</div>
+        <div id="mButtonsModuleSmall" class="yui-module jshub-buttons small" style="display: block;">
+          <div class="bd">
+            <a class="jshub-button" href="#">Hide Events</a>
+          </div>
+        </div>				

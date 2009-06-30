@@ -1,0 +1,11 @@
+<% 
+# set defaults ref: http://hackd.thrivesmarthq.com/how-to-make-a-rails-partial-with-optional-locals-parameters
+  text = 'Unknown state' if local_assigns[:text].nil? 
+%>
+				<div id="mStatusModuleSmall" class="yui-module yui-g status small" style="display: block;">
+					<div class="bd yui-u text">
+						<p class="message">
+							<%= text %>
+						</p>
+					</div>
+				</div>      

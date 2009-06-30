@@ -3,9 +3,14 @@
 <% content_for :javascripts do %>  
   <!-- YUI -->
   <%= stylesheet_link_tag :inspector_yui, :cache => 'cached/yui' %>
+    <!-- The jsHub Tag Inspector -->
+    <%= stylesheet_link_tag :inspector, :cache => 'cached/inspector' %>
+    <%# javascript_include_tag :inspector, :cache => 'cached/inspector' %>
 <% end %>
 
 <% content_for :intro do %>  
+
+  <p>This page contains the original Demo Inspector</p>
 
   <p>This page shows all the visible states of the inspector for CSS development</p>
   
@@ -327,6 +332,3 @@
   </div>
 </div>
 
-    <!-- The jsHub Tag Inspector -->
-    <%= stylesheet_link_tag :inspector, :cache => 'cached/inspector' %>
-    <%# javascript_include_tag :inspector, :cache => 'cached/inspector' %>

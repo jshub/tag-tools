@@ -442,7 +442,7 @@
       // create the container div and add classes needed
       eContainerContext = new Element(document.createElement('div'));
       eContainerContext.set('id', Inspector.ID_CONTAINER);
-      eContainerContext.addClass("yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam");
+      eContainerContext.addClass("yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam position-br");
       eContainerContext.appendTo(document.body);
       log('Made Inspector CSS context');      
     }      
@@ -821,23 +821,28 @@
     Dom.removeClass(this.innerElement, Inspector.CSS_STATE_PREFIX + 3);      
     Dom.addClass(this.innerElement, Inspector.CSS_STATE_PREFIX + state);
     
-    // TODO: positioning calculations
+    // Positoning behaviour
+    // Positions the Panel parent element and resets top and left to 0 to get original 
+    // position relative to container after drag/resize
     if (state === 1){
       log("Position: bottom right fixed? scroll: %o, viewport: %o, x: %o, y: %o", [Dom.getDocumentScrollLeft(), Dom.getDocumentScrollTop()], [Dom.getViewportWidth(), Dom.getViewportHeight()], this.body.offsetWidth, this.body.offsetHeight);
-      //this.cfg.setProperty('x', Dom.getDocumentScrollLeft() + Dom.getViewportWidth() - this.body.offsetWidth );
-      //this.cfg.setProperty('y', Dom.getDocumentScrollTop() + Dom.getViewportHeight() - this.body.offsetHeight );
-      //Dom.setStyle(this.element, 'position', 'fixed');
+      Dom.removeClass(Inspector.ID_CONTAINER, 'position-tr');
+      Dom.addClass(Inspector.ID_CONTAINER, 'position-br');
+      Dom.setStyle(this.element, 'top', '0');
+      Dom.setStyle(this.element, 'left', '0');
     };
-    // positioning calculations
     if (state === 2){
       log("Position: top right fixed? scroll: %o, viewport: %o, x: %o, y: %o", [Dom.getDocumentScrollLeft(), Dom.getDocumentScrollTop()], [Dom.getViewportWidth(), Dom.getViewportHeight()], this.body.offsetWidth, this.body.offsetHeight);      
-      //this.cfg.setProperty('x', Dom.getDocumentScrollLeft() + Dom.getViewportWidth() - this.body.offsetWidth );
-      //this.cfg.setProperty('y', Dom.getDocumentScrollTop() );
-      //Dom.setStyle(this.element, 'position', '');
+      // Position the main containing element ad reset top and left to 0 to get original position relative to container
+      Dom.removeClass(Inspector.ID_CONTAINER, 'position-br');
+      Dom.addClass(Inspector.ID_CONTAINER, 'position-tr');
+      Dom.setStyle(this.element, 'top', '0');
+      Dom.setStyle(this.element, 'left', '0');
     };
     if (state === 3){
       log("Position: clear fixed? scroll: %o, viewport: %o, x: %o, y: %o", [Dom.getDocumentScrollLeft(), Dom.getDocumentScrollTop()], [Dom.getViewportWidth(), Dom.getViewportHeight()], this.body.offsetWidth, this.body.offsetHeight);      
-      //Dom.setStyle(this.element, 'position', '');
+      //Dom.removeClass(Inspector.ID_CONTAINER, 'position-tr');
+      //Dom.removeClass(Inspector.ID_CONTAINER, 'position-br');
     };
   };
 

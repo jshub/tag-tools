@@ -1,0 +1,586 @@
+<% set_title 'jsHub Inspector < CSS' %>
+
+<% content_for :javascripts do %>  
+  <%= javascript_include_tag "firebug-lite" %>
+  <!-- YUI -->
+  <%= stylesheet_link_tag :inspector_widget %>  
+<% end %>
+
+<% content_for :intro do %>  
+
+  <p>This page shows all the visible states of the inspector for CSS development</p>
+  
+  <ol>
+    <li><a href="#section1">State 1 - Floating</a></li>
+    <li><a href="#section2">State 2 - Minimised</a></li>
+    <li><a href="#section3">State 3 - Maximised with Events</a></li>
+  </ol>
+  
+<% end %>
+
+
+<h2 id="section1">State 1 - Floating</h2>
+
+<div id="example1a" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
+
+  <div class="yui-panel state1" style="width: 95px;">
+    <div class="bd success">
+<%= render 'inspector/widget/launcher' %>   
+    </div>
+  </div>
+
+</div>
+
+<div id="example1b" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
+
+  <div class="yui-panel state1" style="width: 95px;">
+    <div class="bd warning">
+<%= render 'inspector/widget/launcher' %>   
+    </div>
+  </div>
+
+</div>
+
+<div id="example1c" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
+
+  <div class="yui-panel state1" style="width: 95px;">
+    <div class="bd error">
+<%= render 'inspector/widget/launcher' %>   
+    </div>
+  </div>
+
+</div>
+
+<div id="example1d" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
+
+  <div class="yui-panel state1" style="width: 95px;">
+    <div class="bd info">
+<%= render 'inspector/widget/launcher' %>   
+    </div>
+  </div>
+
+</div>
+
+<h2 id="section2">State 2 - Minimised</h2>
+
+<div id="example2a" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
+
+  <div id="jshub_inspector_container" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam">
+    <div class="yui-panel-container ie win show-scrollbars" id="jshub_inspector_c" style="visibility: visible;">
+      <div id="jshub_inspector" class="yui-module yui-overlay yui-panel yui-resize state2" style="visibility: inherit; width: 265px;">
+        <div class="hd" style="cursor: move;" id="jshub_inspector_h">
+  <%= render 'inspector/widget/container_header' %>   
+        </div>
+        <div class="bd success">
+  <!-- Create a body element in Init to add Modules to -->
+  <%= render :partial => 'inspector/widget/status_large', :locals => { :text => 'Installed &amp; active' } %>
+  <%= render :partial => 'inspector/widget/buttons' %>
+        </div>
+        <div class="ft">
+  <%= render 'inspector/widget/container_footer' %>   
+        </div>
+  <%= render 'inspector/widget/container_icons' %>   
+    </div>
+  </div>
+
+</div>
+
+<div id="example2b" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
+  
+  <div id="jshub_inspector_container" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam">
+    <div class="yui-panel-container ie win show-scrollbars" id="jshub_inspector_c" style="visibility: visible;">
+      <div id="jshub_inspector" class="yui-module yui-overlay yui-panel yui-resize state2" style="visibility: inherit; width: 265px;">
+        <div class="hd" style="cursor: move;" id="jshub_inspector_h">
+  <%= render 'inspector/widget/container_header' %>   
+        </div>
+        <div class="bd warning">
+  <!-- Create a body element in Init to add Modules to -->
+  <%= render :partial => 'inspector/widget/status_large', :locals => { :text => 'Active with warnings' } %>
+  <%= render :partial => 'inspector/widget/buttons' %>
+        </div>
+        <div class="ft">
+  <%= render 'inspector/widget/container_footer' %>   
+        </div>
+  <%= render 'inspector/widget/container_icons' %>   
+    </div>
+  </div>
+  
+</div>
+
+<div id="example2c" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
+  
+  <div id="jshub_inspector_container" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam">
+    <div class="yui-panel-container ie win show-scrollbars" id="jshub_inspector_c" style="visibility: visible;">
+      <div id="jshub_inspector" class="yui-module yui-overlay yui-panel yui-resize state2" style="visibility: inherit; width: 265px;">
+        <div class="hd" style="cursor: move;" id="jshub_inspector_h">
+  <%= render 'inspector/widget/container_header' %>   
+        </div>
+        <div class="bd error">
+  <!-- Create a body element in Init to add Modules to -->
+  <%= render :partial => 'inspector/widget/status_large', :locals => { :text => 'Having problems' } %>
+  <%= render :partial => 'inspector/widget/buttons' %>
+        </div>
+        <div class="ft">
+  <%= render 'inspector/widget/container_footer' %>   
+        </div>
+  <%= render 'inspector/widget/container_icons' %>   
+    </div>
+  </div>
+  
+</div>
+
+<div id="example2c" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
+
+  <div id="jshub_inspector_container" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam">
+    <div class="yui-panel-container ie win show-scrollbars" id="jshub_inspector_c" style="visibility: visible;">
+      <div id="jshub_inspector" class="yui-module yui-overlay yui-panel yui-resize state2" style="visibility: inherit; width: 265px;">
+        <div class="hd" style="cursor: move;" id="jshub_inspector_h">
+  <%= render 'inspector/widget/container_header' %>   
+        </div>
+        <div class="bd info">
+  <!-- Create a body element in Init to add Modules to -->
+  <%= render :partial => 'inspector/widget/status_large', :locals => { :text => 'Not installed' } %>
+  <%= render :partial => 'inspector/widget/buttons' %>
+        </div>
+        <div class="ft">
+  <%= render 'inspector/widget/container_footer' %>   
+        </div>
+  <%= render 'inspector/widget/container_icons' %>   
+    </div>
+  </div>
+
+</div>
+
+
+
+<h2 id="section3">State 3 - Maximised with Events</h2>
+
+<div id="example3" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam example-ui">
+
+  <div id="jshub_inspector_container" class="yui-cssreset yui-cssfonts yui-cssgrids yui-cssbase jshub inspector yui-skin-sam">
+    <div class="yui-panel-container ie win show-scrollbars" id="jshub_inspector_c" style="visibility: visible;">
+      <div id="jshub_inspector" class="yui-module yui-overlay yui-panel yui-resize state3" style="visibility: inherit; width: 265px;">
+        <div class="hd" style="cursor: move;" id="jshub_inspector_h">
+    <%= render 'inspector/widget/container_header' %>   
+        </div>
+        <div class="bd success">
+  <!-- Create a body element in Init to add Modules to -->
+    <%= render :partial => 'inspector/widget/status_small', :locals => { :text => 'Not installed' } %>
+    <%= render :partial => 'inspector/widget/status_large', :locals => { :text => 'Installed & active' } %>
+          <div id="mEventlistModule" class="yui-module" style="display: block;">
+            <div class="bd">
+              <div id="event_list">
+                <ul style="width: 100%;" class="yui-accordionview" role="tree" id="yui-gen0">
+                  <li class="yui-accordion-panel event-section page" role="presentation">
+                    <a id="yui-gen0-1-label" tabindex="0" class="yui-accordion-toggle active" role="treeitem" aria-expanded="true">Page events<span class="count" role="presentation">2</span></a>
+                    <div class="yui-accordion-content" aria-labelledby="yui-gen0-1-label" aria-hidden="false" style="height: auto;">
+  <!-- ready to recieve data -->
+                      <div id="yui-gen7" class="yui-module event-item tag-status-item" style="display: block;">
+                        <div class="bd">
+                          <div class="yui-g help-text" title="No help text available">
+                            <p class="variable">
+                              Data capture start
+                            </p>
+                          </div>
+                          <hr class="event-separator" />
+                        </div>
+                      </div>
+                      <div id="yui-gen8" class="yui-module event-item tag-status-item" style="display: block;">
+                        <div class="bd">
+                          <div class="yui-g help-text" title="No help text available">
+                            <p class="variable">
+                              Page view
+                            </p>
+                          </div>
+                          <div class="yui-gd duplicate">
+                            <div class="yui-u first">
+                              <p class="vendor">
+                                Url:
+                              </p>
+                            </div>
+                            <div class="yui-u">
+                              <p class="value">
+                                http://liamc.local/ui/inspector/widget
+                              </p>
+                            </div>
+                          </div>
+                          <div class="yui-gd duplicate">
+                            <div class="yui-u first">
+                              <p class="vendor">
+                                Title:
+                              </p>
+                            </div>
+                            <div class="yui-u">
+                              <p class="value">
+                                Test Page: jsHub Inspector < YUI Widget < Unit Tests
+                              </p>
+                            </div>
+                          </div>
+                          <div class="yui-gd duplicate">
+                            <div class="yui-u first">
+                              <p class="vendor">
+                                Name:
+                              </p>
+                            </div>
+                            <div class="yui-u">
+                              <p class="value">
+                                Inspector dev
+                              </p>
+                            </div>
+                          </div>
+                          <div class="yui-gd duplicate">
+                            <div class="yui-u first">
+                              <p class="vendor">
+                                Category:
+                              </p>
+                            </div>
+                            <div class="yui-u">
+                              <p class="value">
+                                Laptop, Computers, 15-inch
+                              </p>
+                            </div>
+                          </div>
+                          <hr class="event-separator" />
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="yui-accordion-panel event-section user-interactions " role="presentation">
+                    <a id="yui-gen0-2-label" tabindex="-1" class="yui-accordion-toggle" role="treeitem" aria-expanded="false">Ecommerce events<span class="count" role="presentation">0</span></a>
+                    <div class="yui-accordion-content hidden" aria-labelledby="yui-gen0-2-label" aria-hidden="true">
+  <!-- ready to recieve data -->
+                    </div>
+                  </li>
+                  <li class="yui-accordion-panel event-section data-sources" role="presentation">
+                    <a id="yui-gen0-3-label" tabindex="-1" class="yui-accordion-toggle active" role="treeitem" aria-expanded="false">Data sources<span class="count" role="presentation">6</span></a>
+                    <div class="yui-accordion-content" aria-labelledby="yui-gen0-3-label" aria-hidden="true">
+  <!-- ready to recieve data -->
+                      <div id="yui-gen1" class="yui-module event-item tag-status-item" style="display: block;">
+                        <div class="bd">
+                          <div class="yui-g help-text event-header" title="Data source">
+                            Technographic Plugin
+                          </div>
+                          <div class="message info">
+                            <ul>
+                              <li>
+                                Data capture plugin
+                              </li>
+                            </ul>
+                          </div>
+                          <div class="yui-gd">
+                            <div class="yui-u first">
+                              <p class="variable">
+                                Vendor:
+                              </p>
+                            </div>
+                            <div class="yui-u">
+                              <p class="value">
+                                jsHub.org
+                              </p>
+                            </div>
+                          </div>
+                          <div class="yui-gd">
+                            <div class="yui-u first">
+                              <p class="variable">
+                                Author:
+                              </p>
+                            </div>
+                            <div class="yui-u">
+                              <p class="value">
+                                Liam Clancy
+                              </p>
+                            </div>
+                          </div>
+                          <div class="yui-gd">
+                            <div class="yui-u first">
+                              <p class="variable">
+                                Version:
+                              </p>
+                            </div>
+                            <div class="yui-u">
+                              <p class="value">
+                                0.1
+                              </p>
+                            </div>
+                          </div>
+                          <hr class="event-separator" />
+                        </div>
+                      </div>
+                      <div id="yui-gen2" class="yui-module event-item tag-status-item" style="display: block;">
+                        <div class="bd">
+                          <div class="yui-g help-text event-header" title="Data source">
+                            hAuthentication Microformat Parser Plugin
+                          </div>
+                          <div class="message info">
+                            <ul>
+                              <li>
+                                Data capture plugin
+                              </li>
+                            </ul>
+                          </div>
+                          <div class="yui-gd">
+                            <div class="yui-u first">
+                              <p class="variable">
+                                Vendor:
+                              </p>
+                            </div>
+                            <div class="yui-u">
+                              <p class="value">
+                                jsHub.org
+                              </p>
+                            </div>
+                          </div>
+                          <div class="yui-gd">
+                            <div class="yui-u first">
+                              <p class="variable">
+                                Author:
+                              </p>
+                            </div>
+                            <div class="yui-u">
+                              <p class="value">
+                                Liam Clancy
+                              </p>
+                            </div>
+                          </div>
+                          <div class="yui-gd">
+                            <div class="yui-u first">
+                              <p class="variable">
+                                Version:
+                              </p>
+                            </div>
+                            <div class="yui-u">
+                              <p class="value">
+                                0.1
+                              </p>
+                            </div>
+                          </div>
+                          <hr class="event-separator" />
+                        </div>
+                      </div>
+                      <div id="yui-gen3" class="yui-module event-item tag-status-item" style="display: block;">
+                        <div class="bd">
+                          <div class="yui-g help-text event-header" title="Data source">
+                            hPage Microformat Parser Plugin
+                          </div>
+                          <div class="message info">
+                            <ul>
+                              <li>
+                                Data capture plugin
+                              </li>
+                            </ul>
+                          </div>
+                          <div class="yui-gd">
+                            <div class="yui-u first">
+                              <p class="variable">
+                                Vendor:
+                              </p>
+                            </div>
+                            <div class="yui-u">
+                              <p class="value">
+                                jsHub.org
+                              </p>
+                            </div>
+                          </div>
+                          <div class="yui-gd">
+                            <div class="yui-u first">
+                              <p class="variable">
+                                Author:
+                              </p>
+                            </div>
+                            <div class="yui-u">
+                              <p class="value">
+                                Liam Clancy
+                              </p>
+                            </div>
+                          </div>
+                          <div class="yui-gd">
+                            <div class="yui-u first">
+                              <p class="variable">
+                                Version:
+                              </p>
+                            </div>
+                            <div class="yui-u">
+                              <p class="value">
+                                0.1
+                              </p>
+                            </div>
+                          </div>
+                          <hr class="event-separator" />
+                        </div>
+                      </div>
+                      <div id="yui-gen4" class="yui-module event-item tag-status-item" style="display: block;">
+                        <div class="bd">
+                          <div class="yui-g help-text event-header" title="Data source">
+                            hProduct Microformat Parser Plugin
+                          </div>
+                          <div class="message info">
+                            <ul>
+                              <li>
+                                Data capture plugin
+                              </li>
+                            </ul>
+                          </div>
+                          <div class="yui-gd">
+                            <div class="yui-u first">
+                              <p class="variable">
+                                Vendor:
+                              </p>
+                            </div>
+                            <div class="yui-u">
+                              <p class="value">
+                                jsHub.org
+                              </p>
+                            </div>
+                          </div>
+                          <div class="yui-gd">
+                            <div class="yui-u first">
+                              <p class="variable">
+                                Author:
+                              </p>
+                            </div>
+                            <div class="yui-u">
+                              <p class="value">
+                                Liam Clancy
+                              </p>
+                            </div>
+                          </div>
+                          <div class="yui-gd">
+                            <div class="yui-u first">
+                              <p class="variable">
+                                Version:
+                              </p>
+                            </div>
+                            <div class="yui-u">
+                              <p class="value">
+                                0.1
+                              </p>
+                            </div>
+                          </div>
+                          <hr class="event-separator" />
+                        </div>
+                      </div>
+                      <div id="yui-gen5" class="yui-module event-item tag-status-item" style="display: block;">
+                        <div class="bd">
+                          <div class="yui-g help-text event-header" title="Data source">
+                            hPurchase Microformat Parser Plugin
+                          </div>
+                          <div class="message info">
+                            <ul>
+                              <li>
+                                Data capture plugin
+                              </li>
+                            </ul>
+                          </div>
+                          <div class="yui-gd">
+                            <div class="yui-u first">
+                              <p class="variable">
+                                Vendor:
+                              </p>
+                            </div>
+                            <div class="yui-u">
+                              <p class="value">
+                                jsHub.org
+                              </p>
+                            </div>
+                          </div>
+                          <div class="yui-gd">
+                            <div class="yui-u first">
+                              <p class="variable">
+                                Author:
+                              </p>
+                            </div>
+                            <div class="yui-u">
+                              <p class="value">
+                                Liam Clancy
+                              </p>
+                            </div>
+                          </div>
+                          <div class="yui-gd">
+                            <div class="yui-u first">
+                              <p class="variable">
+                                Version:
+                              </p>
+                            </div>
+                            <div class="yui-u">
+                              <p class="value">
+                                0.1
+                              </p>
+                            </div>
+                          </div>
+                          <hr class="event-separator" />
+                        </div>
+                      </div>
+                      <div id="yui-gen6" class="yui-module event-item tag-status-item" style="display: block;">
+                        <div class="bd">
+                          <div class="yui-g help-text event-header" title="Data source">
+                            Google Analytics Markup Plugin
+                          </div>
+                          <div class="message info">
+                            <ul>
+                              <li>
+                                Data capture plugin
+                              </li>
+                            </ul>
+                          </div>
+                          <div class="yui-gd">
+                            <div class="yui-u first">
+                              <p class="variable">
+                                Vendor:
+                              </p>
+                            </div>
+                            <div class="yui-u">
+                              <p class="value">
+                                jsHub.org
+                              </p>
+                            </div>
+                          </div>
+                          <div class="yui-gd">
+                            <div class="yui-u first">
+                              <p class="variable">
+                                Author:
+                              </p>
+                            </div>
+                            <div class="yui-u">
+                              <p class="value">
+                                Fiann O'Hagan
+                              </p>
+                            </div>
+                          </div>
+                          <div class="yui-gd">
+                            <div class="yui-u first">
+                              <p class="variable">
+                                Version:
+                              </p>
+                            </div>
+                            <div class="yui-u">
+                              <p class="value">
+                                0.1 experimental
+                              </p>
+                            </div>
+                          </div>
+                          <hr class="event-separator" />
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="yui-accordion-panel event-section inline-content-updates" role="presentation">
+                    <a id="yui-gen0-4-label" tabindex="-1" class="yui-accordion-toggle" role="treeitem" aria-expanded="false">Inline content updates<span class="count" role="presentation">0</span></a>
+                    <div class="yui-accordion-content hidden" aria-labelledby="yui-gen0-4-label" aria-hidden="true">
+  <!-- ready to recieve data -->
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+    <%= render :partial => 'inspector/widget/buttons' %>
+    <%= render 'inspector/widget/launcher' %>   
+        </div>
+        <div class="ft">
+    <%= render 'inspector/widget/container_footer' %>   
+        </div>
+    <%= render 'inspector/widget/container_icons' %>   
+    </div>
+  </div>
+
+</div>
