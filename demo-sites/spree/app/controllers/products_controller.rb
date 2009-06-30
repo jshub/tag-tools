@@ -7,6 +7,9 @@ class ProductsController < Spree::BaseController
   index do
     before do
       @product_cols = 3
+      @hpage = {
+        :name => "Homepage"
+      }
     end
   end
   
