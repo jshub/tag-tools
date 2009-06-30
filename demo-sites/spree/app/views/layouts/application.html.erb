@@ -33,9 +33,6 @@ if @body_class.nil?
 end
  %>
 <body class="<%= @body_class %>"<%= %( id="#{@body_id}") if @body_id %>>
-  <div id="demo">
-  	<%= image_tag 'demo_corner.png', :title => 'jsHub.org best practice demo site' %>
-  </div>
   <div id="header" class="container">                                                           
     <ul id="nav-bar">
       <div id="login-bar">
@@ -45,7 +42,7 @@ end
         <%= render 'shared/store_menu' %>
       <% end %>
     </ul>
-    <%= link_to image_tag('/images/admin/bg/spree_50.png'), root_path %> 
+    <%= link_to image_tag('jsHub/demo_store_logo.png'), root_path, :title => 'jsHub.org demo store' %> 
   </div>
   <div id="wrapper" class="container"> 
     <% if @content_for_sidebar %>
