@@ -52,3 +52,8 @@
   log("Public instance: %o", window.jsHub.Inspector);
 
 })();
+
+// autmoatically show the Inspector
+YAHOO.util.Event.on(window, 'load', function(){
+  jsHub.Inspector.render();
+});
