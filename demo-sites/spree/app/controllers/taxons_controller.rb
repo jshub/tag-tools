@@ -14,7 +14,7 @@ class TaxonsController < Spree::BaseController
     @products ||= @search.all
     
     @hpage = {
-      :name => "Browse product #{params[:id].first}"
+      :name => "Browse products by #{params[:id].first}"
     }
   end
   
