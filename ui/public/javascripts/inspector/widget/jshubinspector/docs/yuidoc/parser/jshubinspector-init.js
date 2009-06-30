@@ -1,7 +1,7 @@
 /*!
  *  jsHub open source tag
  *  Copyright (c) 2009 jsHub.org
- *  Author: Liam Clancy <liamc@jshub.org>
+ *  Authors: Liam Clancy, Fiann O'Hagan, Steve Heron
  */
 
 (function(){
