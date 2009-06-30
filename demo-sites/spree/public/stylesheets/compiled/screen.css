@@ -933,8 +933,10 @@ body {
       font-size: 18px;
       font-style: italic;
       font-weight: bold; }
+    #jshub .microformats li a {
+      color: #333; }
     #jshub .microformats .dp-highlighter {
-      margin-bottom: 0px;
+      margin-bottom: 1em;
       line-height: 60% !important; }
 
 .navigation-list {
@@ -987,6 +989,10 @@ body {
         color: #666; }
       .breadcrumbs ul li span {
         color: #333; }
+
+a.breadcrumbs {
+  text-decoration: none;
+  color: #333; }
 
 div#login-bar {
   display: inline; }
