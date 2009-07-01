@@ -14,7 +14,7 @@
     <%= hidden_field_tag "return_to", request.request_uri %>
     <span class="login-state">Logged in as:</span>
     <span class="username"><%= current_user.username %></span>
-    <span class="account"><%= link_to 'Your account', account_path %></span>
+    | <span class="account"><%= link_to 'Account', account_path %></span>
     | <%= link_to_function 'Log out', "$('#logout_form').submit()", :href => logout_path %>
   </div>
   <% end %>
