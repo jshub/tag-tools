@@ -354,7 +354,7 @@ div.nav1 {
       font-weight: bold; }
 
 div.page hr {
-  margin-bottom: 10px;
+  margin: 20px;
   border: none;
   border-bottom: 1px solid #fff; }
 div.page a {
@@ -445,15 +445,16 @@ textarea {
 
 label {
   float: left;
-  width: 15em;
+  width: 12em;
   min-height: 1em;
   color: #858689;
-  font-weight: bold; }
+  font-weight: bold;
+  font-size: 108%; }
   label.right {
-    float: none; }
+    float: none;
+    margin-left: 0.3em; }
   label.configuration_name {
     color: #000000;
-    font-size: 138.5%;
     width: 10.83em; }
 
 .label {
@@ -463,6 +464,9 @@ label {
   color: #858689;
   font-weight: bold; }
 
+p.plugin_choice {
+  margin-bottom: 0.6em; }
+
 .plugin_name {
   color: #000000;
   font-weight: bold; }
@@ -471,7 +475,8 @@ label {
     font-size: 85%; }
 
 input.configuration_name {
-  font-size: 138.5%; }
+  font-size: 182%;
+  width: 80% !important; }
 
 .details div {
   margin-bottom: 1.0em; }

@@ -1,22 +1,25 @@
-  <div class="yui-g top">
-    <div class="details">
-      <h2>
-      	Creating your tag configuration
-	  </h2>
-      <p>
-        <strong>Step 1</strong><br />
-		Choose a name for the configuration so that you can 
-		retrieve it in the future.
-      </p>
-      <p>
-        <strong>Step 2</strong><br />
-		Choose the libraries and plugins that you require in the generated tag,
-		and fill in any parameters required.
-      </p>
-      <p>
-        <strong>Step 3</strong><br />
-		Add optional comments or notes for your own reference. These are not published
-		in the tag.
-      </p>
-    </div>
+<div class="yui-g top">
+  <div class="details">
+    <h2>Configuring a tag</h2>
+	
+    <p>
+      A tag consists of the <em>hub</em>, which is always included and provides core
+	  functionality, plus a number of plugins.
+	</p>
+	<p>
+	  <strong>Data capture plugins</strong> read page markup and convert it into the
+	  format used by the hub. You will need at least one data capture plugin to be able
+	  to read the data on your pages. 
+	</p>
+	<p>
+	  <strong>Data transport plugins</strong> format a message for sending to the server
+	  that is recording data. Choose the plugins for the services you are using. You 
+	  will need at least one data transport plugin, otherwise the jsHub tag will not send
+	  any messages.
+	</p>
+	<p>
+	  <strong>Comments</strong> are optional and only for your own reference. They are
+	  not published.
+	</p>
   </div>
+</div>

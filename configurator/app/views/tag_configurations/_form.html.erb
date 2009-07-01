@@ -1,82 +1,56 @@
   <%= f.error_messages %>
   
-  <fieldset><h2>Configuration name</h2>
-  <p>
-    <%= label_tag :name, nil, :class => 'configuration_name' %>
-    <%= f.text_field :name, :class => 'configuration_name' %><br />
-	<small>
-      (required) Every configuration has a name so that you can 
+  <fieldset>
+    <h2>1. Provide a name for the configuration</h2>
+    <p class="plugin_choice">
+      <%= f.text_field :name, :class => 'configuration_name' %>
+    </p>
+    <p>(required) Every configuration has a name so that you can 
       retrieve it in the future.
-    </small>
-  </p>
-
-  
+    </p>
   </fieldset>
 
   <hr />
 
-  <fieldset><h2>Third party libraries</h2>
-
-  <% # Required to capture when no plugins are selected %>
-  <!-- <%= hidden_field_tag "tag_configuration[plugin_config][]", "" %> -->
-
-  <p>
-    <%= check_box_tag label_for_plugin_param(:jquery, :include), true,
-          @tag_configuration.has_plugin?(jquery_plugin) %>
-    <%= label_tag label_for_plugin_param(:jquery, :include), 
-          'jQuery library', :class => 'right plugin_name' %> <br />
-	<small>
-      <%= link_to 'jQuery', 'http://jquery.com/' %> is a required dependency for the
-	  jsHub code. If you are not using jQuery on the pages that will be tagged with
-	  jsHub, then you should include the library in your configuration. <br />
-	  The minimum supported version of jQuery is 1.2, we currently include v1.3.2 in
-	  the jsHub tag. jQuery adds 19Kb to the file when it is served gzipped.
-	</small>
-  </p>
+  <fieldset>
+    <h2>2. Choose data capture plugins</h2>
+    <p class="plugin_choice">
+      <%= check_box_tag label_for_plugin_param(:microformat, :include), true,
+            @tag_configuration.has_plugin?(mf_plugin) %>
+      <%= label_tag label_for_plugin_param(:microformat, :include),
+            'Page data HTML microformats', :class => 'right plugin_name' %>
+    </p>
+    <p>Collects basic information about the page, from hPage
+      and other HTML microformat markup on the page.</p>
+	  
+    <p class="plugin_choice">
+      <%= check_box_tag label_for_plugin_param(:google_analytics_markup, :include), true,
+            @tag_configuration.has_plugin?(ga_markup_plugin) %>
+      <%= label_tag label_for_plugin_param(:google_analytics_markup, :include),
+            'Google Analytics markup', :class => 'right plugin_name' %>
+    </p>
+    <p>
+      Collects basic basic page view information from Google Analytics 
+      tags on the page.<br/>
+      <em>This plugin is purely illustrative, it does not replace the Google tag, 
+        and it is not supported by Google</em>.
+    </p>
   </fieldset>
 
   <hr />
 
-  <fieldset><h2>Data capture plugins</h2>
+  <fieldset>
+  	<h2>3. Choose data transport plugins</h2>
 
-  <% # Required to capture when no plugins are selected %>
-  <!-- <%= hidden_field_tag "tag_configuration[plugin_config][]", "" %> -->
-
-  <p>
-    <%= check_box_tag label_for_plugin_param(:microformat, :include), true,
-          @tag_configuration.has_plugin?(mf_plugin) %>
-    <%= label_tag label_for_plugin_param(:microformat, :include), 
-          'Page data HTML microformats', :class => 'right plugin_name' %> <br />
-	<small>
-      Collects basic information about the page, from <%= link_to 'hPage', 'http://jshub.org/project/wiki/hPage' %>
-	  and other HTML microformat markup on the page.
-	</small>
-  </p>
-  <p>
-    <%= check_box_tag label_for_plugin_param(:google_analytics_markup, :include), true,
-          @tag_configuration.has_plugin?(ga_markup_plugin) %>
-    <%= label_tag label_for_plugin_param(:google_analytics_markup, :include), 
-          'Google Analytics markup', :class => 'right plugin_name' %> <br />
-	<small>
-	  EXPERIMENTAL. Collects basic basic page view information from existing Google Analytics 
-	  tags on the page.<br />
-	  <em>This plugin is purely illustrative, it does not replace the Google tag, 
-	  and it is not supported by Google</em>.
-	</small>
-  </p>
-  </fieldset>
-
-  <hr />
-
-  <fieldset><h2>Data transport plugins</h2>
-
-  <p>
+  <p class="plugin_choice">
     <%= check_box_tag label_for_plugin_param(:sample_get, :include), true,
           @tag_configuration.has_plugin?(sample_get_plugin), 
           :class => 'configurable' %>
     <%= label_tag label_for_plugin_param(:sample_get, :include), 
 		"Sample HTTP GET data transport plugin", :class => 'right plugin_name' %> <br />
-	<small>Sends information to a server using a single pixel image request URL.</small>
+  </p>
+  <p>
+	Sends information to a server using a single pixel image request URL.
   </p>
   <div id="configure_plugin_<%= sample_get_plugin.id %>">
     <p>
@@ -84,7 +58,6 @@
             'Server URL' %>
       <%= text_field_tag label_for_plugin_param(:sample_get, :server_url), 
             value_for_plugin_param(:sample_get, :server_url) %>
-      
     </p>
     <p>
       <%= label_tag label_for_plugin_param(:sample_get, :account_id), 'Account ID' %>
@@ -93,7 +66,7 @@
     </p>
   </div>
   
-  <p>
+  <p class="plugin_choice">
     <%= check_box_tag label_for_plugin_param(:sample_post, :include), true,
           @tag_configuration.has_plugin?(sample_post_plugin), 
           :class => 'configurable' %>
@@ -138,7 +111,26 @@
 
   <hr />
   
-  <fieldset><h2>Comments</h2>
+  <fieldset>
+  	<h2>4. Third party library</h2>
+
+  <p class="plugin_choice">
+    <%= check_box_tag label_for_plugin_param(:jquery, :include), true,
+          @tag_configuration.has_plugin?(jquery_plugin) %>
+    <%= label_tag label_for_plugin_param(:jquery, :include), 
+          'jQuery library', :class => 'right plugin_name' %> 
+  </p>
+  <p>
+    jQuery is a required dependency for the jsHub code. You do not need this 
+	if you have jQuery 1.2 or later on your site already. Adds 19Kb to the file 
+	when it is served gzipped.
+  </p>
+  </fieldset>
+
+  <hr />
+
+  <fieldset>
+  	<h2>5. Comments</h2>
   
   <p>
     <%= f.text_area :comments %>

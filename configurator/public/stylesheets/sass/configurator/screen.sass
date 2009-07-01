@@ -40,7 +40,7 @@ div.nav1
       
 div.page
   hr
-    :margin-bottom 10px
+    :margin 20px
     :border none
     :border-bottom 1px solid #fff      
 
@@ -134,15 +134,16 @@ textarea
 
 label
   :float left
-  :width 15em 
+  :width 12em 
   :min-height 1em
   :color = !color_text_dark
   :font-weight bold
+  :font-size = !font_bigger_size
   &.right
     :float none
+    :margin-left 0.3em
   &.configuration_name
     :color = !color_text_normal
-    :font-size = !font_sub_header_size
     :width = 10.83em 
 
 .label
@@ -152,6 +153,9 @@ label
   :color = !color_text_dark
   :font-weight bold
 
+p.plugin_choice
+  :margin-bottom 0.6em
+
 .plugin_name
   :color = !color_text_normal
   :font-weight bold
@@ -160,7 +164,8 @@ label
     :font-size = !font_small_size
 
 input.configuration_name
-  :font-size = !font_sub_header_size
+  :font-size = !font_header_size
+  :width 80% !important
 
 .details
   div
