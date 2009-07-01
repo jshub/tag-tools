@@ -22,7 +22,7 @@ class TagConfigurationCreationScenariosTest < ActionController::IntegrationTest
     assert_select "h1#config_name", "test one"
     assert_select "fieldset#data_capture_plugins" do
       assert_select "p.plugin_name", :count => 1
-      assert_select "p.plugin_name#microformat"
+      assert_select "p.plugin_name#plugin-#{plugins(:microformat).id}"
     end
     assert_select "fieldset#data_transport_plugins" do
       assert_select "p.plugin_name", :count => 0
@@ -49,8 +49,8 @@ class TagConfigurationCreationScenariosTest < ActionController::IntegrationTest
     assert_select "h1#config_name", "test one"
     assert_select "fieldset#data_capture_plugins" do
       assert_select "p.plugin_name", :count => 2
-      assert_select "p.plugin_name#microformat"
-      assert_select "p.plugin_name#googleanalyticsmarkup"
+      assert_select "p.plugin_name#plugin-#{plugins(:microformat).id}"
+      assert_select "p.plugin_name#plugin-#{plugins(:microformat).id}"
     end
     assert_select "fieldset#data_transport_plugins" do
       assert_select "p.plugin_name", :count => 0

@@ -14,9 +14,9 @@ class PluginTest < ActiveSupport::TestCase
   test "database is populated with singleton instances" do
     db_plugins = Plugin.find :all, :order => :type
     assert_equal 3, db_plugins.length 
-    assert_equal 'Jquery', db_plugins[0].name
-    assert_equal 'Microformat', db_plugins[1].name
-    assert_equal 'SampleGet', db_plugins[2].name
+    assert_equal 'Plugin::Jquery', db_plugins[0].class.name
+    assert_equal 'Plugin::Microformat', db_plugins[1].class.name
+    assert_equal 'Plugin::SampleGet', db_plugins[2].class.name
     
     # and check the singletons
     jquery_plugin = Plugin::Jquery.instance
@@ -32,8 +32,13 @@ class PluginTest < ActiveSupport::TestCase
   end
   
   test "retrieve name" do
-    plugin = Plugin::SampleGet.instance
-    assert_equal 'SampleGet', plugin.name
+    plugin = Plugin::Microformat.instance
+    assert_equal 'Microformat', plugin.name
+  end
+  
+  test "retrieve custom name" do
+    plugin = Plugin::Jquery.instance
+    assert_equal 'jQuery', plugin.name
   end
   
 end

@@ -5,7 +5,7 @@
 <h2>Data capture plugins</h2>
 
 <% if @tag_configuration.has_plugin? mf_plugin %>
-  <p class="plugin_name" id="<%= mf_plugin.name.downcase %>">
+  <p class="plugin_name" id="plugin-<%= mf_plugin.id %>">
   	Page data HTML microformats <br />
 	<small>
       Collects basic information about the page, from <%= link_to 'hPage', 'http://jshub.org/project/wiki/hPage' %>
@@ -15,7 +15,7 @@
 <% end %>
 
 <% if @tag_configuration.has_plugin? ga_markup_plugin %>
-  <p class="plugin_name" id="<%= ga_markup_plugin.name.downcase %>">
+  <p class="plugin_name" id="plugin-<%= ga_markup_plugin.id %>">
     Google Analytics markup capture <br />
 	<small>
 	  EXPERIMENTAL. Collects basic basic page view information from existing Google Analytics 
@@ -39,7 +39,7 @@
 <h2>Data transport plugins</h2>
 
 <% if @tag_configuration.has_plugin? sample_get_plugin %>
-  <p class="plugin_name" id="<%= sample_get_plugin.name.downcase %>">
+  <p class="plugin_name" id="plugin-<%= sample_get_plugin.id %>">
     Sample HTTP GET data transport plugin<br />
 	<small>Sends information to a server using a single pixel image request URL.</small>
   </p>
@@ -61,7 +61,7 @@
 <% end %>  
   
 <% if @tag_configuration.has_plugin? sample_post_plugin %>
-  <p class="plugin_name" id="<%= sample_post_plugin.name.downcase %>">
+  <p class="plugin_name" id="plugin-<%= sample_post_plugin.id %>">
     Sample HTTP POST plugin <br />  	
 	<small>Sends information to a server by posting a form into a hidden iframe.</small>
   </p>
@@ -95,7 +95,7 @@
 <h2>Third party library</h2>
 
 <% if @tag_configuration.has_plugin? jquery_plugin %>
-  <p class="plugin_name" id="<%= jquery_plugin.name.downcase %>">
+  <p class="plugin_name" id="plugin-<%= jquery_plugin.id %>">
   	jQuery library<br />
 	<small>
       <%= link_to 'jQuery', 'http://jquery.com/' %> is a required dependency for the

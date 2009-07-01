@@ -60,19 +60,19 @@ class TagConfigurationsControllerTest < ActionController::TestCase
     # check libraries
     assert_select "fieldset#libraries" do
       assert_select "p.plugin_name", :count => 1
-      assert_select "p.plugin_name#jquery"
+      assert_select "p.plugin_name#plugin-#{plugins(:jquery).id}"
     end
     # check data capture plugins
     assert_select "fieldset#data_capture_plugins" do
       assert_select "p.plugin_name", :count => 1
-      assert_select "p.plugin_name#microformat"
+      assert_select "p.plugin_name#plugin-#{plugins(:microformat).id}"
     end
     # check data transport plugins
     assert_select "fieldset#data_transport_plugins" do
       assert_select "p.plugin_name", :count => 1
-      assert_select "p.plugin_name#sampleget"
-      assert_select "p.plugin_name#sampleget ~ div p.plugin_param#server_url span.value", "http://www.jshub.org"
-      assert_select "p.plugin_name#sampleget ~ div p.plugin_param#account_id span.value", "123456"
+      assert_select "p.plugin_name#plugin-#{plugins(:sample_get).id}"
+      assert_select "p.plugin_name#plugin-#{plugins(:sample_get).id} ~ div p.plugin_param#server_url span.value", "http://www.jshub.org"
+      assert_select "p.plugin_name#plugin-#{plugins(:sample_get).id} ~ div p.plugin_param#account_id span.value", "123456"
     end
   end
   
