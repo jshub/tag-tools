@@ -420,6 +420,9 @@ div.col2 .bottom {
   padding: 15px;
   min-height: 150px; }
 
+.tips {
+  color: #404040; }
+
 div.content {
   padding: 0; }
   div.content .col1 {
