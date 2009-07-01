@@ -25,6 +25,7 @@ class TagConfiguration < ActiveRecord::Base
   def add_default_plugins!
     plugins << Plugin::Microformat.instance
     plugins << Plugin::SampleGet.instance
+    plugins << Plugin::Jquery.instance
   end
   
   # update the plugins included in the configuration from a map of ids and parameters

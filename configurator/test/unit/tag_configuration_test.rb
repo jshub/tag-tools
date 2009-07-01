@@ -7,7 +7,7 @@ class TagConfigurationTest < ActiveSupport::TestCase
   end
   
   test "default plugins can be added to new object" do
-    default_plugins = [Plugin::Microformat.instance, Plugin::SampleGet.instance]
+    default_plugins = [Plugin::Microformat.instance, Plugin::SampleGet.instance, Plugin::Jquery.instance]
     config = TagConfiguration.new
     assert_equal [], config.plugins
     config.add_default_plugins!
