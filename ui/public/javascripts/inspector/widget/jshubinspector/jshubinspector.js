@@ -521,9 +521,8 @@
 
     // bind resize actions using 'on' to get data
     oResizer.on('resize', resizeInspectorBody, this, true);      
-    oResizer.on('startResize', function() {log("Resizer Custom event: type: %o, args: %o, me: %o, this: %o", type, args, me, this)});      
-    oResizer.on('endResize', resizeInspectorBody, this, true);      
     oResizer.on('resize', resizeAccordionPanel, this, true);      
+    oResizer.on('endResize', resizeInspectorBody, this, true);      
 
     // fix IE background color bug by hasLayout trick
     this.cfg.setProperty("height", '');
@@ -559,11 +558,11 @@
     var aPanelContent = getActiveAccordionPanelContent();
     var ePanelContent = aPanelContent[0];
     var delta = args.height - this.element.offsetHeight;
-    var existing_height = ePanel.offsetHeight;
+    var existing_height = ePanelContent.offsetHeight;
     var new_height = existing_height + delta;
-    ePanel.style.height = new_height + 'px';
+    ePanelContent.style.height = new_height + 'px';
     
-    log('resizeAccordionPanel args: %o, args.height: %o, this: %o, panel: %o, panel.offsetHeight: %o, Inspector.height: %o', args, args.height, this, ePanel, ePanel.offsetHeight, this.element.offsetHeight);
+    log('resizeAccordionPanel args: %o, args.height: %o, this: %o, panel: %o, panel.offsetHeight: %o, Inspector.height: %o', args, args.height, this, ePanelContent, ePanelContent.offsetHeight, this.element.offsetHeight);
   };
   
   /**
