@@ -156,6 +156,13 @@ div.jshub.inspector .state1, div.jshub.inspector .state2, div.jshub.inspector .s
     background-color: transparent; }
     div.jshub.inspector .state1 div#event_list ul li.yui-accordion-panel,     div.jshub.inspector .state2 div#event_list ul li.yui-accordion-panel,     div.jshub.inspector .state3 div#event_list ul li.yui-accordion-panel {
       background-color: #ffffff; }
+      div.jshub.inspector .state1 div#event_list ul li.yui-accordion-panel p.default-content,       div.jshub.inspector .state2 div#event_list ul li.yui-accordion-panel p.default-content,       div.jshub.inspector .state3 div#event_list ul li.yui-accordion-panel p.default-content {
+        margin: 0;
+        padding: 5px 5px 0; }
+      div.jshub.inspector .state1 div#event_list ul li.yui-accordion-panel.empty p.default-content,       div.jshub.inspector .state2 div#event_list ul li.yui-accordion-panel.empty p.default-content,       div.jshub.inspector .state3 div#event_list ul li.yui-accordion-panel.empty p.default-content {
+        display: block; }
+      div.jshub.inspector .state1 div#event_list ul li.yui-accordion-panel.full p.default-content,       div.jshub.inspector .state2 div#event_list ul li.yui-accordion-panel.full p.default-content,       div.jshub.inspector .state3 div#event_list ul li.yui-accordion-panel.full p.default-content {
+        display: none; }
       div.jshub.inspector .state1 div#event_list ul li.yui-accordion-panel a.yui-accordion-toggle,       div.jshub.inspector .state2 div#event_list ul li.yui-accordion-panel a.yui-accordion-toggle,       div.jshub.inspector .state3 div#event_list ul li.yui-accordion-panel a.yui-accordion-toggle {
         padding: 0.2em 0.3em 0.15em 0.3em;
         border-width: 1px;

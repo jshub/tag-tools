@@ -94,7 +94,7 @@
         "NAME": 'jsHub.org Inspector',
         "VERSION": '2.0',
         "BUILD": '001',
-        "DEBUG": false // enable debugging and logging
+        "DEBUG": true // enable debugging and logging
       };
  
   /**
@@ -105,6 +105,7 @@
   * @type Object
   */
   var EVENT_TYPES = {
+        "IE_REPAINT": "ieRepaint",
         "FOUND_CODE": "foundCode",
         "CHECKSUM_CODE": "checksumCode",
         "CHANGE_STATE": "changeState",
@@ -175,7 +176,8 @@
           'SEARCH': '<div class="yui-u first"><label class="search" for="inspector_search">Find</label></div><div class="yui-u"><input type="text" disabled="disabled" class="search" id="inspector_search"/></div>',
           'LARGE_BUTTON': '<a href="#" class="jshub-button events">View Events</a><a href="http://www.jshub.org/" class="jshub-button get">Get jsHub</a>',
           'SMALL_BUTTON': '<a href="#" class="jshub-button">Hide Events</a>',
-          'HUB_EVENT_SEPARATOR': '<hr class="event-separator"/>'
+          'HUB_EVENT_SEPARATOR': '<hr class="event-separator"/>',
+          'PANEL_DEFAULT_CONTENT': '<p class="default-content">No data</p>'
         }  
 
   /**
@@ -195,25 +197,25 @@
         */
         "page": {
           label: 'Page events',
-          content: '<!-- ready to recieve data -->',
+          content: TEMPLATES.PANEL_DEFAULT_CONTENT,
           template_variable: '<div title="No help text available" class="yui-g help-text"><p class="variable">{0}</p></div>',
           template_value: '<div class="yui-gd duplicate"><div class="yui-u first"><p class="vendor">{0}:</p></div><div class="yui-u"><p class="value">{1}</p></div></div>'
         },
         "user-interactions": {
           label: 'Ecommerce events',
-          content: '<!-- ready to recieve data -->',
+          content: TEMPLATES.PANEL_DEFAULT_CONTENT,
           template_variable: '<div title="No help text available" class="yui-g help-text"><p class="variable">{0}</p></div>',
           template_value: '<div class="yui-gd duplicate"><div class="yui-u first"><p class="vendor">{0}:</p></div><div class="yui-u"><p class="value">{1}</p></div></div>'
         },
         "data-sources": {
           label: 'Data sources',
-          content: '<!-- ready to recieve data -->',
+          content: TEMPLATES.PANEL_DEFAULT_CONTENT,
           template: '<div title="Data source" class="yui-g help-text event-header">{0}</div><div class="message info"><ul><li>{1} plugin</li></ul></div><div class="yui-gd"><div class="yui-u first"><p class="variable">Vendor:</p></div><div class="yui-u"><p class="value">{2}</p></div></div><div class="yui-gd"><div class="yui-u first"><p class="variable">Author:</p></div><div class="yui-u"><p class="value">{3}</p></div></div><div class="yui-gd"><div class="yui-u first"><p class="variable">Version:</p></div><div class="yui-u"><p class="value">{4}</p></div></div>',
           template_microformat: ''
         },
         "inline-content-updates": {
           label: 'Inline content updates',
-          content: '<!-- ready to recieve data -->',
+          content: TEMPLATES.PANEL_DEFAULT_CONTENT,
           template_variable: '',
           template_value: ''
         }
@@ -342,12 +344,13 @@
     var panelIndex = -1;
     for (var panelId in PANELS) {
       oEventList.addPanel(PANELS[panelId]);
+      
       panelIndex ++;
       log('AccordionView Panel: %o, index: %o', PANELS[panelId], panelIndex);
       // add a CSS class to the panel for use to render Hub Events
       // This is found by panelIndex since the AccordionView API addPanel() returns void
       var newPanel = oEventList.getPanel(panelIndex);
-      Dom.addClass(newPanel, "event-section " + panelId);
+      Dom.addClass(newPanel, "event-section empty " + panelId);
       log('AccordionView Panel: %o, CSS: %o', panelIndex, panelId);
     };
     // Uncomment to start with a panel open
@@ -360,9 +363,12 @@
         });
     log('AccordionView Panel: Converted all indicators to counts: %o', indicators);
 
-    
     // subscribe to events to get info for resizing
-    oEventList.subscribe('stateChanged', function() {log('Accordion Custom event: type: stateChanged, arguments: %o, this: %o', arguments, this)});
+    oEventList.subscribe('stateChanged', function() {
+      log('Accordion Custom event: type: stateChanged, arguments: %o, this: %o', arguments, this);
+      log('Accordion Custom event: firing ieRepaintEvent with id: %o', 'event_list');
+      me.ieRepaintEvent.fire(Inspector.ID_ACCORDION);
+    });
     oEventList.subscribe('afterPanelClose', function() {log('Accordion Custom event: type: afterPanelClose, arguments: %o, this: %o', arguments, this)});
     oEventList.subscribe('afterPanelOpen', function() {log('Accordion Custom event: type: afterPanelOpen, arguments: %o, this: %o', arguments, this)});
     
@@ -404,6 +410,25 @@
   // Private CustomEvent listeners, usage depends a bit on how subscribed:
   // 'this.subscribe' automatically receive 'type, args, me' parameters
   // 'object.on' receive only args parameters
+
+
+  /**
+  * "ieRepaint" event handler that uses a trick to force IE to repaint an element.
+  * @method ieRepaint
+  * @params {String} The id of the element to repaint
+  * @private
+  */
+  function renderIeRepaint(type, args, me) {
+    log("renderIeRepaint:  type: %o, args: %o, me: %o, this: %o, ua: %o", type, args, me, this, UA);
+    // target IE versions less than 8
+    if (YAHOO.env.ua.ie && YAHOO.env.ua.ie < 8 ){
+      var element = args[0];
+      log("IE repaint: force repaint of: %o", element);
+      // This is a generally acceptable hack used elsewhere in the YUI library      
+      Dom.setStyle(element, 'display', 'none');
+      Dom.setStyle(element, 'display', 'block');
+    };
+  };
 
   /**
   * "foundCode" event handler that creates a SHA1 hash for a src JS file and checks it against a Configurator.
@@ -471,7 +496,7 @@
     COMPONENTS.mEventlistModule.render(this.body);
     COMPONENTS.mEventlistModule.show();
     // add the Accordion DIV in the Module
-    COMPONENTS.event_list.appendTo(Inspector.ID_ACCORDION);    
+    COMPONENTS.event_list.appendTo(Inspector.ID_ACCORDION);
   }
   
   /** 
@@ -496,11 +521,13 @@
 
     // bind resize actions using 'on' to get data
     oResizer.on('resize', resizeInspectorBody, this, true);      
+    oResizer.on('startResize', function() {log("Resizer Custom event: type: %o, args: %o, me: %o, this: %o", type, args, me, this)});      
     oResizer.on('endResize', resizeInspectorBody, this, true);      
     oResizer.on('resize', resizeAccordionPanel, this, true);      
 
     // fix IE background color bug by hasLayout trick
     this.cfg.setProperty("height", '');
+    log("IE fix: Forced repaint by setting height");
 
     // expose for later access, e.g. resizing
     COMPONENTS.resizer = oResizer;
@@ -530,7 +557,7 @@
     // use CSS min-/max-height to enforce a max height
     // TODO: split height change by number of open Panels since AccordionView can be configured for this
     var aPanelContent = getActiveAccordionPanelContent();
-    var ePanel = aPanelContent[0];
+    var ePanelContent = aPanelContent[0];
     var delta = args.height - this.element.offsetHeight;
     var existing_height = ePanel.offsetHeight;
     var new_height = existing_height + delta;
@@ -662,12 +689,16 @@
     var sPanelType;
     var aPanelContent = getAllAccordionPanelContent();
     if (oHubEvent['type'] === 'duplicate-value-warning') {    
-      ePanel = aPanelContent[-1]; // "tagging-issues" DISABLED
+      ePanelContent = aPanelContent[-1]; // "tagging-issues" DISABLED
       sPanelType = "tagging-issues";
+    };
+    if (oHubEvent['type'] === 'inline-content-updates') {    
+      ePanelContent = aPanelContent[-1]; // "inline-content-updates" DISABLED
+      sPanelType = "inline-content-updates";
     };
     if (oHubEvent['type'] === 'data-capture-start'
         || oHubEvent['type'] === 'page-view') {    
-      ePanel = aPanelContent[0]; // "page"
+      ePanelContent = aPanelContent[0]; // "page"
       sPanelType = "page";
     };
     if (oHubEvent['type'] === 'authentication'
@@ -677,12 +708,12 @@
         || oHubEvent['type'] === 'cart-remove'
         || oHubEvent['type'] === 'cart-update'
         || oHubEvent['type'] === 'checkout') {    
-      ePanel = aPanelContent[1]; // "user-interactions"
+      ePanelContent = aPanelContent[1]; // "user-interactions"
       sPanelType = "user-interactions";
     };
     
     // we got an unknown event.type
-    if (!ePanel) {
+    if (!ePanelContent) {
       log('receivedHubEvent: ignoring event: %o', oHubEvent);
       return false;
     }
@@ -728,8 +759,8 @@
 
     
     // fire event with required data to action
-    log("recievedHubEvent: firing renderHubEvent: %o html: %o", ePanel, html);
-    this.renderHubEvent.fire(ePanel, html);
+    log("recievedHubEvent: firing renderHubEvent: %o html: %o", ePanelContent, html);
+    this.renderHubEvent.fire(ePanelContent, html);
   };
 
   /**
@@ -747,7 +778,7 @@
 
     // TODO: determine panel index by CSS class not creation order
     var aPanelContent = getAllAccordionPanelContent();
-    var ePanel = aPanelContent[2]; // 'data-sources'
+    var ePanelContent = aPanelContent[2]; // 'data-sources'
     var sPanelType = "data-sources";
 
     // create an entry for each plugin
@@ -766,8 +797,8 @@
       html.push(TEMPLATES.HUB_EVENT_SEPARATOR);
       html = html.join("");
  
-     log("getHubPluginInfo: firing renderHubEvent: %o html: %o", ePanel, html);
-     this.renderHubEvent.fire(ePanel, html);
+     log("getHubPluginInfo: firing renderHubEvent: %o html: %o", ePanelContent, html);
+     this.renderHubEvent.fire(ePanelContent, html);
     };
   };
   
@@ -780,7 +811,7 @@
     log("templateEventToPanel:  type: %o, args: %o, me: %o, this: %o", type, args, me, this);
 
     // get data from event args
-    var ePanel = args[0];
+    var ePanelContent = args[0];
     var html = args[1];
         
     // Module to render a Hub event
@@ -788,19 +819,26 @@
     mHubEventModule.setBody(html);
     // TODO: logically the separator should be in the Module footer
     //mHubEventModule.setFooter(TEMPLATES.HUB_EVENT_SEPARATOR);    
-    mHubEventModule.render(ePanel);
+    mHubEventModule.render(ePanelContent);
     Dom.addClass(mHubEventModule.element, 'event-item tag-status-item');
     mHubEventModule.show();
     COMPONENTS.mHubEventModule = mHubEventModule;
     
     // update count of child elements
     // Note: CSS selection seemed a bit overkill but this ties it to the HTML structure DIV>A>SPAN
-    var eCount = ePanel.previousSibling.lastChild;
+    var eCount = ePanelContent.previousSibling.lastChild;
     // using parseInt we can wrap the number if desired, e.g. as (0) or [0]
     var iCount = parseInt(eCount.innerHTML, 10);
     iCount++;
     eCount.innerHTML = iCount ;
-    log('templateEventToPanel: new count: %o, for panel: %o', iCount, eCount);
+    // remove the 'empty' marker on the Panels Ancestor
+    if (iCount > 0) {
+      log('templateEventToPanel: panel: %o no longer empty', ePanelContent);
+      var ePanel = Dom.getAncestorByClassName(ePanelContent, 'empty');
+      Dom.replaceClass(ePanel, 'empty', 'full');
+    }
+    
+    log('templateEventToPanel: new count: %o, for panel: %o', iCount, ePanelContent);
    
     log("templateEventToPanel: mHubEventModule: %o", mHubEventModule);
   };
@@ -997,6 +1035,7 @@
       this.subscribe('hide', function(type, args, me){log('Custom event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)});
 
       // custom functionality events
+      this.subscribe('ieRepaint', renderIeRepaint);
       this.subscribe('foundCode', getHubPluginInfo);
       this.subscribe('foundCode', srcChecksum);
       this.subscribe('checksumCode', function(type, args, me){log('Custom event: type: %o, args: %o, me: %o, this: %o', type, args, me, this)});
@@ -1035,6 +1074,14 @@
       
       var SIGNATURE = CustomEvent.LIST;
       
+      /**
+      * CustomEvent fired when a repaint of an Element in IE is needed
+      * @event ieRepaint
+      */
+      this.ieRepaintEvent = this.createEvent(EVENT_TYPES.IE_REPAINT);
+      this.ieRepaintEvent.signature = SIGNATURE;
+
+
       /**
       * CustomEvent fired after detecting the jsHub core lib
       * @event foundCodeEvent

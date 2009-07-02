@@ -1,7 +1,7 @@
 <% set_title 'jsHub Inspector < YUI Widget' %>
 
 <% content_for :javascripts do %>  
-  <%= javascript_include_tag "firebug-lite" %>
+  <%- javascript_include_tag "firebug-lite" %>
 
 
   <!-- jsHub tag files -->
@@ -223,7 +223,6 @@ YAHOO.util.Event.addListener("addUserInteractionsEvent", "click", function(){jsH
       this.wait(function(){
           // get original value to restore
           var original = jsHub.Inspector.getCurrentStatus();
-          console.log("Test: Original status: %o", original);
           Y.Assert.isTrue(jsHub.Inspector._setCurrentStatus('info'), "The private method only accepts a string parameter");
           Y.Assert.isTrue(jsHub.Inspector._setCurrentStatus('error'), "The private method only accepts a string parameter");
           Y.Assert.isTrue(jsHub.Inspector._setCurrentStatus('warning'), "The private method only accepts a string parameter");

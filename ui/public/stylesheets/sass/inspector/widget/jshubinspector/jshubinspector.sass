@@ -227,6 +227,17 @@ div.jshub.inspector
         li.yui-accordion-panel
           :background
             :color = !color_events_bg_light
+          # empty panel message hidden when content present
+          p.default-content
+            margin: 0
+            padding: 5px 5px 0
+          &.empty
+            p.default-content
+              :display block
+          &.full
+            p.default-content
+              :display none
+            
           a.yui-accordion-toggle
             :padding 0.2em 0.3em 0.15em 0.3em
             :border-width 1px
@@ -281,7 +292,7 @@ div.jshub.inspector
             :min-height 100px
             :max-height 350px
             :background
-              :color = !color_events_bg_light
+              :color = !color_events_bg_light            
   
         # accordion panel including header
         .event-section
