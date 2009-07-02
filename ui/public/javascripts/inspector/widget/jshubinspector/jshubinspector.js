@@ -94,7 +94,7 @@
         "NAME": 'jsHub.org Inspector',
         "VERSION": '2.0',
         "BUILD": '001',
-        "DEBUG": true // enable debugging and logging
+        "DEBUG": false // enable debugging and logging
       };
  
   /**
