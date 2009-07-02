@@ -1,12 +1,12 @@
 <% set_title 'jsHub Inspector < YUI Widget' %>
 
 <% content_for :javascripts do %>  
-  <%- javascript_include_tag "firebug-lite" %>
+  <%= javascript_include_tag "firebug-lite" %>
 
 
   <!-- jsHub tag files -->
   <%= javascript_include_tag "jquery/jquery-1.3.2.min" %>
-  <%= javascript_include_tag "jshub/jshub-gromit-r13-debug" %>
+  <%= javascript_include_tag "jshub/jshub-gromit-r14-debug" %>
 
   <!-- Merged files -->
   <%= stylesheet_link_tag :inspector_widget %>  
