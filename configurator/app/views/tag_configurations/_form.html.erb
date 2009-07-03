@@ -89,24 +89,6 @@
     </p>
   </div>
   
-  <script type="text/javascript">
-    function bindConfig() {
-      var checkbox = this, id = checkbox.id.match(/[0-9]+/), config_div = $('#configure_plugin_'+id);
-      $(checkbox).bind("change", function(evt) {
-        if (evt.target.checked) {
-          config_div.show('medium');
-        } else {
-          config_div.hide('medium');
-        }
-      });
-      if (! checkbox.checked) {
-	  	config_div.hide();
-	  }
-    }
-    
-    $('input:checkbox.configurable').each(bindConfig);
-  </script>
-
   </fieldset>
 
   <hr />
@@ -143,3 +125,23 @@
   </fieldset>
 
   <hr />  
+  
+  <script type="text/javascript">
+    function bindConfig() {
+      var checkbox = this, id = checkbox.id.match(/[0-9]+/), config_div = $('#configure_plugin_'+id);
+      $(checkbox).bind("change click", function(evt) {
+        if (evt.target.checked) {
+          config_div.show('medium');
+        } else {
+          config_div.hide('medium');
+        }
+      });
+      if (! checkbox.checked) {
+	  	config_div.hide();
+	  }
+    }
+    
+    $('input:checkbox.configurable').each(bindConfig);
+  </script>
+
+  
