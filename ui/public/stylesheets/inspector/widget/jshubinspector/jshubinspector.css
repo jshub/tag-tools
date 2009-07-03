@@ -145,7 +145,7 @@ div.jshub.inspector .state1, div.jshub.inspector .state2, div.jshub.inspector .s
         text-align: center;
         text-decoration: none;
         font-weight: bolder;
-        font-size: 116%;
+        font-size: 12px;
         color: #ffffff; }
   div.jshub.inspector .state1 .status,   div.jshub.inspector .state2 .status,   div.jshub.inspector .state3 .status {
     border-bottom: 1px solid #000000; }
@@ -348,7 +348,7 @@ div.jshub.inspector .state2 {
       margin: 0;
       padding: 0;
       color: #ffffff;
-      font-size: 116%;
+      font-size: 12px;
       font-weight: bold;
       line-height: 20px; }
   div.jshub.inspector .state2 .jshub-buttons.large {
@@ -392,7 +392,7 @@ div.jshub.inspector .state3 .status.small {
     padding-top: 4px;
     padding-left: 7px;
     color: #ffffff;
-    font-size: 116%;
+    font-size: 12px;
     font-weight: bold;
     line-height: 22px; }
 div.jshub.inspector .state3 .jshub-buttons.small {
