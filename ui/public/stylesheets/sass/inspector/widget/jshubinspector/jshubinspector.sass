@@ -39,6 +39,10 @@
 !color_events_bg_light = #fff
 !color_border_separator = #999
 
+# state measurements
+!launcher_width = 95px
+!launcher_height = 30px
+
 # Mixins
 =accessible-link-replacement
   :display block
@@ -62,8 +66,8 @@
 div#jshub_inspector_container
   &.position-br
     :position fixed
-    :right = 30px + 95px
-    :bottom = 30px + 38px
+    :right = 10px + !launcher_width
+    :bottom = 10px + !launcher_height
     :z-index 1000
     :width auto
     :height auto
@@ -402,12 +406,12 @@ div.jshub.inspector
     .yui-resize-handle
       :visibility hidden
     
-    # TODO the panel should be position: fixed to keep place when the viewport is scrolled ref: http://stackoverflow.com/questions/624414/yui-panel-and-scrolling
-    # position: fixed;   
     .hd
       :display none
     .bd 
       :padding 5px
+      .bd
+        :padding 0
       ul.launcher
         :margin 0
         :padding 0
@@ -423,7 +427,7 @@ div.jshub.inspector
           :background
             :image url('assets/images/inspector_stateicons_slug.png') 
             :repeat no-repeat
-            :position = -15px (-16-!grid_icon_large)
+            :position = -50px (-16-!grid_icon_large)
           :font
             :weight bolder
       
@@ -431,19 +435,19 @@ div.jshub.inspector
     .success 
       ul.launcher li.status
         :background
-          :position -50px -150px
+          :position -45px -150px
     .error 
       ul.launcher li.status
         :background
-          :position -50px -100px
+          :position -45px -100px
     .info 
       ul.launcher li.status
         :background
-          :position -50px -200px
+          :position -45px -200px
     .warning 
       ul.launcher li.status
         :background
-          :position  -50px -50px
+          :position  -45px -50px
 
     .ft
       :display none

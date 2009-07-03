@@ -4,10 +4,11 @@
 
 
 
+
 div#jshub_inspector_container.position-br {
   position: fixed;
-  right: 125px;
-  bottom: 68px;
+  right: 105px;
+  bottom: 40px;
   z-index: 1000;
   width: auto;
   height: auto; }
@@ -296,6 +297,8 @@ div.jshub.inspector .state1 {
     display: none; }
   div.jshub.inspector .state1 .bd {
     padding: 5px; }
+    div.jshub.inspector .state1 .bd .bd {
+      padding: 0; }
     div.jshub.inspector .state1 .bd ul.launcher {
       margin: 0;
       padding: 0;
@@ -309,16 +312,16 @@ div.jshub.inspector .state1 {
         list-style-type: none;
         background-image: url('assets/images/inspector_stateicons_slug.png');
         background-repeat: no-repeat;
-        background-position: -15px -66px;
+        background-position: -50px -66px;
         font-weight: bolder; }
   div.jshub.inspector .state1 .success ul.launcher li.status {
-    background-position: -50px -150px; }
+    background-position: -45px -150px; }
   div.jshub.inspector .state1 .error ul.launcher li.status {
-    background-position: -50px -100px; }
+    background-position: -45px -100px; }
   div.jshub.inspector .state1 .info ul.launcher li.status {
-    background-position: -50px -200px; }
+    background-position: -45px -200px; }
   div.jshub.inspector .state1 .warning ul.launcher li.status {
-    background-position: -50px -50px; }
+    background-position: -45px -50px; }
   div.jshub.inspector .state1 .ft {
     display: none; }
 div.jshub.inspector .state2 {
