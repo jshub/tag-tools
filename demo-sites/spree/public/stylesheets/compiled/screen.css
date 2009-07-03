@@ -1469,3 +1469,8 @@ div#checkout input#continue_billing, div#checkout input#continue_shipping {
 div#checkout input#continue_billing, div#checkout input#continue_shipping, div#checkout p input#continue_registration, div#checkout p input#continue_shipping_method, div#checkout p input#continue_payment, div#checkout #confirm_order .inner input {
   cursor: pointer;
   width: 100px; }
+div#checkout .demo-warning {
+  color: red;
+  text-align: center;
+  border: 1px solid red;
+  padding: 5px; }
