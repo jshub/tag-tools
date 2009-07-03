@@ -2,7 +2,7 @@
  * Visual logger for the YUI3 tests used to implement the unit tests.
  * Provides a better visual representation than the YUI Console.
  *
- * @author <a href="mailto:fiann@jshub.org">Fiann O'Hagan</a>
+ * @author <a href="mailto:fiann.ohagan@jshub.org">Fiann O'Hagan</a>
  */
 // Y is a YUI instance declared in the layout for the tests
 // suite contains the suite of tests for the page
@@ -11,13 +11,9 @@
 (function() {
 
   // TODO wrap window.console properly to stop x-browser errors
-  // Wrap logging during development
-  function log(){ 
-    if (window.console && window.console.info) {
-      console.log.apply(console, arguments); 
-    }
-  };
-  log("Running tests", suite);
+  if (window.jsHub) {
+    jsHub.logger.log("Running tests", suite);
+  }
   
   if (typeof Y === 'undefined') {
     alert("Configuration error: YUI3 is not present");
@@ -36,6 +32,8 @@
     '<thead><tr><th>Test</th><th>Result</th><th>Message</th></tr></thead>' +
     '</table>');
   resultsDiv.appendChild(resultsTable);
+  resultsBody = Y.Node.create('<tbody></tbody>');
+  resultsTable.appendChild(resultsBody);
   
   /**
    * Show a message in the status bar above the test results
@@ -51,7 +49,7 @@
    */
   var reportResult = function(result) {
     var className, message;
-    updateStatus("Test '" + result.testName + "' " + result.type + "ed.");
+    updateStatus("Test '" + result.testName + "' " + result.type.replace('ignore', 'ignor') + "ed.");
     switch (result.type) {
       case 'pass':
         className = 'passed';
@@ -59,7 +57,7 @@
         break;
       case 'fail':
         className = 'failed';
-        message = '<pre>' + result.error + '</pre>';
+        message = '<pre>' + result.error.getMessage() + '</pre>';
         break;
       case 'ignore':
         className = 'ignored';
@@ -71,14 +69,16 @@
     }
 	var row = Y.Node.create('<tr class="' + className + '">'+
       '<td>' + result.testCase.name + ': ' + result.testName + '</td>'+
-      '<td>' + result.type + 'ed</td>' +
-      '<td>' + message + '</td></tr>')
-    resultsTable.appendChild(row);
+      '<td>' + result.type.replace('ignore', 'ignor') + 'ed</td>' +
+      '<td>' + message + '</td></tr>');
+    resultsBody.appendChild(row);
   };
   
   var reportCompletionStatus = function(evt) {
     var status, timeTaken = (+new Date()) - startTime;
-	log('results', evt.results);
+    if (window.jsHub) {
+      jsHub.logger.debug('Test results', evt.results);
+    }
 	if (evt.results.failed == 0) {
 	  status = evt.results.passed + " test" + 
 	    (evt.results.passed !== 1 ? "s" : "") +
@@ -91,9 +91,15 @@
 	  statusBar.addClass("failed");
 	}
 	updateStatus(status);
-    // ... and send the results to the data collection server
-    var reporter = new Y.Test.Reporter("/core/test/results");
-    log('Results Reporter: %o', reporter)
+	  // sample URLs:
+	  // local test: 
+    // ... and send the results to the local data collection server
+	  var resultsUrl = window.location.pathname.replace(/test\/unit\/.*/, "test/results");
+	  
+	  // or if its a Litmus test, e.g. http://some.domain/core/test/external/7:test_page_id/unit/hub_configuration_test posts to /test/external/:test_page_id/results so we can link the jvascript_test_results to the test_run
+ 	  resultsUrl = window.location.pathname.replace(/test\/external\/(\d+)\/.*/, "test/external/$1/results");
+    
+    var reporter = new Y.Test.Reporter(resultsUrl);
     reporter.report(evt.results);
   }
   
