@@ -1,3 +1,4 @@
+<% if RAILS_ENV == "jshub" %>
 <!-- Google Analytics tracking -->
 <script type="text/javascript">
   var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
@@ -7,5 +8,6 @@
   var pageTracker = _gat._getTracker("UA-8152756-4");
   pageTracker._trackPageview(<%= @ga_pagename || '' %>);
 </script>
+<% end %>
 
 <!-- jsHub tag -->
