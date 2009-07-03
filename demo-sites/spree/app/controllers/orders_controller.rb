@@ -12,6 +12,19 @@ class OrdersController < Spree::BaseController
   layout 'application'
   
   helper :products
+  
+  # Add page names for markup
+  edit.before do
+    @hpage = {
+      :name => "Shopping cart"
+    }
+  end
+  show.before do
+    @hpage = {
+      :name => "View order"
+    }
+  end
+  
 
   create.after do    
     params[:products].each do |product_id,variant_id|

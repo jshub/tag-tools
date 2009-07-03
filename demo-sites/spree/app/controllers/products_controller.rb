@@ -4,21 +4,17 @@ class ProductsController < Spree::BaseController
   before_filter :load_data, :only => :show
   actions :show, :index
 
-  index do
-    before do
-      @product_cols = 3
-      @hpage = {
-        :name => "Homepage"
-      }
-    end
+  index.before do
+    @product_cols = 3
+    @hpage = {
+      :name => "Homepage"
+    }
   end
   
-  show do
-    before do
-      @hpage = {
-        :name => "View product #{@product.name}"
-      }
-    end
+  show.before do
+    @hpage = {
+      :name => "View product #{@product.name}"
+    }
   end
 
   def change_image

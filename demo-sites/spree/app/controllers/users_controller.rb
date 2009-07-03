@@ -18,6 +18,15 @@ class UsersController < Spree::BaseController
 
   show.before do
     @orders = Order.checkout_completed(true).find_all_by_user_id(current_user.id)
+    @hpage = {
+      :name => "View account details"
+    }
+  end
+
+  edit.before do
+    @hpage = {
+      :name => "Edit account details"
+    }
   end
 
   def update
