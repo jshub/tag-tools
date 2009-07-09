@@ -10,6 +10,7 @@
     <%= stylesheet_link_tag "styleguide/examples.css" %>    
     
     <!-- this page -->
+<% if RAILS_ENV == "jshub" %>    
     <!-- Google Analytics tracking -->
     <script type="text/javascript">
       var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
@@ -18,7 +19,12 @@
     <script type="text/javascript">
       var pageTracker = _gat._getTracker("UA-8152756-1");
       pageTracker._trackPageview('Inspector dev');
+      <% if request.headers['REMOTE_USER'] %>
+      // user segmentation
+      pageTracker._setVar("<%= request.headers['REMOTE_USER'] %>");
+      <% end %>      
     </script>    
+<% end %>
 
     <% # If you need to include a reference to specific Javascript files, either for
        # plugin libraries or for inline test harness code, create a

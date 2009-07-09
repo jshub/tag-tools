@@ -19,11 +19,11 @@ div#header {
     position: relative;
     top: -78px; }
     div#header #sitenav a:link, div#header #sitenav a:visited {
-      color: #000;
+      color: #000000;
       padding: 0em 0.25px; }
     div#header #sitenav ul {
       text-align: center;
-      font: normal 20px 'Tahoma',verdana,'Bitstream Vera Sans',helvetica,arial,sans-serif;
+      font: normal 20px Tahoma,Verdana,'Bitstream Vera Sans',Helvetica,Arial,sans-serif;
       font-weight: bold;
       color: #000000; }
     div#header #sitenav li {
