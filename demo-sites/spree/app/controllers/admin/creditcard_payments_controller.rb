@@ -3,7 +3,7 @@ class Admin::CreditcardPaymentsController < Admin::BaseController
   before_filter :load_amount, :except => :country_changed
   resource_controller
   belongs_to :order
-  ssl_required
+  # ssl_required
 
   update do
     wants.html { redirect_to edit_object_url }
