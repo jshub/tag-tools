@@ -253,8 +253,8 @@
             registered.push(listener);
           }
         }
-        for (var i = 0; i < registered.length; i++) {
-          firewall.dispatch(eventName, registered[i], data);
+        for (var k = 0; k < registered.length; k++) {
+          firewall.dispatch(eventName, registered[k], data);
         }
         jsHub.logger.groupEnd();
 		// additional special behavior for particular event types
@@ -438,7 +438,7 @@
           for (var field in data) {
             if (typeof data[field] === 'string' || typeof data[field] === 'number') {
               url = append(url, field, data[field]);
-            } else if (data[field].constructor === Array) {
+            } else if (!! data[field] && data[field].constructor === Array) {
               var values = data[field];				
               for (var i = 0; i < values.length; i++) {
                 if (typeof values[i] === 'string' || typeof values[i] === 'number') {
