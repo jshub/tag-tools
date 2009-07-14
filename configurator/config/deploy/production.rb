@@ -3,7 +3,6 @@
 
 puts "Deploying to PRODUCTION"
 
-# The gateway server is accessed before anything else and all ssh commands sent via it
 set :scm_domain,  "intra.causata.com"
 set :domain,      "jshub.org"
 set :rails_env,   "jshub"
