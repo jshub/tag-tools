@@ -18,7 +18,7 @@ namespace :litmus do
     puts "Getting JUnit XML results for the latest test run"
     
     # get the Id of the last test run
-    url = URI.parse("http://test.cross-domain-com.com:81/akita-on-rails/litmus/external/latest")
+    url = URI.parse("http://test.cross-domain-com.com:81/core/litmus/external/latest")
     req = Net::HTTP::Get.new(url.path)
     res = Net::HTTP.start(url.host, url.port) {|http|
       http.request(req)
@@ -31,7 +31,7 @@ namespace :litmus do
     puts "The latest Test Run Id is: #{@run_id}"
 
     # use the Id to get the JUnit XML
-    url = URI.parse("http://test.cross-domain-com.com:81/akita-on-rails/litmus/runs/#{@run_id.to_s}/results.xml")
+    url = URI.parse("http://test.cross-domain-com.com:81/core/litmus/runs/#{@run_id.to_s}/results.xml")
     req = Net::HTTP::Get.new(url.path)
     res = Net::HTTP.start(url.host, url.port) {|http|
       http.request(req)

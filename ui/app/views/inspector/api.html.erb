@@ -49,7 +49,7 @@
 <p>Security checking of the javascript file occurs on Inspector load.</p>
 
 <!-- generated jsHub tag -->
-<script type="text/javascript" src="/akita-on-rails/tag_configurations/1/generate_debug">
+<script type="text/javascript" src="/configurator/tag_configurations/1/generate_debug">
 /* Unique checksum for tag */
 </script>
 
@@ -73,7 +73,7 @@
           
       $.get(jshubURL, function(jshubSrc) {
         hashcode = SHA1(jshubSrc);
-		    $.getJSON('/akita-on-rails/tag_configurations/find_by_sha1/' + hashcode + '.js?callback=?', function(data) {
+		    $.getJSON('/configurator/tag_configurations/find_by_sha1/' + hashcode + '.js?callback=?', function(data) {
         // use a locally cached copy
         // $.getJSON('<%= javascript_path "jshub/e090e895a3193594e933b9e5782e72eb29f6a3c1.js" %>', function(data) {
           
@@ -166,9 +166,9 @@ function addPanelEvent(category_id) {
    // complex event
 	 var event = {id		    :YAHOO.util.Dom.generateId(),
 	              variable	: "DynamicEvent",
-                vendor	  : "Causata",
+                vendor	  : "jsHub",
                 value		  : "content12",
-                help_text : '<p>Causata event.</p><p>DynamicEvent <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href="../docs">View documentation</a></p>'
+                help_text : '<p>jsHub event.</p><p>DynamicEvent <br /> This refers to ... Aenean quis enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at justo.</p><p><a href="../docs">View documentation</a></p>'
 	};
 	
 	// simple events

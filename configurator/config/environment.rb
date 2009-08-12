@@ -72,7 +72,7 @@ Rails::Initializer.run do |config|
   # Make sure the secret is at least 30 characters and all random, 
   # no regular words or you'll be exposed to dictionary attacks.
   config.action_controller.session = {
-    :session_key => '_akita-on-rails_session',
+    :session_key => '_jshub-core_session',
     :secret      => '53f04f9c0d100b560a11f5ca6705f1865798fa3455b701eaec81383684c615f3722980aeb097f7f203c7e52c12ba92be7ad67da21ad273f675c7228d174579a1'
   }
 
