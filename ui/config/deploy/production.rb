@@ -3,7 +3,7 @@
 
 puts "Deploying to PRODUCTION"
 
-set :scm_domain,  "intra.causata.com"
+set :scm_domain,  "gromit.jshub.org"
 set :domain,      "jshub.org"
 set :rails_env,   "jshub"
 
