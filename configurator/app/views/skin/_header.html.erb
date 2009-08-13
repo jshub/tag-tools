@@ -5,16 +5,16 @@
   <div id="sitenav" class="nav">
     <ul>
       <li class="first">
-        <%= link_to 'Home', 'https://jshub.org/trac/wiki', :title => 'Home' %>
+        <%= link_to 'Home', 'https://jshub.org/', :title => 'Home' %>
+      </li>
+      <li>
+        <%= link_to 'Projects', 'https://jshub.org/projects/', :title => 'Home' %>
       </li>
       <li class="active">
         <%= link_to 'Configurator', root_url, :title => 'Tag configurator' %>
       </li>
-      <li>
+      <li class="last">
         <%= link_to 'About', 'http://jshub.org/about/', :title => 'About' %>
-      </li>
-      <li class="last disabled">
-        Blog
       </li>
     </ul>
   </div>
