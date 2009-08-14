@@ -3,15 +3,15 @@ module TaxonsHelper
     return "" if current_page?("/")
     crumbs = [content_tag(:li, link_to("Home" , root_path) + separator)]
     if taxon
-      crumbs << content_tag(:li, link_to(t('products') , products_path) + separator)
-      crumbs << taxon.ancestors.reverse.collect { |ancestor| content_tag(:li, link_to(ancestor.name , seo_url(ancestor)) + separator) } unless taxon.ancestors.empty?
-      crumbs << content_tag(:li, content_tag(:span, taxon.name))
+      crumbs << content_tag(:li, link_to(t('products') , products_path, :class => 'category', :rel => "tag") + separator)
+      crumbs << taxon.ancestors.reverse.collect { |ancestor| content_tag(:li, link_to(ancestor.name , seo_url(ancestor), :class => 'category', :rel => "tag") + separator) } unless taxon.ancestors.empty?
+      crumbs << content_tag(:li, content_tag(:span, taxon.name, :class => 'category'))
     else
-      crumbs << content_tag(:li, content_tag(:span, t('products')))
+      crumbs << content_tag(:li, content_tag(:span, t('products'), :class => 'category'))
     end
     crumb_list = content_tag(:ul, crumbs)
 
-    content_tag(:div, crumb_list + content_tag(:br, nil, :class => 'clear'), :class => 'breadcrumbs')
+    content_tag(:div, crumb_list + content_tag(:br, nil, :class => 'clear'), :class => 'hpage breadcrumbs')
   end
 
   

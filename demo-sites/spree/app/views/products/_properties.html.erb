@@ -2,7 +2,7 @@
 <dl>
 <% for product_property in @product.product_properties %>
   <dt><%= product_property.property.presentation %></dt>
-  <dd><%= product_property.value %></dd>
+  <dd<%= ' class="brand"' if product_property.property.name == 'brand' %>><%= product_property.value %></dd>
 <% end %>
 </dl>
 <% end %>

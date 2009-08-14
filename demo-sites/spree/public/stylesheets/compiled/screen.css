@@ -926,18 +926,25 @@ body {
 #jshub {
   background: #e2e4e9 url(../../images/footer_bg.png) top left repeat-x;
   border-top: 4px solid black; }
-  #jshub .microformats {
+  #jshub #microformats {
     background: transparent url(../../images/footer_jshub.png) top left no-repeat;
     padding: 100px 115px 0px;
     color: #404040;
     font-size: 14px; }
-    #jshub .microformats .heading {
-      font-size: 18px;
+    #jshub #microformats h1 {
+      font-size: 28px;
       font-style: italic;
-      font-weight: bold; }
-    #jshub .microformats li a {
+      font-weight: bold;
+      margin-bottom: 15px; }
+    #jshub #microformats h2 {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 0; }
+    #jshub #microformats li a {
       color: #333; }
-    #jshub .microformats .dp-highlighter {
+    #jshub #microformats .highlight {
+      background-color: #ff8; }
+    #jshub #microformats .dp-highlighter {
       margin-bottom: 1em;
       line-height: 60% !important; }
 

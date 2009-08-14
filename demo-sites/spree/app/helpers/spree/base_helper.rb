@@ -93,7 +93,7 @@ module Spree::BaseHelper
     if product.images.empty?
       image_tag "noimage/product.jpg"  
     else
-      image_tag product.images.first.attachment.url(:product)  
+      image_tag(product.images.first.attachment.url(:product), :class => 'photo')
     end
   end
   
