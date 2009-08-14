@@ -11,7 +11,7 @@ set :domain,      "gromit"
 set :rails_env,   "gromit"
 
 # construct the path to the repository
-set :repository,   "http://#{scm_domain}/svn/javascript/tag-tools/trunk/ui/"
+set :repository,   "https://#{scm_domain}/svn/javascript/tag-tools/trunk/ui/"
 
 #If you log into your server with a different user name than you are logged 
 #into your local machine with, youll need to tell Capistrano about that user 
