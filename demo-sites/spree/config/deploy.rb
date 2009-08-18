@@ -4,7 +4,7 @@ set :default_stage, "staging"
 require 'capistrano/ext/multistage'
 
 # name of the application
-set :application, "retail2"
+set :application, "retail"
 
 # If you aren't deploying to /u/apps/#{application} on the target
 # servers (which is the default), you can specify the actual location

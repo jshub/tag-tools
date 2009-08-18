@@ -22,4 +22,4 @@ ActiveMerchant::Billing::Base.gateway_mode = :test
 
 # #315 - New in 2.2 use a prefix (matches Passenger RailsBaseURI)
 # ref: http://code.google.com/p/phusion-passenger/issues/detail?id=169
-config.action_controller.relative_url_root = "/retail2"
+config.action_controller.relative_url_root = "/retail"
