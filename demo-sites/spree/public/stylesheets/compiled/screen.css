@@ -912,6 +912,12 @@ body {
   padding-top: 10px;
   font-family: Georgia; }
 
+em {
+  background-color: #ff8;
+  font-style: normal;
+  padding-left: 2px;
+  padding-right: 2px; }
+
 #header a:hover {
   color: black; }
 
@@ -949,7 +955,7 @@ body {
       line-height: 60% !important; }
 
 div#fancy_div {
-  background: #e2e4e9;
+  background-color: white;
   color: #404040;
   font-size: 14px; }
   div#fancy_div h1 {
