@@ -40,3 +40,27 @@ body
     .dp-highlighter
       :margin-bottom 1em
       :line-height 60% !important
+
+div#fancy_div
+  :background #e2e4e9
+  :color = !jshub_grey
+  :font-size 14px
+  h1
+    :font-size 28px
+    :font-style italic
+    :font-weight bold
+    :margin-bottom 15px
+  h2
+    :font-size 18px
+    :font-weight bold
+    :margin-bottom 0
+
+div#popover, a#trigger_popover
+  :display none
+  
+div#popover_content
+  !padding = 10px
+  :padding = !padding
+  :height = 420px - (2 * !padding)
+  :overflow auto
+  

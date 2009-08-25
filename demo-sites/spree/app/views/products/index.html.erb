@@ -2,6 +2,49 @@
 	<%= render :partial => "shared/taxonomies" %>
 <% end %>
 
+<div id="popover">
+<div id="popover_content">
+  <h1>Welcome to the jsHub demo store</h1>
+  <p>
+  	The store shows the both the jsHub tag in operation, and the microformat 
+    markup in place on the page.
+  </p>
+  <h2>Microformat markup</h2>
+  <p>
+    Browse the store and you will see the <strong>microformat markup</strong> on each page.
+  </p>
+  <p>
+    What's a microformat? Microformats are a method of encoding metadata in HTML. Take a look
+    at our <a href="http://jshub.org/projects/markup/">project page</a>. If you know
+    HTML, you should find it very easy to read the markup.
+  </p>
+  <h2>The jsHub tag and the inspector</h2>
+  <p>Data is collected from the page using the jsHub tag. The jsHub project provides a simple, 
+    standard, unified tag, with plugins that know how to send data to the various services 
+    we are using on the page.
+  </p>
+  <p>
+  	Click the black jsHub icon at the bottom right of the screen to bring up the Tag Inspector
+	and see what data is being collected.
+  </p>
+  <p>
+    Visit the <a href="http://jshub.org/projects/inspector/">inspector project page</a> to learn 
+    more.
+  </p>
+</div>
+</div>
+
+<a id="trigger_popover" href="#popover">clicky</a>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('a#trigger_popover').fancybox({
+		'frameWidth': 700,
+		'frameHeight': 420,
+		'hideOnContentClick': false
+	}).click();
+  });
+</script>
+
 <%= render :partial => "shared/products.html.erb", :locals => {:products => @products, :taxon => @taxon } %>
 
 <%= page_links(:prev => "&#171; #{t('previous')}", :next => "#{t('next')} &#187;") if @search.page_count > 1 %>

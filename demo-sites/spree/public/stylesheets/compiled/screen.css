@@ -948,6 +948,28 @@ body {
       margin-bottom: 1em;
       line-height: 60% !important; }
 
+div#fancy_div {
+  background: #e2e4e9;
+  color: #404040;
+  font-size: 14px; }
+  div#fancy_div h1 {
+    font-size: 28px;
+    font-style: italic;
+    font-weight: bold;
+    margin-bottom: 15px; }
+  div#fancy_div h2 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 0; }
+
+div#popover, a#trigger_popover {
+  display: none; }
+
+div#popover_content {
+  padding: 10px;
+  height: 400px;
+  overflow: auto; }
+
 .navigation-list {
   margin: 0 0 1.5em -15px; }
   .navigation-list li {
