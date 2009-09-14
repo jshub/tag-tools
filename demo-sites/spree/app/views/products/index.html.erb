@@ -6,31 +6,29 @@
 <div id="popover_content">
   <h1>Welcome to the jsHub demo store</h1>
   <p>
-  	The store shows the both the jsHub tag in operation, and the microformat 
-    markup in place on the page.
+  	The store shows our recommend best practice for installing jsHub on your pages. Each
+	page contains a working jsHub tag, and the Tag Inspector user interface to see what data
+	is being captured.
   </p>
   <h2>Microformat markup</h2>
   <p>
-    What is a microformat? Microformats are a method of encoding metadata in HTML. If you know
-    HTML, you should find it very easy to read the markup.
-  </p>
-  <p>
-    <em>You will see microformat markup at the bottom of each page</em>. View source to see how 
-	it is placed in the page.
+    What is a microformat? <em>Microformats place metadata in HTML</em>, rather than JavaScript
+	variables. Scroll down to the bottom of each page to see the microformat markup.
   </p>
   
   <h2>The jsHub tag and the inspector</h2>
-  <p>Data is collected from the page using the jsHub tag. The jsHub project provides a simple, 
-    standard, unified tag, with plugins that know how to send data to the various services 
-    we are using on the page.
-  </p>
   <p>
-  	<em>Click the black jsHub icon to see what data is being collected</em> in the Tag Inspector, 
-	it floats at the bottom right of the screen.
+  	The jsHub project provides a simple, standard, unified tag, with plugins that know how 
+    to send data to the various services we are using on the page. <em>The Tag Inspector shows
+	all the data captured by the tag.</em> Click the black jsHub icon at the bottom right of
+	the screen to open the Tag Inspector.
   </p>
-  <p>
-    There are links to the sites for these projects at the bottom of the page.
-  </p>
+  
+  <h2>Find out more</h2>
+  <span>
+    You can find links to documentation and developer resources in the markup section at the 
+	bottom of the page.
+  </span>
 </div>
 </div>
 
@@ -39,7 +37,7 @@
   $(document).ready(function() {
     $('a#trigger_popover').fancybox({
 		'frameWidth': 700,
-		'frameHeight': 420,
+		'frameHeight': 380,
 		'hideOnContentClick': true
 	}).click();
   });

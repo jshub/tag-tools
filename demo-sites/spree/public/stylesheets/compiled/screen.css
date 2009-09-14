@@ -973,8 +973,10 @@ div#popover, a#trigger_popover {
 
 div#popover_content {
   padding: 10px;
-  height: 400px;
+  height: auto;
   overflow: auto; }
+  div#popover_content h2, div#popover_content p, div#popover_content span {
+    font-family: Helvetica, Arial, sans-serif; }
 
 .navigation-list {
   margin: 0 0 1.5em -15px; }
