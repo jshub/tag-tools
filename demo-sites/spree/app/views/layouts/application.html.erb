@@ -4,19 +4,33 @@
   <title>jsHub.org Demo Store</title>
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
  
-  <%= stylesheet_link_tag '/javascripts/jquery.fancybox/jquery.fancybox.css' %>
-  <%= javascript_include_tag 'jquery-1.3.2.min', 'jquery.validate.pack.js', 
+   <!-- Combo generated jsHub modules -->
+  <%= javascript_include_tag 'jshub/yui/yui-combo-jshub+hpage-capture+causata+ga-debug.js' %>
+  <%= javascript_include_tag '/../core/js/src/modules/debug/debug-min.js' %>
+  
+  <script type="text/javascript">
+    YUI({debug: true}).use('jshub', 'debug', 'hpage-capture', 'causata-transport', function(Y, result) {
+      if (!result.success) {
+          jsHub.logger.warn('Load failure: %o', result.msg);
+      } else {
+          jsHub.logger.info('Loaded: jsHub modules');
+          jsHub.trigger('page-view');
+      }
+    });
+  </script>
+  <!-- jsHub Tag Inspector -->
+  <%= render :partial => 'shared/jshubinspector'%>    		
+
+
+  <!-- jsHub provide a copy of jQuery to be extended -->
+  <%= stylesheet_link_tag '../javascripts/jquery.fancybox/jquery.fancybox.css' %>
+  <%= javascript_include_tag 'jquery.validate.pack.js', 
         'jquery/jquery.color.js', 'jquery.fancybox/jquery.easing.1.3.js', 
         'jquery.fancybox/jquery.fancybox-1.2.1.pack.js', :cache => 'jquery-and-plugins' %>
 
   <%= stylesheet_link_tag 'compiled/screen' %>
  
   <%= meta_data_tags %>
-
-  <!-- The jsHub Tag Inspector YUI Widget -->
-  <script type="text/javascript" src="/ui/javascripts/jshub/jshub-gromit-r15-debug.js?r4997">/* Generated tag */</script>
-  <%= render :partial => 'shared/jshubinspector'%>    		
-
   
   <!-- For microformats -->
   <%= stylesheet_link_tag 'dpSyntaxHighlighter' %>

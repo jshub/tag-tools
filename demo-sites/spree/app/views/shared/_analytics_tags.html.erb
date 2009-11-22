@@ -1,17 +1,56 @@
-<% if RAILS_ENV == "jshub" %>
-<!-- Google Analytics tracking -->
-<script type="text/javascript">
-  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-  var pageTracker = _gat._getTracker("UA-8152756-4");
-  pageTracker._trackPageview(<%= @ga_pagename || '' %>);
-  <% if request.headers['REMOTE_USER'] %>
-  // user segmentation
-  pageTracker._setVar("<%= request.headers['REMOTE_USER'] %>");
-  <% end %>  
-</script>
-<% end %>
+<% if RAILS_ENV != "jshub" %>
 
-<!-- jsHub tag -->
+  <!-- enable on-demand get via YUI -->
+  <%= javascript_include_tag '/../core/js/src/modules/yui/yui-min.js' %>
+
+  <script type="text/javascript">
+    // Declare 3rd party Analytics modules
+    YUI.add('google-analytics', function(Y) {
+      // Google Analytics basic
+      var pageTracker = _gat._getTracker("UA-8152756-4");
+      Y.log("pageTracker:"+ pageTracker, 'info', 'Google Analytics');
+      <% if request.headers['REMOTE_USER'] %>
+      // user segmentation
+      pageTracker._setVar("<%= request.headers['REMOTE_USER'] %>");
+      <% end %>  
+      pageTracker._trackPageview(<%= @ga_pagename || '' %>);
+    }, '0.1' , {
+      requires:['google-analytics-lib'], 
+      after:['google-analytics-lib']
+    });
+    YUI.add('webtrends', function(Y) {
+      // Webtrends basic
+      var _tag=new WebTrends();
+      Y.log("_tag:"+ _tag, 'info', 'Webtrends');
+      //_tag.dcsGetId();
+      // Add custom parameters here.
+      //_tag.DCSext.param_name=param_value;
+      _tag.dcsCollect();
+    }, '0.1', {
+      requires:['webtrends-lib'], 
+      after:['webtrends-lib']
+    });    
+  </script>
+    
+  <script type="text/javascript">
+    YUI({
+      debug: true, // use browser console for logging
+      base: '/core/js/src/modules/', // the base path to the YUI install
+      modules:  { // one or more external modules that can be loaded via YUI
+        "google-analytics-lib": {
+          fullpath: (("https:" == document.location.protocol) ? "https://ssl." : "http://www.") +"google-analytics.com/ga.js"
+        },
+        "webtrends-lib": {
+          fullpath: "/core/javascripts/webtrends/webtrends_basic/webtrends.js"
+        }
+      }
+    }).use('google-analytics', 'webtrends', function(Y, result) {
+      if (!result.success) {
+          Y.log('Load failure: ' + result.msg, 'warn', 'jsHub');
+      } else {
+          Y.log('Loaded: 3rd party analytics', 'info', 'jsHub');
+      }
+    });
+  </script>    
+   
+<% end %>
