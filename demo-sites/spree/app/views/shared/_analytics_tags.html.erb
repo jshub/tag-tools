@@ -32,12 +32,14 @@
   
 <script type="text/javascript">
   YUI({
+    debug: true, // use browser console for logging
+    base: 'http://yui.yahooapis.com/combo?3.0.0/build/', // the base path to the install
     modules:  { // one or more external modules that can be loaded via YUI
       "google-analytics-lib": {
         fullpath: (("https:" == document.location.protocol) ? "https://ssl." : "http://www.") +"google-analytics.com/ga.js"
       },
       "webtrends-lib": {
-        fullpath: "/core/javascripts/webtrends/webtrends_basic/webtrends.js"
+        fullpath: "/retail/javascripts/webtrends/webtrends_basic/webtrends.js"
       }
     }
   }).use('google-analytics', 'webtrends', function(Y, result) {
