@@ -5,19 +5,13 @@
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
  
    <!-- Combo generated jsHub modules -->
-  <%= javascript_include_tag 'jshub/yui/yui-combo-jshub+hpage-capture+causata-debug.js' %>
-  <%= javascript_include_tag '/../core/js/src/modules/debug/debug-min.js' %>
+  <%= javascript_include_tag 'jshub/yui/yui-combo-jshub+hpage-capture+causata-min.js' %>
   
   <script type="text/javascript">
-    YUI({debug: true}).use('jshub', 'debug', 'hpage-capture', 'causata-transport', function(Y, result) {
-      if (!result.success) {
-          jsHub.logger.warn('Load failure: %o', result.msg);
-      } else {
-          jsHub.logger.info('Loaded: jsHub modules');
-          jsHub.trigger('page-view');
-      }
-    });
+    // setup jsHub from modules present
+    YUI().use('*');
   </script>
+  
   <!-- jsHub Tag Inspector -->
   <%= render :partial => 'shared/jshubinspector'%>    		
 
